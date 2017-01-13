@@ -65,12 +65,6 @@
     <Content Include="src\pages\index.html" />
     <Content Include="src\styles\.csscomb.json" />
     <Content Include="src\styles\.csslintrc" />
-    <Content Include="src\styles\bootstrap.less" />
-    <Content Include="src\styles\jumbotron.less" />
-    <Content Include="src\styles\mixins.less" />
-    <Content Include="src\styles\navbar.less" />
-    <Content Include="src\styles\utilities.less" />
-    <Content Include="src\styles\variables.less" />
     <Content Include=".editorconfig" />
     <Content Include=".jshintrc" />
     <Content Include="gulpfile.js" />
