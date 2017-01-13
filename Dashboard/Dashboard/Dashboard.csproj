@@ -9,7 +9,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -54,6 +54,14 @@
     <Content Include="src\assets\robots.txt" />
     <Content Include="src\assets\tile-wide.png" />
     <Content Include="src\assets\tile.png" />
+    <Content Include="src\components\widgets\chart\licenseewl.jsx" />
+    <Content Include="src\components\widgets\chart\turnover.jsx" />
+    <Content Include="src\components\widgets\normal\deposit.jsx" />
+    <Content Include="src\components\widgets\normal\onlinecustomer.jsx" />
+    <Content Include="src\components\widgets\normal\pendingfunds.jsx" />
+    <Content Include="src\components\widgets\normal\sportsbookwaller.jsx" />
+    <Content Include="src\components\widgets\normal\widthdrawal.jsx" />
+    <Content Include="src\components\widgets\widgetbox.jsx" />
     <Content Include="src\images\logo-small.png" />
     <Content Include="src\images\logo-small%402x.png" />
     <Content Include="src\layouts\Default.jsx" />
@@ -68,7 +76,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="build\fonts\" />
-    <Folder Include="src\styles\layout\" />
+    <Folder Include="src\styles\components\widgets\chart\" />
+    <Folder Include="src\styles\components\widgets\normal\" />
     <Folder Include="test\" />
   </ItemGroup>
   <ItemGroup>
@@ -78,10 +87,19 @@
     <Content Include="src\styles\dashboard.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\styles\components\rightpanel.scss" />
+    <Content Include="src\styles\components\_rightpanel.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\styles\base\_common.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\components\widgets\normal\registercustomer.jsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\styles\layout\_default.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\styles\components\widgets\_widgetbox.scss" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
