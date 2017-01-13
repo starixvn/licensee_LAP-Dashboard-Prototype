@@ -30,10 +30,53 @@
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="build\**\*.*" />
+    <Content Include="build\404.html" />
+    <Content Include="build\apple-touch-icon-precomposed.png" />
+    <Content Include="build\browserconfig.xml" />
+    <Content Include="build\crossdomain.xml" />
+    <Content Include="build\css\bootstrap.css" />
+    <Content Include="build\favicon.ico" />
+    <Content Include="build\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="build\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="build\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="build\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="build\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="build\humans.txt" />
+    <Content Include="build\images\logo-small.png" />
+    <Content Include="build\images\logo-small%402x.png" />
+    <Content Include="build\index.html" />
+    <Content Include="build\js\app.js" />
+    <Content Include="build\robots.txt" />
+    <Content Include="build\tile-wide.png" />
+    <Content Include="build\tile.png" />
     <Content Include="config\**\*.*" />
     <Content Include="docs\**\*.*" />
-    <Content Include="src\**\*.*" />
+    <Content Include="src\App.jsx" />
+    <Content Include="src\assets\apple-touch-icon-precomposed.png" />
+    <Content Include="src\assets\browserconfig.xml" />
+    <Content Include="src\assets\crossdomain.xml" />
+    <Content Include="src\assets\favicon.ico" />
+    <Content Include="src\assets\humans.txt" />
+    <Content Include="src\assets\robots.txt" />
+    <Content Include="src\assets\tile-wide.png" />
+    <Content Include="src\assets\tile.png" />
+    <Content Include="src\components\Navbar.jsx" />
+    <Content Include="src\components\NavbarSpec.jsx" />
+    <Content Include="src\images\logo-small.png" />
+    <Content Include="src\images\logo-small%402x.png" />
+    <Content Include="src\layouts\Default.jsx" />
+    <Content Include="src\pages\404.html" />
+    <Content Include="src\pages\Home.jsx" />
+    <Content Include="src\pages\index.html" />
+    <Content Include="src\pages\Privacy.jsx" />
+    <Content Include="src\styles\.csscomb.json" />
+    <Content Include="src\styles\.csslintrc" />
+    <Content Include="src\styles\bootstrap.less" />
+    <Content Include="src\styles\jumbotron.less" />
+    <Content Include="src\styles\mixins.less" />
+    <Content Include="src\styles\navbar.less" />
+    <Content Include="src\styles\utilities.less" />
+    <Content Include="src\styles\variables.less" />
     <Content Include=".editorconfig" />
     <Content Include=".jshintrc" />
     <Content Include="gulpfile.js" />
@@ -42,6 +85,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="test\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="build\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="build\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="build\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="build\fonts\glyphicons-halflings-regular.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\components\RightPanel.jsx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

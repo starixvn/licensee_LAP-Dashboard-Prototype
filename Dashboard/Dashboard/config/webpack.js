@@ -13,70 +13,72 @@
 var webpack = require('webpack');
 
 module.exports = function (release) {
-  return {
-    output: {
-      path: './build/',
-      filename: 'app.js',
-      publicPatch: './build/'
-    },
-
-    cache: !release,
-    debug: !release,
-    devtool: false,
-    entry: './src/App.jsx',
-
-    stats: {
-      colors: true,
-      reasons: !release
-    },
-
-    plugins: release ? [
-      new webpack.DefinePlugin({'process.env.NODE_ENV': '"production"'}),
-      new webpack.optimize.DedupePlugin(),
-      new webpack.optimize.UglifyJsPlugin(),
-      new webpack.optimize.OccurenceOrderPlugin(),
-      new webpack.optimize.AggressiveMergingPlugin()
-    ] : [],
-
-    resolve: {
-      extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx']
-    },
-
-    module: {
-      preLoaders: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: 'jshint'
-        }
-      ],
-
-      loaders: [
-        {
-          test: /\.css$/,
-          loader: 'style!css'
+    return {
+        output: {
+            path: './build/',
+            filename: '[name].js',
+            publicPatch: './build/'
         },
-        {
-          test: /\.less$/,
-          loader: 'style!css!less'
+
+        cache: !release,
+        debug: !release,
+        devtool: false,
+        entry: {
+            'js/app': './src/App.jsx'
         },
+
+        stats: {
+          colors: true,
+          reasons: !release
+      },
+
+        plugins: release ? [
+          new webpack.DefinePlugin({'process.env.NODE_ENV': '"production"'}),
+          new webpack.optimize.DedupePlugin(),
+          new webpack.optimize.UglifyJsPlugin(),
+          new webpack.optimize.OccurenceOrderPlugin(),
+          new webpack.optimize.AggressiveMergingPlugin()
+          ]: [],
+
+        resolve: {
+          extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx']
+      },
+
+        module: {
+          preLoaders: [
         {
-          test: /\.gif/,
-          loader: 'url-loader?limit=10000&mimetype=image/gif'
-        },
+              test: /\.js$/,
+              exclude: /node_modules/,
+              loader: 'jshint'
+          }
+        ],
+
+          loaders: [
         {
-          test: /\.jpg/,
-          loader: 'url-loader?limit=10000&mimetype=image/jpg'
-        },
+              test: /\.css$/,
+              loader: 'style!css'
+          },
         {
-          test: /\.png/,
-          loader: 'url-loader?limit=10000&mimetype=image/png'
-        },
+              test: /\.less$/,
+              loader: 'style!css!less'
+          },
         {
-          test: /\.jsx$/,
-          loader: 'jsx-loader?harmony'
-        }
-      ]
-    }
-  };
+              test: /\.gif/,
+              loader: 'url-loader?limit=10000&mimetype=image/gif'
+          },
+        {
+              test: /\.jpg/,
+              loader: 'url-loader?limit=10000&mimetype=image/jpg'
+          },
+        {
+              test: /\.png/,
+              loader: 'url-loader?limit=10000&mimetype=image/png'
+          },
+        {
+              test: /\.jsx$/,
+              loader: 'jsx-loader?harmony'
+          }
+        ]
+      }
+    };
 };
