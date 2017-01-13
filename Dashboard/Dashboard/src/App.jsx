@@ -10,7 +10,9 @@ var Layout = require('./layouts/Default.jsx');
 (window !== window.top ? window.top : window).React = React;
 
 React.renderComponent(
- <Layout />
+    <div className="dashboard__container">
+        <Layout />
+    </div>
  ,
   document.body
 );
