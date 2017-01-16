@@ -81,7 +81,7 @@
     <Folder Include="test\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\components\RightPanel.jsx" />
+    <Content Include="src\components\rightpanel\RightPanel.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\styles\dashboard.scss" />

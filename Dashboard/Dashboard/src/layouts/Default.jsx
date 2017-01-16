@@ -5,7 +5,7 @@
 'use strict';
 
 var React = require('react');
-var RightPanel = require('../components/RightPanel.jsx');
+var RightPanel = require('../components/rightpanel/RightPanel.jsx');
 
 var DefaultLayout = React.createClass({
     render() {
