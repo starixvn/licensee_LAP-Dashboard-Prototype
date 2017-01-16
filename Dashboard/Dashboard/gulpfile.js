@@ -103,14 +103,17 @@ gulp.task('styles', function () {
     src.styles = 'src/styles/**/*.{css,scss}';
 
     var sourcemaps = require('gulp-sourcemaps');
+    var cssStream = gulp.src(['node_modules/react-resizable/css/styles.css', 'node_modules/react-grid-layout/css/styles.css'])
+    .pipe(concat("vendor.css"));
 
-    return gulp.src('src/styles/dashboard.scss')
+    var sassStream = gulp.src('src/styles/dashboard.scss')
       .pipe(sourcemaps.init())
       .pipe($.plumber())
       .pipe($.sass())
-        .pipe(concat('node_modules/react-resizable/css/styles.css'))
-      .pipe(concat('node_modules/react-grid-layout/css/styles.css'))
       .on('error', console.error.bind(console))
+    ;
+    return merge(sassStream, cssStream)
+      .pipe(concat("dashboard.css"))
       .pipe($.autoprefixer({ browsers: AUTOPREFIXER_BROWSERS }))
       .pipe($.csscomb())
       .pipe($.if(RELEASE, $.minifyCss()))
