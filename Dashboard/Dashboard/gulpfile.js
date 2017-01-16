@@ -17,6 +17,7 @@ var webpack = require('webpack');
 var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var argv = require('minimist')(process.argv.slice(2));
+var concat = require('gulp-concat');
 // Settings
 var DEST = './build';                         // The build output folder
 var RELEASE = !!argv.release;                 // Minimize and optimize during a build?
@@ -107,6 +108,8 @@ gulp.task('styles', function () {
       .pipe(sourcemaps.init())
       .pipe($.plumber())
       .pipe($.sass())
+        .pipe(concat('node_modules/react-resizable/css/styles.css'))
+      .pipe(concat('node_modules/react-grid-layout/css/styles.css'))
       .on('error', console.error.bind(console))
       .pipe($.autoprefixer({ browsers: AUTOPREFIXER_BROWSERS }))
       .pipe($.csscomb())
