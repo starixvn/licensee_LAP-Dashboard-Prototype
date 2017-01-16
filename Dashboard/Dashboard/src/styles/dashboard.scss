@@ -1,4 +1,7 @@
-﻿@import 'base/common';
+﻿@import 'base/variables';
+@import 'base/common';
+@import 'font/font-icon/style';
+
 @import 'layout/default';
 @import 'components/rightpanel';
 @import 'components/widgets/widgetbox.scss';
