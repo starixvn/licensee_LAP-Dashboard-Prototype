@@ -12,14 +12,14 @@ export default class DashboardApp extends React.Component {
        this.state = {
         layouts:{
             lg:
-           [{i: 'c-turnover', x: 0, y: 0, w: 4, h: 5, static: true},
-           {i: 'c-licWL', x: 4, y: 0, w: 4, h: 5, minW: 2, maxW: 4},
-           {i: 'n-reg-customer', x: 0, y: 5, w: 4, h: 2},
-           {i: 'n-online-customer', x:4 , y: 5, w: 4, h: 2},
-           {i: 'n-sb-wl', x:0 , y: 15, w: 2, h: 4},
-           {i: 'n-pending-funds', x:2 , y: 15, w: 2, h: 1},
-           {i: 'n-deposit', x:4 , y: 15, w: 2, h: 1},
-          {i: 'n-withdrawal', x:6 , y: 15, w: 2, h: 4}
+           [{i: 'c-turnover', x: 0, y: 0, w: 4, h: 2.5, static: true},
+           {i: 'c-licWL', x: 4, y: 0, w: 4, h: 2.5, minW: 2, maxW: 4},
+           {i: 'n-reg-customer', x: 0, y: 2.5, w: 4, h: 2},
+           {i: 'n-online-customer', x:4 , y: 2.5, w: 4, h: 2},
+           {i: 'n-sb-wl', x:0 , y: 5, w: 2, h: 4},
+           {i: 'n-pending-funds', x:2 , y: 5, w: 2, h: 1},
+           {i: 'n-deposit', x:4 , y: 5, w: 2, h: 1},
+          {i: 'n-withdrawal', x:6 , y: 5, w: 2, h: 4}
           ],
            md:
            [{i: 'c-turnover', x: 0, y: 0, w: 4, h: 5, static: true},
