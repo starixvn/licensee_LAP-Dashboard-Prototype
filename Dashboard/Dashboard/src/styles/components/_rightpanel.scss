@@ -42,30 +42,7 @@
     .widgets-config {
         .widgets-title {
             text-transform: uppercase;
-        }
-
-        /*.widget-item {
-            [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
-                position: absolute;
-                left: -9999px;
-                opacity: 0;
-                box-sizing: border-box;
-                padding: 0;
-            }
-
-            [type="checkbox"] + label {
-                position: relative;
-                padding-left: 35px;
-                cursor: pointer;
-                display: inline-block;
-                height: 25px;
-                line-height: 25px;
-                font-size: 1rem;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -khtml-user-select: none;
-                -ms-user-select: none;
-            }
-        }*/
+            margin-bottom: 0.5rem;
+        }        
     }
 }

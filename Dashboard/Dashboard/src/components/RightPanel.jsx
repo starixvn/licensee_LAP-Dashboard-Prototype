@@ -50,27 +50,27 @@ export default class RightPanel extends React.Component{
                     </p>
 
                     <p className="widget-item">
-                        <input type="checkbox" id="test4" />
+                        <input className="filled-in" type="checkbox" id="test4" />
                         <label htmlFor="test4">Online Customers</label>
                     </p>
 
                     <p className="widget-item">
-                        <input type="checkbox" id="test5" />
+                        <input className="filled-in" type="checkbox" id="test5" />
                         <label htmlFor="test5">Sportbook Wallet</label>
                     </p>
 
                     <p className="widget-item">
-                        <input type="checkbox" id="test6" />
+                        <input className="filled-in" type="checkbox" id="test6" />
                         <label htmlFor="test6">Pending funds</label>
                     </p>
 
                     <p className="widget-item">
-                        <input type="checkbox" id="test7" />
+                        <input className="filled-in" type="checkbox" id="test7" />
                         <label htmlFor="test7">Deposit (today)</label>
                     </p>
 
                     <p className="widget-item">
-                        <input type="checkbox" id="test8" />
+                        <input className="filled-in" type="checkbox" id="test8" />
                         <label htmlFor="test8">Withdraw (today)</label>
                     </p>
 
