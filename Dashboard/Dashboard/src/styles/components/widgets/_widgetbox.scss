@@ -4,6 +4,10 @@
     color: seagreen;
 }
 
+.react-grid-item{
+    background-color: aqua;
+}
+
 .widgetbox {
     position: relative;
     height: 100%;
@@ -52,7 +56,7 @@
 
     &-content {
         position: relative;
-        height: 100%;
+        height: calc(100% - 55px); //55 is height of widget header
 
         &.sportbook-wallet {
             background: #D9544F;
