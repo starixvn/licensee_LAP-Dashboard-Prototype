@@ -59,10 +59,6 @@ module.exports = function (release) {
               loader: 'style!css'
           },
         {
-              test: /\.less$/,
-              loader: 'style!css!less'
-          },
-        {
               test: /\.gif/,
               loader: 'url-loader?limit=10000&mimetype=image/gif'
           },
