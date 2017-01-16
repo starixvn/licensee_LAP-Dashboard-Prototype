@@ -111,6 +111,7 @@
     <Content Include="build\fonts\icomoon.eot" />
     <Content Include="build\fonts\icomoon.ttf" />
     <Content Include="build\fonts\icomoon.woff" />
+    <Content Include="src\styles\components\_checkboxes.scss" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
