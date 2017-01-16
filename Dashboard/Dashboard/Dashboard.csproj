@@ -54,6 +54,7 @@
     <Content Include="src\assets\robots.txt" />
     <Content Include="src\assets\tile-wide.png" />
     <Content Include="src\assets\tile.png" />
+    <Content Include="src\components\RightPanel.jsx" />
     <Content Include="src\components\widgets\chart\licenseewl.jsx" />
     <Content Include="src\components\widgets\chart\turnover.jsx" />
     <Content Include="src\components\widgets\normal\deposit.jsx" />
@@ -79,9 +80,6 @@
     <Folder Include="src\styles\components\widgets\chart\" />
     <Folder Include="src\styles\components\widgets\normal\" />
     <Folder Include="test\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="src\components\rightpanel\RightPanel.jsx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\styles\dashboard.scss" />
