@@ -35,17 +35,17 @@ export default class RightPanel extends React.Component{
                 <form action="#">
 
                     <p className="widget-item">
-                        <input class="filled-in" type="checkbox" id="test1" checked />
+                        <input className="filled-in" type="checkbox" id="test1" defaultChecked />
                         <label for="test1">Tunrover by Platform</label>
                     </p>
 
                     <p className="widget-item">
-                        <input class="filled-in" type="checkbox" id="test2" />
+                        <input className="filled-in" type="checkbox" id="test2" defaultChecked/>
                         <label for="test2">Licensee Win Loss</label>
                     </p>
 
                     <p className="widget-item">
-                        <input class="filled-in" type="checkbox" id="test3" />
+                        <input className="filled-in" type="checkbox" id="test3" />
                         <label for="test3">Registered Customers</label>
                     </p>
 
