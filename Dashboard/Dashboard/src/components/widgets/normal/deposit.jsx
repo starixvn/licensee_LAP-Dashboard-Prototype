@@ -10,7 +10,7 @@ export default class DepositWidget extends React.Component{
     }
 
     render() {
-        return <WidgetBox title="Deposit (Today)">
+        return <WidgetBox title="Deposit (Today)" widgetName="deposit">
                 $1000050K
               </WidgetBox>;
         

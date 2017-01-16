@@ -7,16 +7,23 @@ export default class WidgetBox extends React.Component{
         super(props);
     }
     render() {
-        return <div>
-              <div className="header">
-                {this.props.title}
+        return <div className="widgetbox">
+              <div className={`widgetbox-header ${this.props.widgetName}`}>
+                <span className="title">
+                  {this.props.title}
+                </span>
+
+                <span className="icon-wrapper right">
+                    <span>-</span>
+                    <span>x</span>
+                </span>
               </div>
-                <div className="content">
-                   {this.props.children}
+                <div className={`widgetbox-content ${this.props.widgetName}`}>
+                  {this.props.children}
                 </div>
           </div>
-        ;
-    }
-};
+                      ;
+              }
+              };
 
 
