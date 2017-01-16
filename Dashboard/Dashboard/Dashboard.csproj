@@ -35,8 +35,8 @@
     <Content Include="build\crossdomain.xml" />
     <Content Include="build\css\dashboard.css" />
     <Content Include="build\favicon.ico" />
-    <Content Include="build\fonts\font-icon\fonts\icomoon.svg" />
-    <Content Include="build\fonts\font-icon\style.css" />
+    <Content Include="build\fonts\icomoon.svg" />
+    <Content Include="build\fonts\style.css" />
     <Content Include="build\humans.txt" />
     <Content Include="build\images\logo-small.png" />
     <Content Include="build\images\logo-small%402x.png" />
@@ -95,8 +95,8 @@
     <Content Include="src\components\widgets\normal\registercustomer.jsx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\styles\font\font-icon\fonts\icomoon.svg" />
-    <Content Include="src\styles\font\font-icon\style.css" />
+    <Content Include="src\styles\font\icomoon.svg" />
+    <Content Include="src\styles\font\style.css" />
     <Content Include="src\styles\layout\_default.scss" />
   </ItemGroup>
   <ItemGroup>
@@ -104,13 +104,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".babelrc" />
-    <Content Include="src\styles\font\font-icon\fonts\icomoon.eot" />
-    <Content Include="src\styles\font\font-icon\fonts\icomoon.ttf" />
-    <Content Include="src\styles\font\font-icon\fonts\icomoon.woff" />
+    <Content Include="src\styles\font\icomoon.eot" />
+    <Content Include="src\styles\font\icomoon.ttf" />
+    <Content Include="src\styles\font\icomoon.woff" />
     <Content Include="src\styles\base\_variables.scss" />
-    <Content Include="build\fonts\font-icon\fonts\icomoon.eot" />
-    <Content Include="build\fonts\font-icon\fonts\icomoon.ttf" />
-    <Content Include="build\fonts\font-icon\fonts\icomoon.woff" />
+    <Content Include="build\fonts\icomoon.eot" />
+    <Content Include="build\fonts\icomoon.ttf" />
+    <Content Include="build\fonts\icomoon.woff" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

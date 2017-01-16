@@ -36,42 +36,42 @@ export default class RightPanel extends React.Component{
 
                     <p className="widget-item">
                         <input className="filled-in" type="checkbox" id="test1" defaultChecked />
-                        <label for="test1">Tunrover by Platform</label>
+                        <label htmlFor="test1">Tunrover by Platform</label>
                     </p>
 
                     <p className="widget-item">
-                        <input className="filled-in" type="checkbox" id="test2" defaultChecked/>
-                        <label for="test2">Licensee Win Loss</label>
+                        <input className="filled-in" type="checkbox" id="test2" />
+                        <label htmlFor="test2">Licensee Win Loss</label>
                     </p>
 
                     <p className="widget-item">
-                        <input className="filled-in" type="checkbox" id="test3" />
-                        <label for="test3">Registered Customers</label>
+                        <input className="filled-in" type="checkbox" id="test3" defaultChecked />
+                        <label htmlFor="test3">Registered Customers</label>
                     </p>
 
                     <p className="widget-item">
                         <input type="checkbox" id="test4" />
-                        <label for="test4">Online Customers</label>
+                        <label htmlFor="test4">Online Customers</label>
                     </p>
 
                     <p className="widget-item">
                         <input type="checkbox" id="test5" />
-                        <label for="test5">Sportbook Wallet</label>
+                        <label htmlFor="test5">Sportbook Wallet</label>
                     </p>
 
                     <p className="widget-item">
                         <input type="checkbox" id="test6" />
-                        <label for="test6">Pending funds</label>
+                        <label htmlFor="test6">Pending funds</label>
                     </p>
 
                     <p className="widget-item">
                         <input type="checkbox" id="test7" />
-                        <label for="test7">Deposit (today)</label>
+                        <label htmlFor="test7">Deposit (today)</label>
                     </p>
 
                     <p className="widget-item">
                         <input type="checkbox" id="test8" />
-                        <label for="test8">Withdraw (today)</label>
+                        <label htmlFor="test8">Withdraw (today)</label>
                     </p>
 
                 </form>
