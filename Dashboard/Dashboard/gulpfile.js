@@ -17,11 +17,9 @@ var webpack = require('webpack');
 var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var argv = require('minimist')(process.argv.slice(2));
-
 // Settings
 var DEST = './build';                         // The build output folder
 var RELEASE = !!argv.release;                 // Minimize and optimize during a build?
-var GOOGLE_ANALYTICS_ID = 'UA-XXXXX-X';       // https://www.google.com/analytics/web/
 var AUTOPREFIXER_BROWSERS = [                 // https://github.com/ai/autoprefixer
   'ie >= 10',
   'ie_mob >= 10',
@@ -146,6 +144,7 @@ gulp.task('bundle', function (cb) {
 
 // Build the app from source code
 gulp.task('build', ['clean'], function (cb) {
+
     runSequence(['vendor', 'assets', 'images', 'pages', 'styles', 'bundle'], cb);
 });
 
@@ -169,7 +168,7 @@ gulp.task('serve', function (cb) {
         gulp.watch(src.images, ['images']);
         gulp.watch(src.pages, ['pages']);
         gulp.watch(src.styles, ['styles']);
-        gulp.watch(DEST + '/**/*.*', function (file) {
+        gulp.watch('src/**/*.jsx', function (file) {
             browserSync.reload(path.relative(__dirname, file.path));
         });
         cb();

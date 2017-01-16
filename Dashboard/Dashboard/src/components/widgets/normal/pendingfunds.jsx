@@ -1,19 +1,18 @@
-﻿/**
- * @jsx React.DOM
- */
+﻿import React from 'react';
+import ReactDOM from 'react-dom';
 
-'use strict';
+import WidgetBox from '../widgetbox';
 
-var React = require('react');
-var wbBox = require('../widgetbox.jsx');
-var PendingFundsWidget = React.createClass({
-    render() {
-        return (
-            <wbBox title={"Pending Funds"}>
-                $250K
-            </wbBox>
-        );
+export default class PendingFundsWidget extends React.Component{
+  
+    constructor(props) {
+        super(props);
+      
     }
-});
-
-module.exports = PendingFundsWidget;
+    render() {
+        return <WidgetBox title="Pending Funds">
+                $1000050K
+            </WidgetBox>
+        ;
+}
+};

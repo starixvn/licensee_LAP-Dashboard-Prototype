@@ -1,15 +1,13 @@
-﻿/**
- * @jsx React.DOM
- */
+﻿import React from 'react';
+import ReactDOM from 'react-dom';
 
-'use strict';
 
-var React = require('react');
-
-var WidgetBox = React.createClass({
+export default class WidgetBox extends React.Component{
+    constructor(props) {
+        super(props);
+    }
     render() {
-        return (
-            <div>
+        return <div>
               <div className="header">
                 {this.props.title}
               </div>
@@ -17,8 +15,8 @@ var WidgetBox = React.createClass({
                    {this.props.children}
                 </div>
           </div>
-        );
+        ;
     }
-});
+};
 
-module.exports = WidgetBox;
+

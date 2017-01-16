@@ -1,31 +1,22 @@
-/**
- * @jsx React.DOM
- */
 
-'use strict';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Layout from './layouts/Default';
+import DepositWB from './components/widgets/normal/deposit';
+import PendingWB from './components/widgets/normal/pendingfunds';
 
-var React = require('react');
-var Layout = require('./layouts/Default.jsx');
-var PendingFuns = require('./components/widgets/normal/pendingfunds.jsx');
-var Deposit = require('./components/widgets/normal/deposit.jsx');
-// Export React so the dev tools can find it
-(window !== window.top ? window.top : window).React = React;
+export default class DashboardApp extends React.Component {
+    render()
+    {
+        return <Layout>
+        <DepositWB />
+        <PendingWB />
+        </Layout>
+    };
+};
 
-var DashboardApp = React.createClass({
-    render() {
-        return (
-            <Layout>
-                <PendingFuns />
-                <Deposit />
-            </Layout>
-        );
-    }
-});
-
-module.exports = DashboardApp;
-
-React.renderComponent(
+ReactDOM.render(
         <DashboardApp />
  ,
-  document.body
+  document.getElementById("dashboad-app")
 );

@@ -101,6 +101,9 @@
   <ItemGroup>
     <Content Include="src\styles\components\widgets\_widgetbox.scss" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".babelrc" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

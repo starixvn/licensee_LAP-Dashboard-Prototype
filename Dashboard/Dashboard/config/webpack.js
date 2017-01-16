@@ -11,7 +11,7 @@
 'use strict';
 
 var webpack = require('webpack');
-
+var path = require('path');
 module.exports = function (release) {
     return {
         output: {
@@ -71,9 +71,13 @@ module.exports = function (release) {
               loader: 'url-loader?limit=10000&mimetype=image/png'
           },
         {
-              test: /\.jsx$/,
-              loader: 'jsx-loader?harmony'
-          }
+            test: /\.jsx?$/,
+            loader: 'babel',
+            exclude: /node_modules/,
+            query: {
+                presets: ['es2015', 'react']
+            }
+        },
         ]
       }
     };

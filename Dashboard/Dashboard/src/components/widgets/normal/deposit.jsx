@@ -1,20 +1,18 @@
-﻿/**
- * @jsx React.DOM
- */
+﻿import React from 'react';
+import ReactDOM from 'react-dom';
 
+import WidgetBox from '../widgetbox';
 
-'use strict';
+export default class DepositWidget extends React.Component{
+    constructor(props) {
+        super(props);
+        
+    }
 
-var React = require('react');
-var wbBox = require('../widgetbox.jsx');
-var DepositWidget = React.createClass({
     render() {
-        return (
-            <wbBox title={"Deposit (today)"}>
+        return <WidgetBox title="Deposit (Today)">
                 $1000050K
-            </wbBox>
-        );
-}
-});
-
-module.exports = DepositWidget;
+              </WidgetBox>;
+        
+    }   
+};

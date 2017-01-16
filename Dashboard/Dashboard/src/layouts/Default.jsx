@@ -1,21 +1,14 @@
-/**
- * @jsx React.DOM
- */
 
-'use strict';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import RightPanel from '../components/RightPanel';
 
-var React = require('react');
-var RightPanel = require('../components/rightpanel/RightPanel.jsx');
-
-var DefaultLayout = React.createClass({
-    render() {
-        return (
-         <div className="dashboard__container">
+export default class DefaultLayout extends React.Component{
+    render() 
+    {
+        return <div className="dashboard__container">
             <RightPanel />
              {this.props.children}
-         </div>
-    );
+         </div>;
     }
-});
-
-module.exports = DefaultLayout;
+};
