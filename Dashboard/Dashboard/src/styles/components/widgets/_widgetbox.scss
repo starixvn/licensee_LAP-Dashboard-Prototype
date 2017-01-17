@@ -148,5 +148,26 @@ $bg-Withdrawal: $blue-Bayoux;
                 }
             }
         }
+
+        &.turnover, &.licenseewl {
+            padding: 0 16px;
+
+            .footer-total {
+                position: fixed;
+                bottom: 0;
+                left: 16px;
+                right: 16px;
+                border-top: 1px solid #dcdcdc;
+                height: 36px;
+                line-height: 36px;
+
+                span {
+                    display: block;
+                    color: #ef5b1f;
+                    font-weight: 600;
+                    font-size: 15px;
+                }
+            }
+        }
     }
 }

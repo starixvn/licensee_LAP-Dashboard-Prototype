@@ -12,6 +12,9 @@ export default class Turnover extends React.Component {
     render() {
         return <WidgetBox title="Turnover by Platform (month to date)" widgetName="turnover default">
                 Turnover Content
+                <div className="footer-total">
+                    <span>Total turnover: $1,222,919.56</span>
+                </div>
             </WidgetBox>
             ;
     }
