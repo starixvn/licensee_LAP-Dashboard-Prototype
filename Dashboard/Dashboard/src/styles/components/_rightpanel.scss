@@ -24,7 +24,7 @@
     transform: translateX(0);
     transition: transform 0.3s ease;
 
-    &.is-collpased {
+    &.is-collapsed {
         transform: translateX(100%);
     }
 

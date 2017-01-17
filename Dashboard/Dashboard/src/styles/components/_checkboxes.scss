@@ -1,11 +1,12 @@
-$blue-light-3: #2c3e4c;
+$blueWood: #2c3e4c;
 $white: #fff;
-$secondary-color: $blue-light-3;
+$secondary-color: $blueWood;
 $radio-border: $white;
-$input-disabled-color: rgba(0,0,0, .26) !default;
 $radio-empty-color: $white !default;
-$input-background: #fff !default;
+$input-background: $white !default;
 $input-disabled-solid-color: #BDBDBD !default;
+
+$color-border-checkbox: $white;
 
 
 // ------------------- CUSTOM CSS CHECKBOXES ------------------ //
@@ -39,9 +40,15 @@ form p:last-child {
         color: $white;
         font-weight: normal;
         margin-bottom: 0;
-        /*&:hover {
-            color: #3d598a;
-        }*/
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+
+        &:hover {
+            color: rgba(255,255,255,0.8);
+        }
     }
 }
 
