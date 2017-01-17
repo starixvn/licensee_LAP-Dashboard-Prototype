@@ -4,6 +4,8 @@ import Layout from './layouts/Default';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
+import {WidgetKey} from './config';
+
 import DepositWB from './components/widgets/normal/deposit';
 import OnlineCustomer from './components/widgets/normal/onlinecustomer';
 import PendingWB from './components/widgets/normal/pendingfunds';
@@ -18,58 +20,54 @@ export default class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      WidgetKey:
-      {
-         chartTurnover:'',
-      },
       layouts: {
         lg:
-        [{ i: 'c-turnover', x: 0, y: 0, w: 6, h: 3 },
-        { i: 'c-licWL', x: 6, y: 0, w: 6, h: 3 },
-        { i: 'n-reg-customer', x: 0, y: 3, w: 6, h: 2, minW: 3, minH: 2 },
-        { i: 'n-online-customer', x: 6, y: 3, w: 6, h: 2 },
-        { i: 'n-sb-wl', x: 0, y: 5, w: 3, h: 1, minW: 2 },
-        { i: 'n-pending-funds', x: 3, y: 5, w: 3, h: 1, minW: 2 },
-        { i: 'n-deposit', x: 6, y: 5, w: 3, h: 1, minW: 2 },
-        { i: 'n-withdrawal', x: 9, y: 5, w: 3, h: 1, minW: 2 }
+        [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 6, h: 3 },
+        { i: WidgetKey.chartLicenseeWL, x: 6, y: 0, w: 6, h: 3 },
+        { i: WidgetKey.normalRegisterCustomer, x: 0, y: 3, w: 6, h: 2, minW: 3, minH: 2 },
+        { i: WidgetKey.normalOnlineCustomer, x: 6, y: 3, w: 6, h: 2 },
+        { i: WidgetKey.normalSportsbookWallet, x: 0, y: 5, w: 3, h: 1, minW: 2 },
+        { i: WidgetKey.normalPendingFund, x: 3, y: 5, w: 3, h: 1, minW: 2 },
+        { i: WidgetKey.normalDeposit, x: 6, y: 5, w: 3, h: 1, minW: 2 },
+        { i: WidgetKey.normalWithdrawal, x: 9, y: 5, w: 3, h: 1, minW: 2 }
         ],
         md:
-        [{ i: 'c-turnover', x: 0, y: 0, w: 4, h: 5, static: true },
-        { i: 'c-licWL', x: 4, y: 0, w: 4, h: 5, minW: 2, maxW: 4 },
-        { i: 'n-reg-customer', x: 0, y: 5, w: 4, h: 2 },
-        { i: 'n-online-customer', x: 4, y: 5, w: 4, h: 2 },
-        { i: 'n-sb-wl', x: 0, y: 15, w: 2, h: 4 },
-        { i: 'n-pending-funds', x: 2, y: 15, w: 2, h: 4 },
-        { i: 'n-deposit', x: 4, y: 15, w: 2, h: 4 },
-        { i: 'n-withdrawal', x: 6, y: 15, w: 2, h: 4 }],
+        [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 4, h: 5, static: true },
+        { i: WidgetKey.chartLicenseeWL, x: 4, y: 0, w: 4, h: 5, minW: 2, maxW: 4 },
+        { i: WidgetKey.normalRegisterCustomer, x: 0, y: 5, w: 4, h: 2 },
+        { i: WidgetKey.normalOnlineCustomer, x: 4, y: 5, w: 4, h: 2 },
+        { i: WidgetKey.normalSportsbookWallet, x: 0, y: 15, w: 2, h: 4 },
+        { i: WidgetKey.normalPendingFund, x: 2, y: 15, w: 2, h: 4 },
+        { i: WidgetKey.normalDeposit, x: 4, y: 15, w: 2, h: 4 },
+        { i: WidgetKey.normalWithdrawal, x: 6, y: 15, w: 2, h: 4 }],
         sm:
-        [{ i: 'c-turnover', x: 0, y: 0, w: 4, h: 5, static: true },
-        { i: 'c-licWL', x: 4, y: 0, w: 4, h: 5, minW: 2, maxW: 4 },
-        { i: 'n-reg-customer', x: 0, y: 5, w: 4, h: 2 },
-        { i: 'n-online-customer', x: 4, y: 5, w: 4, h: 2 },
-        { i: 'n-sb-wl', x: 0, y: 15, w: 2, h: 4 },
-        { i: 'n-pending-funds', x: 2, y: 15, w: 2, h: 4 },
-        { i: 'n-deposit', x: 4, y: 15, w: 2, h: 4 },
-        { i: 'n-withdrawal', x: 6, y: 15, w: 2, h: 4 }],
+        [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 4, h: 5, static: true },
+        { i: WidgetKey.chartLicenseeWL, x: 4, y: 0, w: 4, h: 5, minW: 2, maxW: 4 },
+        { i: WidgetKey.normalRegisterCustomer, x: 0, y: 5, w: 4, h: 2 },
+        { i: WidgetKey.normalOnlineCustomer, x: 4, y: 5, w: 4, h: 2 },
+        { i: WidgetKey.normalSportsbookWallet, x: 0, y: 15, w: 2, h: 4 },
+        { i: WidgetKey.normalPendingFund, x: 2, y: 15, w: 2, h: 4 },
+        { i: WidgetKey.normalDeposit, x: 4, y: 15, w: 2, h: 4 },
+        { i: WidgetKey.normalWithdrawal, x: 6, y: 15, w: 2, h: 4 }],
         xs:
-        [{ i: 'c-turnover', x: 0, y: 0, w: 4, h: 5, static: true },
-        { i: 'c-licWL', x: 4, y: 0, w: 4, h: 5, minW: 2, maxW: 4 },
-        { i: 'n-reg-customer', x: 0, y: 5, w: 4, h: 2 },
-        { i: 'n-online-customer', x: 4, y: 5, w: 4, h: 2 },
-        { i: 'n-sb-wl', x: 0, y: 15, w: 2, h: 4 },
-        { i: 'n-pending-funds', x: 2, y: 15, w: 2, h: 4 },
-        { i: 'n-deposit', x: 4, y: 15, w: 2, h: 4 },
-        { i: 'n-withdrawal', x: 6, y: 15, w: 2, h: 4 }],
+        [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 4, h: 5, static: true },
+        { i: WidgetKey.chartLicenseeWL, x: 4, y: 0, w: 4, h: 5, minW: 2, maxW: 4 },
+        { i: WidgetKey.normalRegisterCustomer, x: 0, y: 5, w: 4, h: 2 },
+        { i: WidgetKey.normalOnlineCustomer, x: 4, y: 5, w: 4, h: 2 },
+        { i: WidgetKey.normalSportsbookWallet, x: 0, y: 15, w: 2, h: 4 },
+        { i: WidgetKey.normalPendingFund, x: 2, y: 15, w: 2, h: 4 },
+        { i: WidgetKey.normalDeposit, x: 4, y: 15, w: 2, h: 4 },
+        { i: WidgetKey.normalWithdrawal, x: 6, y: 15, w: 2, h: 4 }],
 
         xxs:
-        [{ i: 'c-turnover', x: 0, y: 0, w: 4, h: 5, static: true },
-        { i: 'c-licWL', x: 4, y: 0, w: 4, h: 5, minW: 2, maxW: 4 },
-        { i: 'n-reg-customer', x: 0, y: 5, w: 4, h: 2 },
-        { i: 'n-online-customer', x: 4, y: 5, w: 4, h: 2 },
-        { i: 'n-sb-wl', x: 0, y: 15, w: 2, h: 4 },
-        { i: 'n-pending-funds', x: 2, y: 15, w: 2, h: 4 },
-        { i: 'n-deposit', x: 4, y: 15, w: 2, h: 4 },
-        { i: 'n-withdrawal', x: 6, y: 15, w: 2, h: 4 }]
+        [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 4, h: 5, static: true },
+        { i: WidgetKey.chartLicenseeWL, x: 4, y: 0, w: 4, h: 5, minW: 2, maxW: 4 },
+        { i: WidgetKey.normalRegisterCustomer, x: 0, y: 5, w: 4, h: 2 },
+        { i: WidgetKey.normalOnlineCustomer, x: 4, y: 5, w: 4, h: 2 },
+        { i: WidgetKey.normalSportsbookWallet, x: 0, y: 15, w: 2, h: 4 },
+        { i: WidgetKey.normalPendingFund, x: 2, y: 15, w: 2, h: 4 },
+        { i: WidgetKey.normalDeposit, x: 4, y: 15, w: 2, h: 4 },
+        { i: WidgetKey.normalWithdrawal, x: 6, y: 15, w: 2, h: 4 }]
 
       }
     };
@@ -80,17 +78,17 @@ export default class DashboardApp extends React.Component {
   render() {
 
     return <Layout>
-      <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={120}
+      <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}>
-        <div key={"c-turnover"}><Turnover /></div>
-        <div key={"c-licWL"}><LicenseeWinLoss /></div>
-        <div key={"n-reg-customer"}><RegisteredCustomer /></div>
-        <div key={"n-online-customer"}><OnlineCustomer /></div>
-        <div key={"n-sb-wl"}><SportsbookWallet /></div>
-        <div key={"n-pending-funds"}><PendingWB /></div>
-        <div key={"n-deposit"}><DepositWB /></div>
-        <div key={"n-withdrawal"}><Withdrawal /></div>
+        <div key={WidgetKey.chartTurnover}><Turnover /></div>
+        <div key={WidgetKey.chartLicenseeWL}><LicenseeWinLoss /></div>
+        <div key={WidgetKey.normalRegisterCustomer}><RegisteredCustomer /></div>
+        <div key={WidgetKey.normalOnlineCustomer}><OnlineCustomer /></div>
+        <div key={WidgetKey.normalSportsbookWallet}><SportsbookWallet /></div>
+        <div key={WidgetKey.normalPendingFund}><PendingWB /></div>
+        <div key={WidgetKey.normalDeposit}><DepositWB /></div>
+        <div key={WidgetKey.normalWithdrawal}><Withdrawal /></div>
       </ResponsiveReactGridLayout>
 
     </Layout>
