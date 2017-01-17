@@ -1,4 +1,14 @@
 ﻿$white: #fff;
+$red-Roman: #d9534f;
+$red-Sunglo: #e27c79;
+$blue-Bermuda: #7687a8;
+$blue-Bayoux: #4c6375;
+
+$bg-Sportsbook: $red-Roman;
+$bg-PendingFunds: $red-Sunglo;
+$bg-Deposit: $blue-Bermuda;
+$bg-Withdrawal: $blue-Bayoux;
+
 .widgetbox {
     position: relative;
     height: 100%;
@@ -11,43 +21,54 @@
     }
     &-header {
         position: relative;
-        padding: 10px;
-        font-size: 18px;
-        min-height: 35px;
-        line-height: 35px;
-        font-weight: bold;
+        padding: 0 5px 0 10px;
+        font-size: 14px;
+        min-height: 38px;
+        line-height: 38px;
+        //background: rgba(0,0,0, 0.3);
         .title {
             text-transform: uppercase;
             color: $white;
         }
         &.sportbook-wallet {
-            background: #C94E49;
+            background: darken($bg-Sportsbook, 3%);
         }
         &.pending-fund {
-            background: #D47772;
+            background: darken($bg-PendingFunds, 3%);
         }
         &.deposit {
-            background: #6F7E9F;
+            background: darken($bg-Deposit, 3%);
         }
         &.withdrawal {
-            background: #425866;
+            background: darken($bg-Withdrawal, 3%);
         }
         .icon-wrapper {}
+            height: 3.5rem;
+            line-height: 3.5rem;
+
+            .icon {
+                display: inline-block;
+                color: $white;
+                width: 2rem;
+                height: 2rem;
+                text-align: center;
+                cursor: pointer;
+            }
     }
     &-content {
         position: relative;
-        height: calc(100% - 55px); //55 is height of widget header
+        height: calc(100% - 38px); //55 is height of widget header
         &.sportbook-wallet {
-            background: #D9544F;
+            background: $bg-Sportsbook;
         }
         &.pending-fund {
-            background: #E27C78;
+            background: $bg-PendingFunds;
         }
         &.deposit {
-            background: #7787A8;
+            background: $bg-Deposit;
         }
         &.withdrawal {
-            background: #4C6375;
+            background: $bg-Withdrawal;
         }
     }
 }

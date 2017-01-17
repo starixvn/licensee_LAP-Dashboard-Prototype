@@ -14,8 +14,8 @@ export default class WidgetBox extends React.Component{
                 </span>
 
                 <span className="icon-wrapper right">
-                    <span>-</span>
-                    <span>x</span>
+                    <span className="icon icon-minimize"></span>
+                    <span className="icon icon-close"></span>
                 </span>
               </div>
                 <div className={`widgetbox-content ${this.props.widgetName}`}>
