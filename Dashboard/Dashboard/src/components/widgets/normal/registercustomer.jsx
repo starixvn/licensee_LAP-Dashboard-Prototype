@@ -1,3 +1,18 @@
-﻿// A '.tsx' file enables JSX support in the TypeScript compiler, 
-// for more information see the following page on the TypeScript wiki:
-// https://github.com/Microsoft/TypeScript/wiki/JSX
+﻿import React from 'react';
+import ReactDOM from 'react-dom';
+
+import WidgetBox from '../widgetbox';
+
+export default class RegisteredCustomer extends React.Component{
+    constructor(props) {
+        super(props);
+        
+    }
+
+    render() {
+        return <WidgetBox title="Registered Customers" widgetName="registered-customer default">
+                    Registered Customers Content
+              </WidgetBox>;
+        
+    }   
+};

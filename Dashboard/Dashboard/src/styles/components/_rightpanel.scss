@@ -23,27 +23,22 @@
     padding: 1.6rem 1rem;
     transform: translateX(0);
     transition: transform 0.3s ease;
-
     &.is-collapsed {
         transform: translateX(100%);
     }
-
     .currency {
         margin-bottom: 1rem;
-
         .currency-label {
             display: block;
         }
-
         select {
             width: 100%;
         }
     }
-
     .widgets-config {
         .widgets-title {
             text-transform: uppercase;
             margin-bottom: 0.5rem;
-        }        
+        }
     }
 }

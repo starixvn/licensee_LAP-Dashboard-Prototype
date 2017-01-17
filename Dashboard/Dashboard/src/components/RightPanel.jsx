@@ -1,20 +1,30 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 
-export default class RightPanel extends React.Component{
+export default class RightPanel extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { isToggleOn: false };
+        this.toggle = this.toggle.bind(this);
+    }
+    toggle() {
+        this.setState(prevState => ({
+            isToggleOn: !prevState.isToggleOn
+        }));
+    }
     render() {
-        return <div className="dashboard__right-panel">
-            <span className="icon-quickaccess js-icon-quickaccess">
+        return <div className={`dashboard__right-panel ${this.state.isToggleOn ? '' : 'is-collapsed'}`}>
+            <span className="icon-quickaccess js-icon-quickaccess" onClick={this.toggle}>
                 <i className="icon-settings"></i>
             </span>
 
             <div className="currency">
                 <label className="currency-label">Currency</label>
                 <select>
-                  <option value="1">All</option>
-                  <option value="2">EUR</option>
-                  <option value="3">Mercedes</option>
-                  <option value="4">Audi</option>
+                    <option value="1">All</option>
+                    <option value="2">EUR</option>
+                    <option value="3">Mercedes</option>
+                    <option value="4">Audi</option>
                 </select>
             </div>
 
@@ -78,8 +88,8 @@ export default class RightPanel extends React.Component{
 
             </div>
 
-          </div>
-        
+        </div>
+
     }
-    
+
 };
