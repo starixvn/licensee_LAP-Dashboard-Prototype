@@ -2,19 +2,37 @@
 import ReactDOM from 'react-dom';
 
 export default class RightPanel extends React.Component {
-    constructor(props) {
+    
+    constructor(props)
+    {
         super(props);
-        this.state = { isToggleOn: false };
-        this.toggle = this.toggle.bind(this);
+        this.state ={
+            isMounted:false,
+            isHidden:true
+        };
+        
+    };
+    componentDidMount() {
+        this.setState({isMounted:true});
     }
-    toggle() {
-        this.setState(prevState => ({
-            isToggleOn: !prevState.isToggleOn
+    
+    componentWillMount() {
+        this.setState({isMounted:false});
+    }
+    
+    togglePanel()
+    {
+        if(this.state.isMounted)
+        {
+         this.setState(prevState => ({
+      isHidden: !prevState.isHidden
         }));
-    }
+        }
+    };
     render() {
-        return <div className={`dashboard__right-panel ${this.state.isToggleOn ? '' : 'is-collapsed'}`}>
-            <span className="icon-quickaccess js-icon-quickaccess" onClick={this.toggle}>
+         const isHidden = this.state.isHidden;
+        return <div className={isHidden?'dashboard__right-panel is-collapsed':'dashboard__right-panel'} >
+            <span onClick={(e) => this.togglePanel(e)} className="icon-quickaccess js-icon-quickaccess">
                 <i className="icon-settings"></i>
             </span>
 
