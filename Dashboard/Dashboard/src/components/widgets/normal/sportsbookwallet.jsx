@@ -11,7 +11,7 @@ export default class SportsbookWallet extends React.Component {
     }
     render() {
         return <WidgetBox title="Sportsbook Wallet" widgetName="sportbook-wallet">
-            $ 1.57M
+            <span className="number-big">$1.57M</span>
             </WidgetBox>
             ;
     }

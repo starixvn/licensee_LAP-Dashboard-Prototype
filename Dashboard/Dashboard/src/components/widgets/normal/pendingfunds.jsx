@@ -11,7 +11,7 @@ export default class PendingFundsWidget extends React.Component{
     }
     render() {
         return <WidgetBox title="Pending Funds" widgetName="pending-fund">
-                $1000050K
+                <span className="number-big">$1000050K</span>
             </WidgetBox>
         ;
 }

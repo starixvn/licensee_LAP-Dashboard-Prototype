@@ -13,12 +13,15 @@ $bg-Withdrawal: $blue-Bayoux;
     position: relative;
     height: 100%;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+
     .default {
         background: $white;
+
         .title {
             color: #3F566A;
         }
     }
+
     &-header {
         position: relative;
         padding: 0 5px 0 10px;
@@ -30,45 +33,64 @@ $bg-Withdrawal: $blue-Bayoux;
             text-transform: uppercase;
             color: $white;
         }
+
         &.sportbook-wallet {
             background: darken($bg-Sportsbook, 3%);
         }
+
         &.pending-fund {
             background: darken($bg-PendingFunds, 3%);
         }
+
         &.deposit {
             background: darken($bg-Deposit, 3%);
         }
+
         &.withdrawal {
             background: darken($bg-Withdrawal, 3%);
         }
-        .icon-wrapper {}
+
+        .icon-wrapper {
             height: 3.5rem;
             line-height: 3.5rem;
+        }       
 
-            .icon {
-                display: inline-block;
-                color: $white;
-                width: 2rem;
-                height: 2rem;
-                text-align: center;
-                cursor: pointer;
-            }
+        .icon {
+            display: inline-block;
+            color: $white;
+            width: 2rem;
+            height: 2rem;
+            text-align: center;
+            cursor: pointer;
+        }
     }
+
     &-content {
         position: relative;
         height: calc(100% - 38px); //55 is height of widget header
         &.sportbook-wallet {
             background: $bg-Sportsbook;
         }
+
         &.pending-fund {
             background: $bg-PendingFunds;
         }
+
         &.deposit {
             background: $bg-Deposit;
         }
+
         &.withdrawal {
             background: $bg-Withdrawal;
+        }
+
+        .number-big {
+            font-size: 40px;
+            color: $white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
     }
 }

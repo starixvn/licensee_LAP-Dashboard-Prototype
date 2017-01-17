@@ -11,7 +11,7 @@ export default class Withdrawal extends React.Component {
     }
     render() {
         return <WidgetBox title="Withdrawal (today)" widgetName="withdrawal">
-            $ 500k
+            <span className="number-big">$500k</span>
             </WidgetBox>
             ;
     }
