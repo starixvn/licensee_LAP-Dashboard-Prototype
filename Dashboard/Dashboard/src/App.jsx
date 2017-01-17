@@ -24,14 +24,14 @@ export default class DashboardApp extends React.Component {
       },
       layouts: {
         lg:
-        [{ i: 'c-turnover', x: 0, y: 0, w: 6, h: 2.5, static: true },
-        { i: 'c-licWL', x: 6, y: 0, w: 6, h: 2.5 },
-        { i: 'n-reg-customer', x: 0, y: 2.5, w: 6, h: 2 },
-        { i: 'n-online-customer', x: 6, y: 2.5, w: 6, h: 2 },
-        { i: 'n-sb-wl', x: 0, y: 4.5, w: 3, h: 1 },
-        { i: 'n-pending-funds', x: 3, y: 4.5, w: 3, h: 1 },
-        { i: 'n-deposit', x: 6, y: 4.5, w: 3, h: 1 },
-        { i: 'n-withdrawal', x: 9, y: 4.5, w: 3, h: 1 }
+        [{ i: 'c-turnover', x: 0, y: 0, w: 6, h: 3 },
+        { i: 'c-licWL', x: 6, y: 0, w: 6, h: 3 },
+        { i: 'n-reg-customer', x: 0, y: 3, w: 6, h: 2, minW: 3, minH: 2 },
+        { i: 'n-online-customer', x: 6, y: 3, w: 6, h: 2 },
+        { i: 'n-sb-wl', x: 0, y: 5, w: 3, h: 1, minW: 2 },
+        { i: 'n-pending-funds', x: 3, y: 5, w: 3, h: 1, minW: 2 },
+        { i: 'n-deposit', x: 6, y: 5, w: 3, h: 1, minW: 2 },
+        { i: 'n-withdrawal', x: 9, y: 5, w: 3, h: 1, minW: 2 }
         ],
         md:
         [{ i: 'c-turnover', x: 0, y: 0, w: 4, h: 5, static: true },
@@ -80,7 +80,7 @@ export default class DashboardApp extends React.Component {
   render() {
 
     return <Layout>
-      <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts}
+      <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={120}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}>
         <div key={"c-turnover"}><Turnover /></div>
