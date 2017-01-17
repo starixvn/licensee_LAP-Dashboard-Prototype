@@ -153,16 +153,27 @@ $bg-Withdrawal: $blue-Bayoux;
                 &.dark-bg {
                     background: $blue-Bayoux;
                     color: $white;
+                    height: calc(100% - 7rem);
+                    padding: 0;
 
                     .registered-info {
+                        position: relative;
                         box-sizing: border-box;
                         text-align: center;
                         float: left;
-                        width: 50%;
-                        padding: 20px 0;
+                        height: 100%;
+                        width: 50%;                       
 
                         &:first-child {
                             border-right: 1px solid $white;
+                        }
+
+                        .center-block {
+                            position: absolute;
+                            top: 50%;
+                            width: 100%;
+                            transform: translateY(-50%);
+                            text-align: center;
                         }
                     }                    
                 }

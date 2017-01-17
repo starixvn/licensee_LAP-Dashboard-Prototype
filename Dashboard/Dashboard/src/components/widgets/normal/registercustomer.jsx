@@ -23,13 +23,17 @@ export default class RegisteredCustomer extends React.Component{
                     <div className="clearfix registered-customer-content dark-bg">
                         
                             <div className="registered-info">
-                                <p className="number">400</p>
-                                <p className="text">Deposit</p>
+                                <div className="center-block">
+                                    <p className="number">400</p>
+                                    <p className="text">Deposit</p>
+                                </div>                                
                             </div>
                        
                             <div className="registered-info">
-                                <p className="number">100</p>
-                                <p className="text">None - deposit</p>
+                                <div className="center-block">
+                                    <p className="number">100</p>
+                                    <p className="text">None - deposit</p>
+                                </div>                                
                             </div>
                         
                     </div>
