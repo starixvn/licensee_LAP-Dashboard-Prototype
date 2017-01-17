@@ -22,14 +22,14 @@ export default class DashboardApp extends React.Component {
     this.state = {
       layouts: {
         lg:
-        [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 6, h: 3 },
-        { i: WidgetKey.chartLicenseeWL, x: 6, y: 0, w: 6, h: 3 },
-        { i: WidgetKey.normalRegisterCustomer, x: 0, y: 3, w: 6, h: 2, minW: 3, minH: 2 },
-        { i: WidgetKey.normalOnlineCustomer, x: 6, y: 3, w: 6, h: 2 },
-        { i: WidgetKey.normalSportsbookWallet, x: 0, y: 5, w: 3, h: 1, minW: 2 },
-        { i: WidgetKey.normalPendingFund, x: 3, y: 5, w: 3, h: 1, minW: 2 },
-        { i: WidgetKey.normalDeposit, x: 6, y: 5, w: 3, h: 1, minW: 2 },
-        { i: WidgetKey.normalWithdrawal, x: 9, y: 5, w: 3, h: 1, minW: 2 }
+        [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 6, h: 12 },
+        { i: WidgetKey.chartLicenseeWL, x: 6, y: 0, w: 6, h: 12 },
+        { i: WidgetKey.normalRegisterCustomer, x: 0, y: 12, w: 6, h: 8,minW:2 },
+        { i: WidgetKey.normalOnlineCustomer, x: 6, y: 12, w: 6, h: 8 },
+        { i: WidgetKey.normalSportsbookWallet, x: 0, y: 20, w: 3, h: 6},
+        { i: WidgetKey.normalPendingFund, x: 3, y: 20, w: 3, h: 6 },
+        { i: WidgetKey.normalDeposit, x: 6, y: 20, w: 3, h: 6 },
+        { i: WidgetKey.normalWithdrawal, x: 9, y: 20, w: 3, h: 6 }
         ],
         md:
         [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 4, h: 5, static: true },
@@ -78,7 +78,7 @@ export default class DashboardApp extends React.Component {
   render() {
 
     return <Layout>
-      <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts}
+      <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}>
         <div key={WidgetKey.chartTurnover}><Turnover /></div>
