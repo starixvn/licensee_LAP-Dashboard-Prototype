@@ -18,6 +18,10 @@ export default class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      WidgetKey:
+      {
+         chartTurnover:'',
+      },
       layouts: {
         lg:
         [{ i: 'c-turnover', x: 0, y: 0, w: 6, h: 2.5, static: true },
