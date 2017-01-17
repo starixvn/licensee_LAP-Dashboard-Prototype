@@ -38,10 +38,17 @@ $bg-Withdrawal: $blue-Bayoux;
         .icon {
             display: inline-block;
             color: $white;
-            width: 2rem;
-            height: 2rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            border-radius: 50%;
             text-align: center;
             cursor: pointer;
+            transition: background 0.3s ease;
+
+            &:hover, &:active {
+                background: rgba(0, 0, 0, .1)
+            }
         }
         &.default {
             border-bottom: 1px solid #dcdcdc;

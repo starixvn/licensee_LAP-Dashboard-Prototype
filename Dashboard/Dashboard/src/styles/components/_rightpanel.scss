@@ -1,13 +1,22 @@
 ﻿.icon-quickaccess {
     position: absolute;
     top: 6.5rem;
-    left: -2.5rem;
+    left: -3.1rem;
     padding: 8px 6px;
     font-size: 18px;
+    box-sizing: border-box;
     cursor: pointer;
     color: #fff;
     background: $colorPrimary;
     border-radius: 3px 0 0 3px;
+    border: 1px solid $colorPrimary;
+    transition: all 0.4s ease;
+
+    &:hover, &:active {
+        background: #fff;
+        color: $colorPrimary;
+        border-color: $colorPrimary;
+    }
 }
 
 .dashboard__right-panel {
