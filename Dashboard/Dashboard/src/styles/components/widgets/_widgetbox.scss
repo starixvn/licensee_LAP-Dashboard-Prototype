@@ -4,6 +4,8 @@ $red-Sunglo: #e27c79;
 $blue-Bermuda: #7687a8;
 $blue-Bayoux: #4c6375;
 
+$color-title-widgets-header-default: $blue-Bayoux;
+
 $bg-Sportsbook: $red-Roman;
 $bg-PendingFunds: $red-Sunglo;
 $bg-Deposit: $blue-Bermuda;
@@ -18,7 +20,8 @@ $bg-Withdrawal: $blue-Bayoux;
         background: $white;
 
         .title {
-            color: #3F566A;
+            color: $color-title-widgets-header-default;
+            font-weight: 600;           
         }
     }
 
@@ -28,10 +31,34 @@ $bg-Withdrawal: $blue-Bayoux;
         font-size: 14px;
         min-height: 38px;
         line-height: 38px;
-        //background: rgba(0,0,0, 0.3);
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+
         .title {
             text-transform: uppercase;
             color: $white;
+        }
+
+        .icon-wrapper {
+            height: 3.5rem;
+            line-height: 3.5rem;
+        }       
+
+        .icon {
+            display: inline-block;
+            color: $white;
+            width: 2rem;
+            height: 2rem;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        &.default {
+            border-bottom: 1px solid #dcdcdc;
+
+            .icon {
+                color: $color-title-widgets-header-default;
+            }
         }
 
         &.sportbook-wallet {
@@ -48,26 +75,16 @@ $bg-Withdrawal: $blue-Bayoux;
 
         &.withdrawal {
             background: darken($bg-Withdrawal, 3%);
-        }
-
-        .icon-wrapper {
-            height: 3.5rem;
-            line-height: 3.5rem;
-        }       
-
-        .icon {
-            display: inline-block;
-            color: $white;
-            width: 2rem;
-            height: 2rem;
-            text-align: center;
-            cursor: pointer;
-        }
+        }      
+       
     }
 
     &-content {
         position: relative;
         height: calc(100% - 38px); //55 is height of widget header
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+
         &.sportbook-wallet {
             background: $bg-Sportsbook;
         }
@@ -91,6 +108,65 @@ $bg-Withdrawal: $blue-Bayoux;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+
+        &.registered-customer {
+            .registered-customer-content {
+                position: relative;
+                min-height: 7rem;
+                padding: 0 16px;
+                color: $blue-Bayoux;
+
+                .icon-group-users {
+                    position: absolute;
+                    top: 50%;                                      
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    border-radius: 50%;
+                    text-align: center;
+                    font-size: 20px;  
+                    margin-top: -20px;
+                    background: $colorPrimary;
+                    color: $white;                    
+                }
+
+                .registered-info {  
+                    text-align: right;
+
+                    p {
+                        margin: 0;
+                        
+                    }
+
+                    .number {
+                        font-size: 28px;
+                        font-weight: 600;
+                    }
+
+                    .text {
+                        font-size: 16px;
+                        font-weight: 300;
+                    }
+                } 
+
+                &.dark-bg {
+                    background: $blue-Bayoux;
+                    color: $white;
+
+                    .registered-info {
+                        box-sizing: border-box;
+                        text-align: center;
+                        float: left;
+                        width: 50%;
+                        padding: 20px 0;
+
+                        &:first-child {
+                            border-right: 1px solid $white;
+                        }
+                    }                    
+                }
+            }
         }
     }
 }
