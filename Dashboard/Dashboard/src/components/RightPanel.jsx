@@ -36,7 +36,7 @@ export default class RightPanel extends React.Component {
                 <i className="icon-settings"></i>
             </span>
 
-            <div className="right-panel-content">
+            
                 <div className="currency">
                     <label className="currency-label">Currency</label>
                     <select>
@@ -105,7 +105,7 @@ export default class RightPanel extends React.Component {
 
                     </form>
 
-                </div>
+                
 
             </div>
         </div>

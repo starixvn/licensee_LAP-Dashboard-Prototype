@@ -12,40 +12,34 @@
     border: 1px solid $colorPrimary;
     transition: all 0.4s ease;
 
-    &:hover, &:active {
-        background: #fff;
-        color: $colorPrimary;
-        border-color: $colorPrimary;
-    }
+    // &:hover, &:active {
+    //     background: #fff;
+    //     color: $colorPrimary;
+    //     border-color: $colorPrimary;
+    // }
 }
 
 .dashboard__right-panel {
     position: fixed;
-    right: 0;
+    right: -20rem;
     top: 0;
-    //bottom: 0;
-    height: 100%;
+    bottom: 0;
     z-index: 1001;
     width: 20rem;
     box-sizing: border-box;
     background: $colorPrimary;
     color: #fff;
     padding: 1.6rem 1rem;
-    will-change: transform;
+    will-change: right;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
     -ms-touch-action: auto;
     touch-action: auto;
+    transition: right 0.3s ease;
 
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-    &.is-expanded {
-        transform: translateX(0%);
-    }
-
-    .right-panel-content {
-        overflow-y: scroll;
-        height: 100%;
+    &.is-expanded {        
+        right: 0;
     }
 
     .currency {
