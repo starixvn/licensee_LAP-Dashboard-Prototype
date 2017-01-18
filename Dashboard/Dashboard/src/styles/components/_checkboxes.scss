@@ -68,6 +68,16 @@ form p:last-child {
         // .1s delay is for check animation //
         transition: border .25s, background-color .25s, width .20s .1s, height .20s .1s, top .20s .1s, left .20s .1s;
         z-index: 1;
+        
+        /* tablet */
+        @media all and (max-device-width: 1024px) {
+            transition: none;
+        }
+
+        /* mobile phone */
+        @media all and (max-device-width: 768px) {
+            transition: none;
+        }
     }
     // Unchecked style
     &:not(:checked) + label:before {
