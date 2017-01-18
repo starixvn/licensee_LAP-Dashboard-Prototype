@@ -31,7 +31,7 @@ export default class RightPanel extends React.Component {
     };
     render() {
          const isHidden = this.state.isHidden;
-        return <div className={isHidden?'dashboard__right-panel is-collapsed':'dashboard__right-panel'} >
+        return <div className={isHidden?'dashboard__right-panel':'dashboard__right-panel is-expanded'} >
             <span onClick={(e) => this.togglePanel(e)} className="icon-quickaccess js-icon-quickaccess">
                 <i className="icon-settings"></i>
             </span>

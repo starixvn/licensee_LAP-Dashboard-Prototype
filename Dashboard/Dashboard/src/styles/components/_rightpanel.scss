@@ -30,10 +30,10 @@
     background: $colorPrimary;
     color: #fff;
     padding: 1.6rem 1rem;
-    transform: translateX(0);
+    transform: translateX(100%);
     transition: transform 0.3s ease;
-    &.is-collapsed {
-        transform: translateX(100%);
+    &.is-expanded {
+        transform: translateX(0%);
     }
     .currency {
         margin-bottom: 1rem;
