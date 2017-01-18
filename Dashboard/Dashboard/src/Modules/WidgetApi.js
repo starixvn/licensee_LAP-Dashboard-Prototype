@@ -1,21 +1,18 @@
 
-export default class WidgetApi
+export default class  WidgetApi
 {
-    constructor()
+   
+    static fetchData(param)
     {
-
-    }
-    fetchData(param)
-    {
-        return {isOk:true,msg:"done", data:{}};
+        return {isOk:true,msg:"done", data:"$2000000K"};
     }
 
-    savePosition(widInfo)
+   static savePosition(widInfo)
     {
         return;
     }
 
-    getPosition(widgetKey)
+   static getPosition(widgetKey)
     {
         return {key:"deposite",pos:{x:0,y:0,w:200,h:200}};
     }
