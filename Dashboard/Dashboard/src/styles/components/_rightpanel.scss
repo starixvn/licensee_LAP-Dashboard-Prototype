@@ -22,19 +22,32 @@
 .dashboard__right-panel {
     position: fixed;
     right: 0;
-    top: 1px;
-    bottom: 0;
+    top: 0;
+    //bottom: 0;
+    height: 100%;
     z-index: 1001;
     width: 20rem;
     box-sizing: border-box;
     background: $colorPrimary;
     color: #fff;
     padding: 1.6rem 1rem;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -ms-touch-action: auto;
+    touch-action: auto;
+
     transform: translateX(100%);
     transition: transform 0.3s ease;
     &.is-expanded {
         transform: translateX(0%);
     }
+
+    .right-panel-content {
+        overflow-y: scroll;
+        height: 100%;
+    }
+
     .currency {
         margin-bottom: 1rem;
         .currency-label {
