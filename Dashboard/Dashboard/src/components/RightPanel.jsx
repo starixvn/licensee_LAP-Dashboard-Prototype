@@ -32,11 +32,13 @@ export default class RightPanel extends React.Component {
     render() {
          const isHidden = this.state.isHidden;
         return <div className={isHidden?'dashboard__right-panel':'dashboard__right-panel is-expanded'} >
-            <span onClick={(e) => this.togglePanel(e)} className="icon-quickaccess js-icon-quickaccess">
-                <i className="icon-settings"></i>
-            </span>
+            <div className="right-panel-wrap">
 
-            
+                <span onClick={(e) => this.togglePanel(e)} className="icon-quickaccess js-icon-quickaccess">
+                    <i className="icon-settings"></i>
+                </span> 
+                <div className="right-panel-content">
+                          
                 <div className="currency">
                     <label className="currency-label">Currency</label>
                     <select>
@@ -103,13 +105,11 @@ export default class RightPanel extends React.Component {
                             <label htmlFor="test8">Withdraw (today)</label>
                         </p>
 
-                    </form>
-
-                
-
+                    </form> 
+                </div> 
             </div>
         </div>
-
+    </div>
     }
 
 };

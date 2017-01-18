@@ -11,6 +11,7 @@
     border-radius: 3px 0 0 3px;
     border: 1px solid $colorPrimary;
     transition: all 0.4s ease;
+    z-index: 1001;
 
     // &:hover, &:active {
     //     background: #fff;
@@ -23,13 +24,14 @@
     position: fixed;
     right: -20rem;
     top: 0;
-    bottom: 0;
+    left: 100%;
+    bottom: 0;    
     z-index: 1001;
-    width: 20rem;
-    box-sizing: border-box;
-    background: $colorPrimary;
-    color: #fff;
-    padding: 1.6rem 1rem;
+    //width: 20rem;
+    // box-sizing: border-box;
+    // background: $colorPrimary;
+    // color: #fff;
+    // padding: 1.6rem 1rem;
     will-change: right;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
@@ -40,6 +42,32 @@
 
     &.is-expanded {        
         right: 0;
+        left: 0;
+        z-index: 1001;
+    }
+
+    .right-panel-wrap {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 20rem;
+        height: 100vh;
+        box-sizing: border-box;
+        background: $colorPrimary;
+        color: #fff;
+        
+
+        .right-panel-content {
+            padding: 1.6rem 1rem;
+
+            @media (max-device-width: 767px) and (orientation: landscape) {
+                height: 100%;
+                overflow: auto;                
+            }
+        }
+
+        
     }
 
     .currency {
@@ -52,6 +80,7 @@
         }
     }
     .widgets-config {
+        padding-bottom: 2rem;
         .widgets-title {
             text-transform: uppercase;
             margin-bottom: 0.5rem;
