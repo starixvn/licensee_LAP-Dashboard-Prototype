@@ -104,7 +104,6 @@ export default class RightPanel extends React.Component {
                             <input className="filled-in" type="checkbox" id="test8" />
                             <label htmlFor="test8">Withdraw (today)</label>
                         </p>
-
                     </form> 
                 </div> 
             </div>
