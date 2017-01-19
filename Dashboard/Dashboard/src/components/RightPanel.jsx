@@ -64,12 +64,11 @@ export default class RightPanel extends React.Component {
                     </select>
                 </div>
 
+                <a className="btn-submit" href="#">Submit</a>
+
                 <div className="widgets-config">
 
                     <div className="widgets-title">Widgets</div>
-
-                    
-
                         <p className="widget-item">
                             <input className="filled-in" type="checkbox" id="test1" defaultChecked />
                             <label htmlFor="test1">Tunrover by Platform</label>

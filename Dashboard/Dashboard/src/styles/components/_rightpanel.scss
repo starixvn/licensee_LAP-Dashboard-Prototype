@@ -15,6 +15,20 @@
     touch-action: auto;   
 }
 
+.btn-submit {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 2px;
+    color: #fff;
+    background: #f05b1f;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    &:hover, &:active {
+        background: lighten(#f05b1f, 10%);
+    }
+}
+
 .dashboard__right-panel {
     position: fixed;
     right: -20rem;
@@ -80,6 +94,7 @@
     }
     .widgets-config {
         padding-bottom: 2rem;
+        padding-top: 1.5rem;
 
         .widgets-title {
             text-transform: uppercase;
