@@ -12,31 +12,7 @@
     border: 1px solid $colorPrimary;
     transition: all 0.4s ease;
     z-index: 1001;
-    touch-action: auto;
-
-    &:active {
-        background: #fff;
-        color: $colorPrimary;
-        border-color: $colorPrimary;
-    }
-
-    @media only screen and (min-width: 800px) {
-        &:hover {
-            background: #fff;
-            color: $colorPrimary;
-            border-color: $colorPrimary;
-        }
-    }
-
-    //  /* tablet */
-    // @media all and (min-device-width: 1024px) {
-    //     transition: none;
-    // }
-
-    // /* mobile phone */
-    // @media all and (max-device-width: 768px) {
-    //     transition: none;
-    // }
+    touch-action: auto;   
 }
 
 .dashboard__right-panel {
@@ -58,6 +34,12 @@
         right: 0;
         left: 0;
         z-index: 1001;
+
+        .icon-quickaccess {
+            background: #fff;
+            color: $colorPrimary;
+            border-color: $colorPrimary;
+        }
     }
 
     .right-panel-wrap {
