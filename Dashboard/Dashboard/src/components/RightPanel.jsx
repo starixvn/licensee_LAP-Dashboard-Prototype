@@ -64,7 +64,7 @@ export default class RightPanel extends React.Component {
                     </select>
                 </div>
 
-                <a className="btn-submit" href="#">Submit</a>
+                <a className="btn-submit" href="#">Apply</a>
 
                 <div className="widgets-config">
 
