@@ -12,11 +12,30 @@
     border: 1px solid $colorPrimary;
     transition: all 0.4s ease;
     z-index: 1001;
+    touch-action: auto;
 
-    // &:hover, &:active {
-    //     background: #fff;
-    //     color: $colorPrimary;
-    //     border-color: $colorPrimary;
+    &:active {
+        background: #fff;
+        color: $colorPrimary;
+        border-color: $colorPrimary;
+    }
+
+    @media only screen and (min-width: 800px) {
+        &:hover {
+            background: #fff;
+            color: $colorPrimary;
+            border-color: $colorPrimary;
+        }
+    }
+
+    //  /* tablet */
+    // @media all and (min-device-width: 1024px) {
+    //     transition: none;
+    // }
+
+    // /* mobile phone */
+    // @media all and (max-device-width: 768px) {
+    //     transition: none;
     // }
 }
 
@@ -26,12 +45,7 @@
     top: 0;
     left: 100%;
     bottom: 0;    
-    z-index: 1001;
-    //width: 20rem;
-    // box-sizing: border-box;
-    // background: $colorPrimary;
-    // color: #fff;
-    // padding: 1.6rem 1rem;
+    z-index: 1001;    
     will-change: right;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
@@ -55,8 +69,7 @@
         height: 100vh;
         box-sizing: border-box;
         background: $colorPrimary;
-        color: #fff;
-        
+        color: #fff;        
 
         .right-panel-content {
             padding: 1.6rem 1rem;
@@ -65,25 +78,32 @@
                 height: 100%;
                 overflow: auto;                
             }
-        }
-
-        
+        }        
     }
 
     .currency {
         margin-bottom: 1rem;
+
         .currency-label {
             display: block;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
+
         select {
             width: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
     }
     .widgets-config {
         padding-bottom: 2rem;
+
         .widgets-title {
             text-transform: uppercase;
             margin-bottom: 0.5rem;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
     }
 }

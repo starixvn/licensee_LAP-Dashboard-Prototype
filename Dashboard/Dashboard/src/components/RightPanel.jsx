@@ -63,7 +63,7 @@ export default class RightPanel extends React.Component {
 
                     <div className="widgets-title">Widgets</div>
 
-                    <form action="#">
+                    
 
                         <p className="widget-item">
                             <input className="filled-in" type="checkbox" id="test1" defaultChecked />
@@ -104,7 +104,7 @@ export default class RightPanel extends React.Component {
                             <input className="filled-in" type="checkbox" id="test8" />
                             <label htmlFor="test8">Withdraw (today)</label>
                         </p>
-                    </form> 
+                     
                 </div> 
             </div>
         </div>
