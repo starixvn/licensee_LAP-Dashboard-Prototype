@@ -8,18 +8,23 @@ export default class RightPanel extends React.Component {
         super(props);
         this.state ={
             isMounted:false,
-            isHidden:true
+            isHidden:true,
+            SelectedBaseCurrency:'EUR',
+            SelectedCurrency:'USD',
+            BaseCurrency:[{}],
+            Currency:[{}]
         };
         
     };
     componentDidMount() {
         this.setState({isMounted:true});
+        //fetch data
     }
     
-    componentWillMount() {
+    componentWillUnmount() {
         this.setState({isMounted:false});
     }
-    
+   
     togglePanel()
     {
         if(this.state.isMounted)

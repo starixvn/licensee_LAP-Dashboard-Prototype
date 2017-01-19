@@ -20,6 +20,8 @@ export default class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      langCode:'en',
+      
       layouts: {
         lg:
         [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 6, h: 12 },
@@ -87,7 +89,7 @@ export default class DashboardApp extends React.Component {
         <div key={WidgetKey.normalOnlineCustomer}><OnlineCustomer /></div>
         <div key={WidgetKey.normalSportsbookWallet}><SportsbookWallet /></div>
         <div key={WidgetKey.normalPendingFund}><PendingWB /></div>
-        <div key={WidgetKey.normalDeposit}><DepositWB /></div>
+        <div key={WidgetKey.normalDeposit}><DepositWB langCode={this.state.langCode} /></div>
         <div key={WidgetKey.normalWithdrawal}><Withdrawal /></div>
       </ResponsiveReactGridLayout>
 

@@ -16,5 +16,12 @@ export default class  WidgetApi
     {
         return {key:"deposite",pos:{x:0,y:0,w:200,h:200}};
     }
-
+    static saveFilter(filterModel)
+    {
+        return;
+    }
+    static getFilter()
+    {
+        return;
+    }
 }
