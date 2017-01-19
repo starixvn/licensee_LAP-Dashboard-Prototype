@@ -25,6 +25,7 @@ module.exports = function (release) {
         devtool: false,
         entry: {
             'js/app': './src/App.jsx'
+            
         },
 
         stats: {

@@ -5,6 +5,7 @@ import WidgetBox from '../widgetbox';
 import widgetApi from '../../../Modules/WidgetApi';
 import NumberF from '../../../Modules/Number';
 import LanguageApi from '../../../Modules/LanguageApi';
+import axios from 'axios';
 export default class DepositWidget extends React.Component{
     constructor(props) {
         super(props);
@@ -14,11 +15,24 @@ export default class DepositWidget extends React.Component{
             currency:'USD'
             
         };
+       
     }
-
+    updateData(value)
+    {
+        this.setState({data:value});
+    }
     componentDidMount () {
-        
-        //fetch data 
+        axios.get('http://licadmin.playthefun.com/spondemo/externalapi/sessionisalive', {
+            
+             withCredentials: false,
+        })
+        .then(response => {
+            console.log(response.data);
+            this.updateData(response.data.Msg);   
+        })
+        .catch(error=> {
+            console.log(error);
+        });
 
     }
     componentWillUnmount() {
