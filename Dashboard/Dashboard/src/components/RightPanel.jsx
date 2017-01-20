@@ -6,16 +6,24 @@ export default class RightPanel extends React.Component {
     constructor(props)
     {
         super(props);
+            
+    
         this.state ={
+          
             isMounted:false,
             isHidden:true,
-            SelectedBaseCurrency:'EUR',
+            filter:{SelectedBaseCurrency:'EUR',
             SelectedCurrency:'USD',
             BaseCurrency:[{}],
             Currency:[{}]
-        };
+            }
+            
+            };
+        
         
     };
+    
+   
     componentDidMount() {
         this.setState({isMounted:true});
         //fetch data
@@ -24,7 +32,15 @@ export default class RightPanel extends React.Component {
     componentWillUnmount() {
         this.setState({isMounted:false});
     }
-   
+    applyAction()
+    {
+
+        if(this.state.isMounted)
+        {
+          console.log("click");
+          return this.props.callbackParent({filter:this.state.filter,isRefresh:true});
+        }
+    }
     togglePanel()
     {
         if(this.state.isMounted)
@@ -64,7 +80,7 @@ export default class RightPanel extends React.Component {
                     </select>
                 </div>
 
-                <a className="btn-submit" href="#">Apply</a>
+                <a className="btn-submit" onClick={(e) => this.applyAction(e)} href="#">Apply</a>
 
                 <div className="widgets-config">
 

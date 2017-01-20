@@ -7,7 +7,7 @@ export default class DefaultLayout extends React.Component{
     render() 
     {
         return <div className="dashboard__container">
-            <RightPanel />
+            <RightPanel callbackParent={this.props.callbackParent} />
              {this.props.children}
          </div>;
     }

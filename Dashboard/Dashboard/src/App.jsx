@@ -20,8 +20,15 @@ import Turnover from './components/widgets/chart/turnover';
 export default class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
+   
     this.state = {
       langCode:'en',
+     isRefresh:true,
+      filter:
+      {
+        currency:"ALL",
+        baseCurrency:"EUR"
+      },
       
       layouts: {
         lg:
@@ -75,12 +82,21 @@ export default class DashboardApp extends React.Component {
       }
     };
   }
-  getDefaultLayout() {
-    return
+
+  componentDidMount () {
+   //setInterval(()=>{this.setState(pre=>({isRefresh:!pre.isRefresh}))},5000) 
   }
+ 
+  onChildChanged(newState)
+  {
+    console.log("receive");
+    this.setState({isRefresh:newState.isRefresh})
+  
+  }
+  
   render() {
 
-    return <Layout>
+    return <Layout callbackParent={(newState) => this.onChildChanged(newState) }>
       <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}>
@@ -90,7 +106,7 @@ export default class DashboardApp extends React.Component {
         <div key={WidgetKey.normalOnlineCustomer}><OnlineCustomer /></div>
         <div key={WidgetKey.normalSportsbookWallet}><SportsbookWallet /></div>
         <div key={WidgetKey.normalPendingFund}><PendingWB /></div>
-        <div key={WidgetKey.normalDeposit}><DepositWB langCode={this.state.langCode} /></div>
+        <div key={WidgetKey.normalDeposit}><DepositWB filter={this.state.filter} refresh={this.state.isRefresh} langCode={this.state.langCode} /></div>
         <div key={WidgetKey.normalWithdrawal}><Withdrawal /></div>
       </ResponsiveReactGridLayout>
 
