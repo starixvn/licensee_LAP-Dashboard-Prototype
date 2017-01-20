@@ -5,6 +5,8 @@ import WidgetBox from '../widgetbox';
 import widgetApi from '../../../Modules/WidgetApi';
 import NumberF from '../../../Modules/Number';
 import LanguageApi from '../../../Modules/LanguageApi';
+
+import {WidgetKey} from '../../../config';
 export default class DepositWidget extends React.Component{
     constructor(props) {
         super(props);
@@ -16,7 +18,7 @@ export default class DepositWidget extends React.Component{
    componentWillReceiveProps(nextProps) {
       if(nextProps.refresh)
       {
-          console.log(nextProps);
+          
           //fech data & update state
           this.setState(pre=>({data:pre.data+=100}))
       }
@@ -25,7 +27,7 @@ export default class DepositWidget extends React.Component{
    
     render() {
        
-        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,"DepositToday")} widgetName="deposit">
+        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,WidgetKey.normalDeposit)} widgetName="deposit">
                 <span className="number-big">{NumberF.DecFormat(this.props.filter.baseCurrency,this.state.data)}</span>
               </WidgetBox>;
         

@@ -1,13 +1,14 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
-
+import LanguageApi from '../Modules/LanguageApi';
 export default class RightPanel extends React.Component {
     
     constructor(props)
     {
         super(props);
-            
-    
+        
+        var _tempWgs={};
+        props.wgs.map((x)=>{ _tempWgs[x.key]=x.enable;  })
         this.state ={
           
             isMounted:false,
@@ -16,8 +17,8 @@ export default class RightPanel extends React.Component {
             SelectedCurrency:'USD',
             BaseCurrency:[{}],
             Currency:[{}]
-            }
-            
+            },
+             wgs:_tempWgs
             };
         
         
@@ -26,7 +27,7 @@ export default class RightPanel extends React.Component {
    
     componentDidMount() {
         this.setState({isMounted:true});
-        //fetch data
+      
     }
     
     componentWillUnmount() {
@@ -37,8 +38,17 @@ export default class RightPanel extends React.Component {
 
         if(this.state.isMounted)
         {
-          console.log("click");
-          return this.props.callbackParent({filter:this.state.filter,isRefresh:true});
+          return this.props.callbackParent({action:'apply', filter:this.state.filter,isRefresh:true});
+        }
+    }
+    onCheckWg(key)
+    {
+        if(this.state.isMounted)
+        {
+             var temp = this.state.wgs;
+             temp[key]=!temp[key];
+            this.setState({wgs:temp})
+            return this.props.callbackParent({action:'wgFilter', key:key,enable:this.state.wgs[key]});
         }
     }
     togglePanel()
@@ -85,45 +95,18 @@ export default class RightPanel extends React.Component {
                 <div className="widgets-config">
 
                     <div className="widgets-title">Widgets</div>
-                        <p className="widget-item">
-                            <input className="filled-in" type="checkbox" id="test1" defaultChecked />
-                            <label htmlFor="test1">Tunrover by Platform</label>
-                        </p>
+                     
+                       {
+                           this.props.wgs.map(item=>
+                           {
+                                return <p key={item.key} className="widget-item">
+                                <input onChange={(e)=>this.onCheckWg(item.key)}  checked={this.state.wgs[item.key]}  className="filled-in" type="checkbox" id={item.key}   />
+                                <label htmlFor={item.key}>{LanguageApi.getRes(this.props.langCode,item.key)}</label>
+                               </p>
+                           })
+                       }
 
-                        <p className="widget-item">
-                            <input className="filled-in" type="checkbox" id="test2" />
-                            <label htmlFor="test2">Licensee Win Loss</label>
-                        </p>
-
-                        <p className="widget-item">
-                            <input className="filled-in" type="checkbox" id="test3" defaultChecked />
-                            <label htmlFor="test3">Registered Customers</label>
-                        </p>
-
-                        <p className="widget-item">
-                            <input className="filled-in" type="checkbox" id="test4" />
-                            <label htmlFor="test4">Online Customers</label>
-                        </p>
-
-                        <p className="widget-item">
-                            <input className="filled-in" type="checkbox" id="test5" />
-                            <label htmlFor="test5">Sportbook Wallet</label>
-                        </p>
-
-                        <p className="widget-item">
-                            <input className="filled-in" type="checkbox" id="test6" />
-                            <label htmlFor="test6">Pending funds</label>
-                        </p>
-
-                        <p className="widget-item">
-                            <input className="filled-in" type="checkbox" id="test7" />
-                            <label htmlFor="test7">Deposit (today)</label>
-                        </p>
-
-                        <p className="widget-item">
-                            <input className="filled-in" type="checkbox" id="test8" />
-                            <label htmlFor="test8">Withdraw (today)</label>
-                        </p>
+                        
                      
                 </div> 
             </div>

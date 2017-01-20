@@ -1,4 +1,5 @@
 export const en=
 {
-  DepositToday:"Deposit (Today)"
+  n_deposit:"Deposit (Today)",
+  c_turnover:"Turnover by platform"
 };
