@@ -1,3 +1,4 @@
+import Promise from 'core-js/es6/promise';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Layout from './layouts/Default';
