@@ -2,7 +2,8 @@
 import ReactDOM from 'react-dom';
 
 import WidgetBox from '../widgetbox';
-
+import {WidgetKey} from '../../../config';
+import LanguageApi from '../../../Modules/LanguageApi';
 export default class Withdrawal extends React.Component {
 
     constructor(props) {
@@ -10,7 +11,7 @@ export default class Withdrawal extends React.Component {
 
     }
     render() {
-        return <WidgetBox title="Withdrawal (today)" widgetName="withdrawal">
+        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,"withdrawal_today")} widgetName="withdrawal">
             <span className="number-big">$500k</span>
             </WidgetBox>
             ;

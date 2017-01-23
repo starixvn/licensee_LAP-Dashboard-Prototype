@@ -61,6 +61,15 @@ gulp.task('vendor', function () {
         .pipe(gulp.dest(DEST + '/fonts'))
     );
 });
+gulp.task('fonts', function () {
+    src.fonts = 'src/styles/font/**';
+    return gulp.src(src.fonts)
+      .pipe($.changed(DEST + '/fonts'))
+      .pipe(gulp.dest(DEST + '/fonts'))
+      .pipe($.size({
+          title: 'fonts'
+      }));
+});
 
 // Static files
 gulp.task('assets', function () {
@@ -103,33 +112,19 @@ gulp.task('styles', function () {
     src.styles = 'src/styles/**/*.{css,scss}';
 
     var sourcemaps = require('gulp-sourcemaps');
-    var cssStream = gulp.src(['node_modules/react-resizable/css/styles.css', 'node_modules/react-grid-layout/css/styles.css'])
-    .pipe(concat("vendor.css"));
 
-    var sassStream = gulp.src('src/styles/dashboard.scss')
+    return gulp.src('src/styles/dashboard.scss')
       .pipe(sourcemaps.init())
       .pipe($.plumber())
       .pipe($.sass())
+     
       .on('error', console.error.bind(console))
-    ;
-    return merge(sassStream, cssStream)
-      .pipe(concat("dashboard.css"))
       .pipe($.autoprefixer({ browsers: AUTOPREFIXER_BROWSERS }))
       .pipe($.csscomb())
       .pipe($.if(RELEASE, $.minifyCss()))
       .pipe(sourcemaps.write())
       .pipe(gulp.dest(DEST + '/css'))
       .pipe($.size({ title: 'styles' }));
-});
-
-gulp.task('fonts', function () {
-    src.fonts = 'src/styles/font/**';
-    return gulp.src(src.fonts)
-      .pipe($.changed(DEST + '/fonts'))
-      .pipe(gulp.dest(DEST + '/fonts'))
-      .pipe($.size({
-          title: 'fonts'
-      }));
 });
 
 // Bundle
@@ -160,7 +155,8 @@ gulp.task('bundle', function (cb) {
 
 // Build the app from source code
 gulp.task('build', ['clean'], function (cb) {
-    runSequence(['vendor', 'assets', 'images', 'pages', 'styles', 'fonts', 'bundle'], cb);
+
+    runSequence(['vendor', 'assets', 'images', 'pages', 'styles', 'bundle'], cb);
 });
 
 // Launch a lightweight HTTP Server
@@ -183,7 +179,7 @@ gulp.task('serve', function (cb) {
         gulp.watch(src.images, ['images']);
         gulp.watch(src.pages, ['pages']);
         gulp.watch(src.styles, ['styles']);
-        gulp.watch(src.fonts, ['fonts']);
+         gulp.watch(src.fonts, ['fonts']);
         gulp.watch('src/**/*.jsx', function (file) {
             browserSync.reload(path.relative(__dirname, file.path));
         });

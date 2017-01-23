@@ -2,7 +2,8 @@
 import ReactDOM from 'react-dom';
 
 import WidgetBox from '../widgetbox';
-
+import {WidgetKey} from '../../../config';
+import LanguageApi from '../../../Modules/LanguageApi';
 export default class LicenseeWinLoss extends React.Component {
 
     constructor(props) {
@@ -10,7 +11,7 @@ export default class LicenseeWinLoss extends React.Component {
 
     }
     render() {
-        return <WidgetBox title="Licensee Win Loss (month to date)" widgetName="licenseewl default">
+        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,"licensee_winloss_month_todate")} widgetName="licenseewl default">
                 Licensee Win Loss Content
                 <div className="footer-total">
                     <span>Total turnover: $1,222,919.56</span>

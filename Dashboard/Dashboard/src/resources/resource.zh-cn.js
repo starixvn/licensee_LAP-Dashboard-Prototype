@@ -1,4 +1,4 @@
 export const cn=
 {
-DepositToday:"Deposit (Today)"
+n_deposit:"Deposit (Today)"
 };

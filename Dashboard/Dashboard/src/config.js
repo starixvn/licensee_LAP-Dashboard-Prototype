@@ -1,8 +1,8 @@
 export const WidgetKey = {
     chartTurnover: 'c_turnover',
     chartLicenseeWL: 'c_licWL',
-    normalRegisterCustomer: 'n_reg-customer',
-    normalOnlineCustomer: 'n_online-customer',
+    normalRegisterCustomer: 'n_reg_customer',
+    normalOnlineCustomer: 'n_online_customer',
     normalSportsbookWallet: 'n_sb_wl',
     normalPendingFund: 'n_pending_funds',
     normalDeposit: 'n_deposit',
@@ -18,7 +18,8 @@ export const WidgetApiUrl=
     normalSportsbookWallet: 'n-sb-wl',
     normalPendingFund: 'n-pending-funds',
     normalDeposit: 'n-deposit',
-    normalWithdrawal: 'n-withdrawal'
+    normalWithdrawal: 'n-withdrawal',
+    CurrenyList:""
 };
 
 export const Wglayouts=

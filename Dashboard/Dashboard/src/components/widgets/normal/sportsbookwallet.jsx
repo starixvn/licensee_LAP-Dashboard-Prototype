@@ -2,7 +2,8 @@
 import ReactDOM from 'react-dom';
 
 import WidgetBox from '../widgetbox';
-
+import {WidgetKey} from '../../../config';
+import LanguageApi from '../../../Modules/LanguageApi';
 export default class SportsbookWallet extends React.Component {
 
     constructor(props) {
@@ -10,7 +11,7 @@ export default class SportsbookWallet extends React.Component {
 
     }
     render() {
-        return <WidgetBox title="Sportsbook Wallet" widgetName="sportbook-wallet">
+        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,"sportsbook_wallet")} widgetName="sportbook-wallet">
             <span className="number-big">$1.57M</span>
             </WidgetBox>
             ;
