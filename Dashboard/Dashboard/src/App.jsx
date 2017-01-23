@@ -24,14 +24,14 @@ export default class DashboardApp extends React.Component {
    const  _wgs= [{key:WidgetKey.chartTurnover,value:React.createElement(Turnover,{})}];
     this.state = {
       langCode:'en',
-     isRefresh:true,
-      filter:
+      refresh:0,
+      selectedFilter:
       {
         currency:"ALL",
         baseCurrency:"EUR"
       },
-      wgs:DashboardApp.getWgs(_wgStatus,_wgs),
-      layouts:Wglayouts
+      wgs:DashboardApp.getWgs(_wgStatus,_wgs)
+     
     };
     
     this._defaultWgs=_wgs;
@@ -45,6 +45,10 @@ export default class DashboardApp extends React.Component {
   get defaultWgStatus ()
  {
    return this._defaultWgStatus;
+ }
+ get layouts ()
+ {
+   return Wglayouts;
  }
   static getWgs(statusItems,wgItems)
   {
@@ -71,7 +75,7 @@ export default class DashboardApp extends React.Component {
   
     if(newState.action=='apply')
     {
-       this.setState({isRefresh:newState.isRefresh})
+       this.setState(pre => ({refresh:pre.refresh+1}))
     }
     else
     {
@@ -89,7 +93,7 @@ export default class DashboardApp extends React.Component {
          newWgs.splice(index,1);
          
        }
-        this.setState({wg:newWgs,layouts:Wglayouts});
+        this.setState({wg:newWgs});
     }
    
   }
@@ -97,7 +101,7 @@ export default class DashboardApp extends React.Component {
   render() {
   
     return <Layout langCode={this.state.langCode} initialWgStatus={this.defaultWgStatus} callbackParent={(newState) => this.onChildChanged(newState) }>
-      <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25}
+      <ResponsiveReactGridLayout className="layout" layouts={this.layouts} rowHeight={25}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}>
       
@@ -112,7 +116,7 @@ export default class DashboardApp extends React.Component {
         <div key={WidgetKey.normalOnlineCustomer}><OnlineCustomer /></div>
         <div key={WidgetKey.normalSportsbookWallet}><SportsbookWallet /></div>
         <div key={WidgetKey.normalPendingFund}><PendingWB /></div>
-        <div key={WidgetKey.normalDeposit}><DepositWB filter={this.state.filter} refresh={this.state.isRefresh} langCode={this.state.langCode} /></div>
+        <div key={WidgetKey.normalDeposit}><DepositWB filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
         <div key={WidgetKey.normalWithdrawal}><Withdrawal /></div>
       </ResponsiveReactGridLayout>
 

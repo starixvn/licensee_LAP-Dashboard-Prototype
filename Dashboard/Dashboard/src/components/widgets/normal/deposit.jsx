@@ -15,13 +15,25 @@ export default class DepositWidget extends React.Component{
         }
        
     }
+
+    fetchData()
+    {
+             this.setState(pre=>({data:pre.data+=100}))
+    }
    componentWillReceiveProps(nextProps) {
-      if(nextProps.refresh)
+       console.log(nextProps);
+      if(nextProps.refresh > this.props.refresh)
       {
-          
+          console.log("fetch-data");
           //fech data & update state
-          this.setState(pre=>({data:pre.data+=100}))
+         this.fetchData()
       }
+   }
+   componentDidMount() {
+       
+       
+       console.log("fetch data after mounted")
+       this.fetchData()
    }
    
    

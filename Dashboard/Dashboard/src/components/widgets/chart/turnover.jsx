@@ -9,6 +9,10 @@ export default class Turnover extends React.Component {
         super(props);
 
     }
+    componentDidMount () {
+        console.log("fetch-data after mounted - turnover")
+    }
+    
     render() {
         return <WidgetBox title="Turnover by Platform (month to date)" widgetName="turnover default">
                 Turnover Content

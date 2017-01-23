@@ -24,7 +24,13 @@ export default class RightPanel extends React.Component {
         
     };
     
-   
+   get selectedFilter()
+   {
+       return {
+          SelectedCurrency:this.state.filter.SelectedCurrency,
+          BaseCurrency:this.state.filter.SelectedBaseCurrency
+       }
+   }
     componentDidMount() {
         this.setState({isMounted:true});
       
@@ -38,7 +44,7 @@ export default class RightPanel extends React.Component {
 
         if(this.state.isMounted)
         {
-          return this.props.callbackParent({action:'apply', filter:this.state.filter,isRefresh:true});
+          return this.props.callbackParent({action:'apply', filter:this.selectedFilter});
         }
     }
     onCheckWg(key)
