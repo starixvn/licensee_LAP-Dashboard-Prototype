@@ -7,21 +7,30 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 import {WidgetKey,Wglayouts} from './config';
 
-import DepositWB from './components/widgets/normal/deposit';
-import OnlineCustomer from './components/widgets/normal/onlinecustomer';
-import PendingWB from './components/widgets/normal/pendingfunds';
-import RegisteredCustomer from './components/widgets/normal/registercustomer';
-import SportsbookWallet from './components/widgets/normal/sportsbookwallet';
-import Withdrawal from './components/widgets/normal/withdrawal';
+import DepositWg from './components/widgets/normal/deposit';
+import OnlineCustomerWg from './components/widgets/normal/onlinecustomer';
+import PendingWg from './components/widgets/normal/pendingfunds';
+import RegisteredCustomerWg from './components/widgets/normal/registercustomer';
+import SportsbookWalletWg from './components/widgets/normal/sportsbookwallet';
+import WithdrawalWg from './components/widgets/normal/withdrawal';
 
-import LicenseeWinLoss from './components/widgets/chart/licenseewl';
-import Turnover from './components/widgets/chart/turnover';
+import LicenseeWinLossWg from './components/widgets/chart/licenseewl';
+import TurnoverWg from './components/widgets/chart/turnover';
 
 export default class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
-   const _wgStatus=[{key:WidgetKey.chartTurnover,enable:false}];
-   const  _wgs= [{key:WidgetKey.chartTurnover,value:React.createElement(Turnover,{})}];
+   const _wgStatus=[
+     {key:WidgetKey.chartTurnover,enable:true},
+     {key:WidgetKey.chartLicenseeWL,enable:true},
+      {key:WidgetKey.normalDeposit,enable:true},
+     {key:WidgetKey.normalOnlineCustomer,enable:true},
+      {key:WidgetKey.normalPendingFund,enable:true},
+       {key:WidgetKey.normalRegisterCustomer,enable:true},
+        {key:WidgetKey.normalSportsbookWallet,enable:true},
+         {key:WidgetKey.normalWithdrawal,enable:true}
+     ];
+  
     this.state = {
       langCode:'en',
       refresh:0,
@@ -30,18 +39,14 @@ export default class DashboardApp extends React.Component {
         currency:"ALL",
         baseCurrency:"EUR"
       },
-      wgs:DashboardApp.getWgs(_wgStatus,_wgs)
+      wgStatus:_wgStatus
      
     };
     
-    this._defaultWgs=_wgs;
     this._defaultWgStatus =_wgStatus;
   }
   
-  get defaultWgs()
-  {
-    return this._defaultWgs;
-  }
+
   get defaultWgStatus ()
  {
    return this._defaultWgStatus;
@@ -50,21 +55,46 @@ export default class DashboardApp extends React.Component {
  {
    return Wglayouts;
  }
-  static getWgs(statusItems,wgItems)
+ emptyWg(key)
+ {
+   return  <div key={key}></div> 
+
+ }
+  renderWgItem(key,enable)
   {
-     var result=[];
-     for(var x of wgItems)
-     {
-     
-        var item = statusItems.find(i=>i.key==x.key)
-        if(item!=null && item.enable)
-        {
-          result.push(x);
-        }
+    if(!enable)
+    {
+      return this.emptyWg(key)
+    }
 
-     }
-
-     return result;
+    switch(key)
+    {
+      case WidgetKey.chartTurnover:
+       return   <div key={key}><TurnoverWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode}  /></div> 
+       case WidgetKey.chartLicenseeWL:
+       return <div key={key}><LicenseeWinLossWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode}  /></div> 
+       
+       case WidgetKey.normalDeposit:
+       return <div key={key}><DepositWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode}  /></div> 
+       
+       case WidgetKey.normalOnlineCustomer:
+       return <div key={key}><OnlineCustomerWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode}  /></div> 
+       
+       case WidgetKey.normalPendingFund:
+       return <div key={key}><PendingWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode}  /></div> 
+       
+       case WidgetKey.normalRegisterCustomer:
+       return <div key={key}><RegisteredCustomerWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode}  /></div> 
+       
+       case WidgetKey.normalSportsbookWallet:
+       return <div key={key}><SportsbookWalletWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode}  /></div> 
+       
+       case WidgetKey.normalWithdrawal:
+       return <div key={key}><WithdrawalWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode}  /></div> 
+       
+       default :
+              return  this.emptyWg(key)
+    }
   }
   componentDidMount () {
    //setInterval(()=>{this.setState(pre=>({isRefresh:!pre.isRefresh}))},5000) 
@@ -79,21 +109,12 @@ export default class DashboardApp extends React.Component {
     }
     else
     {
-       var index = this.state.wgs.findIndex(x=>x.key==newState.key);
-       var newWgs = this.state.wgs;
-       if(newState.enable && index < 0 )
-       {
-          var item= this.defaultWgs.find(x=>x.key==newState.key);
-          console.log(item);
-           newWgs.push(item);
-         
-       }else
-       {
-        
-         newWgs.splice(index,1);
-         
-       }
-        this.setState({wg:newWgs});
+       var index = this.state.wgStatus.findIndex(x=>x.key==newState.key);
+       var newWgs = this.state.wgStatus;
+       newWgs[index].enable=newState.enable;
+       
+       this.setState({wgStatus:newWgs});
+       console.log(this.state.wgStatus)
     }
    
   }
@@ -105,19 +126,12 @@ export default class DashboardApp extends React.Component {
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}>
       
-        {this.state.wgs.map((item)=>
+        {this.state.wgStatus.map((item)=>
         {
-           return <div key={item.key}>{item.value}</div> 
+          return this.renderWgItem(item.key,item.enable) 
           
        })}
 
-        <div key={WidgetKey.chartLicenseeWL}><LicenseeWinLoss /></div>
-        <div key={WidgetKey.normalRegisterCustomer}><RegisteredCustomer /></div>
-        <div key={WidgetKey.normalOnlineCustomer}><OnlineCustomer /></div>
-        <div key={WidgetKey.normalSportsbookWallet}><SportsbookWallet /></div>
-        <div key={WidgetKey.normalPendingFund}><PendingWB /></div>
-        <div key={WidgetKey.normalDeposit}><DepositWB filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
-        <div key={WidgetKey.normalWithdrawal}><Withdrawal /></div>
       </ResponsiveReactGridLayout>
 
     </Layout>

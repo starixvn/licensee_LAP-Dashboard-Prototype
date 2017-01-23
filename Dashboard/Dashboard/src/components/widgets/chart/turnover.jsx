@@ -9,6 +9,15 @@ export default class Turnover extends React.Component {
         super(props);
 
     }
+     componentWillReceiveProps(nextProps) {
+      if(nextProps.refresh > this.props.refresh)
+      {
+          console.log("fetch-data - turnover");
+          //fech data & update state
+       
+      }
+   }
+   componentDidMo
     componentDidMount () {
         console.log("fetch-data after mounted - turnover")
     }
