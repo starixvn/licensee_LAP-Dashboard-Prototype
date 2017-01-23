@@ -32,6 +32,9 @@ export default class RightPanel extends React.Component {
        }
    }
     componentDidMount() {
+
+        //fetch data for filter.
+
         this.setState({isMounted:true});
       
     }
