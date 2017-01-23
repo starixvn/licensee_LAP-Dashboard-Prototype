@@ -47,6 +47,6 @@ export default class  WidgetApi
    static getWgStatus()
    {
        var item=window.sessionStorage.getItem(WidgetApi.wgStatusCacheKey())
-       return item? JSON.parse(item) : {}
+       return item? JSON.parse(item) : null
    }
 }
