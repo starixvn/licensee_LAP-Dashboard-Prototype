@@ -66,7 +66,7 @@ export default class RightPanel extends React.Component {
              var temp = this.state.wgs;
              temp[key]=!temp[key];
             this.setState({wgs:temp})
-            return this.props.callbackParent({action:'wgSyncStatus', key:key,enable:this.state.wgs[key]});
+            return this.props.callbackParent({action:'wgSyncStatus', items:[{key:key,enable:this.state.wgs[key]}] });
         }
     }
     togglePanel()
@@ -91,7 +91,7 @@ export default class RightPanel extends React.Component {
               
                 if(isUpdated)
                 {
-                    this.props.callbackParent({action:'updateWgStatusFromCache', items:diffWgs});
+                    this.props.callbackParent({action:'wgSyncStatus', items:diffWgs});
                     this.setState({wgs:this.bindWgCheckBox(currentWgStatus)})
                 }
             }

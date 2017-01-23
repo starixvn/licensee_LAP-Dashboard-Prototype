@@ -33,8 +33,10 @@ export default class DashboardApp extends React.Component {
      var userWgStatus=WidgetApi.getWgStatus()
      if(!userWgStatus)
      {
+        userWgStatus=_wgStatus
        WidgetApi.saveWgStatus(_wgStatus)
      }
+
     this.state = {
       langCode:'en',
       refresh:0,
@@ -43,7 +45,7 @@ export default class DashboardApp extends React.Component {
         currency:"ALL",
         baseCurrency:"EUR"
       },
-      wgStatus:_wgStatus
+      wgStatus:userWgStatus
      
     };
     
@@ -111,7 +113,7 @@ export default class DashboardApp extends React.Component {
     {
        this.setState(pre => ({refresh:pre.refresh+1}))
     }
-    else if(newState.action=="updateWgStatusFromCache")
+    else
     {
        var newWgs = this.state.wgStatus;
        for(var i=0;i<newState.items.length;i++)
@@ -120,13 +122,6 @@ export default class DashboardApp extends React.Component {
           newWgs[index].enable=newState.items[i].enable
        }
       this.setState({wgStatus:newWgs});
-       WidgetApi.saveWgStatus(this.state.wgStatus)
-    }else
-    {
-       var index = this.state.wgStatus.findIndex(x=>x.key==newState.key);
-       var newWgs = this.state.wgStatus;
-       newWgs[index].enable=newState.enable;
-       this.setState({wgStatus:newWgs});
        WidgetApi.saveWgStatus(this.state.wgStatus)
     }
    
