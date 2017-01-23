@@ -26,7 +26,7 @@ export default class RegisteredCustomer extends React.Component{
                             <div className="registered-info">
                                 <div className="center-block">
                                     <p className="number">400</p>
-                                    <p className="text">{LanguageApi.getRes(this.props.langCode,"Deposit")}</p>
+                                    <p className="text">{LanguageApi.getRes(this.props.langCode,"deposit")}</p>
                                 </div>                                
                             </div>
                        

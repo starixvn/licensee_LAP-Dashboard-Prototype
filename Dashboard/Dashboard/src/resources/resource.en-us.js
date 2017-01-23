@@ -4,7 +4,7 @@ export const en=
   c_turnover:" Turnover",
   c_licWL:" Licensee Win Loss",
   n_reg_customer:"Registered customers",
-  n_online_customer:"Online customers",
+  c_online_customer:"Online customers",
   n_sb_wl:"Sportsbook Wallet",
   n_pending_funds:"Pending Funds",
   n_deposit:"Deposit",

@@ -8,7 +8,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 import {WidgetKey,Wglayouts} from './config';
 
 import DepositWg from './components/widgets/normal/deposit';
-import OnlineCustomerWg from './components/widgets/normal/onlinecustomer';
+import OnlineCustomerWg from './components/widgets/chart/onlinecustomer';
 import PendingWg from './components/widgets/normal/pendingfunds';
 import RegisteredCustomerWg from './components/widgets/normal/registercustomer';
 import SportsbookWalletWg from './components/widgets/normal/sportsbookwallet';
@@ -24,7 +24,7 @@ export default class DashboardApp extends React.Component {
      {key:WidgetKey.chartTurnover,enable:true},
      {key:WidgetKey.chartLicenseeWL,enable:true},
       {key:WidgetKey.normalDeposit,enable:true},
-     {key:WidgetKey.normalOnlineCustomer,enable:true},
+     {key:WidgetKey.chartlOnlineCustomer,enable:true},
       {key:WidgetKey.normalPendingFund,enable:true},
        {key:WidgetKey.normalRegisterCustomer,enable:true},
         {key:WidgetKey.normalSportsbookWallet,enable:true},
@@ -77,7 +77,7 @@ export default class DashboardApp extends React.Component {
        case WidgetKey.normalDeposit:
        return <div key={key}><DepositWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode}  /></div> 
        
-       case WidgetKey.normalOnlineCustomer:
+       case WidgetKey.chartlOnlineCustomer:
        return <div key={key}><OnlineCustomerWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode}  /></div> 
        
        case WidgetKey.normalPendingFund:
