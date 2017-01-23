@@ -1,4 +1,5 @@
 import Promise from 'core-js/es6/promise';
+import Array from 'core-js/es6/array'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Layout from './layouts/Default';
