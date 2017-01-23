@@ -44,6 +44,20 @@
     touch-action: auto;
     transition: right 0.3s ease;
 
+    .right-panel-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: calc(100% - 20rem);
+        height: 100vh;
+        box-sizing: border-box;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        will-change: opacity;
+        transition: opacity 0.3s ease;
+    }
+
     &.is-expanded {        
         right: 0;
         left: 0;
@@ -53,6 +67,10 @@
             background: #fff;
             color: $colorPrimary;
             border-color: $colorPrimary;
+        }
+
+        .right-panel-overlay {        
+            opacity: 1;        
         }
     }
 
@@ -75,7 +93,7 @@
                 overflow: auto;                
             }
         }        
-    }
+    }   
 
     .currency {
         margin-bottom: 1rem;

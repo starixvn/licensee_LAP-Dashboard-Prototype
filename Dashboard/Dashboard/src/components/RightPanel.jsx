@@ -113,13 +113,11 @@ export default class RightPanel extends React.Component {
                                 <label htmlFor={item.key}>{LanguageApi.getRes(this.props.langCode,item.key)}</label>
                                </p>
                            })
-                       }
-
-                        
-                     
+                       }    
                 </div> 
             </div>
         </div>
+        <div className="right-panel-overlay"></div>
     </div>
     }
 
