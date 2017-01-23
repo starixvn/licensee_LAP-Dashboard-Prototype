@@ -26,7 +26,7 @@ export const Wglayouts=
 
  {
         lg:
-        [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 6, h: 12  },
+        [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 6, h: 12 ,isResizable:true },
         { i: WidgetKey.chartLicenseeWL, x: 6, y: 0, w: 6, h: 12 },
         { i: WidgetKey.normalRegisterCustomer, x: 0, y: 12, w: 6, h: 8, minW:2 },
         { i: WidgetKey.normalOnlineCustomer, x: 6, y: 12, w: 6, h: 8 },
