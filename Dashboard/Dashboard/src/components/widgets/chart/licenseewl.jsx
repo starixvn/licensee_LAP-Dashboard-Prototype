@@ -11,7 +11,7 @@ export default class LicenseeWinLoss extends React.Component {
 
     }
     render() {
-        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,"licensee_winloss_month_todate")} widgetName="licenseewl default">
+        return <WidgetBox  title={LanguageApi.getRes(this.props.langCode,"licensee_winloss_month_todate")} widgetKey={WidgetKey.chartLicenseeWL} widgetName="licenseewl default">
                 Licensee Win Loss Content
                 <div className="footer-total">
                     <span>Total turnover: $1,222,919.56</span>

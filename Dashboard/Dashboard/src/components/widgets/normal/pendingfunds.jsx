@@ -11,7 +11,7 @@ export default class PendingFundsWidget extends React.Component{
       
     }
     render() {
-        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,"pending_funds")} widgetName="pending-fund">
+        return <WidgetBox  widgetKey={WidgetKey.normalPendingFund} title={LanguageApi.getRes(this.props.langCode,"pending_funds")} widgetName="pending-fund">
                 <span className="number-big">$1000050K</span>
             </WidgetBox>
         ;

@@ -11,7 +11,7 @@ export default class OnlineCustomer extends React.Component{
     }
 
     render() {
-        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,"online_customer")} widgetName="online-customer default">
+        return <WidgetBox  widgetKey={WidgetKey.chartlOnlineCustomer} title={LanguageApi.getRes(this.props.langCode,"online_customer")} widgetName="online-customer default">
                     Online Customers Content
               </WidgetBox>;
         

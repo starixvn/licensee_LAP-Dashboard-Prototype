@@ -24,7 +24,7 @@ export default class Turnover extends React.Component {
     }
     
     render() {
-        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,"sportsbook_turnover_month_todate")} widgetName="turnover default">
+        return <WidgetBox  widgetKey={WidgetKey.chartTurnover} title={LanguageApi.getRes(this.props.langCode,"sportsbook_turnover_month_todate")} widgetName="turnover default">
                 Turnover Content
                 <div className="footer-total">
                     <span>Total turnover: $1,222,919.56</span>

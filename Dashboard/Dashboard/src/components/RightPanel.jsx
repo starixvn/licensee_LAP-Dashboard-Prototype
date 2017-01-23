@@ -20,10 +20,11 @@ export default class RightPanel extends React.Component {
             },
              wgs:_tempWgs
             };
-        
-        
+           
+     
     };
     
+  
    get selectedFilter()
    {
        return {
@@ -31,6 +32,8 @@ export default class RightPanel extends React.Component {
           BaseCurrency:this.state.filter.SelectedBaseCurrency
        }
    }
+   
+   
     componentDidMount() {
 
         //fetch data for filter.

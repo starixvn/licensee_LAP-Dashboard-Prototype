@@ -39,7 +39,7 @@ export default class DepositWidget extends React.Component{
    
     render() {
        
-        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,"deposit_today")} widgetName="deposit">
+        return <WidgetBox  widgetKey={WidgetKey.normalDeposit} title={LanguageApi.getRes(this.props.langCode,"deposit_today")} widgetName="deposit">
                 <span className="number-big">{NumberF.DecFormat(this.props.filter.baseCurrency,this.state.data)}</span>
               </WidgetBox>;
         

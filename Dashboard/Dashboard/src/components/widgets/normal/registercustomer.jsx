@@ -11,7 +11,7 @@ export default class RegisteredCustomer extends React.Component{
     }
 
     render() {
-        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,"registered_customer")} widgetName="registered-customer default">
+        return <WidgetBox  widgetKey={WidgetKey.normalRegisterCustomer} title={LanguageApi.getRes(this.props.langCode,"registered_customer")} widgetName="registered-customer default">
                     <div className="clearfix registered-customer-content">
                         <span className="icon-group-users left"></span>
                         <div className="right">

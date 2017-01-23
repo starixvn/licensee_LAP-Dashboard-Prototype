@@ -11,7 +11,7 @@ export default class Withdrawal extends React.Component {
 
     }
     render() {
-        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,"withdrawal_today")} widgetName="withdrawal">
+        return <WidgetBox  widgetKey={WidgetKey.normalWithdrawal} title={LanguageApi.getRes(this.props.langCode,"withdrawal_today")} widgetName="withdrawal">
             <span className="number-big">$500k</span>
             </WidgetBox>
             ;

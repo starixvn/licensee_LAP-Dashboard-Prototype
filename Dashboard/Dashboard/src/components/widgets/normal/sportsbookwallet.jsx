@@ -11,7 +11,7 @@ export default class SportsbookWallet extends React.Component {
 
     }
     render() {
-        return <WidgetBox title={LanguageApi.getRes(this.props.langCode,"sportsbook_wallet")} widgetName="sportbook-wallet">
+        return <WidgetBox  widgetKey={WidgetKey.normalSportsbookWallet} title={LanguageApi.getRes(this.props.langCode,"sportsbook_wallet")} widgetName="sportbook-wallet">
             <span className="number-big">$1.57M</span>
             </WidgetBox>
             ;
