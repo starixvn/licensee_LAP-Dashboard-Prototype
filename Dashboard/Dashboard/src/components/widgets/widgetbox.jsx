@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
-
+import WidgetApi from '../../Modules/WidgetApi';
 
 export default class WidgetBox extends React.Component{
     constructor(props) {
@@ -30,6 +30,12 @@ export default class WidgetBox extends React.Component{
     }
     toggleClose()
     {
+
+      var wgStatus=WidgetApi.getWgStatus()
+      var wgIndex=wgStatus.findIndex(x=>x.key == this.props.widgetKey)
+      wgStatus[wgIndex].enable=false
+      WidgetApi.saveWgStatus(wgStatus)
+      
       if(this.state.isMounted)
       {
        this.setState(prevState => ({

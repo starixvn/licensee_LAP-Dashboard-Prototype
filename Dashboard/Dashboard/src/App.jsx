@@ -6,7 +6,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 import {WidgetKey,Wglayouts} from './config';
-
+import WidgetApi from './Modules/WidgetApi';
 import DepositWg from './components/widgets/normal/deposit';
 import OnlineCustomerWg from './components/widgets/chart/onlinecustomer';
 import PendingWg from './components/widgets/normal/pendingfunds';
@@ -30,7 +30,11 @@ export default class DashboardApp extends React.Component {
         {key:WidgetKey.normalSportsbookWallet,enable:true},
          {key:WidgetKey.normalWithdrawal,enable:true}
      ];
-  
+     var userWgStatus=WidgetApi.getWgStatus()
+     if(!userWgStatus)
+     {
+       WidgetApi.saveWgStatus(_wgStatus)
+     }
     this.state = {
       langCode:'en',
       refresh:0,
@@ -107,14 +111,23 @@ export default class DashboardApp extends React.Component {
     {
        this.setState(pre => ({refresh:pre.refresh+1}))
     }
-    else
+    else if(newState.action=="updateWgStatusFromCache")
+    {
+       var newWgs = this.state.wgStatus;
+       for(var i=0;i<newState.items.length;i++)
+       {
+          var index = this.state.wgStatus.findIndex(x=>x.key==newState.items[i].key);
+          newWgs[index].enable=newState.items[i].enable
+       }
+      this.setState({wgStatus:newWgs});
+       WidgetApi.saveWgStatus(this.state.wgStatus)
+    }else
     {
        var index = this.state.wgStatus.findIndex(x=>x.key==newState.key);
        var newWgs = this.state.wgStatus;
        newWgs[index].enable=newState.enable;
-       
        this.setState({wgStatus:newWgs});
-       console.log(this.state.wgStatus)
+       WidgetApi.saveWgStatus(this.state.wgStatus)
     }
    
   }

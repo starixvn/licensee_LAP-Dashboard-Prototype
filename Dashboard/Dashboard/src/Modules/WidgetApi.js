@@ -2,6 +2,7 @@
 import axios from 'axios';
 export default class  WidgetApi
 {
+    
     static _getAuthToken()
     {
 
@@ -35,21 +36,17 @@ export default class  WidgetApi
         //return a promise
     }
 
-   static savePosition(widInfo)
-    {
-        return;
-    }
-
-   static getPosition(widgetKey)
-    {
-        return {key:"deposite",pos:{x:0,y:0,w:200,h:200}};
-    }
-    static saveFilter(filterModel)
-    {
-        return;
-    }
-    static getFilter()
-    {
-        return;
-    }
+   static wgStatusCacheKey()
+   {
+       return "_LAP_Dashboard_Wg_Status"
+   }
+   static saveWgStatus(wgs)
+   {
+       window.sessionStorage.setItem(WidgetApi.wgStatusCacheKey(),JSON.stringify(wgs))
+   }
+   static getWgStatus()
+   {
+       var item=window.sessionStorage.getItem(WidgetApi.wgStatusCacheKey())
+       return item? JSON.parse(item) : {}
+   }
 }

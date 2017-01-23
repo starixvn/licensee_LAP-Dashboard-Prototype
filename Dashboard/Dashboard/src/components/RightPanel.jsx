@@ -1,14 +1,14 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import LanguageApi from '../Modules/LanguageApi';
+import WidgetApi from '../Modules/WidgetApi';
 export default class RightPanel extends React.Component {
     
     constructor(props)
     {
         super(props);
         
-        var _tempWgs={};
-        props.wgs.map((x)=>{ _tempWgs[x.key]=x.enable;  })
+      
         this.state ={
           
             isMounted:false,
@@ -18,7 +18,7 @@ export default class RightPanel extends React.Component {
             BaseCurrency:[{}],
             Currency:[{}]
             },
-             wgs:_tempWgs
+             wgs:this.bindWgCheckBox( props.wgs)
             };
            
      
@@ -33,6 +33,12 @@ export default class RightPanel extends React.Component {
        }
    }
    
+   bindWgCheckBox(wgs)
+   {
+         var _tempWgs={};
+        wgs.map((x)=>{ _tempWgs[x.key]=x.enable;  })
+        return _tempWgs;
+   }
    
     componentDidMount() {
 
@@ -60,16 +66,38 @@ export default class RightPanel extends React.Component {
              var temp = this.state.wgs;
              temp[key]=!temp[key];
             this.setState({wgs:temp})
-            return this.props.callbackParent({action:'wgFilter', key:key,enable:this.state.wgs[key]});
+            return this.props.callbackParent({action:'wgSyncStatus', key:key,enable:this.state.wgs[key]});
         }
     }
     togglePanel()
     {
         if(this.state.isMounted)
         {
-         this.setState(prevState => ({
-      isHidden: !prevState.isHidden
-        }));
+            if(this.state.isHidden)
+            {
+                
+                var currentWgStatus = WidgetApi.getWgStatus()
+               var isUpdated=false;
+               var diffWgs=[]
+                for(var i=0;i<this.props.wgs.length;i++)
+                {
+                    if(this.props.wgs[i].enable != currentWgStatus[i].enable)
+                    {
+                        isUpdated =true;
+                        diffWgs.push(currentWgStatus[i])
+                    }
+
+                }
+              
+                if(isUpdated)
+                {
+                    this.props.callbackParent({action:'updateWgStatusFromCache', items:diffWgs});
+                    this.setState({wgs:this.bindWgCheckBox(currentWgStatus)})
+                }
+            }
+            this.setState(prevState => ({
+            isHidden: !prevState.isHidden
+             }));
         }
     };
     render() {
