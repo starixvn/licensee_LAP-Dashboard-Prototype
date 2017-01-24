@@ -71,6 +71,7 @@ export default class RightPanel extends React.Component {
     }
     togglePanel()
     {
+      
         if(this.state.isMounted)
         {
             if(this.state.isHidden)
@@ -108,7 +109,7 @@ export default class RightPanel extends React.Component {
                 <span onClick={(e) => this.togglePanel(e)} className="icon-quickaccess js-icon-quickaccess">
                     <i className="icon-settings"></i>
                 </span> 
-                <div className="right-panel-content">
+                <div className="right-panel-content" >
                           
                 <div className="currency">
                     <label className="currency-label">{LanguageApi.getRes(this.props.langCode,"currency")}</label>
@@ -148,7 +149,7 @@ export default class RightPanel extends React.Component {
                 </div> 
             </div>
         </div>
-        <div className="right-panel-overlay"></div>
+        <div className="right-panel-overlay" onClick={(e) => this.togglePanel(e)}></div>
     </div>
     }
 
