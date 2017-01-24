@@ -50,13 +50,9 @@ export default class  WidgetApi
        }
    }
    static getWgStatus()
-   {
-       try {
-             var item=window.sessionStorage.getItem(WidgetApi.wgStatusCacheKey())
+   {             var item=window.sessionStorage.getItem(WidgetApi.wgStatusCacheKey())
               return item? JSON.parse(item) : null
-       } catch (error) {
-           
-       }
+     
      
    }
 }
