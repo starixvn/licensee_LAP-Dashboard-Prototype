@@ -58,7 +58,7 @@ export const Wglayouts=
         { i: WidgetKey.chartLicenseeWL, x: 0, y: 8, w: 4, h: 8, static: true },
         { i: WidgetKey.normalRegisterCustomer, x: 0, y: 16, w: 4, h: 6, static: true },
         { i: WidgetKey.chartlOnlineCustomer, x: 0, y: 22, w: 4, h: 6, static: true },
-        { i: WidgetKey.normalSportsbookWallet, x: 0, y: 28, w: 2, h: 3, static: true },
+        { i: WidgetKey.normalSportsbookWallet, x: 0, y: 28, w: 4, h: 3, static: true },
         { i: WidgetKey.normalPendingFund, x: 0, y: 31, w: 4, h: 3, static: true },
         { i: WidgetKey.normalDeposit, x: 0, y: 34, w: 4, h: 3, static: true },
         { i: WidgetKey.normalWithdrawal, x: 0, y: 37, w: 4, h: 3, static: true }],
