@@ -26,14 +26,14 @@ export const Wglayouts=
 
  {
         lg:
-        [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 6, h: 12 ,isResizable:true },
-        { i: WidgetKey.chartLicenseeWL, x: 6, y: 0, w: 6, h: 12 },
-        { i: WidgetKey.normalRegisterCustomer, x: 0, y: 12, w: 6, h: 8, minW:2 },
-        { i: WidgetKey.chartlOnlineCustomer, x: 6, y: 12, w: 6, h: 8 },
-        { i: WidgetKey.normalSportsbookWallet, x: 0, y: 20, w: 3, h: 6},
-        { i: WidgetKey.normalPendingFund, x: 3, y: 20, w: 3, h: 6 },
-        { i: WidgetKey.normalDeposit, x: 6, y: 20, w: 3, h: 6 },
-        { i: WidgetKey.normalWithdrawal, x: 9, y: 20, w: 3, h: 6 }
+        [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 6, h: 11 ,isResizable:true },
+        { i: WidgetKey.chartLicenseeWL, x: 6, y: 0, w: 6, h: 11 },
+        { i: WidgetKey.normalRegisterCustomer, x: 0, y: 11, w: 6, h: 6, minW:2 },
+        { i: WidgetKey.chartlOnlineCustomer, x: 6, y: 11, w: 6, h: 6 },
+        { i: WidgetKey.normalSportsbookWallet, x: 0, y: 17, w: 3, h: 6},
+        { i: WidgetKey.normalPendingFund, x: 3, y: 17, w: 3, h: 6 },
+        { i: WidgetKey.normalDeposit, x: 6, y: 17, w: 3, h: 6 },
+        { i: WidgetKey.normalWithdrawal, x: 9, y: 17, w: 3, h: 6 }
         ],
         md:
         [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 5, h: 10 },
