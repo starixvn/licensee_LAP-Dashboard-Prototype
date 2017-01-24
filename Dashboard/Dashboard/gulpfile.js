@@ -18,9 +18,11 @@ var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var argv = require('minimist')(process.argv.slice(2));
 var concat = require('gulp-concat');
+var svn = require('gulp-svn');
 // Settings
 var DEST = './build';                         // The build output folder
 var RELEASE = !!argv.release;                 // Minimize and optimize during a build?
+var svnPath = argv.svn;
 var AUTOPREFIXER_BROWSERS = [                 // https://github.com/ai/autoprefixer
   'ie >= 10',
   'ie_mob >= 10',
@@ -192,24 +194,35 @@ gulp.task('serve', function (cb) {
 });
 
 // Deploy to GitHub Pages
-gulp.task('deploy', function () {
+gulp.task('copytoSVN', function (cb) {
     // Remove temp folder
-    if (argv.clean) {
-        var os = require('os');
-        var path = require('path');
-        var repoPath = path.join(os.tmpdir(), 'tmpRepo');
-        $.util.log('Delete ' + $.util.colors.magenta(repoPath));
-        del.sync(repoPath, { force: true });
-    }
-
-    return gulp.src(DEST + '/**/*')
-      .pipe($.if('**/robots.txt', !argv.production ? $.replace('Disallow:', 'Disallow: /') : $.util.noop()))
-      .pipe($.ghPages({
-          remoteUrl: 'https://github.com/{name}/{name}.github.io.git',
-          branch: 'master'
+    src.fonts = 'build/font/**';
+      gulp.src(src.fonts)
+   
+      .pipe(gulp.dest(svnPath+'/css/pages/dashboard/fonts'))
+      .pipe($.size({
+          title: 'fonts'
       }));
+
+    src.css ='build/css/**';
+      gulp.src(src.css)
+ 
+      .pipe(gulp.dest(svnPath+'/css/pages/dashboard/main'))
+      .pipe($.size({
+          title: 'css'
+      }));
+
+     src.js ='build/js/**';
+     return gulp.src(src.js)
+     
+      .pipe(gulp.dest(svnPath+'/js/pages/dashboard'))
+      .pipe($.size({
+          title: 'js'
+      }));
+
 });
 
+gulp.task("deploy",['build','copytoSVN']);
 // Run PageSpeed Insights
 // Update `url` below to the public URL for your site
 gulp.task('pagespeed', pagespeed.bind(null, {

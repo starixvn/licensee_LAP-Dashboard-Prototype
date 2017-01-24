@@ -1,0 +1,1 @@
+gulp --release --svn "D:/SVN/lic-admin/branches/Dashboard/trunk/New Admin Portal/New Admin Portal"  deploy
