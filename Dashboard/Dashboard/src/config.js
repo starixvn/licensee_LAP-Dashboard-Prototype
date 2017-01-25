@@ -18,7 +18,7 @@ export const WidgetApiUrl = {
     normalPendingFund: 'n-pending-funds',
     normalDeposit: 'n-deposit',
     normalWithdrawal: 'n-withdrawal',
-    CurrenyList: ""
+    CurrenyList:"/api/Dashboard/GetCurrencyList"
 };
 
 export const Wglayouts = {

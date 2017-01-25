@@ -6,7 +6,7 @@ export default class  WidgetApi
     
     static _getAuthToken()
     {
-
+        return 'xxx';
     }
     static _fetchJson(param)
     {
@@ -29,7 +29,11 @@ export default class  WidgetApi
     {
         if(param.IsCrossSite)
         {
-            // call _getAuthToken().then(=>append token to param.url then call _fetchJson)
+            return axios.get((window.TokenUrl || "http://localhost:55049") + param.Url, {
+                params: {
+                 'X-Auth-Token' : WidgetApi._getAuthToken()
+                }
+            });
         }else
         {
             //call _fetchJson
