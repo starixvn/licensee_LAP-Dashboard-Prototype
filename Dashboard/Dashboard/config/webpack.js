@@ -12,7 +12,7 @@
 
 var webpack = require('webpack');
 var path = require('path');
-module.exports = function (release) {
+module.exports = function(release) {
     return {
         output: {
             path: './build/',
@@ -22,64 +22,61 @@ module.exports = function (release) {
 
         cache: !release,
         debug: !release,
-        devtool: false,
+        devtool: release ? false : 'source-map',
         entry: {
             'js/app': './src/App.jsx'
-            
+
         },
 
         stats: {
-          colors: true,
-          reasons: !release
-      },
+            colors: true,
+            reasons: !release
+        },
 
         plugins: release ? [
-          new webpack.DefinePlugin({'process.env.NODE_ENV': '"production"'}),
-          new webpack.optimize.DedupePlugin(),
-          new webpack.optimize.UglifyJsPlugin(),
-          new webpack.optimize.OccurenceOrderPlugin(),
-          new webpack.optimize.AggressiveMergingPlugin()
-          ]: [],
+            new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
+            new webpack.optimize.DedupePlugin(),
+            new webpack.optimize.UglifyJsPlugin(),
+            new webpack.optimize.OccurenceOrderPlugin(),
+            new webpack.optimize.AggressiveMergingPlugin()
+        ] : [],
 
         resolve: {
-          extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx']
-      },
+            extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx']
+        },
 
         module: {
-          preLoaders: [
-        {
-              test: /\.js$/,
-              exclude: /node_modules/,
-              loader: 'jshint'
-          }
-        ],
+            preLoaders: [{
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'jshint'
+            }],
 
-          loaders: [
-        {
-              test: /\.css$/,
-              loader: 'style!css'
-          },
-        {
-              test: /\.gif/,
-              loader: 'url-loader?limit=10000&mimetype=image/gif'
-          },
-        {
-              test: /\.jpg/,
-              loader: 'url-loader?limit=10000&mimetype=image/jpg'
-          },
-        {
-              test: /\.png/,
-              loader: 'url-loader?limit=10000&mimetype=image/png'
-          },
-        {
-            test: /\.jsx?$/,
-            loader: 'babel',
-            exclude: /node_modules/,
-            query: {
-                presets: ['es2015', 'react']
-            }
-        },
-        ]
-      }
+            loaders: [{
+                    test: /\.css$/,
+                    loader: 'style!css'
+                },
+                {
+                    test: /\.gif/,
+                    loader: 'url-loader?limit=10000&mimetype=image/gif'
+                },
+                {
+                    test: /\.jpg/,
+                    loader: 'url-loader?limit=10000&mimetype=image/jpg'
+                },
+                {
+                    test: /\.png/,
+                    loader: 'url-loader?limit=10000&mimetype=image/png'
+                },
+                {
+                    test: /\.jsx?$/,
+                    loader: 'babel',
+                    exclude: /node_modules/,
+                    query: {
+                        presets: ['es2015', 'react']
+                    }
+                },
+            ]
+        }
     };
 };
