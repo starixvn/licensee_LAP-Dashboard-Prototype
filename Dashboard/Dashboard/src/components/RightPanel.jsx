@@ -14,12 +14,10 @@ export default class RightPanel extends React.Component {
 
             isMounted: false,
             isHidden: true,
-            filter: {
-                SelectedBaseCurrency: 'EUR',
-                SelectedCurrency: 'All',
-                BaseCurrencyList: [""],
-                CurrencyList: [{}]
-            },
+            SelectedBaseCurrency: 'EUR',
+            SelectedCurrency: 0,
+            BaseCurrencyList: [""],
+            CurrencyList: [{}],
             wgs: this.bindWgCheckBox(props.wgs)
         };
 
@@ -28,9 +26,10 @@ export default class RightPanel extends React.Component {
 
 
     get selectedFilter() {
+        
         return {
-            SelectedCurrency: this.state.filter.SelectedCurrency,
-            BaseCurrency: this.state.filter.SelectedBaseCurrency
+            currency: this.state.SelectedCurrency,
+            baseCurrency: this.state.SelectedBaseCurrency
         }
     }
 
@@ -51,21 +50,14 @@ export default class RightPanel extends React.Component {
                 response.data.CurrencyList.unshift({Key: "All", Value: "0"});
                 this.setState({
                     isMounted: true,
-                    filter: {
-                        CurrencyList: response.data.CurrencyList,
-                        BaseCurrencyList: response.data.BaseCurrencyList,
-                    }
+                    CurrencyList: response.data.CurrencyList,
+                    BaseCurrencyList: response.data.BaseCurrencyList
                 })
                 
             })
             .catch(function (error) {
                 console.log("error:", error);
             });
-
-        //fetch data for filter.
-
-        // this.setState({isMounted:true});
-
     }
 
     componentWillUnmount() {
@@ -74,8 +66,18 @@ export default class RightPanel extends React.Component {
     applyAction() {
 
         if (this.state.isMounted) {
-            return this.props.callbackParent({ action: 'apply', filter: this.selectedFilter });
+            return this.props.callbackParent({ action: 'apply', filter:this.selectedFilter  });
         }
+    }
+    onChangeCurrencyList(event) {
+        this.setState({
+            SelectedCurrency: event.target.value
+        });
+    }
+    onChangeBaseCurrencyList(event) {
+        this.setState({
+            SelectedBaseCurrency: event.target.value
+        });
     }
     onCheckWg(key) {
         if (this.state.isMounted) {
@@ -123,9 +125,9 @@ export default class RightPanel extends React.Component {
 
                     <div className="currency">
                         <label className="currency-label">{LanguageApi.getRes(this.props.langCode, "currency")}</label>
-                        <select>
+                        <select onChange={(e) => this.onChangeCurrencyList(e)} value={this.state.SelectedCurrency}>
                             {
-                                this.state.filter.CurrencyList.map((item, i) => {
+                                this.state.CurrencyList.map((item, i) => {
                                     return <option key={i} value={item.Value}>{item.Key}</option>
                                 })
                             }
@@ -134,9 +136,9 @@ export default class RightPanel extends React.Component {
 
                     <div className="currency">
                         <label className="currency-label">{LanguageApi.getRes(this.props.langCode, "Based")}</label>
-                        <select>
+                        <select onChange={(e) => this.onChangeBaseCurrencyList(e)} value={this.state.SelectedBaseCurrency}>
                             {
-                                this.state.filter.BaseCurrencyList.map((item, i) => {
+                                this.state.BaseCurrencyList.map((item, i) => {
                                     return <option key={i} value={item}>{item}</option>
                                 })
                             }
@@ -163,5 +165,4 @@ export default class RightPanel extends React.Component {
             <div className="right-panel-overlay" onClick={(e) => this.togglePanel(e)}></div>
         </div>
     }
-
 };

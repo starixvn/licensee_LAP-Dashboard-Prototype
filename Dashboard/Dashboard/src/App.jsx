@@ -42,7 +42,7 @@ export default class DashboardApp extends React.Component {
       refresh: 0,
       selectedFilter:
       {
-        currency: "ALL",
+        currency: 0,
         baseCurrency: "EUR"
       },
       wgStatus: userWgStatus
@@ -103,7 +103,7 @@ export default class DashboardApp extends React.Component {
   onChildChanged(newState) {
 
     if (newState.action == 'apply') {
-      this.setState(pre => ({ refresh: pre.refresh + 1 }))
+      this.setState(pre => ({ refresh: pre.refresh + 1 ,selectedFilter:newState.filter }))
     }
     else {
       var newWgs = this.state.wgStatus;

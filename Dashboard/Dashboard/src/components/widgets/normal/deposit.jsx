@@ -7,18 +7,21 @@ import NumberF from '../../../Modules/Number';
 import LanguageApi from '../../../Modules/LanguageApi';
 import { WidgetApiUrl } from '../../../config'
 
-import {WidgetKey} from '../../../config';
-export default class DepositWidget extends React.Component{
+import { WidgetKey } from '../../../config';
+export default class DepositWidget extends React.Component {
     constructor(props) {
         super(props);
-        this.state={
-            data:100
+        this.state = {
+            data: 0
         }
     }
 
-    fetchData()
-    {
+    fetchData(nextProps) {
         var param = {
+            Data: {
+                CurrencyId: nextProps.filter.currency,
+                BaseCurrency: nextProps.filter.baseCurrency
+            },
             Url: WidgetApiUrl.normalDeposit,
             IsCrossSite: true
         };
@@ -32,25 +35,18 @@ export default class DepositWidget extends React.Component{
                 console.log("error:", error);
             });
     }
-   componentWillReceiveProps(nextProps) {
-       console.log(nextProps);
-      if(nextProps.refresh > this.props.refresh)
-      {
-        
-         this.fetchData()
-      }
-   }
-   componentDidMount() {
-       
-       this.fetchData()
-   }
-   
-   
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.refresh > this.props.refresh) {
+            this.fetchData(nextProps)
+        }
+    }
+    componentDidMount() {
+        this.fetchData(this.props)
+    }
+
     render() {
-       
-        return <WidgetBox  widgetKey={WidgetKey.normalDeposit} title={LanguageApi.getRes(this.props.langCode,"deposit_today")} widgetName="deposit">
-                <span className="number-big">{NumberF.DecFormat(this.props.filter.baseCurrency,this.state.data.Value)}</span>
-              </WidgetBox>;
-        
-    }   
+        return <WidgetBox widgetKey={WidgetKey.normalDeposit} title={LanguageApi.getRes(this.props.langCode, "deposit_today")} widgetName="deposit">
+            <span className="number-big">{NumberF.DecFormat(this.props.filter.baseCurrency, this.state.data.Value)}</span>
+        </WidgetBox>;
+    }
 };

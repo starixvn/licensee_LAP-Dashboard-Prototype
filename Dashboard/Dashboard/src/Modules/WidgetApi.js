@@ -29,12 +29,13 @@ export default class  WidgetApi
     {
         if(param.IsCrossSite)
         {
+            var data = param.Data || {};
+            data['X-Auth-Token'] = WidgetApi._getAuthToken();
             return axios.get((window.TokenUrl || "http://localhost:55049") + param.Url, {
-                params: {
-                 'X-Auth-Token' : WidgetApi._getAuthToken()
-                }
+                params: data
             });
-        }else
+        }
+        else
         {
             //call _fetchJson
         }
