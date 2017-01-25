@@ -10,7 +10,7 @@ export const WidgetKey = {
 };
 
 export const WidgetApiUrl = {
-    chartTurnover: '10.18.200.209:8003/V1/api/tunveroverbyplarform',
+    chartTurnover: '/api/tunveroverbyplarform',
     chartLicenseeWL: 'c-licWL',
     normalRegisterCustomer: 'n-reg-customer',
     chartlOnlineCustomer: 'n-online-customer',
