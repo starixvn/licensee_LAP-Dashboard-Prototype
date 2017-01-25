@@ -2,9 +2,10 @@
 import ReactDOM from 'react-dom';
 
 import WidgetBox from '../widgetbox';
-import widgetApi from '../../../Modules/WidgetApi';
+import WidgetApi from '../../../Modules/WidgetApi';
 import NumberF from '../../../Modules/Number';
 import LanguageApi from '../../../Modules/LanguageApi';
+import { WidgetApiUrl } from '../../../config'
 
 import {WidgetKey} from '../../../config';
 export default class DepositWidget extends React.Component{
@@ -13,13 +14,23 @@ export default class DepositWidget extends React.Component{
         this.state={
             data:100
         }
-       
     }
 
     fetchData()
     {
-          //fech data & update state
-             this.setState(pre=>({data:pre.data+=100}))
+        var param = {
+            Url: WidgetApiUrl.normalDeposit,
+            IsCrossSite: true
+        };
+        WidgetApi.fetchData(param)
+            .then((response) => {
+                this.setState({
+                    data: response.data
+                })
+            })
+            .catch(function (error) {
+                console.log("error:", error);
+            });
     }
    componentWillReceiveProps(nextProps) {
        console.log(nextProps);
@@ -38,7 +49,7 @@ export default class DepositWidget extends React.Component{
     render() {
        
         return <WidgetBox  widgetKey={WidgetKey.normalDeposit} title={LanguageApi.getRes(this.props.langCode,"deposit_today")} widgetName="deposit">
-                <span className="number-big">{NumberF.DecFormat(this.props.filter.baseCurrency,this.state.data)}</span>
+                <span className="number-big">{NumberF.DecFormat(this.props.filter.baseCurrency,this.state.data.Value)}</span>
               </WidgetBox>;
         
     }   

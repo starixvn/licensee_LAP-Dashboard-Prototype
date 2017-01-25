@@ -16,7 +16,7 @@ export const WidgetApiUrl = {
     chartlOnlineCustomer: 'n-online-customer',
     normalSportsbookWallet: 'n-sb-wl',
     normalPendingFund: 'n-pending-funds',
-    normalDeposit: 'n-deposit',
+    normalDeposit: '/api/TodayDeposit/GetData',
     normalWithdrawal: 'n-withdrawal',
     CurrenyList:"/api/Dashboard/GetCurrencyList"
 };

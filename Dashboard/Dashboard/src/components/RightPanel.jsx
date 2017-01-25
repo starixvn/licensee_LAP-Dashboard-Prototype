@@ -48,7 +48,6 @@ export default class RightPanel extends React.Component {
         };
         WidgetApi.fetchData(param)
             .then((response) => {
-
                 response.data.CurrencyList.unshift({Key: "All", Value: "0"});
                 this.setState({
                     isMounted: true,
