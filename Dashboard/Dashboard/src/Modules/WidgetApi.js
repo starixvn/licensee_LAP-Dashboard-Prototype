@@ -31,15 +31,16 @@ export default class WidgetApi {
 
         if (param.IsCrossSite) {
 
-            WidgetApi._getAuthToken(param.Url).then((response) => {
+           return WidgetApi._getAuthToken(param.Url).then((response) => {
 
-                data['X-Auth-Token'] = response.data.Token
-                var dataUrl = response.data.Host + param.Url
-                return axios.get(dataUrl, {
+                data['X-Auth-Token'] = response.Token
+                var dataUrl = response.Host + param.Url
+                  return axios.get(dataUrl, {
                     params: data
                 });
             });
-
+            
+              
         }
         else {
             var dataUrl = window.HostUrl || "http://10.18.200.209:8073/12bet" + param.Url;
