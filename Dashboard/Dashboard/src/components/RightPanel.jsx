@@ -16,8 +16,8 @@ export default class RightPanel extends React.Component {
             isHidden: true,
             SelectedBaseCurrency: 'EUR',
             SelectedCurrency: 0,
-            BaseCurrencyList: [""],
-            CurrencyList: [{}],
+            BaseCurrencyList: [],
+            CurrencyList: [],
             wgs: this.bindWgCheckBox(props.wgs)
         };
 
@@ -38,9 +38,8 @@ export default class RightPanel extends React.Component {
         wgs.map((x) => { _tempWgs[x.key] = x.enable; })
         return _tempWgs;
     }
-
-    componentDidMount() {
-
+  _fetchData()
+  {
         var param = {
             Url: WidgetApiUrl.CurrenyList,
             IsCrossSite: true
@@ -58,6 +57,12 @@ export default class RightPanel extends React.Component {
             .catch(function (error) {
                 console.log("error:", error);
             });
+  }
+    componentDidMount() {
+          this.setState({
+                    isMounted: true
+                })
+      this._fetchData()
     }
 
     componentWillUnmount() {
@@ -89,6 +94,7 @@ export default class RightPanel extends React.Component {
     }
     togglePanel() {
 
+        console.log("fff")
         if (this.state.isMounted) {
             if (this.state.isHidden) {
 

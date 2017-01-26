@@ -241,3 +241,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /Dashboard/Dashboard/test
+Dashboard/Dashboard/wal.bat
