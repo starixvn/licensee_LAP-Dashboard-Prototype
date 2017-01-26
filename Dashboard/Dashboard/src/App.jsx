@@ -37,6 +37,12 @@ export default class DashboardApp extends React.Component {
       WidgetApi.saveWgStatus(_wgStatus)
     }
 
+    let userWidgetLayouts = WidgetApi.getWidgetLayout()
+    if(!userWidgetLayouts){
+      userWidgetLayouts = this.cloneLayoutConfig()
+      WidgetApi.saveWidgetLayout(userWidgetLayouts)
+    }
+
     this.state = {
       langCode: 'en',
       refresh: 0,
@@ -46,7 +52,7 @@ export default class DashboardApp extends React.Component {
         baseCurrency: "EUR"
       },
       wgStatus: userWgStatus,
-      layouts: this.cloneLayoutConfig()
+      layouts: userWidgetLayouts
     };
 
     this._defaultWgStatus = _wgStatus;
@@ -141,6 +147,7 @@ export default class DashboardApp extends React.Component {
 
       this.setState({ wgStatus: newWidgetStatus, layouts: newLayouts });
       WidgetApi.saveWgStatus(newWidgetStatus)
+      WidgetApi.saveWidgetLayout(newLayouts);
     }
   }
 

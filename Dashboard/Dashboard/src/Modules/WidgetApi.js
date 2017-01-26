@@ -51,4 +51,19 @@ export default class WidgetApi {
         var item = window.sessionStorage.getItem(WidgetApi.wgStatusCacheKey())
         return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : null;
     }
+
+    static widgetLayoutCacheKey() {
+        return "_LAP_Dashboard_Wg_Layout"
+    }
+    static saveWidgetLayout(layout) {
+        try {
+            window.sessionStorage.setItem(WidgetApi.widgetLayoutCacheKey(), JSON.stringify(layout))
+        } catch (error) {
+            alert("To continue use dashboard. Please turn private browsing off!!")
+        }
+    }
+    static getWidgetLayout() {
+        var item = window.sessionStorage.getItem(WidgetApi.widgetLayoutCacheKey())
+        return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : null;
+    }
 }
