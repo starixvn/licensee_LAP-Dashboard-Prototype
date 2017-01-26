@@ -8,8 +8,5 @@ export default class PendingFundsWidget extends BaseNormalWidget {
             TitleKey: "pending_funds",
             WidgetName: "pending-fund"
         });
-        this.state = {
-            data: 0
-        }
     }
 };

@@ -8,8 +8,5 @@ export default class PendingFundsWidget extends BaseNormalWidget {
             TitleKey: "withdrawal_today",
             WidgetName: "withdrawal"
         });
-        this.state = {
-            data: 0
-        }
     }
 };

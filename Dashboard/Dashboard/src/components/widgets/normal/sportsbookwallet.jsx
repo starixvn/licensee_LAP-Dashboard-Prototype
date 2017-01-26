@@ -8,8 +8,5 @@ export default class PendingFundsWidget extends BaseNormalWidget {
             TitleKey: "sportsbook_wallet",
             WidgetName: "sportbook-wallet"
         });
-        this.state = {
-            data: 0
-        }
     }
 };

@@ -8,8 +8,5 @@ export default class DepositWidget extends BaseNormalWidget {
             TitleKey: "deposit_today",
             WidgetName: "deposit"
         });
-        this.state = {
-            data: 0
-        }
     }
 };
