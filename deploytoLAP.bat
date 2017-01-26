@@ -1,1 +1,0 @@
-gulp --svn D:\SVN\lic-admin\branches\Dashboard\trunk\New Admin Portal\New Admin Portal\css\pages\dashboard --release deploy
