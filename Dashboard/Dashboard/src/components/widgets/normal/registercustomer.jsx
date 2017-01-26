@@ -11,8 +11,8 @@ export default class RegisteredCustomer extends React.Component {
         super(props);
         this.state = {
             deposit: 0,
-            noneDeposit: 0,
-            isMounted:false
+            noneDeposit: 0
+           
         }
     }
     fetchData(nextProps) {
@@ -36,15 +36,14 @@ export default class RegisteredCustomer extends React.Component {
             });
     }
     componentWillReceiveProps(nextProps) {
-        if(this.isMounted)
-        {
+       
             if (nextProps.refresh > this.props.refresh) {
                 this.fetchData(nextProps)
             }
-        }
+        
     }
     componentDidMount() {
-        this.setState({isMounted:true})
+        
         this.fetchData(this.props)
     }
     render() {
