@@ -4,7 +4,7 @@ import axios from 'axios';
 export default class WidgetApi {
 
     static _getAuthToken(action) {
-        var tokenUrl = window.TokenUrl || "http://10.18.200.209:8073/12bet/Verify/ApplyApiToken?type=1&actionLink={0}"
+        var tokenUrl = window.TokenUrl || "http://10.18.200.209:8073/12bet/Verify/ApplyApiToken?type=1&actionLink={0}&_=" + (new Date()).getTime();
         tokenUrl = tokenUrl.replace("{0}", encodeURIComponent(action))
         return axios.get(tokenUrl, {
 

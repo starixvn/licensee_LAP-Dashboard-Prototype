@@ -20,8 +20,6 @@ export default class RightPanel extends React.Component {
             CurrencyList: [],
             wgs: this.bindWgCheckBox(props.wgs)
         };
-
-
     };
 
 
@@ -106,7 +104,6 @@ export default class RightPanel extends React.Component {
                         isUpdated = true;
                         diffWgs.push(currentWgStatus[i])
                     }
-
                 }
 
                 if (isUpdated) {
