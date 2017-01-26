@@ -12,7 +12,8 @@ export default class DepositWidget extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: 0
+            data: 0,
+            isMounted: false,
         }
     }
 
@@ -36,11 +37,15 @@ export default class DepositWidget extends React.Component {
             });
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.refresh > this.props.refresh) {
-            this.fetchData(nextProps)
+        if(this.isMounted)
+        {
+            if (nextProps.refresh > this.props.refresh) {
+                this.fetchData(nextProps)
+            }
         }
     }
     componentDidMount() {
+        this.setState({isMounted:true})
         this.fetchData(this.props)
     }
 

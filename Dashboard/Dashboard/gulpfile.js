@@ -196,6 +196,7 @@ gulp.task('serve', function (cb) {
 // Deploy to GitHub Pages
 gulp.task('copytoSVN', function (cb) {
     // Remove temp folder
+    
     src.fonts = 'build/font/**';
       gulp.src(src.fonts)
    

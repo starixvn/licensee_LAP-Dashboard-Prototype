@@ -12,7 +12,7 @@ export const WidgetKey = {
 export const WidgetApiUrl = {
     chartTurnover: '/api/tunveroverbyplarform',
     chartLicenseeWL: 'c-licWL',
-    normalRegisterCustomer: 'n-reg-customer',
+    normalRegisterCustomer: 'GetRegisteredCustomers',
     chartlOnlineCustomer: 'n-online-customer',
     normalSportsbookWallet: 'n-sb-wl',
     normalPendingFund: 'n-pending-funds',

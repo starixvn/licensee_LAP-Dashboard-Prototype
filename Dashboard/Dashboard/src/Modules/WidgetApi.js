@@ -10,22 +10,7 @@ export default class WidgetApi {
 
         });
     }
-    static _fetchJson(param) {
-        //sample
-        axios.get(param.Url, {
-
-            withCredentials: !param.IsCrossSite,
-        })
-            .then(response => {
-                console.log(response.data);
-
-            })
-            .catch(error => {
-                console.log(error);
-            });
-
-
-    }
+   
     static fetchData(param) {
         var data = param.Data || {};
 
@@ -33,8 +18,10 @@ export default class WidgetApi {
 
            return WidgetApi._getAuthToken(param.Url).then((response) => {
 
-                data['X-Auth-Token'] = response.Token
-                var dataUrl = response.Host + param.Url
+              
+                data['X-Auth-Token'] = response.data.Token
+                const dataUrl = response.data.ApiUrl + param.Url
+                
                   return axios.get(dataUrl, {
                     params: data
                 });
@@ -43,8 +30,9 @@ export default class WidgetApi {
               
         }
         else {
-            var dataUrl = window.HostUrl || "http://10.18.200.209:8073/12bet" + param.Url;
-            return axios.get(dataUrl, {
+            var lapRootUrl= window.HostUrl || "http://10.18.200.209:8073/12bet" ;
+            const lapApi= lapRootUrl.replace("SessionIsAlive",param.Url)
+            return axios.get(lapApi, {
                 params: data
             });
         }
