@@ -14,8 +14,8 @@ export const WidgetApiUrl = {
     chartLicenseeWL: 'c-licWL',
     normalRegisterCustomer: 'GetRegisteredCustomers',
     chartlOnlineCustomer: 'n-online-customer',
-    normalSportsbookWallet: 'n-sb-wl',
-    normalPendingFund: 'n-pending-funds',
+    normalSportsbookWallet: '/api/SportsbookWallet/GetData',
+    normalPendingFund: '/api/PendingFund/GetData',
     normalDeposit: '/api/TodayDeposit/GetData',
     normalWithdrawal: '/api/TodayWithdrawal/GetData',
     CurrenyList:"/api/Dashboard/GetCurrencyList"

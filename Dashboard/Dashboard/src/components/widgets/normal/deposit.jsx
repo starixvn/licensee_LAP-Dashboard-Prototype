@@ -2,9 +2,9 @@
 import ReactDOM from 'react-dom';
 
 import WidgetBox from '../widgetbox';
-import WidgetApi from '../../../Modules/WidgetApi';
-import NumberF from '../../../Modules/Number';
 import LanguageApi from '../../../Modules/LanguageApi';
+import WidgetApi from '../../../Modules/WidgetApi';
+import NumberFormat from '../../../Modules/Number';
 import { WidgetApiUrl } from '../../../config'
 
 import { WidgetKey } from '../../../config';
@@ -13,7 +13,7 @@ export default class DepositWidget extends React.Component {
         super(props);
         this.state = {
             data: 0
-           
+
         }
     }
 
@@ -37,20 +37,18 @@ export default class DepositWidget extends React.Component {
             });
     }
     componentWillReceiveProps(nextProps) {
-       
-            if (nextProps.refresh > this.props.refresh) {
-                this.fetchData(nextProps)
-            }
-        
+        if (nextProps.refresh > this.props.refresh) {
+            this.fetchData(nextProps)
+        }
     }
     componentDidMount() {
-      
+
         this.fetchData(this.props)
     }
 
     render() {
         return <WidgetBox widgetKey={WidgetKey.normalDeposit} title={LanguageApi.getRes(this.props.langCode, "deposit_today")} widgetName="deposit">
-            <span className="number-big">{NumberF.DecFormat(this.props.filter.baseCurrency, this.state.data.Value)}</span>
+            <span className="number-big">{NumberFormat.DecFormat(this.props.filter.baseCurrency, this.state.data.Value)}</span>
         </WidgetBox>;
     }
 };
