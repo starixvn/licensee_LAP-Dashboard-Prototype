@@ -24,7 +24,7 @@ export default class RightPanel extends React.Component {
 
 
     get selectedFilter() {
-        
+
         return {
             currency: this.state.SelectedCurrency,
             baseCurrency: this.state.SelectedBaseCurrency
@@ -36,31 +36,30 @@ export default class RightPanel extends React.Component {
         wgs.map((x) => { _tempWgs[x.key] = x.enable; })
         return _tempWgs;
     }
-  _fetchData()
-  {
+    _fetchData() {
         var param = {
             Url: WidgetApiUrl.CurrenyList,
             IsCrossSite: true
         };
         WidgetApi.fetchData(param)
             .then((response) => {
-                response.data.CurrencyList.unshift({Key: "All", Value: "0"});
+                response.data.CurrencyList.unshift({ Key: "All", Value: "0" });
                 this.setState({
                     isMounted: true,
                     CurrencyList: response.data.CurrencyList,
                     BaseCurrencyList: response.data.BaseCurrencyList
                 })
-                
+
             })
             .catch(function (error) {
                 console.log("error:", error);
             });
-  }
+    }
     componentDidMount() {
-          this.setState({
-                    isMounted: true
-                })
-      this._fetchData()
+        this.setState({
+            isMounted: true
+        })
+        this._fetchData()
     }
 
     componentWillUnmount() {
@@ -69,7 +68,7 @@ export default class RightPanel extends React.Component {
     applyAction() {
 
         if (this.state.isMounted) {
-            return this.props.callbackParent({ action: 'apply', filter:this.selectedFilter  });
+            return this.props.callbackParent({ action: 'apply', filter: this.selectedFilter });
         }
     }
     onChangeCurrencyList(event) {
@@ -92,7 +91,7 @@ export default class RightPanel extends React.Component {
     }
     togglePanel() {
 
-        console.log("fff")
+
         if (this.state.isMounted) {
             if (this.state.isHidden) {
 
