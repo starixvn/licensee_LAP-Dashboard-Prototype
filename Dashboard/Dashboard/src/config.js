@@ -10,7 +10,7 @@ export const WidgetKey = {
 };
 
 export const WidgetApiUrl = {
-    chartTurnover: '/api/tunveroverbyplarform',
+    chartTurnover: '/api/TurnoverByPlatform/GetData',
     chartLicenseeWL: 'c-licWL',
     normalRegisterCustomer: 'GetRegisteredCustomers',
     chartlOnlineCustomer: 'n-online-customer',
