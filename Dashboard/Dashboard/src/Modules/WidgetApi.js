@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 export default class WidgetApi {
@@ -10,28 +9,27 @@ export default class WidgetApi {
 
         });
     }
-   
+
     static fetchData(param) {
         var data = param.Data || {};
 
         if (param.IsCrossSite) {
 
-           return WidgetApi._getAuthToken(param.Url).then((response) => {
+            return WidgetApi._getAuthToken(param.Url).then((response) => {
 
-              
+
                 data['X-Auth-Token'] = response.data.Token
                 const dataUrl = response.data.ApiUrl + param.Url
-                
-                  return axios.get(dataUrl, {
+
+                return axios.get(dataUrl, {
                     params: data
                 });
             });
-            
-              
-        }
-        else {
-            var lapRootUrl= window.HostUrl || "http://10.18.200.209:8073/12bet" ;
-            const lapApi= lapRootUrl.replace("SessionIsAlive",param.Url)
+
+
+        } else {
+            var lapRootUrl = window.HostUrl || "http://10.18.200.209:8073/12bet";
+            const lapApi = lapRootUrl.replace("SessionIsAlive", param.Url)
             return axios.get(lapApi, {
                 params: data
             });
@@ -51,8 +49,6 @@ export default class WidgetApi {
     }
     static getWgStatus() {
         var item = window.sessionStorage.getItem(WidgetApi.wgStatusCacheKey())
-        return item ? JSON.parse(item) : null
-
-
+        return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : null;
     }
 }

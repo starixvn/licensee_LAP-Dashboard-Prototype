@@ -5,13 +5,10 @@ import WidgetApi from '../Modules/WidgetApi';
 import { WidgetApiUrl } from '../config'
 
 export default class RightPanel extends React.Component {
-
     constructor(props) {
         super(props);
 
-
         this.state = {
-
             isMounted: false,
             isHidden: true,
             SelectedBaseCurrency: 'EUR',
@@ -22,15 +19,12 @@ export default class RightPanel extends React.Component {
         };
     };
 
-
     get selectedFilter() {
-
         return {
             currency: this.state.SelectedCurrency,
             baseCurrency: this.state.SelectedBaseCurrency
         }
     }
-
     bindWgCheckBox(wgs) {
         var _tempWgs = {};
         wgs.map((x) => { _tempWgs[x.key] = x.enable; })
@@ -66,7 +60,6 @@ export default class RightPanel extends React.Component {
         this.setState({ isMounted: false });
     }
     applyAction() {
-
         if (this.state.isMounted) {
             return this.props.callbackParent({ action: 'apply', filter: this.selectedFilter });
         }
@@ -90,11 +83,8 @@ export default class RightPanel extends React.Component {
         }
     }
     togglePanel() {
-
-
         if (this.state.isMounted) {
             if (this.state.isHidden) {
-
                 var currentWgStatus = WidgetApi.getWgStatus()
                 var isUpdated = false;
                 var diffWgs = []
@@ -110,6 +100,7 @@ export default class RightPanel extends React.Component {
                     this.setState({ wgs: this.bindWgCheckBox(currentWgStatus) })
                 }
             }
+
             this.setState(prevState => ({
                 isHidden: !prevState.isHidden
             }));
