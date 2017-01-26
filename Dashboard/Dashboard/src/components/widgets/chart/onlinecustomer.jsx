@@ -30,9 +30,12 @@ export default class OnlineCustomer extends React.Component {
                     datasets.forEach(function (dataset, i) {
                         ctx.font = "13px Arial";
                         ctx.fillStyle = "Black";
-                        dataset._meta["0"].data.forEach((p, j) => {
-                            ctx.fillText(datasets[i].data[j], chart.width - 90, p._model.y);//p._model.x + 10, p._model.y);
-                        });
+                        console.log("dataset", dataset)
+                        for(var propertyName in dataset._meta){
+                            dataset._meta[propertyName].data.forEach((p, j) => {
+                                ctx.fillText(datasets[i].data[j], chart.width - 90, p._model.y);//p._model.x + 10, p._model.y);
+                            });
+                        }
                     });
                 }
             },
