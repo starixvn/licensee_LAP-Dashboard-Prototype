@@ -17,7 +17,7 @@ export const WidgetApiUrl = {
     normalSportsbookWallet: 'n-sb-wl',
     normalPendingFund: 'n-pending-funds',
     normalDeposit: '/api/TodayDeposit/GetData',
-    normalWithdrawal: 'n-withdrawal',
+    normalWithdrawal: '/api/TodayWithdrawal/GetData',
     CurrenyList:"/api/Dashboard/GetCurrencyList"
 };
 
