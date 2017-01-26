@@ -5,9 +5,7 @@ import WidgetBox from '../widgetbox';
 import LanguageApi from '../../../Modules/LanguageApi';
 import WidgetApi from '../../../Modules/WidgetApi';
 import NumberFormat from '../../../Modules/Number';
-import { WidgetApiUrl } from '../../../config'
 
-import { WidgetKey } from '../../../config';
 export default class BaseNormalWidget extends React.Component {
     constructor(props, configs) {
         super(props);
@@ -19,7 +17,8 @@ export default class BaseNormalWidget extends React.Component {
         // configs = {
         //  Url: "",
         //  TitleKey: "",
-        //  WidgetName: ""
+        //  WidgetName: "",
+        //  WidgetKey: ""
         // }
     }
 
@@ -53,7 +52,7 @@ export default class BaseNormalWidget extends React.Component {
     }
 
     render() {
-        return <WidgetBox widgetKey={WidgetKey.normalDeposit} title={LanguageApi.getRes(this.props.langCode, this.configs.TitleKey )} widgetName={this.configs.WidgetName}>
+        return <WidgetBox widgetKey={this.configs.WidgetKey} title={LanguageApi.getRes(this.props.langCode, this.configs.TitleKey )} widgetName={this.configs.WidgetName}>
             <span className="number-big">{NumberFormat.DecFormat(this.props.filter.baseCurrency, this.state.data.Value)}</span>
         </WidgetBox>;
     }
