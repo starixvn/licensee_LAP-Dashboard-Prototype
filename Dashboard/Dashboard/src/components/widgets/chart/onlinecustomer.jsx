@@ -8,6 +8,7 @@ import LanguageApi from '../../../Modules/LanguageApi';
 export default class OnlineCustomer extends React.Component {
     constructor(props) {
         super(props);
+        const fontColor = "#5162BA";
         this.state = {
             data: {}
         };
@@ -27,7 +28,7 @@ export default class OnlineCustomer extends React.Component {
 
                     ctx.font = '13px Arial';
                     ctx.textAlign = "center";
-                    ctx.fillStyle = "#000";
+                    ctx.fillStyle = fontColor;
                     ctx.textAlign = "left";
                     ctx.textBaseline = "middle";
 
@@ -45,9 +46,12 @@ export default class OnlineCustomer extends React.Component {
             scales: {
                 xAxes: [{
                     barPercentage: 0.5,
-                    display: false,
+                    display: false
                 }],
                 yAxes: [{
+                     ticks: {
+                        fontColor: fontColor
+                    },
                     gridLines: {
                         display: false
                     }
