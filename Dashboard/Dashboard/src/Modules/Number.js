@@ -1,7 +1,7 @@
 export default class NumberFormat {
-    static DecFormat(currency, value) {
+    static FormatCurrency(value, currency) {
         value = value ? value : 0
-        var currencyFormat = new Intl.NumberFormat("en-US", { style: "currency", currency: currency })
+        let currencyFormat = currency ? new Intl.NumberFormat("en-US", { style: "currency", currency: currency }) : new Intl.NumberFormat("en-US")
 
         return currencyFormat.format(value)
     }
