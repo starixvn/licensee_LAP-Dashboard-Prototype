@@ -191,6 +191,9 @@ $bg-Withdrawal: $blue-Bayoux;
 
         &.turnover, &.licenseewl {
             padding: 0 16px;
+            .chart-container {
+                height: calc(100% - 40px);
+            }
 
             .footer-total {
                 position: absolute;
