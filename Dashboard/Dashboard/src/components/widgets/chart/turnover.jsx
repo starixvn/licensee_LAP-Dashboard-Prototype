@@ -17,17 +17,19 @@ export default class Turnover extends React.Component {
         };
 
         this.options = {
+            hover: {
+                animationDuration: 0
+            },
             animation: {
-                duration: 0,
                 onComplete: function () {
                     var self = this,
-                        chartInstance = this.chart,
-                        ctx = chartInstance.ctx;
+                        chart = this.chart,
+                        ctx = chart.ctx;
 
                     ctx.font = '13px Arial';
                     ctx.textAlign = "center";
                     ctx.fillStyle = "#fff";
-                    Chart.helpers.each(self.data.datasets.forEach((dataset, datasetIndex) => {
+                    self.data.datasets.forEach((dataset, datasetIndex) => {
                         var meta = self.getDatasetMeta(datasetIndex),
                             total = 0, //total values to compute fraction
                             labelxy = [],
@@ -37,9 +39,12 @@ export default class Turnover extends React.Component {
                             centery,
                             lastend = 0; //prev arc's end line: starting with 0
 
-                        for (var val of dataset.data) { total += val; }
+                        for (var value of dataset.data) 
+                        { 
+                            total += value; 
+                        }
 
-                        Chart.helpers.each(meta.data.forEach((element, index) => {
+                        meta.data.forEach((element, index) => {
                             radius = 0.9 * element._model.outerRadius - element._model.innerRadius;
                             centerx = element._model.x;
                             centery = element._model.y;
@@ -52,7 +57,7 @@ export default class Turnover extends React.Component {
                                 labelxy.push(-1);
                             }
                             lastend += arcsector;
-                        }), self)
+                        });
 
                         var lradius = radius * 1.9;
                         for (var idx in labelxy) {
@@ -63,8 +68,7 @@ export default class Turnover extends React.Component {
                                 val = Math.round(dataset.data[idx] / total * 100);
                             ctx.fillText(val + '%', dx, dy);
                         }
-
-                    }), self);
+                    });
                 }
             }
         };
@@ -81,7 +85,6 @@ export default class Turnover extends React.Component {
         };
         WidgetApi.fetchData(param)
             .then((response) => {
-                console.log("response", response)
                 var labelList = [], dataList = [];
 
                 for (var item of response.data.Data) {
@@ -102,13 +105,6 @@ export default class Turnover extends React.Component {
                                     "#4C6375",
                                     "#D9544F",
                                     "#4473C5"
-                                ],
-                                hoverBackgroundColor: [
-                                    "#5ED3F9",
-                                    "#60C189",
-                                    "#779BB7",
-                                    "#FF635E",
-                                    "#5087E5"
                                 ]
                             }]
                     }

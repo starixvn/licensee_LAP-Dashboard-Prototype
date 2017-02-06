@@ -20,22 +20,22 @@ export default class OnlineCustomer extends React.Component {
                 animationDuration: 10
             },
             animation: {
-                onComplete: () => {
-                    var chart = this.refs.chart.chart_instance.chart;
-                    var ctx = chart.ctx;
+                onComplete: function () {
+                    var self = this,
+                        chart = this.chart,
+                        ctx = chart.ctx;
+
+                    ctx.font = '13px Arial';
+                    ctx.textAlign = "center";
+                    ctx.fillStyle = "#000";
                     ctx.textAlign = "left";
                     ctx.textBaseline = "middle";
-                    var datasets = this.state.data.datasets;
 
-                    datasets.forEach(function (dataset, i) {
-                        ctx.font = "13px Arial";
-                        ctx.fillStyle = "Black";
-                        console.log("dataset", dataset)
-                        for(var propertyName in dataset._meta){
-                            dataset._meta[propertyName].data.forEach((p, j) => {
-                                ctx.fillText(datasets[i].data[j], chart.width - 90, p._model.y);//p._model.x + 10, p._model.y);
-                            });
-                        }
+                    self.data.datasets.forEach(function (dataset, datasetIndex) {
+                        var meta = self.getDatasetMeta(datasetIndex);
+                        meta.data.forEach(function(element, elementIndex){
+                            ctx.fillText(dataset.data[elementIndex], chart.width - 90, element._model.y);
+                        });
                     });
                 }
             },
@@ -96,7 +96,7 @@ export default class OnlineCustomer extends React.Component {
 
     render() {
         return <WidgetBox widgetKey={WidgetKey.chartlOnlineCustomer} title={LanguageApi.getRes(this.props.langCode, "online_customer")} widgetName="online-customer default">
-            <HorizontalBar ref='chart' data={this.state.data} width={50} height={8} options={this.options} />
+            <HorizontalBar data={this.state.data} width={50} height={8} options={this.options} />
         </WidgetBox>;
 
     }
