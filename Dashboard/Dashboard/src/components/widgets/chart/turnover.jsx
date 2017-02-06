@@ -5,7 +5,7 @@ import { Doughnut } from 'react-chartjs-2';
 import WidgetBox from '../widgetbox';
 import { WidgetKey } from '../../../config';
 import LanguageApi from '../../../Modules/LanguageApi';
-import { WidgetApiUrl } from '../../../config'
+import { WidgetApiUrl } from '../../../config';
 import WidgetApi from '../../../Modules/WidgetApi';
 
 export default class Turnover extends React.Component {
@@ -18,6 +18,9 @@ export default class Turnover extends React.Component {
 
         this.options = {
             maintainAspectRatio: false,
+            layout: {
+                padding: { bottom: 50 }
+            },
             hover: {
                 animationDuration: 0
             },
@@ -35,15 +38,15 @@ export default class Turnover extends React.Component {
                     ctx.font = '13px Arial';
                     ctx.textAlign = "center";
                     ctx.fillStyle = "#fff";
-                    
+
                     var chartCircumference = chart.config.options.circumference;
                     self.data.datasets.forEach((dataset, datasetIndex) => {
                         var meta = self.getDatasetMeta(datasetIndex);
 
                         meta.data.forEach((element, index) => {
-                            var segmentLabel = element._model.circumference /  chartCircumference * 100;
+                            var segmentLabel = element._model.circumference / chartCircumference * 100;
                             var position = element.tooltipPosition();
-                            if (element._model.circumference > 0){
+                            if (element._model.circumference > 0) {
                                 ctx.fillText(segmentLabel.toFixed(0) + '%', position.x, position.y);
                             }
                         });
@@ -102,9 +105,7 @@ export default class Turnover extends React.Component {
     }
     render() {
         return <WidgetBox widgetKey={WidgetKey.chartTurnover} title={LanguageApi.getRes(this.props.langCode, "sportsbook_turnover_month_todate")} widgetName="turnover default">
-            <div className="chart-container">
-                <Doughnut data={this.state.data} options={this.options} />
-            </div>
+            <Doughnut data={this.state.data} options={this.options} />
             <div className="footer-total">
                 <span>Total turnover: $1,222,919.56</span>
             </div>

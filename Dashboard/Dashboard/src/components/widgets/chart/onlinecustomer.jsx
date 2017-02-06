@@ -14,11 +14,12 @@ export default class OnlineCustomer extends React.Component {
         };
 
         this.options = {
+            maintainAspectRatio: false,
             tooltips: {
                 enabled: false
             },
             hover: {
-                animationDuration: 10
+                animationDuration: 0
             },
             animation: {
                 onComplete: function () {
@@ -34,14 +35,14 @@ export default class OnlineCustomer extends React.Component {
 
                     self.data.datasets.forEach(function (dataset, datasetIndex) {
                         var meta = self.getDatasetMeta(datasetIndex);
-                        meta.data.forEach(function(element, elementIndex){
+                        meta.data.forEach(function (element, elementIndex) {
                             ctx.fillText(dataset.data[elementIndex], chart.width - 90, element._model.y);
                         });
                     });
                 }
             },
             layout: {
-                padding: { right: 100 }
+                padding: { right: 100, bottom: 20 }
             },
             scales: {
                 xAxes: [{
@@ -49,7 +50,7 @@ export default class OnlineCustomer extends React.Component {
                     display: false
                 }],
                 yAxes: [{
-                     ticks: {
+                    ticks: {
                         fontColor: fontColor
                     },
                     gridLines: {
@@ -79,8 +80,6 @@ export default class OnlineCustomer extends React.Component {
                         'rgb(75, 150, 107)',
                         'rgb(61, 165, 250)'
                     ],
-                    hoverBackgroundColor: 'rgba(100,99,132,0.4)',
-                    hoverBorderColor: 'rgba(255,99,132,1)',
                     data: [sampleData.Web, sampleData.Wap, sampleData.SmartSite],
                     stacked: true
                 }],
@@ -100,7 +99,7 @@ export default class OnlineCustomer extends React.Component {
 
     render() {
         return <WidgetBox widgetKey={WidgetKey.chartlOnlineCustomer} title={LanguageApi.getRes(this.props.langCode, "online_customer")} widgetName="online-customer default">
-            <HorizontalBar data={this.state.data} width={50} height={8} options={this.options} />
+            <HorizontalBar data={this.state.data} options={this.options} />
         </WidgetBox>;
 
     }

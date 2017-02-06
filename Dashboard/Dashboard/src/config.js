@@ -11,7 +11,7 @@ export const WidgetKey = {
 
 export const WidgetApiUrl = {
     chartTurnover: '/api/TurnoverByPlatform/GetData',
-    chartLicenseeWL: 'c-licWL',
+    chartLicenseeWL: '/api/LicenseeWinLossByPlatform/GetData',
     normalRegisterCustomer: 'GetRegisteredCustomers',
     chartlOnlineCustomer: 'n-online-customer',
     normalSportsbookWallet: '/api/SportsbookWallet/GetData',

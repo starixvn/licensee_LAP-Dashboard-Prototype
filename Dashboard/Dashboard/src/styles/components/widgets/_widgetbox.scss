@@ -93,7 +93,7 @@ $bg-Withdrawal: $blue-Bayoux;
         border-bottom-right-radius: 2px;
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
         overflow: hidden;
-        transition: height 0.3s;        
+        transition: height 0.3s;
 
         &.sportbook-wallet {
             background: $bg-Sportsbook;
@@ -191,9 +191,6 @@ $bg-Withdrawal: $blue-Bayoux;
 
         &.turnover, &.licenseewl {
             padding: 0 16px;
-            .chart-container {
-                height: calc(100% - 40px);
-            }
 
             .footer-total {
                 position: absolute;
