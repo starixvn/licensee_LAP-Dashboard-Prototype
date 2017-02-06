@@ -7,6 +7,7 @@ import { WidgetKey } from '../../../config';
 import LanguageApi from '../../../Modules/LanguageApi';
 import { WidgetApiUrl } from '../../../config';
 import WidgetApi from '../../../Modules/WidgetApi';
+import NumberFormat from '../../../Modules/Number';
 
 export default class Turnover extends React.Component {
 
@@ -18,6 +19,16 @@ export default class Turnover extends React.Component {
 
         this.options = {
             maintainAspectRatio: false,
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
+                        var dataset = data.datasets[tooltipItem.datasetIndex];
+                        var label = data.labels[tooltipItem.index];
+                        var currentValue = dataset.data[tooltipItem.index];
+                        return label + ": " + NumberFormat.format(currentValue);
+                    }
+                }
+            },
             layout: {
                 padding: { bottom: 50 }
             },
@@ -35,7 +46,6 @@ export default class Turnover extends React.Component {
                         return;
                     }
 
-                    ctx.font = '13px Arial';
                     ctx.textAlign = "center";
                     ctx.fillStyle = "#fff";
 

@@ -5,6 +5,8 @@ import { HorizontalBar } from 'react-chartjs-2';
 import WidgetBox from '../widgetbox';
 import { WidgetKey } from '../../../config';
 import LanguageApi from '../../../Modules/LanguageApi';
+import NumberFormat from '../../../Modules/Number';
+
 export default class OnlineCustomer extends React.Component {
     constructor(props) {
         super(props);
@@ -27,7 +29,6 @@ export default class OnlineCustomer extends React.Component {
                         chart = this.chart,
                         ctx = chart.ctx;
 
-                    ctx.font = '13px Arial';
                     ctx.textAlign = "center";
                     ctx.fillStyle = fontColor;
                     ctx.textAlign = "left";
@@ -36,7 +37,7 @@ export default class OnlineCustomer extends React.Component {
                     self.data.datasets.forEach(function (dataset, datasetIndex) {
                         var meta = self.getDatasetMeta(datasetIndex);
                         meta.data.forEach(function (element, elementIndex) {
-                            ctx.fillText(dataset.data[elementIndex], chart.width - 90, element._model.y);
+                            ctx.fillText(NumberFormat.format(dataset.data[elementIndex]), chart.width - 90, element._model.y);
                         });
                     });
                 }

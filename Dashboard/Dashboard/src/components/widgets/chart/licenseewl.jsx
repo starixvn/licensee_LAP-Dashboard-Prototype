@@ -7,6 +7,7 @@ import { WidgetKey } from '../../../config';
 import LanguageApi from '../../../Modules/LanguageApi';
 import { WidgetApiUrl } from '../../../config';
 import WidgetApi from '../../../Modules/WidgetApi';
+import NumberFormat from '../../../Modules/Number';
 
 export default class LicenseeWinLoss extends React.Component {
     constructor(props) {
@@ -29,7 +30,6 @@ export default class LicenseeWinLoss extends React.Component {
                         chart = this.chart,
                         ctx = chart.ctx;
 
-                    ctx.font = '13px Arial';
                     ctx.textAlign = "center";
                     ctx.fillStyle = "#555";
                     ctx.textAlign = "left";
@@ -38,7 +38,7 @@ export default class LicenseeWinLoss extends React.Component {
                     self.data.datasets.forEach(function (dataset, datasetIndex) {
                         var meta = self.getDatasetMeta(datasetIndex);
                         meta.data.forEach(function (element, elementIndex) {
-                            var text = dataset.data[elementIndex];
+                            var text = NumberFormat.format(dataset.data[elementIndex]);
                             var textWidth = ctx.measureText(text).width;
                             ctx.fillText(text, element._model.x - (textWidth / 2), element._model.y - 5);
                         });
@@ -52,6 +52,13 @@ export default class LicenseeWinLoss extends React.Component {
                 xAxes: [{
                     gridLines: {
                         display: false
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        callback: function (value, index, values) {
+                            return NumberFormat.format(value);
+                        }
                     }
                 }]
             },
