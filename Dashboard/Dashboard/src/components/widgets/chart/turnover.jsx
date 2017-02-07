@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import { Doughnut } from 'react-chartjs-2';
+import { defaults } from 'react-chartjs-2';
 
 import WidgetBox from '../widgetbox';
 import { WidgetKey } from '../../../config';
@@ -17,6 +18,7 @@ export default class Turnover extends React.Component {
             data: {}
         };
 
+        defaults.global.fontFamily = 'Roboto';
         this.options = {
             legend: {
                 display: true,

@@ -1,9 +1,12 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import { HorizontalBar } from 'react-chartjs-2';
+import { defaults } from 'react-chartjs-2';
 
 import WidgetBox from '../widgetbox';
 import { WidgetKey } from '../../../config';
+import { WidgetApiUrl } from '../../../config';
+import WidgetApi from '../../../Modules/WidgetApi';
 import LanguageApi from '../../../Modules/LanguageApi';
 import NumberFormat from '../../../Modules/Number';
 
@@ -14,6 +17,8 @@ export default class OnlineCustomer extends React.Component {
         this.state = {
             data: {}
         };
+
+        defaults.global.defaultFontFamily = "Roboto, Arial";
 
         this.options = {
             maintainAspectRatio: false,
@@ -66,29 +71,29 @@ export default class OnlineCustomer extends React.Component {
     }
 
     fetchData(nextProps) {
-        var sampleData = {
-            Web: 1111,
-            Wap: 2222,
-            SmartSite: 3333
+        var param = {
+            Url: WidgetApiUrl.chartlOnlineCustomer,
+            IsCrossSite: false
         };
-
-        this.setState({
-            data: {
-                labels: ['WEB', 'WAP', 'SMART'],
-                datasets: [{
-                    backgroundColor: [
-                        'rgb(241, 91, 32)',
-                        'rgb(75, 150, 107)',
-                        'rgb(61, 165, 250)'
-                    ],
-                    data: [sampleData.Web, sampleData.Wap, sampleData.SmartSite],
-                    stacked: true
-                }],
-                xLabels: ["1", "2", "3"]
-            }
-        });
+        WidgetApi.fetchData(param)
+            .then((response) => {
+                this.setState({
+                    data: {
+                        labels: ['WEB', 'WAP', 'SMART'],
+                        datasets: [{
+                            backgroundColor: [
+                                'rgb(241, 91, 32)',
+                                'rgb(75, 150, 107)',
+                                'rgb(61, 165, 250)'
+                            ],
+                            data: [response.data.Web, response.data.Wap, response.data.SmartSite],
+                            stacked: true
+                        }],
+                        xLabels: ["1", "2", "3"]
+                    }
+                });
+            });
     }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.refresh > this.props.refresh) {
             this.fetchData(nextProps)
