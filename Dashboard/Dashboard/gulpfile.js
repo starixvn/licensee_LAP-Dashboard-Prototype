@@ -18,7 +18,7 @@ var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var argv = require('minimist')(process.argv.slice(2));
 var concat = require('gulp-concat');
-var svn = require('gulp-svn');
+
 // Settings
 var DEST = './build'; // The build output folder
 var RELEASE = !!argv.release; // Minimize and optimize during a build?

@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Layout from './layouts/Default';
 import { Responsive, WidthProvider } from 'react-grid-layout';
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 import { WidgetKey, Wglayouts } from './config';
@@ -38,7 +39,7 @@ export default class DashboardApp extends React.Component {
     }
 
     this.state = {
-      langCode: window.dashboardLangCode || 'en',
+      langCode: window.dashboardLangCode || 'en', 
       refresh: 0,
       selectedFilter:
       {

@@ -1,7 +1,7 @@
 export const cn=
 {
  n_deposit:"Deposit",
-  c_turnover:" Turnover",
+  c_turnover:" 周转",
   c_licWL:" Licensee Win Loss",
   n_reg_customer:"Registered customers",
   c_online_customer:"Online customers",
@@ -9,7 +9,7 @@ export const cn=
   n_pending_funds:"Pending Funds",
   n_deposit:"Deposit",
   n_withdrawal:"Withdrawal",
-  sportsbook_turnover_month_todate:'Sportsbook Turnover (Month to date)',
+  sportsbook_turnover_month_todate:'体育博彩营业额（月至今）',
   deposit_today:"Deposit (Today)",
   
   licensee_winloss_month_todate:"Licensee Win Loss (Month to date)",

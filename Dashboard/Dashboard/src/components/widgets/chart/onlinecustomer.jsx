@@ -2,7 +2,6 @@
 import ReactDOM from 'react-dom';
 import { HorizontalBar } from 'react-chartjs-2';
 import { defaults } from 'react-chartjs-2';
-
 import WidgetBox from '../widgetbox';
 import { WidgetKey } from '../../../config';
 import { WidgetApiUrl } from '../../../config';
