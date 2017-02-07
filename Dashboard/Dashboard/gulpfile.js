@@ -191,7 +191,13 @@ gulp.task('serve', function(cb) {
         gulp.watch('build/js/**', function (obj) {
             if (obj.type === 'changed') {
                 gulp.src(obj.path, { "base": "build/js/" })
-                    .pipe(gulp.dest('\\\\10.18.200.209\\Web\\Sparta\\LAP\\js\\pages\\dashboard'));
+                    .pipe(gulp.dest('//10.18.200.209/Web/Sparta/LAP/js/pages/dashboard'));
+            }
+        });
+        gulp.watch('build/css/**', function (obj) {
+            if (obj.type === 'changed') {
+                gulp.src(obj.path, { "base": "build/css/" })
+                    .pipe(gulp.dest('//10.18.200.209/Web/Sparta/LAP/css/pages/dashboard/main'));
             }
         });
         cb();
