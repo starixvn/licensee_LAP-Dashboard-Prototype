@@ -18,6 +18,15 @@ export default class Turnover extends React.Component {
         };
 
         this.options = {
+            legend: {
+                display: true,
+                position: 'right',
+                labels: {
+                    boxWidth: 20,
+                    usePointStyle: true,
+                    padding: 20
+                }
+            },
             maintainAspectRatio: false,
             tooltips: {
                 callbacks: {
@@ -42,7 +51,7 @@ export default class Turnover extends React.Component {
                         ctx = chart.ctx;
 
                     var chartSize = Math.min(chart.width, chart.height);
-                    if (chartSize < 200) {
+                    if (chartSize < 100) {
                         return;
                     }
 
