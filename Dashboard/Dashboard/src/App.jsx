@@ -37,42 +37,37 @@ export default class DashboardApp extends React.Component {
       WidgetApi.saveWgStatus(_wgStatus)
     }
 
-    let userWidgetLayouts = WidgetApi.getWidgetLayout()
-    if(!userWidgetLayouts){
-      userWidgetLayouts = this.cloneLayoutConfig()
-      WidgetApi.saveWidgetLayout(userWidgetLayouts)
-    }
-
     this.state = {
-      langCode: 'en',
+      langCode: window.dashboardLangCode || 'en',
       refresh: 0,
       selectedFilter:
       {
         currency: 0,
         baseCurrency: "EUR"
       },
-      wgStatus: userWgStatus,
-      layouts: userWidgetLayouts
+      wgStatus: userWgStatus
+
     };
 
     this._defaultWgStatus = _wgStatus;
   }
 
-  cloneLayoutConfig() {
-    return {
-      lg: Array.from(Wglayouts.lg),
-      md: Array.from(Wglayouts.md),
-      sm: Array.from(Wglayouts.sm),
-      xs: Array.from(Wglayouts.xs),
-      xxs: Array.from(Wglayouts.xxs)
-    }
-  }
 
   get defaultWgStatus() {
     return this._defaultWgStatus;
   }
+  get layouts() {
+    return Wglayouts;
+  }
+  emptyWg(key) {
+    return <div key={key}></div>
 
-  renderWgItem(key) {
+  }
+  renderWgItem(key, enable) {
+    if (!enable) {
+      return this.emptyWg(key)
+    }
+
     switch (key) {
       case WidgetKey.chartTurnover:
         return <div key={key}><TurnoverWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
@@ -96,72 +91,43 @@ export default class DashboardApp extends React.Component {
 
       case WidgetKey.normalWithdrawal:
         return <div key={key}><WithdrawalWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
+
+      default:
+        return this.emptyWg(key)
     }
   }
   componentDidMount() {
     //setInterval(()=>{this.setState(pre=>({isRefresh:!pre.isRefresh}))},5000) 
   }
 
-  _addWidgetToLayout(widgetKey) {
-    const newLayouts = {};
-
-    const lgWidgetItem = Wglayouts.lg.find(w => w.i == widgetKey);
-    newLayouts.lg = this.state.layouts.lg.concat(lgWidgetItem);
-    const mdWidgetItem = Wglayouts.md.find(w => w.i == widgetKey);
-    newLayouts.md = this.state.layouts.md.concat(mdWidgetItem);
-    const smWidgetItem = Wglayouts.sm.find(w => w.i == widgetKey);
-    newLayouts.sm = this.state.layouts.sm.concat(smWidgetItem);
-    const xsWidgetItem = Wglayouts.xs.find(w => w.i == widgetKey);
-    newLayouts.xs = this.state.layouts.xs.concat(xsWidgetItem);
-    const xxsWidgetItem = Wglayouts.xxs.find(w => w.i == widgetKey);
-    newLayouts.xxs = this.state.layouts.xxs.concat(xxsWidgetItem);
-
-    return newLayouts;
-  }
-
-  _removeWidgetFromLayout(widgetKey) {
-    const newLayouts = {};
-
-    newLayouts.lg = this.state.layouts.lg.filter(w => w.i !== widgetKey);
-    newLayouts.md = this.state.layouts.md.filter(w => w.i !== widgetKey);
-    newLayouts.sm = this.state.layouts.sm.filter(w => w.i !== widgetKey);
-    newLayouts.xs = this.state.layouts.xs.filter(w => w.i !== widgetKey);
-    newLayouts.xxs = this.state.layouts.xxs.filter(w => w.i !== widgetKey);
-
-    return newLayouts;
-  }
-
   onChildChanged(newState) {
+
     if (newState.action == 'apply') {
-      this.setState(pre => ({ refresh: pre.refresh + 1, selectedFilter: newState.filter }))
+      this.setState(pre => ({ refresh: pre.refresh + 1 ,selectedFilter:newState.filter }))
     }
     else {
-
-      let newWidgetStatus = Array.from(this.state.wgStatus);
-      let newLayouts = {};
-      for (let i = 0; i < newState.items.length; i++) {
-        var widgetItem = newState.items[i];
-        newWidgetStatus.find(w => w.key == widgetItem.key).enable = widgetItem.enable;
-        newLayouts = widgetItem.enable ? this._addWidgetToLayout(widgetItem.key) : this._removeWidgetFromLayout(widgetItem.key)
+      var newWgs = this.state.wgStatus;
+      for (var i = 0; i < newState.items.length; i++) {
+        var index = this.state.wgStatus.findIndex(x => x.key == newState.items[i].key);
+        newWgs[index].enable = newState.items[i].enable
       }
-
-      this.setState({ wgStatus: newWidgetStatus, layouts: newLayouts });
-      WidgetApi.saveWgStatus(newWidgetStatus)
-      WidgetApi.saveWidgetLayout(newLayouts);
+      this.setState({ wgStatus: newWgs });
+      WidgetApi.saveWgStatus(this.state.wgStatus)
     }
-  }
 
-  onLayoutChange(layout, layouts){
-    WidgetApi.saveWidgetLayout(layouts);
   }
 
   render() {
+
     return <Layout langCode={this.state.langCode} initialWgStatus={this.defaultWgStatus} callbackParent={(newState) => this.onChildChanged(newState)}>
-      <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
+      <ResponsiveReactGridLayout className="layout" layouts={this.layouts} rowHeight={25}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}>
 
-        {this.state.wgStatus.filter(i => i.enable).map((item) => this.renderWgItem(item.key))}
+        {this.state.wgStatus.filter(i=>i.enable).map((item) => {
+          return this.renderWgItem(item.key, item.enable)
+
+        })}
 
       </ResponsiveReactGridLayout>
 
