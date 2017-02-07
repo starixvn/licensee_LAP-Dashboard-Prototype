@@ -1,12 +1,18 @@
 export default class NumberFormat {
-    static formatCurrency(value, currency) {
-        value = value ? value : 0
-        let currencyFormat = currency ? new Intl.NumberFormat("en-US", { style: "currency", currency: currency }) : new Intl.NumberFormat("en-US")
+    static formatCurrency(value = 0, currency) {
+        const currencies = {
+            "EUR": "€",
+            "GBP": "£",
+            "USD": "$",
+            "CNY": "¥",
+            "MYR": "RM"
+        }
+        currency = currencies[currency] ? currencies[currency] : ''
 
-        return currencyFormat.format(value)
+        return `${currency}${this.format(value)}`
     }
 
     static format(value) {
-        return new Intl.NumberFormat().format(value)
+        return value.toFixed().replace(/(\d)(?=(\d{3})+$)/g, "$1,")
     }
 }
