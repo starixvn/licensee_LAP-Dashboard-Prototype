@@ -10,9 +10,9 @@ export default class Lang
         {
             case "en":
             return en[resKey];
-            case "cn":
+            case "cs":
             return cn[resKey];
-            case "tw":
+            case "ch":
             return tw[resKey];
             default:
             return en[resKey];
