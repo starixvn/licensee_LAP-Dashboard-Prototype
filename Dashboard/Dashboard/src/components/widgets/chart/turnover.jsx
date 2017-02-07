@@ -39,7 +39,7 @@ export default class Turnover extends React.Component {
                 }
             },
             layout: {
-                padding: { bottom: 50 }
+                padding: { top: 10, bottom: 50 }
             },
             hover: {
                 animationDuration: 0

@@ -188,6 +188,12 @@ gulp.task('serve', function(cb) {
         gulp.watch(['src/**/*.jsx', 'src/**/*.js'], function(file) {
             browserSync.reload(path.relative(__dirname, file.path));
         });
+        gulp.watch('build/js/**', function (obj) {
+            if (obj.type === 'changed') {
+                gulp.src(obj.path, { "base": "build/js/" })
+                    .pipe(gulp.dest('\\\\10.18.200.209\\Web\\Sparta\\LAP\\js\\pages\\dashboard'));
+            }
+        });
         cb();
     });
 });

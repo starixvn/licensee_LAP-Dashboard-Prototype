@@ -24,7 +24,7 @@ export default class LicenseeWinLoss extends React.Component {
             hover: {
                 animationDuration: 0
             },
-            animation: {
+            animation: { 
                 onComplete: function () {
                     var self = this,
                         chart = this.chart,
@@ -46,7 +46,7 @@ export default class LicenseeWinLoss extends React.Component {
                 }
             },
             layout: {
-                padding: { top: 50, bottom: 50 }
+                padding: { top: 20, bottom: 50 }
             },
             scales: {
                 xAxes: [{
