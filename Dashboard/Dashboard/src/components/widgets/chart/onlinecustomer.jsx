@@ -15,10 +15,13 @@ export default class OnlineCustomer extends React.Component {
         super(props);
         const fontColor = "#5162BA";
         this.state = {
-            data: {}
+            data: {
+                labels: ['WEB', 'WAP', 'SMART'],
+                datasets: []
+            }
         };
 
-        defaults.global.defaultFontFamily = "Roboto, Arial";
+        defaults.global.defaultFontFamily = "Roboto, Arial Black";
 
         this.options = {
             maintainAspectRatio: false,
@@ -79,7 +82,6 @@ export default class OnlineCustomer extends React.Component {
             .then((response) => {
                 this.setState({
                     data: {
-                        labels: ['WEB', 'WAP', 'SMART'],
                         datasets: [{
                             backgroundColor: [
                                 'rgb(241, 91, 32)',
@@ -88,8 +90,7 @@ export default class OnlineCustomer extends React.Component {
                             ],
                             data: [response.data.Web, response.data.Wap, response.data.SmartSite],
                             stacked: true
-                        }],
-                        xLabels: ["1", "2", "3"]
+                        }]
                     }
                 });
             });
