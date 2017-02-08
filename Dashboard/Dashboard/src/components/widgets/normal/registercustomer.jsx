@@ -11,10 +11,11 @@ export default class RegisteredCustomer extends React.Component {
         super(props);
         this.state = {
             deposit: 0,
-            noneDeposit: 0
-           
+            noneDeposit: 0,
+            isLoading: true
         }
     }
+
     fetchData(nextProps) {
         var param = {
             Data: {
@@ -27,8 +28,9 @@ export default class RegisteredCustomer extends React.Component {
         WidgetApi.fetchData(param)
             .then((response) => {
                 this.setState({
-                deposit: response.data.Deposit,
-                noneDeposit:response.data.NoneDeposit
+                    deposit: response.data.Deposit,
+                    noneDeposit: response.data.NoneDeposit,
+                    isLoading: false
                 })
             })
             .catch(function (error) {
@@ -36,18 +38,19 @@ export default class RegisteredCustomer extends React.Component {
             });
     }
     componentWillReceiveProps(nextProps) {
-       
-            if (nextProps.refresh > this.props.refresh) {
-                this.fetchData(nextProps)
-            }
-        
+
+        if (nextProps.refresh > this.props.refresh) {
+            this.fetchData(nextProps)
+        }
+
     }
     componentDidMount() {
-        
+
         this.fetchData(this.props)
     }
     render() {
-        return <WidgetBox widgetKey={WidgetKey.normalRegisterCustomer} title={LanguageApi.getRes(this.props.langCode, "registered_customer")} widgetName="registered-customer default">
+        return <WidgetBox widgetKey={WidgetKey.normalRegisterCustomer} title={LanguageApi.getRes(this.props.langCode, "registered_customer")}
+        widgetName="registered-customer default" isLoading={this.state.isLoading}>
             <div className="clearfix registered-customer-content">
                 <span className="icon-group-users left"></span>
                 <div className="right">

@@ -16,7 +16,8 @@ export default class OnlineCustomer extends React.Component {
             data: {
                 labels: ['WEB', 'WAP', 'SMART'],
                 datasets: []
-            }
+            },
+            isLoading: true
         };
 
         this.options = {
@@ -87,7 +88,8 @@ export default class OnlineCustomer extends React.Component {
                             data: [response.data.Web, response.data.Wap, response.data.SmartSite],
                             stacked: true
                         }]
-                    }
+                    },
+                    isLoading: false
                 });
             });
     }
@@ -101,7 +103,8 @@ export default class OnlineCustomer extends React.Component {
     }
 
     render() {
-        return <WidgetBox widgetKey={WidgetKey.chartlOnlineCustomer} title={LanguageApi.getRes(this.props.langCode, "online_customer")} widgetName="online-customer default">
+        return <WidgetBox widgetKey={WidgetKey.chartlOnlineCustomer} title={LanguageApi.getRes(this.props.langCode, "online_customer")}
+        widgetName="online-customer default" isLoading={this.state.isLoading}>
             <HorizontalBar data={this.state.data} options={this.options} />
         </WidgetBox>;
 

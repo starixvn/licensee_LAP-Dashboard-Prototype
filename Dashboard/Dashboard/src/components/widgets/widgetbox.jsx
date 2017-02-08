@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import WidgetApi from '../../Modules/WidgetApi';
+import Loader from '../Loader';
 
 export default class WidgetBox extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ export default class WidgetBox extends React.Component {
       }));
     }
   }
+
   render() {
     return <div className={`widgetbox ${this.state.isClosed ? 'is-closed' : `${this.state.isMinimized ? 'is-minimize' : ''}`}`}>
       <div className={`widgetbox-header ${this.props.widgetName}`}>
@@ -49,6 +51,7 @@ export default class WidgetBox extends React.Component {
         </span>
       </div>
       <div className={`widgetbox-content ${this.props.widgetName}`}>
+        <Loader isLoading={this.props.isLoading} widgetKey={this.props.widgetKey} />
         {this.props.children}
       </div>
     </div>

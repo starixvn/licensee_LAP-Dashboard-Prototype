@@ -14,10 +14,10 @@ export default class Turnover extends React.Component {
         super(props);
         this.state = {
             data: {},
-            total: 0
+            total: 0,
+            isLoading: true
         };
-        
-       
+
         this.options = {
             legend: {
                 display: true,
@@ -109,7 +109,8 @@ export default class Turnover extends React.Component {
                                     "#4473C5"
                                 ]
                             }]
-                    }
+                    },
+                    isLoading: false
                 })
             })
             .catch(function (error) {
@@ -125,7 +126,8 @@ export default class Turnover extends React.Component {
         this.fetchData(this.props)
     }
     render() {
-        return <WidgetBox widgetKey={WidgetKey.chartTurnover} title={LanguageApi.getRes(this.props.langCode, "sportsbook_turnover_month_todate")} widgetName="turnover default">
+        return <WidgetBox widgetKey={WidgetKey.chartTurnover} title={LanguageApi.getRes(this.props.langCode, "sportsbook_turnover_month_todate")}
+        widgetName="turnover default" isLoading={this.state.isLoading}>
             <Doughnut data={this.state.data} options={this.options} />
             <div className="footer-total">
                 <span>Total turnover: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)} </span>

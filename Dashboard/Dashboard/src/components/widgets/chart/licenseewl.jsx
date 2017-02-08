@@ -13,7 +13,8 @@ export default class LicenseeWinLoss extends React.Component {
         super(props);
         this.state = {
             data: {},
-            total: 0
+            total: 0,
+            isLoading: true
         };
 
         this.options = {
@@ -101,7 +102,8 @@ export default class LicenseeWinLoss extends React.Component {
                                     "#4473C5"
                                 ]
                             }]
-                    }
+                    },
+                    isLoading: false
                 })
             })
             .catch(function (error) {
@@ -119,7 +121,8 @@ export default class LicenseeWinLoss extends React.Component {
     }
 
     render() {
-        return <WidgetBox title={LanguageApi.getRes(this.props.langCode, "licensee_winloss_month_todate")} widgetKey={WidgetKey.chartLicenseeWL} widgetName="licenseewl default">
+        return <WidgetBox title={LanguageApi.getRes(this.props.langCode, "licensee_winloss_month_todate")} widgetKey={WidgetKey.chartLicenseeWL}
+        widgetName="licenseewl default" isLoading={this.state.isLoading}>
             <Bar data={this.state.data} options={this.options} />
             <div className="footer-total">
                 <span>Total turnover: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)}</span>
