@@ -55,7 +55,7 @@ export default class BaseNormalWidget extends React.Component {
     render() {
         return <WidgetBox widgetKey={this.configs.WidgetKey} title={LanguageApi.getRes(this.props.langCode, this.configs.TitleKey)}
         widgetName={this.configs.WidgetName} isLoading={this.state.isLoading}>
-            <span className="number-big">{NumberFormat.formatCurrency(this.state.data.Value, this.props.filter.baseCurrency)}</span>
+            <span className="number-big">{NumberFormat.formatCurrency(this.state.data, this.props.filter.baseCurrency)}</span>
         </WidgetBox>;
     }
 };
