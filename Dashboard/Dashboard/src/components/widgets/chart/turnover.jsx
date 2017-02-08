@@ -119,6 +119,7 @@ export default class Turnover extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.refresh > this.props.refresh) {
+            this.setState({ isLoading: true })
             this.fetchData(nextProps)
         }
     }
@@ -127,7 +128,7 @@ export default class Turnover extends React.Component {
     }
     render() {
         return <WidgetBox widgetKey={WidgetKey.chartTurnover} title={LanguageApi.getRes(this.props.langCode, "sportsbook_turnover_month_todate")}
-        widgetName="turnover default" isLoading={this.state.isLoading}>
+            widgetName="turnover default" isLoading={this.state.isLoading}>
             <Doughnut data={this.state.data} options={this.options} />
             <div className="footer-total">
                 <span>Total turnover: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)} </span>

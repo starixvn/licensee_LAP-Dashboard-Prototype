@@ -45,6 +45,7 @@ export default class BaseNormalWidget extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.refresh > this.props.refresh) {
+            this.setState({ isLoading: true })
             this.fetchData(nextProps)
         }
     }
@@ -54,7 +55,7 @@ export default class BaseNormalWidget extends React.Component {
 
     render() {
         return <WidgetBox widgetKey={this.configs.WidgetKey} title={LanguageApi.getRes(this.props.langCode, this.configs.TitleKey)}
-        widgetName={this.configs.WidgetName} isLoading={this.state.isLoading}>
+            widgetName={this.configs.WidgetName} isLoading={this.state.isLoading}>
             <span className="number-big">{NumberFormat.formatCurrency(this.state.data, this.props.filter.baseCurrency)}</span>
         </WidgetBox>;
     }

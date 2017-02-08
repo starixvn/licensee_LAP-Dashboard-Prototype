@@ -25,7 +25,7 @@ export default class LicenseeWinLoss extends React.Component {
             hover: {
                 animationDuration: 0
             },
-            animation: { 
+            animation: {
                 onComplete: function () {
                     var self = this,
                         chart = this.chart,
@@ -113,6 +113,7 @@ export default class LicenseeWinLoss extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.refresh > this.props.refresh) {
+            this.setState({ isLoading: true })
             this.fetchData(nextProps)
         }
     }
@@ -122,7 +123,7 @@ export default class LicenseeWinLoss extends React.Component {
 
     render() {
         return <WidgetBox title={LanguageApi.getRes(this.props.langCode, "licensee_winloss_month_todate")} widgetKey={WidgetKey.chartLicenseeWL}
-        widgetName="licenseewl default" isLoading={this.state.isLoading}>
+            widgetName="licenseewl default" isLoading={this.state.isLoading}>
             <Bar data={this.state.data} options={this.options} />
             <div className="footer-total">
                 <span>Total turnover: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)}</span>

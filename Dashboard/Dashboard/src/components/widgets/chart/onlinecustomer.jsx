@@ -95,6 +95,7 @@ export default class OnlineCustomer extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.refresh > this.props.refresh) {
+            this.setState({ isLoading: true })
             this.fetchData(nextProps)
         }
     }
@@ -104,7 +105,7 @@ export default class OnlineCustomer extends React.Component {
 
     render() {
         return <WidgetBox widgetKey={WidgetKey.chartlOnlineCustomer} title={LanguageApi.getRes(this.props.langCode, "online_customer")}
-        widgetName="online-customer default" isLoading={this.state.isLoading}>
+            widgetName="online-customer default" isLoading={this.state.isLoading}>
             <HorizontalBar data={this.state.data} options={this.options} />
         </WidgetBox>;
 
