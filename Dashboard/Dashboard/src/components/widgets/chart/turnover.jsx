@@ -13,7 +13,8 @@ export default class Turnover extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {}
+            data: {},
+            total: 0
         };
         
        
@@ -89,11 +90,12 @@ export default class Turnover extends React.Component {
                 var labelList = [], dataList = [];
 
                 for (var item of response.data.Data) {
-                    labelList.push(item.Name);
+                    labelList.push(item.Key);
                     dataList.push(item.Value);
                 }
 
                 this.setState({
+                    total: response.data.Total,
                     data: {
                         labels: labelList,
                         datasets: [
@@ -126,7 +128,7 @@ export default class Turnover extends React.Component {
         return <WidgetBox widgetKey={WidgetKey.chartTurnover} title={LanguageApi.getRes(this.props.langCode, "sportsbook_turnover_month_todate")} widgetName="turnover default">
             <Doughnut data={this.state.data} options={this.options} />
             <div className="footer-total">
-                <span>Total turnover: $1,222,919.56</span>
+                <span>Total turnover: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)} </span>
             </div>
         </WidgetBox>
             ;
