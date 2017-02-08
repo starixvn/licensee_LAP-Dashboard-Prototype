@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import { HorizontalBar } from 'react-chartjs-2';
-import { defaults } from 'react-chartjs-2';
 import WidgetBox from '../widgetbox';
 import { WidgetKey } from '../../../config';
 import { WidgetApiUrl } from '../../../config';
@@ -19,8 +18,6 @@ export default class OnlineCustomer extends React.Component {
                 datasets: []
             }
         };
-
-        defaults.global.defaultFontFamily = "Roboto, Arial Black";
 
         this.options = {
             maintainAspectRatio: false,

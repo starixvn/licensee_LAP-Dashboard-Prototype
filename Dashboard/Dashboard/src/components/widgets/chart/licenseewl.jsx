@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import { Bar } from 'react-chartjs-2';
-import { defaults } from 'react-chartjs-2';
 import WidgetBox from '../widgetbox';
 import { WidgetKey } from '../../../config';
 import LanguageApi from '../../../Modules/LanguageApi';
