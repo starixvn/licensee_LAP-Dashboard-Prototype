@@ -12,7 +12,7 @@ import DepositWg from './components/widgets/normal/deposit';
 import OnlineCustomerWg from './components/widgets/chart/onlinecustomer';
 import PendingWg from './components/widgets/normal/pendingfunds';
 import RegisteredCustomerWg from './components/widgets/normal/registercustomer';
-import SportsbookWalletWg from './components/widgets/normal/sportsbookwallet';
+import CustomerBalanceWg from './components/widgets/normal/customerbalance';
 import WithdrawalWg from './components/widgets/normal/withdrawal';
 
 import LicenseeWinLossWg from './components/widgets/chart/licenseewl';
@@ -28,7 +28,7 @@ export default class DashboardApp extends React.Component {
       { key: WidgetKey.chartlOnlineCustomer, enable: true },
       { key: WidgetKey.normalPendingFund, enable: true },
       { key: WidgetKey.normalRegisterCustomer, enable: true },
-      { key: WidgetKey.normalSportsbookWallet, enable: true },
+      { key: WidgetKey.normalCustomerBalance, enable: true },
       { key: WidgetKey.normalWithdrawal, enable: true }
     ];
     var userWgStatus = WidgetApi.getWgStatus()
@@ -91,8 +91,8 @@ export default class DashboardApp extends React.Component {
       case WidgetKey.normalRegisterCustomer:
         return <div key={key}><RegisteredCustomerWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
 
-      case WidgetKey.normalSportsbookWallet:
-        return <div key={key}><SportsbookWalletWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
+      case WidgetKey.normalCustomerBalance:
+        return <div key={key}><CustomerBalanceWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
 
       case WidgetKey.normalWithdrawal:
         return <div key={key}><WithdrawalWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>

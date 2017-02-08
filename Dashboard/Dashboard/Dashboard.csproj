@@ -62,7 +62,7 @@
     <Content Include="src\components\widgets\normal\deposit.jsx" />
     <Content Include="src\components\widgets\normal\onlinecustomer.jsx" />
     <Content Include="src\components\widgets\normal\pendingfunds.jsx" />
-    <Content Include="src\components\widgets\normal\sportsbookwallet.jsx" />
+    <Content Include="src\components\widgets\normal\customerbalance.jsx" />
     <Content Include="src\components\widgets\normal\widthdrawal.jsx" />
     <Content Include="src\components\widgets\widgetbox.jsx" />
     <Content Include="src\images\logo-small.png" />

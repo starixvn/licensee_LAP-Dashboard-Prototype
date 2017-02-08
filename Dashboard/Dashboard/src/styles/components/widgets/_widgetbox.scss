@@ -69,7 +69,7 @@ $bg-Withdrawal: $blue-Bayoux;
             }
         }
 
-        &.sportbook-wallet {
+        &.customer-balance {
             background: darken($bg-Sportsbook, 3%);
         }
 
@@ -95,7 +95,7 @@ $bg-Withdrawal: $blue-Bayoux;
         overflow: hidden;
         transition: height 0.3s;
 
-        &.sportbook-wallet {
+        &.customer-balance {
             background: $bg-Sportsbook;
         }
 
