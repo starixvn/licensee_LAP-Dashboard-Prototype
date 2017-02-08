@@ -38,7 +38,7 @@ export default class DashboardApp extends React.Component {
     }
 
     let userWidgetLayouts = WidgetApi.getWidgetLayout()
-    if(!userWidgetLayouts){
+    if (!userWidgetLayouts) {
       userWidgetLayouts = this.cloneLayoutConfig()
       WidgetApi.saveWidgetLayout(userWidgetLayouts)
     }
@@ -151,15 +151,20 @@ export default class DashboardApp extends React.Component {
     }
   }
 
-  onLayoutChange(layout, layouts){
+  onLayoutChange(layout, layouts) {
     WidgetApi.saveWidgetLayout(layouts);
+  }
+
+  get isTouchScreen() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints
   }
 
   render() {
     return <Layout langCode={this.state.langCode} initialWgStatus={this.defaultWgStatus} callbackParent={(newState) => this.onChildChanged(newState)}>
       <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-        cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}>
+        cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+        isDraggable={!this.isTouchScreen}>
 
         {this.state.wgStatus.filter(i => i.enable).map((item) => this.renderWgItem(item.key))}
 
