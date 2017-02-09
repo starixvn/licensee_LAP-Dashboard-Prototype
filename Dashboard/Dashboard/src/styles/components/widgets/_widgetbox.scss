@@ -8,11 +8,9 @@ $bg-Sportsbook: $red-Roman;
 $bg-PendingFunds: $red-Sunglo;
 $bg-Deposit: $blue-Bermuda;
 $bg-Withdrawal: $blue-Bayoux;
-
 .widgetbox {
     position: relative;
     height: 100%;
-    
     .default {
         background: $white;
         .title {
@@ -20,7 +18,6 @@ $bg-Withdrawal: $blue-Bayoux;
             font-weight: 600;
         }
     }
-
     &-header {
         position: relative;
         padding: 0 5px 0 10px;
@@ -29,9 +26,8 @@ $bg-Withdrawal: $blue-Bayoux;
         line-height: 38px;
         border-top-left-radius: 2px;
         border-top-right-radius: 2px;
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);   
-        overflow: hidden;     
-
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+        overflow: hidden;
         .title {
             text-transform: uppercase;
             color: $white;
@@ -50,42 +46,34 @@ $bg-Withdrawal: $blue-Bayoux;
             text-align: center;
             cursor: pointer;
             transition: background 0.3s ease;
-
             &:hover {
                 background: rgba(0, 0, 0, .2)
             }
-
             // @media only screen and (min-width: 800px) {
             //     &:hover {
             //         background: rgba(0, 0, 0, .2);
             //     }
             // }
         }
-
         &.default {
             border-bottom: 1px solid #dcdcdc;
             .icon {
                 color: $color-title-widgets-header-default;
             }
         }
-
         &.customer-balance {
             background: darken($bg-Sportsbook, 3%);
         }
-
         &.pending-fund {
             background: darken($bg-PendingFunds, 3%);
         }
-
         &.deposit {
             background: darken($bg-Deposit, 3%);
         }
-
         &.withdrawal {
             background: darken($bg-Withdrawal, 3%);
         }
     }
-
     &-content {
         position: relative;
         height: calc(100% - 38px); //55 is height of widget header
@@ -94,23 +82,18 @@ $bg-Withdrawal: $blue-Bayoux;
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
         overflow: hidden;
         transition: height 0.3s;
-
         &.customer-balance {
             background: $bg-Sportsbook;
         }
-
         &.pending-fund {
             background: $bg-PendingFunds;
         }
-
         &.deposit {
             background: $bg-Deposit;
         }
-        
         &.withdrawal {
             background: $bg-Withdrawal;
         }
-
         .number-big {
             font-size: 40px;
             color: $white;
@@ -119,14 +102,12 @@ $bg-Withdrawal: $blue-Bayoux;
             left: 50%;
             transform: translate(-50%, -50%);
         }
-
         &.registered-customer {
             .registered-customer-content {
                 position: relative;
                 min-height: 7rem;
                 padding: 0 16px;
                 color: $blue-Bayoux;
-
                 .icon-group-users {
                     position: absolute;
                     top: 50%;
@@ -140,43 +121,35 @@ $bg-Withdrawal: $blue-Bayoux;
                     background: $colorPrimary;
                     color: $white;
                 }
-
                 .registered-info {
                     text-align: right;
-
                     p {
                         margin: 0;
                     }
-
                     .number {
                         font-size: 28px;
                         font-weight: 600;
                     }
-
                     .text {
                         font-size: 16px;
                         font-weight: 300;
                     }
                 }
-
                 &.dark-bg {
                     background: $blue-Bayoux;
                     color: $white;
                     height: calc(100% - 7rem);
                     padding: 0;
-
                     .registered-info {
                         position: relative;
                         box-sizing: border-box;
                         text-align: center;
                         float: left;
                         height: 100%;
-                        width: 50%;     
-
+                        width: 50%;
                         &:first-child {
                             border-right: 1px solid $white;
                         }
-
                         .center-block {
                             position: absolute;
                             top: 50%;
@@ -184,14 +157,16 @@ $bg-Withdrawal: $blue-Bayoux;
                             transform: translateY(-50%);
                             text-align: center;
                         }
-                    }                    
+                    }
+                }
+                >.right {
+                    margin-top: 5px;
                 }
             }
         }
-
-        &.turnover, &.licenseewl {
+        &.turnover,
+        &.licenseewl {
             padding: 0 16px;
-
             .footer-total {
                 position: absolute;
                 bottom: 0;
@@ -203,7 +178,6 @@ $bg-Withdrawal: $blue-Bayoux;
                 -webkit-backface-visibility: hidden;
                 -moz-backface-visibility: hidden;
                 backface-visibility: hidden;
-
                 span {
                     display: block;
                     color: #ef5b1f;
@@ -213,24 +187,7 @@ $bg-Withdrawal: $blue-Bayoux;
             }
         }
     }
-
-    &.is-minimize {
-        .widgetbox-content {
-            height: 0;
-        }
-    }
-
     &.is-closed {
-        .widgetbox-content {
-            height: 0;
-            box-shadow: none;
-        }
-
-        .widgetbox-header {
-            height: 0;
-            transition: height 0.2s 0.3s;
-            box-shadow: none;
-            border-bottom: none;
-        }
+        display: none;
     }
 }

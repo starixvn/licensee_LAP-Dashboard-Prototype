@@ -8,7 +8,6 @@ export default class WidgetBox extends React.Component {
     super(props);
     this.state = {
       isMounted: false,
-      isMinimized: false,
       isClosed: false
     }
   }
@@ -17,13 +16,6 @@ export default class WidgetBox extends React.Component {
   }
   componentWillUnmount() {
     this.setState({ isMounted: false });
-  }
-  toggleMinimize() {
-    if (this.state.isMounted) {
-      this.setState(prevState => ({
-        isMinimized: !prevState.isMinimized
-      }));
-    }
   }
   toggleClose() {
     var wgStatus = WidgetApi.getWgStatus()
@@ -39,14 +31,13 @@ export default class WidgetBox extends React.Component {
   }
 
   render() {
-    return <div className={`widgetbox ${this.state.isClosed ? 'is-closed' : `${this.state.isMinimized ? 'is-minimize' : ''}`}`}>
+    return <div className={`widgetbox ${this.state.isClosed ? 'is-closed' : ''}`}>
       <div className={`widgetbox-header ${this.props.widgetName}`}>
         <span className="title">
           {this.props.title}
         </span>
 
         <span className="icon-wrapper right">
-          <span onClick={(e) => this.toggleMinimize(e)} className="icon icon-minimize"></span>
           <span onClick={(e) => this.toggleClose(e)} className="icon icon-close"></span>
         </span>
       </div>
