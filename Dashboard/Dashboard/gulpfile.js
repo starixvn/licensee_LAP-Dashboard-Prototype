@@ -191,13 +191,13 @@ gulp.task('serve', ['copytoLocal'], function(cb) {
         gulp.watch('build/js/**', function (obj) {
             if (obj.type === 'changed') {
                 gulp.src(obj.path)
-                    .pipe(gulp.dest('//10.18.200.209/Web/Sparta/LAP/js/pages/dashboard'));
+                    .pipe(gulp.dest('//10.100.10.16/Sparta/LAP.Site/LAP/js/pages/dashboard'));
             }
         });
         gulp.watch('build/css/**', function (obj) {
             if (obj.type === 'changed') {
                 gulp.src(obj.path)
-                    .pipe(gulp.dest('//10.18.200.209/Web/Sparta/LAP/css/pages/dashboard/main'));
+                    .pipe(gulp.dest('//10.100.10.16/Sparta/LAP.Site/LAP/css/pages/dashboard/main'));
             }
         });
         cb();
@@ -206,10 +206,10 @@ gulp.task('serve', ['copytoLocal'], function(cb) {
 
 gulp.task('copytoLocal', function(cb) {
     gulp.src('build/css/**')
-    .pipe(gulp.dest('//10.18.200.209/Web/Sparta/LAP/css/pages/dashboard/main'));
+    .pipe(gulp.dest('//10.100.10.16/Sparta/LAP.Site/LAP/css/pages/dashboard/main'));
 
     return gulp.src('build/js/**')
-    .pipe(gulp.dest('//10.18.200.209/Web/Sparta/LAP/js/pages/dashboard'));
+    .pipe(gulp.dest('//10.100.10.16/Sparta/LAP.Site/LAP/js/pages/dashboard'));
 });
 
 // Deploy to GitHub Pages
