@@ -9,10 +9,10 @@ export default class NumberFormat {
         }
         currency = currencies[currency] ? currencies[currency] : ''
 
-        return `${currency}${this.format(value, 2)}`
+        return `${currency} ${this.format(value, 2)}`
     }
 
     static format(value, digits = 0) {
-        return value.toFixed(digits).replace(/(\d)(?=(\d{3})+$)/g, "$1,")
+        return value.toFixed(digits).replace(/(\d)(?=(\d{3})+(\.|$))/g, "$1,")
     }
 }

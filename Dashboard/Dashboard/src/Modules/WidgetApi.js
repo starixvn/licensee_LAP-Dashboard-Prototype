@@ -3,7 +3,7 @@ import axios from 'axios';
 export default class WidgetApi {
 
     static _getAuthToken(action) {
-        var tokenUrl = window.TokenUrl || "http://ha.nexdev.net:7611/LAPDashboard/12bet/Verify/ApplyApiToken?type=1&actionLink={0}&_=" + (new Date()).getTime();
+        var tokenUrl = window.TokenUrl || "http://ha.nexdev.net:7611/LAP/12bet/Verify/ApplyApiToken?type=1&actionLink={0}&_=" + (new Date()).getTime();
         tokenUrl = tokenUrl.replace("{0}", encodeURIComponent(action))
         return axios.get(tokenUrl, {
 
@@ -28,7 +28,7 @@ export default class WidgetApi {
 
 
         } else {
-            var lapRootUrl = window.HostUrl || "http://ha.nexdev.net:7611/LAPDashboard/12bet";
+            var lapRootUrl = window.HostUrl || "http://ha.nexdev.net:7611/LAP/12bet";
             const lapApi = lapRootUrl.replace("SessionIsAlive", param.Url)
             return axios.get(lapApi, {
                 params: data

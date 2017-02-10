@@ -97,10 +97,16 @@ $bg-Withdrawal: $blue-Bayoux;
         .number-big {
             font-size: 40px;
             color: $white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        }
+        @media only screen and (max-width: 1200px) {
+            .number-big {
+                font-size: 35px;
+            }
+        }
+        @media only screen and (max-width: 600px) {
+            .number-big {
+                font-size: 30px;
+            }
         }
         &.registered-customer {
             .registered-customer-content {
@@ -149,13 +155,6 @@ $bg-Withdrawal: $blue-Bayoux;
                         width: 50%;
                         &:first-child {
                             border-right: 1px solid $white;
-                        }
-                        .center-block {
-                            position: absolute;
-                            top: 50%;
-                            width: 100%;
-                            transform: translateY(-50%);
-                            text-align: center;
                         }
                     }
                 }
