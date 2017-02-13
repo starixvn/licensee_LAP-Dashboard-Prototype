@@ -1,28 +1,18 @@
-export const tw=
-{
-  n_deposit:"Deposit",
-  c_turnover:" Turnover",
-  c_licWL:" Licensee Win Loss",
-  n_reg_customer:"Registered customers",
-  c_online_customer:"Online customers",
-  n_customer_balance:"Customer Balance",
-  n_pending_funds:"Pending Funds",
-  n_deposit:"Deposit",
-  n_withdrawal:"Withdrawal",
-  sportsbook_turnover_month_todate:'Sportsbook Turnover (Month to date)',
-  deposit_today:"Deposit (Today)",
-  
-  licensee_winloss_month_todate:"Licensee Win Loss (Month to date)",
-  registered_customer:"Registered customers",
-  online_customer:"Online customers",
-  customer_balance:"Customer Balance",
-  pending_funds:"Pending Funds",
-  withdrawal_today:"Withdrawal (today)",
-  apply:"Apply",
-  currency:"Currency",
-  Based:"Based",
-  Widgets:"WIDGETS",
-  total_registered_cus_today:"Total Registered Customers (today)",
-  deposit:"Deposit",
-  none_deposit:"None - deposit"
+export const tw = {
+    sportsbook_turnover_month_todate: 'Sportsbook Turnover (Month to date)',
+    deposit_today: "存款(今日)",
+
+    licensee_winloss_month_todate: "投注输赢(截至今日)",
+    registered_customer: "已注册会员",
+    online_customer: "在线会员",
+    customer_balance: "会员馀额",
+    pending_funds: "未结算金额",
+    withdrawal_today: "提款(今日)",
+    apply: "Apply",
+    currency: "会员币别",
+    Based: "显示币别",
+    Widgets: "WIDGETS",
+    total_registered_cus_today: "今日註冊會員",
+    deposit: "註冊且存款",
+    none_deposit: "註冊未存款"
 };
