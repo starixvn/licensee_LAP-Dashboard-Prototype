@@ -14,7 +14,11 @@ export default class OnlineCustomer extends React.Component {
         const fontColor = "#5162BA";
         this.state = {
             data: {
-                labels: ['WEB', 'WAP', 'SMART'],
+                labels: [
+                    LanguageApi.getRes(this.props.langCode, "Web"),
+                    LanguageApi.getRes(this.props.langCode, "Wap"),
+                    LanguageApi.getRes(this.props.langCode, "Mobile")
+                ],
                 datasets: []
             },
             isLoading: true

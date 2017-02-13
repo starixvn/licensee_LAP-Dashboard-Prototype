@@ -14,5 +14,12 @@ export const cn = {
     Widgets: "WIDGETS",
     total_registered_cus_today: "今日注册会员",
     deposit: "注册且存款",
-    none_deposit: "注册未存款"
+    none_deposit: "注册未存款",
+    Asia: "亚洲版",
+    NewAsia: "大陆版",
+    Euro: "Euro",
+    Wap: "WAP手机",
+    Mobile: "智能手机",
+    All: "All",
+    Web: "桌机版"
 };

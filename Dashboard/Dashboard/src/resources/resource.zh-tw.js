@@ -14,5 +14,12 @@ export const tw = {
     Widgets: "WIDGETS",
     total_registered_cus_today: "今日註冊會員",
     deposit: "註冊且存款",
-    none_deposit: "註冊未存款"
+    none_deposit: "註冊未存款",
+    Asia: "亞洲版",
+    NewAsia: "大陸版",
+    Euro: "Euro",
+    Wap: "WAP手機",
+    Mobile: "智慧型手機",
+    All: "All",
+    Web: "桌機版"
 };

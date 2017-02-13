@@ -14,6 +14,12 @@ export const en = {
     Widgets: "WIDGETS",
     total_registered_cus_today: "Total Registered Customers (today)",
     deposit: "Deposit",
-    none_deposit: "None - deposit"
-
+    none_deposit: "None - deposit",
+    Asia: "Asia",
+    NewAsia: "NewAsia",
+    Euro: "Euro",
+    Wap: "Wap",
+    Mobile: "Mobile",
+    All: "All",
+    Web: "Web"
 };

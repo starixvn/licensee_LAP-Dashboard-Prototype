@@ -90,7 +90,7 @@ export default class Turnover extends React.Component {
                 var labelList = [], dataList = [];
 
                 for (var item of response.data.Data) {
-                    labelList.push(item.Key);
+                    labelList.push(LanguageApi.getRes(this.props.langCode, item.Key));
                     dataList.push(item.Value);
                 }
 
