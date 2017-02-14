@@ -52,7 +52,7 @@ export default class WidgetApi {
     }
 
     static clearLayoutSettingIfNewVersion(){
-        var scriptElement = document.getElementById("appscript");
+        var scriptElement = document.getElementById("dashboard-script");
         if (!scriptElement)
         {
             return;
