@@ -12,6 +12,10 @@ export default class NumberFormat {
         return `${currency} ${this.format(value, 2)}`
     }
 
+    static formatDecimal(value) {
+        return this.format(value, 2)
+    }
+
     static format(value, digits = 0) {
         return value.toFixed(digits).replace(/(\d)(?=(\d{3})+(\.|$))/g, "$1,")
     }

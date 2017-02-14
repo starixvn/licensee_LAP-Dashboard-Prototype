@@ -39,7 +39,7 @@ export default class LicenseeWinLoss extends React.Component {
                     self.data.datasets.forEach(function (dataset, datasetIndex) {
                         var meta = self.getDatasetMeta(datasetIndex);
                         meta.data.forEach(function (element, elementIndex) {
-                            var text = NumberFormat.format(dataset.data[elementIndex]);
+                            var text = NumberFormat.formatDecimal(dataset.data[elementIndex]);
                             var textWidth = ctx.measureText(text).width;
                             ctx.fillText(text, element._model.x - (textWidth / 2), element._model.y - 5);
                         });
