@@ -6,14 +6,6 @@ const widgetStatusCacheKey = "_LAP_Dashboard_Wg_Status";
 
 const widgetLayoutCacheKey = "_LAP_Dashboard_Wg_Layout";
 
-function parseDate(str) {
-    if(!/^(\d){8}$/.test(str)) return "Invalid date: " + str;
-    var y = str.substr(0,4),
-        m = str.substr(4,2),
-        d = str.substr(6,2);
-    return new Date(y,m,d);
-}
-
 export default class WidgetApi {
 
     static _getAuthToken(action) {
