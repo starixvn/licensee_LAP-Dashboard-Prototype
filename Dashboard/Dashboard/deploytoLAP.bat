@@ -1,1 +1,1 @@
-gulp --releaseq --svn "D:/SVN/lic-admin/trunk/New Admin Portal/New Admin Portal"  deploy
+gulp --release --svn "D:/SVN/lic-admin/trunk/New Admin Portal/New Admin Portal"  deploy
