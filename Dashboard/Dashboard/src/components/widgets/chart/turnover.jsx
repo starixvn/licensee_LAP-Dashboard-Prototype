@@ -127,7 +127,7 @@ export default class Turnover extends React.Component {
         this.fetchData(this.props)
     }
     render() {
-        return <WidgetBox widgetKey={WidgetKey.chartTurnover} title={LanguageApi.getRes(this.props.langCode, "sportsbook_turnover_month_todate")}
+        return <WidgetBox widgetKey={WidgetKey.chartTurnover} title={LanguageApi.getRes(this.props.langCode, "turnover_byplatform")}
             widgetName="turnover default" isLoading={this.state.isLoading}>
             <Doughnut data={this.state.data} options={this.options} />
             <div className="footer-total">

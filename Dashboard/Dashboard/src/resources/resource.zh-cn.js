@@ -1,15 +1,15 @@
 export const cn = {
-    n_deposit: "注册且存款",
-    c_turnover: "Turnover",
+    n_deposit: "存款(今日)",
+    c_turnover: "交易額",
     c_licWL: "投注輸贏",
     n_reg_customer: "已註冊會員",
     c_online_customer: "在線會員",
     n_customer_balance: "會員餘額",
     n_pending_funds: "未結算金額",
     n_deposit: "注册且存款",
-    n_withdrawal: "Withdrawal",
+    n_withdrawal: "提款(今日)",
 
-    sportsbook_turnover_month_todate: 'Sportsbook Turnover (Month to date)',
+    turnover_byplatform: '交易額',
     deposit_today: "存款(今日)",
 
     licensee_winloss_month_todate: "投注輸贏(截至今日)",
