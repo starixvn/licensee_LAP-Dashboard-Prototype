@@ -1,5 +1,19 @@
 import axios from 'axios';
 
+const widgetVersionCacheKey = "_LAP_Dashboard_Wg_Version";
+
+const widgetStatusCacheKey = "_LAP_Dashboard_Wg_Status";
+
+const widgetLayoutCacheKey = "_LAP_Dashboard_Wg_Layout";
+
+function parseDate(str) {
+    if(!/^(\d){8}$/.test(str)) return "Invalid date: " + str;
+    var y = str.substr(0,4),
+        m = str.substr(4,2),
+        d = str.substr(6,2);
+    return new Date(y,m,d);
+}
+
 export default class WidgetApi {
 
     static _getAuthToken(action) {
@@ -37,33 +51,50 @@ export default class WidgetApi {
 
     }
 
-    static wgStatusCacheKey() {
-        return "_LAP_Dashboard_Wg_Status"
+    static clearLayoutSettingIfNewVersion(){
+        var scriptElement = document.getElementById("appscript");
+        if (!scriptElement)
+        {
+            return;
+        }
+
+        var jsVersions = scriptElement.src.match(/v=\d*/);
+        if (!jsVersions)
+        {
+            return;
+        }
+
+        var newVersion = jsVersions[0];
+        var cacheVersion = window.localStorage.getItem(widgetVersionCacheKey);
+        if (newVersion !== cacheVersion)
+        {
+            window.localStorage.setItem(widgetVersionCacheKey, newVersion);
+            window.localStorage.removeItem(widgetStatusCacheKey);
+            window.localStorage.removeItem(widgetLayoutCacheKey);
+        }
     }
+
     static saveWgStatus(wgs) {
         try {
-            window.sessionStorage.setItem(WidgetApi.wgStatusCacheKey(), JSON.stringify(wgs))
+            window.localStorage.setItem(widgetStatusCacheKey, JSON.stringify(wgs))
         } catch (error) {
             alert("To continue use dashboard. Please turn private browsing off!!")
         }
     }
     static getWgStatus() {
-        var item = window.sessionStorage.getItem(WidgetApi.wgStatusCacheKey())
+        var item = window.localStorage.getItem(widgetStatusCacheKey)
         return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : null;
     }
 
-    static widgetLayoutCacheKey() {
-        return "_LAP_Dashboard_Wg_Layout"
-    }
     static saveWidgetLayout(layout) {
         try {
-            window.sessionStorage.setItem(WidgetApi.widgetLayoutCacheKey(), JSON.stringify(layout))
+            window.localStorage.setItem(widgetLayoutCacheKey, JSON.stringify(layout))
         } catch (error) {
             alert("To continue use dashboard. Please turn private browsing off!!")
         }
     }
     static getWidgetLayout() {
-        var item = window.sessionStorage.getItem(WidgetApi.widgetLayoutCacheKey())
+        var item = window.localStorage.getItem(widgetLayoutCacheKey)
         return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : null;
     }
 }

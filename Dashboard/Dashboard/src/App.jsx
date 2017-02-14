@@ -21,6 +21,8 @@ import TurnoverWg from './components/widgets/chart/turnover';
 export default class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
+
+    WidgetApi.clearLayoutSettingIfNewVersion();
     const _wgStatus = [
       { key: WidgetKey.chartTurnover, enable: true },
       { key: WidgetKey.chartLicenseeWL, enable: true },
