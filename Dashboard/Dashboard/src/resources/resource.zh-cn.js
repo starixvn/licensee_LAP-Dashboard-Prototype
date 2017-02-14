@@ -31,5 +31,7 @@ export const cn = {
     Wap: "WAP手机",
     Mobile: "智能手机",
     All: "All",
-    Web: "桌机版"
+    Web: "桌机版",
+    total_turnover: "Total Turnover",
+    total_winloss: "Total Win Loss"
 };

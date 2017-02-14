@@ -30,5 +30,7 @@ export const en = {
     Wap: "Wap",
     Mobile: "Mobile",
     All: "All",
-    Web: "Web"
+    Web: "Web",
+    total_turnover: "Total Turnover",
+    total_winloss: "Total Win Loss"
 };

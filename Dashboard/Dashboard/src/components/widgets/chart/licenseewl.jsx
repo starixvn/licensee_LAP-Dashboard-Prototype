@@ -126,7 +126,7 @@ export default class LicenseeWinLoss extends React.Component {
             widgetName="licenseewl default" isLoading={this.state.isLoading}>
             <Bar data={this.state.data} options={this.options} />
             <div className="footer-total">
-                <span>Total turnover: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)}</span>
+                <span>{LanguageApi.getRes(this.props.langCode, "total_winloss")}: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)}</span>
             </div>
         </WidgetBox>
             ;

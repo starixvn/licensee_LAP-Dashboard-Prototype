@@ -131,7 +131,7 @@ export default class Turnover extends React.Component {
             widgetName="turnover default" isLoading={this.state.isLoading}>
             <Doughnut data={this.state.data} options={this.options} />
             <div className="footer-total">
-                <span>Total turnover: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)} </span>
+                <span>{LanguageApi.getRes(this.props.langCode, "total_turnover")}: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)} </span>
             </div>
         </WidgetBox>
             ;
