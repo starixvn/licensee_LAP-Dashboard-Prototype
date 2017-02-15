@@ -10,12 +10,12 @@
     background: $colorPrimary;
     border-radius: 3px 0 0 3px;
     border: 1px solid $colorPrimary;
-    //transition: all 0.5s ease;
+    transition: all 0.1s ease;
     z-index: 1001;
     touch-action: auto;
 
     &:active {
-        background-color: lighten($colorPrimary, 50%);
+        background-color: lighten($colorPrimary, 40%);
     }
 }
 
