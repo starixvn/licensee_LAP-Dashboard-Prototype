@@ -8,7 +8,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 import { WidgetKey, Wglayouts } from './config';
-import WidgetApi from './Modules/WidgetApi';
+import WidgetLayout from './Modules/WidgetLayout';
 import DepositWg from './components/widgets/normal/deposit';
 import OnlineCustomerWg from './components/widgets/chart/onlinecustomer';
 import PendingWg from './components/widgets/normal/pendingfunds';
@@ -23,7 +23,7 @@ export default class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
 
-    WidgetApi.clearLayoutSettingIfNewVersion();
+    WidgetLayout.clearLayoutSettingIfNewVersion();
     const _wgStatus = [
       { key: WidgetKey.chartTurnover, enable: true },
       { key: WidgetKey.chartLicenseeWL, enable: true },
@@ -34,16 +34,16 @@ export default class DashboardApp extends React.Component {
       { key: WidgetKey.normalCustomerBalance, enable: true },
       { key: WidgetKey.normalWithdrawal, enable: true }
     ];
-    var userWgStatus = WidgetApi.getWgStatus()
+    var userWgStatus = WidgetLayout.getWidgetStatus()
     if (!userWgStatus) {
       userWgStatus = _wgStatus
-      WidgetApi.saveWgStatus(_wgStatus)
+      WidgetLayout.saveWidgetStatus(_wgStatus)
     }
 
-    let userWidgetLayouts = WidgetApi.getWidgetLayout()
+    let userWidgetLayouts = WidgetLayout.getWidgetLayout()
     if (!userWidgetLayouts) {
       userWidgetLayouts = this.cloneLayoutConfig()
-      WidgetApi.saveWidgetLayout(userWidgetLayouts)
+      WidgetLayout.saveWidgetLayout(userWidgetLayouts)
     }
 
     this.state = {
@@ -149,13 +149,13 @@ export default class DashboardApp extends React.Component {
       }
 
       this.setState({ wgStatus: newWidgetStatus, layouts: newLayouts });
-      WidgetApi.saveWgStatus(newWidgetStatus)
-      WidgetApi.saveWidgetLayout(newLayouts);
+      WidgetLayout.saveWidgetStatus(newWidgetStatus)
+      WidgetLayout.saveWidgetLayout(newLayouts);
     }
   }
 
   onLayoutChange(layout, layouts) {
-    WidgetApi.saveWidgetLayout(layouts);
+    WidgetLayout.saveWidgetLayout(layouts);
   }
 
   get isTouchScreen() {

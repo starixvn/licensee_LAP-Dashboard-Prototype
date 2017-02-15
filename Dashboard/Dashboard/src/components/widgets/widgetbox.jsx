@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
-import WidgetApi from '../../Modules/WidgetApi';
+import WidgetLayout from '../../Modules/WidgetLayout';
 import Loader from '../Loader';
 
 export default class WidgetBox extends React.Component {
@@ -18,10 +18,10 @@ export default class WidgetBox extends React.Component {
     this.setState({ isMounted: false });
   }
   toggleClose() {
-    var wgStatus = WidgetApi.getWgStatus()
+    var wgStatus = WidgetLayout.getWidgetStatus()
     var currentWidget = wgStatus.find(x => x.key == this.props.widgetKey)
     currentWidget.enable = false
-    WidgetApi.saveWgStatus(wgStatus)
+    WidgetLayout.saveWidgetStatus(wgStatus)
 
     if (this.state.isMounted) {
       this.setState(prevState => ({
