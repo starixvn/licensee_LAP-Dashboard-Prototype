@@ -1,4 +1,4 @@
-import NumberFormat from '../../src/Modules/Number';
+import NumberFormat from '../Number';
 
 describe('formatCurrency()', () => {
     test('format without param currency', () => {

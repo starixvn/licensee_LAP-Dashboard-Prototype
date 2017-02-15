@@ -1,6 +1,6 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import WidgetApi from '../../src/Modules/WidgetApi';
+import WidgetApi from '../WidgetApi';
 
 describe('fetchData(param)', () => {
     test('call axios.get() and return correct promise', () => {

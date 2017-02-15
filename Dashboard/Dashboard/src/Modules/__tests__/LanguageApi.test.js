@@ -1,4 +1,4 @@
-import LanguageApi from '../../src/Modules/LanguageApi';
+import LanguageApi from '../LanguageApi';
 
 test('getRes(langcode,resKey) return correct result with correct langcode', () => {
         expect(LanguageApi.getRes("cs", "c_turnover")).toBe("交易額");
