@@ -58,19 +58,24 @@ export default class Turnover extends React.Component {
 
                     ctx.textAlign = "center";
                     ctx.fillStyle = "#fff";
-
+                    ctx.save();
+                    ctx.shadowColor = "black";
+                    ctx.shadowBlur = 5;
                     var chartCircumference = chart.config.options.circumference;
                     self.data.datasets.forEach((dataset, datasetIndex) => {
                         var meta = self.getDatasetMeta(datasetIndex);
 
                         meta.data.forEach((element, index) => {
-                            var segmentLabel = element._model.circumference / chartCircumference * 100;
+                            var segmentPercent = element._model.circumference / chartCircumference * 100;
                             var position = element.tooltipPosition();
                             if (element._model.circumference > 0) {
-                                ctx.fillText(segmentLabel.toFixed(0) + '%', position.x, position.y);
+                                var label = segmentPercent < 1 ? "<1" : segmentPercent.toFixed(0);
+                                ctx.fillText(label + '%', position.x, position.y);
                             }
                         });
                     });
+
+                    ctx.restore();
                 }
             }
         };
