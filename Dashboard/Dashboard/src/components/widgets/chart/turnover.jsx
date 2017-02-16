@@ -60,7 +60,7 @@ export default class Turnover extends React.Component {
                     ctx.fillStyle = "#fff";
                     ctx.save();
                     ctx.shadowColor = "black";
-                    ctx.shadowBlur = 5;
+                    ctx.shadowBlur = 3;
                     var chartCircumference = chart.config.options.circumference;
                     self.data.datasets.forEach((dataset, datasetIndex) => {
                         var meta = self.getDatasetMeta(datasetIndex);

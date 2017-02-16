@@ -1,4 +1,4 @@
-export const tw = {
+export const ch = {
     n_deposit: "存款(今日)",
     c_turnover: "交易额",
     c_licWL: "投注输赢",

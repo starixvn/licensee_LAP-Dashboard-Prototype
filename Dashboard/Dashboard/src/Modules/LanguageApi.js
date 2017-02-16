@@ -1,21 +1,25 @@
 
-import {en} from '../resources/resource.en-us';
-import {cn} from '../resources/resource.zh-cn';
-import {tw} from '../resources/resource.zh-tw';
+import {ch} from '../resources/resource.ch';
+import {cs} from '../resources/resource.cs';
+import {en} from '../resources/resource.en';
+import {zhcn} from '../resources/resource.zhcn';
+
 export default class Lang
 {
     static getRes(langcode,resKey)
     {
         switch(langcode)
         {
-            case "en":
-            return en[resKey];
-            case "cs":
-            return cn[resKey];
             case "ch":
-            return tw[resKey];
+                return ch[resKey];
+            case "cs":
+                return cs[resKey];
+            case "en":
+                return en[resKey];
+            case "zhcn":
+                return zhcn[resKey];
             default:
-            return en[resKey];
+                return en[resKey];
         }
     }
 }
