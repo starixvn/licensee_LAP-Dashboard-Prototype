@@ -1,0 +1,67 @@
+exports[`test Link changes the class when hovered 1`] = `
+<div
+  className="dashboard__container">
+  <div
+    className="dashboard__right-panel">
+    <div
+      className="right-panel-wrap">
+      <span
+        className="icon-quickaccess js-icon-quickaccess"
+        onClick={[Function]}>
+        <i
+          className="icon-settings" />
+      </span>
+      <div
+        className="right-panel-content">
+        <div
+          className="currency">
+          <label
+            className="currency-label">
+            Currency
+          </label>
+          <select
+            onChange={[Function]}
+            value={0} />
+        </div>
+        <div
+          className="currency">
+          <label
+            className="currency-label">
+            Based
+          </label>
+          <select
+            onChange={[Function]}
+            value="EUR" />
+        </div>
+        <a
+          className="btn-submit"
+          href="#"
+          onClick={[Function]}>
+          Apply
+        </a>
+        <div
+          className="widgets-config">
+          <div
+            className="widgets-title">
+            WIDGETS
+          </div>
+          <p
+            className="widget-item">
+            <input
+              checked={true}
+              className="filled-in"
+              id="WidgetKey.chartTurnover"
+              onChange={[Function]}
+              type="checkbox" />
+            <label
+              htmlFor="WidgetKey.chartTurnover" />
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      className="right-panel-overlay"
+      onClick={[Function]} />
+  </div>
+</div>
+`;

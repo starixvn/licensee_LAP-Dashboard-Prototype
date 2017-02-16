@@ -7,7 +7,6 @@ export default class DefaultLayout extends React.Component{
      constructor(props)
     {
         super(props);
-        
     };
     render() 
     {
