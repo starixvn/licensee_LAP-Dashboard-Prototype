@@ -10,6 +10,16 @@ afterEach(() => {
     window.localStorage = null;
 });
 
+test('clearLayoutSettingIfNewVersion(): calls to localStorage with correct keys', () => {
+    document.body.innerHTML = '<script src="aaa?v=123" id="dashboard-script"></script>';
+  
+    WidgetLayout.clearLayoutSettingIfNewVersion();
+
+    expect(window.localStorage.setItem.mock.calls[0][0]).toBe('_LAP_Dashboard_Wg_Version');
+    expect(window.localStorage.removeItem.mock.calls[0][0]).toBe('_LAP_Dashboard_Wg_Status');
+    expect(window.localStorage.removeItem.mock.calls[1][0]).toBe('_LAP_Dashboard_Wg_Layout');
+});
+
 test('saveWidgetStatus(): set item to localStorage with correct key', () => {
     WidgetLayout.saveWidgetStatus();
 
