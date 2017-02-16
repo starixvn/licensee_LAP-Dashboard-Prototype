@@ -11,7 +11,10 @@ afterEach(() => {
 });
 
 test('clearLayoutSettingIfNewVersion(): calls to localStorage with correct keys', () => {
-    document.body.innerHTML = '<script src="aaa?v=123" id="dashboard-script"></script>';
+    var scriptElement = window.document.createElement("script");
+    scriptElement.id="dashboard-script";
+    scriptElement.src = "anotherScript.js?v=123";
+    window.document.body.appendChild(scriptElement);
   
     WidgetLayout.clearLayoutSettingIfNewVersion();
 
