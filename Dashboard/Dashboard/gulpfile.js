@@ -165,7 +165,7 @@ gulp.task('build', ['clean'], function(cb) {
 });
 
 // Launch a lightweight HTTP Server
-gulp.task('serve', ['copytoLocal'], function(cb) {
+gulp.task('serve', function(cb) {
     watch = true;
 
     runSequence('build', function() {
@@ -204,7 +204,7 @@ gulp.task('serve', ['copytoLocal'], function(cb) {
     });
 });
 
-gulp.task('copytoLocal', function(cb) {
+gulp.task('copytoLocal',['build'], function(cb) {
     gulp.src('build/css/**')
     .pipe(gulp.dest('//10.100.10.16/Sparta/LAP.Site/LAP/css/pages/dashboard/main'));
 
