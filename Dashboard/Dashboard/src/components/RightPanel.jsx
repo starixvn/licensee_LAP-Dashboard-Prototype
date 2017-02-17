@@ -44,7 +44,6 @@ export default class RightPanel extends React.Component {
                     CurrencyList: response.data.CurrencyList,
                     BaseCurrencyList: response.data.BaseCurrencyList
                 })
-
             })
             .catch(function (error) {
                 console.log("error:", error);
@@ -55,6 +54,7 @@ export default class RightPanel extends React.Component {
             isMounted: true
         })
         this._fetchData()
+
     }
 
     componentWillUnmount() {
@@ -84,28 +84,26 @@ export default class RightPanel extends React.Component {
         }
     }
     togglePanel() {
-        if (this.state.isMounted) {
-            if (this.state.isHidden) {
-                var currentWgStatus = WidgetLayout.getWidgetStatus()
-                var isUpdated = false;
-                var diffWgs = []
-                for (var i = 0; i < this.props.wgs.length; i++) {
-                    if (this.props.wgs[i].enable != currentWgStatus[i].enable) {
-                        isUpdated = true;
-                        diffWgs.push(currentWgStatus[i])
-                    }
-                }
-
-                if (isUpdated) {
-                    this.props.callbackParent({ action: 'wgSyncStatus', items: diffWgs });
-                    this.setState({ wgs: this.bindWgCheckBox(currentWgStatus) })
+        if (this.state.isHidden) {
+            var currentWgStatus = WidgetLayout.getWidgetStatus()
+            var isUpdated = false;
+            var diffWgs = []
+            for (var i = 0; i < this.props.wgs.length; i++) {
+                if (this.props.wgs[i].enable != currentWgStatus[i].enable) {
+                    isUpdated = true;
+                    diffWgs.push(currentWgStatus[i])
                 }
             }
 
-            this.setState(prevState => ({
-                isHidden: !prevState.isHidden
-            }));
+            if (isUpdated) {
+                this.props.callbackParent({ action: 'wgSyncStatus', items: diffWgs });
+                this.setState({ wgs: this.bindWgCheckBox(currentWgStatus) })
+            }
         }
+
+        this.setState(prevState => ({
+            isHidden: !prevState.isHidden
+        }));
     };
     render() {
         const isHidden = this.state.isHidden;

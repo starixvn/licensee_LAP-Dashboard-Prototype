@@ -4,8 +4,7 @@ import Loader from '../Loader.jsx';
 
 test('renders the Loader component', () => {
     const component = renderer.create(
-        <Loader>
-        </Loader>
+        <Loader />
     );
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
@@ -13,8 +12,7 @@ test('renders the Loader component', () => {
 
 test('renders the Loader component when isLoading = true', () => {
     const component = renderer.create(
-        <Loader isLoading="true">
-        </Loader>
+        <Loader isLoading="true" />
     );
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
