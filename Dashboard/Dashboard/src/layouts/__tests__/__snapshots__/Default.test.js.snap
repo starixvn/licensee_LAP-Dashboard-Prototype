@@ -1,4 +1,4 @@
-exports[`test Link changes the class when hovered 1`] = `
+exports[`test renders the DefaultLayout component 1`] = `
 <div
   className="dashboard__container">
   <div
@@ -50,11 +50,11 @@ exports[`test Link changes the class when hovered 1`] = `
             <input
               checked={true}
               className="filled-in"
-              id="WidgetKey.chartTurnover"
+              id="abc"
               onChange={[Function]}
               type="checkbox" />
             <label
-              htmlFor="WidgetKey.chartTurnover" />
+              htmlFor="abc" />
           </p>
         </div>
       </div>

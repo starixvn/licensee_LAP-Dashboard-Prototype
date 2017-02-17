@@ -1,0 +1,39 @@
+exports[`test renders the Loader component 1`] = `
+<div
+  className="loading-process"
+  style={
+    Object {
+      "display": "none",
+    }
+  }>
+  <div
+    className="icon-loading">
+    <div
+      className="loader-inner ball-beat ">
+      <div />
+      <div />
+      <div />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test renders the Loader component when isLoading = true 1`] = `
+<div
+  className="loading-process"
+  style={
+    Object {
+      "display": "block",
+    }
+  }>
+  <div
+    className="icon-loading">
+    <div
+      className="loader-inner ball-beat ">
+      <div />
+      <div />
+      <div />
+    </div>
+  </div>
+</div>
+`;

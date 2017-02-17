@@ -8,7 +8,7 @@ test('renders the DefaultLayout component', () => {
     ];
 
     const component = renderer.create(
-        <DefaultLayout langCode="en" initialWgStatus={_wgStatus}>
+        <DefaultLayout langCode="en" initialWgStatus={wgStatus}>
         </DefaultLayout>
     );
     let tree = component.toJSON();

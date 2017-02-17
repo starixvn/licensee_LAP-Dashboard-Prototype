@@ -46,6 +46,7 @@
     "gulp-uglify": "^1.0.1",
     "gulp-util": "^3.0.1",
     "jest": "^18.1.0",
+    "jest-cli": "^18.1.0",
     "jshint": "^2.5.6",
     "jshint-loader": "^0.8.0",
     "jshint-stylish": "^1.0.0",
@@ -77,5 +78,8 @@
     "test": "jest",
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update"
+  },
+  "jest": {
+    "verbose": false
   }
 }
