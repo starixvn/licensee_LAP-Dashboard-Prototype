@@ -1,0 +1,43 @@
+exports[`test renders correctly 1`] = `
+<div
+  className="widgetbox ">
+  <div
+    className="widgetbox-header undefined">
+    <span
+      className="title" />
+    <span
+      className="icon-wrapper right">
+      <span
+        className="icon icon-close"
+        onClick={[Function]} />
+    </span>
+  </div>
+  <div
+    className="widgetbox-content undefined">
+    <div
+      className="loading-process"
+      style={
+        Object {
+          "display": "block",
+        }
+      }>
+      <div
+        className="icon-loading">
+        <div
+          className="loader-inner ball-beat ">
+          <div />
+          <div />
+          <div />
+        </div>
+      </div>
+    </div>
+    <div
+      className="center-block">
+      <span
+        className="number-big">
+        €0.00
+      </span>
+    </div>
+  </div>
+</div>
+`;

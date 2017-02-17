@@ -4,7 +4,6 @@ import { shallow } from 'enzyme';
 import RightPanel from '../RightPanel.jsx';
 import WidgetLayout from '../../Modules/WidgetLayout';
 import WidgetApi from '../../Modules/WidgetApi';
-import { WidgetApiUrl } from '../../config'
 
 jest.mock('../../Modules/WidgetLayout');
 jest.mock('../../Modules/WidgetApi');
