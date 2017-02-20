@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 
+import NumberFormat from '../../../Modules/Number';
 import WidgetBox from '../widgetbox';
 import { WidgetKey, WidgetApiUrl } from '../../../config';
 import LanguageApi from '../../../Modules/LanguageApi';
@@ -53,7 +54,7 @@ export default class RegisteredCustomer extends React.Component {
                 <span className="icon-group-users left"></span>
                 <div className="right">
                     <div className="registered-info">
-                        <p className="number">{this.state.deposit + this.state.noneDeposit}</p>
+                        <p className="number">{NumberFormat.format(this.state.deposit + this.state.noneDeposit)}</p>
                         <p className="text">{LanguageApi.getRes(this.props.langCode, "total_registered_cus_today")}</p>
                     </div>
                 </div>
@@ -62,14 +63,14 @@ export default class RegisteredCustomer extends React.Component {
 
                 <div className="registered-info">
                     <div className="center-block">
-                        <p className="number">{this.state.deposit}</p>
+                        <p className="number">{NumberFormat.format(this.state.deposit)}</p>
                         <p className="text">{LanguageApi.getRes(this.props.langCode, "deposit")}</p>
                     </div>
                 </div>
 
                 <div className="registered-info">
                     <div className="center-block">
-                        <p className="number">{this.state.noneDeposit}</p>
+                        <p className="number">{NumberFormat.formatCurrency(this.state.noneDeposit)}</p>
                         <p className="text">{LanguageApi.getRes(this.props.langCode, "none_deposit")}</p>
                     </div>
                 </div>

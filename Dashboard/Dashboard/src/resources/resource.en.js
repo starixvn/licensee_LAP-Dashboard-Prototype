@@ -23,7 +23,7 @@ export const en = {
     Widgets: "WIDGETS",
     total_registered_cus_today: "Total Registered Customers (today)",
     deposit: "Deposit",
-    none_deposit: "None - deposit",
+    none_deposit: "Non - Deposit",
     Asia: "Asia",
     NewAsia: "NewAsia",
     Euro: "Euro",
