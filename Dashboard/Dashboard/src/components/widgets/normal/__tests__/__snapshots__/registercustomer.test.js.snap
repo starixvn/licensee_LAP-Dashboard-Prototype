@@ -78,7 +78,7 @@ exports[`test renders correctly 1`] = `
           </p>
           <p
             className="text">
-            None - deposit
+            Non - Deposit
           </p>
         </div>
       </div>
