@@ -1,0 +1,88 @@
+exports[`test renders correctly 1`] = `
+<div
+  className="widgetbox ">
+  <div
+    className="widgetbox-header registered-customer default">
+    <span
+      className="title">
+      Registered customers
+    </span>
+    <span
+      className="icon-wrapper right">
+      <span
+        className="icon icon-close"
+        onClick={[Function]} />
+    </span>
+  </div>
+  <div
+    className="widgetbox-content registered-customer default">
+    <div
+      className="loading-process"
+      style={
+        Object {
+          "display": "block",
+        }
+      }>
+      <div
+        className="icon-loading">
+        <div
+          className="loader-inner ball-beat ">
+          <div />
+          <div />
+          <div />
+        </div>
+      </div>
+    </div>
+    <div
+      className="clearfix registered-customer-content">
+      <span
+        className="icon-group-users left" />
+      <div
+        className="right">
+        <div
+          className="registered-info">
+          <p
+            className="number">
+            0
+          </p>
+          <p
+            className="text">
+            Total Registered Customers (today)
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      className="clearfix registered-customer-content dark-bg">
+      <div
+        className="registered-info">
+        <div
+          className="center-block">
+          <p
+            className="number">
+            0
+          </p>
+          <p
+            className="text">
+            Deposit
+          </p>
+        </div>
+      </div>
+      <div
+        className="registered-info">
+        <div
+          className="center-block">
+          <p
+            className="number">
+            0
+          </p>
+          <p
+            className="text">
+            None - deposit
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

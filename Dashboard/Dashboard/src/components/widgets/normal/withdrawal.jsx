@@ -2,7 +2,7 @@
 import BaseNormalWidget from './BaseNormalWidget';
 import { WidgetKey } from '../../../config';
 
-export default class PendingFundsWidget extends BaseNormalWidget {
+export default class WithdrawalWidget extends BaseNormalWidget {
     constructor(props) {
         super(props, {
             Url: WidgetApiUrl.normalWithdrawal,
