@@ -8,10 +8,10 @@ export const ch = {
     n_pending_funds: "未结算金额",
     n_withdrawal: "提款(今日)",
 
-    turnover_byplatform: '交易额',
+    turnover_byplatform_month_todate: '交易額(當月累計)',
     deposit_today: "存款(今日)",
 
-    licensee_winloss_month_todate: "投注输赢(截至今日)",
+    licensee_winloss_month_todate: "投注輸贏(當月累計)",
     registered_customer: "已注册会员",
     online_customer: "在线会员",
     customer_balance: "会员馀额",

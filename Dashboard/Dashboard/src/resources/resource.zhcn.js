@@ -8,10 +8,10 @@ export const zhcn = {
     n_pending_funds: "未結算金額",
     n_withdrawal: "提款(今日)",
 
-    turnover_byplatform: '交易額',
+    turnover_byplatform_month_todate: '交易额(当月累计)',
     deposit_today: "存款(今日)",
 
-    licensee_winloss_month_todate: "投注輸贏(截至今日)",
+    licensee_winloss_month_todate: "投注输赢(当月累计)",
     registered_customer: "已註冊會員",
     online_customer: "在線會員",
     customer_balance: "會員餘額",

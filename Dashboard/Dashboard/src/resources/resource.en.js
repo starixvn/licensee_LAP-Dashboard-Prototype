@@ -8,7 +8,7 @@ export const en = {
     n_pending_funds: "Pending Funds",
     n_withdrawal: "Withdraw (Today)",
 
-    turnover_byplatform: 'Turnover by Platform',
+    turnover_byplatform_month_todate: 'Turnover by Platform (Month to date)',
     deposit_today: "Deposit (Today)",
 
     licensee_winloss_month_todate: "Licensee Win Loss (Month to date)",
