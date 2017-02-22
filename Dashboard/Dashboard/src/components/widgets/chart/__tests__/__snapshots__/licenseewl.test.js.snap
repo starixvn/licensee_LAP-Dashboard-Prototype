@@ -1,0 +1,81 @@
+exports[`test when component did mount, fetch data with given props 1`] = `
+<div
+  isLoading={false}
+  title="Licensee Win Loss (Month to date)"
+  widgetKey="c_licWL"
+  widgetName="licenseewl default">
+  <div
+    data={
+      Object {
+        "datasets": Array [
+          Object {
+            "backgroundColor": Array [
+              "#35A1FB",
+              "#4B966B",
+              "#4C6375",
+              "#D9544F",
+              "#4473C5",
+            ],
+            "data": Array [
+              1.234,
+              5.678,
+            ],
+          },
+        ],
+        "labels": Array [
+          "Total Turnover",
+          "Online customers",
+        ],
+      }
+    }
+    options={
+      Object {
+        "animation": Object {
+          "onComplete": [Function],
+        },
+        "hover": Object {
+          "animationDuration": 0,
+        },
+        "layout": Object {
+          "padding": Object {
+            "bottom": 50,
+            "top": 20,
+          },
+        },
+        "legend": Object {
+          "display": false,
+        },
+        "maintainAspectRatio": false,
+        "scales": Object {
+          "xAxes": Array [
+            Object {
+              "gridLines": Object {
+                "display": false,
+              },
+            },
+          ],
+          "yAxes": Array [
+            Object {
+              "ticks": Object {
+                "callback": [Function],
+              },
+            },
+          ],
+        },
+        "tooltips": Object {
+          "enabled": false,
+        },
+      }
+    }>
+    hello bar
+  </div>
+  <div
+    className="footer-total">
+    <span>
+      Total Win Loss
+      : 
+      123.46
+    </span>
+  </div>
+</div>
+`;
