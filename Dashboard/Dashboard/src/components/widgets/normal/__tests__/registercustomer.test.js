@@ -14,7 +14,7 @@ const fakeProps = {
         currency: 111
     },
     refresh: 100,
-    langCode: "en"
+    langCode: "zhcn"
 };
 
 beforeAll(() => {
