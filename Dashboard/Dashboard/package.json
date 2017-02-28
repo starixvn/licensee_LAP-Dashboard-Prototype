@@ -70,7 +70,7 @@
   },
   "scripts": {
     "prestart": "npm install",
-    "start": "gulp",
+    "start": "gulp onlybuild",
     "test": "jest",
     "coverage": "jest --coverage",
     "preupdate-webdriver": "npm install",
