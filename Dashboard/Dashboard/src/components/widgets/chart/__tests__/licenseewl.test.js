@@ -156,25 +156,21 @@ test('componentDidMount: fetch data with given props', () => {
 
 test('componentWillReceiveProps: next [refresh] > old [refresh], fetch new data', () => {
     // assign
-    const fetchData = LicenseeWinLoss.prototype.fetchData;
-    LicenseeWinLoss.prototype.fetchData = jest.fn();
-    const componentInstance = renderer
-        .create(<LicenseeWinLoss { ...fakeProps }/>)
-        .getInstance();
+    const component = new LicenseeWinLoss(fakeProps);
+
+    component.fetchData = jest.fn();
+    component.setState = jest.fn();
 
     const nextProps = Object.assign({}, fakeProps);
     nextProps.refresh += 1000;
     nextProps.langCode = 'zhcn';
 
-    componentInstance.state.isLoading = false;
-
     // action
-    componentInstance.componentWillReceiveProps(nextProps);
+    component.componentWillReceiveProps(nextProps);
 
     // assert
-    expect(componentInstance.state.isLoading).toBeTruthy();
-    expect(componentInstance.fetchData).lastCalledWith(nextProps);
-    LicenseeWinLoss.prototype.fetchData = fetchData;
+    expect(component.setState).toBeCalledWith({isLoading: true});
+    expect(component.fetchData).toBeCalledWith(nextProps);
 });
 
 test('componentWillReceiveProps: next [refresh] <= old [refresh], do nothing', () => {
@@ -283,16 +279,29 @@ test('animation complete: fill text each dataset', () => {
         .options
         .animation
         .onComplete
-        .call(bar);    
+        .call(bar);
 
-    const expected=[];
-    bar.data.datasets.forEach((datasetValue, datasetIndex)=>{
-        bar.getDatasetMeta(datasetIndex).data.forEach((value, index)=>{
-            let text = NumberFormat.formatDecimal(datasetValue.data[index]);
-            let textWidth = bar.chart.ctx.measureText(text).width;
-            expected.push([text, value._model.x - (textWidth / 2), value._model.y - 5]);
-        })
-    });
+    const expected = [];
+    bar
+        .data
+        .datasets
+        .forEach((datasetValue, datasetIndex) => {
+            bar
+                .getDatasetMeta(datasetIndex)
+                .data
+                .forEach((value, index) => {
+                    let text = NumberFormat.formatDecimal(datasetValue.data[index]);
+                    let textWidth = bar
+                        .chart
+                        .ctx
+                        .measureText(text)
+                        .width;
+                    expected.push([
+                        text, value._model.x - (textWidth / 2),
+                        value._model.y - 5
+                    ]);
+                })
+        });
 
     expect(bar.chart.ctx.fillText.mock.calls).toEqual(expected);
 });
