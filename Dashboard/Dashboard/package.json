@@ -78,6 +78,7 @@
     "prestart": "npm install",
     "start": "gulp",
     "test": "jest",
+    "coverage": "jest --coverage",
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update"
   },
