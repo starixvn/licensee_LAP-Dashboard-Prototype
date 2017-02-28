@@ -71,8 +71,7 @@
   "scripts": {
     "prestart": "npm install",
     "start": "gulp onlybuild",
-    "test": "jest",
-    "coverage": "jest --coverage",
+    "test": "jest --coverage",
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update"
   },
