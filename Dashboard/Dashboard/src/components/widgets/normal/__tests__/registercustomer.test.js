@@ -27,24 +27,20 @@ beforeAll(() => {
             )
         }
     }));
-    WidgetApi
-        .fetchData
-        .mockImplementation(() => {
-            return new Promise(resolve => {
-                resolve({
-                    data: {
-                        Deposit: 1111,
-                        NoneDeposit: 2222
-                    }
-                })
-            });
-        });
 });
 afterEach(() => {
     WidgetApi.mockReset();
 });
 
 test('renders correctly', () => {
+    WidgetApi
+        .fetchData
+        .mockImplementationOnce(() => Promise.resolve({
+            data: {
+                Deposit: 12345.6789,
+                NoneDeposit: 98765.4321
+            }
+        }));
     const component = renderer.create(<RegisteredCustomer {...fakeProps}/>);
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
