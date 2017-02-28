@@ -3,38 +3,144 @@ import renderer from 'react-test-renderer';
 import BaseNormalWidget from '../BaseNormalWidget.jsx';
 import WidgetApi from '../../../../Modules/WidgetApi';
 import ReactTestUtils from 'react-addons-test-utils';
+import WidgetBox from '../../widgetbox.jsx';
 
 jest.mock('../../../../Modules/WidgetApi');
+jest.mock('../../widgetbox');
 
-const selectedFilter = {
-    baseCurrency: "EUR"
+const fakeProps = {
+    filter: {
+        baseCurrency: "EUR",
+        currency: 1111
+    },
+    refresh: 1000,
+    langCode: "en"
 };
-
+const fakeConfigs = {
+    WidgetKey: 'this is a f**k key',
+    Url: 'this is a f**k url',
+    WidgetName: 'this is a f**k name',
+    TitleKey: 'licensee_winloss_month_todate'
+};
+class FakeConfiguredBaseNormalWidget extends BaseNormalWidget {
+    constructor(props) {
+        super(props, fakeConfigs);
+    }
+}
 beforeAll(() => {
-    WidgetApi.fetchData.mockImplementation(() => {
-        return new Promise(resolve => {
-            resolve({
-                data: 9999
-            })
-        });
-    });
+    WidgetBox.mockImplementation(() => ({
+        render: function () {
+            return (
+                <div {...this.props}>
+                    {this.props.children}
+                </div>
+            )
+        }
+    }));
 });
-
+afterEach(() => {
+    WidgetApi.mockReset();
+});
 test('renders correctly', () => {
-    const component = renderer.create(
-        <BaseNormalWidget filter={selectedFilter} refresh="100" langCode="en" />
-    );
+    WidgetApi
+        .fetchData
+        .mockImplementation(() => Promise.resolve({data: 999.888}))
+    const component = renderer.create(<FakeConfiguredBaseNormalWidget {...fakeProps}/>);
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
 });
 
-test('data was rendered correctly from API', (done) => {
-    var view = ReactTestUtils.renderIntoDocument(<BaseNormalWidget filter={selectedFilter} refresh="100" langCode="en" />)
-    var param = {
-        filter: { }
+test('data was rendered correctly from API', () => {
+    const promise = Promise.resolve({data: 888.777});
+    WidgetApi
+        .fetchData
+        .mockImplementation(() => promise);
+    const component = renderer.create(<FakeConfiguredBaseNormalWidget {...fakeProps}/>);
+
+    promise.then(() => expect(component.toJSON()).toMatchSnapshot());
+});
+
+test('componentWillReceiveProps: next.refresh > old.refresh, fetch new data', () => {
+    // assign
+    const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+
+    component.fetchData = jest.fn();
+    component.setState = jest.fn();
+
+    const nextProps = Object.assign({}, fakeProps);
+    nextProps.refresh += 1000;
+    nextProps.langCode = 'zhcn';
+
+    // action
+    component.componentWillReceiveProps(nextProps);
+
+    // assert
+    expect(component.setState).toBeCalledWith({isLoading: true});
+    expect(component.fetchData).toBeCalledWith(nextProps);
+});
+
+test('componentWillReceiveProps: next.refresh <= old.refresh, do nothing', () => {
+    // assign
+    const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+    component.fetchData = jest.fn();
+
+    const nextProps = Object.assign({}, fakeProps);
+    nextProps.refresh -= 1000;
+    const propsNotChanged = fakeProps;
+
+    // action
+    component.componentWillReceiveProps(propsNotChanged);
+    component.componentWillReceiveProps(nextProps);
+
+    // assert
+    expect(component.fetchData)
+        .not
+        .toBeCalled();
+});
+test('fetch data by criteria', () => {
+    // assign
+    const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+    const promise = Promise.resolve();
+
+    promise.then = () => promise;
+    WidgetApi
+        .fetchData
+        .mockImplementationOnce(() => promise);
+
+    // action
+    component.fetchData(fakeProps);
+
+    // assert
+    expect(WidgetApi.fetchData).toBeCalledWith({
+        Data: {
+            CurrencyId: fakeProps.filter.currency,
+            BaseCurrency: fakeProps.filter.baseCurrency
+        },
+        Url: fakeConfigs.Url,
+        IsCrossSite: true
+    })
+});
+test('write log when fetch data fail', () => {
+    // assign
+    const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+    const promise = Promise.resolve();
+    promise.then = () => promise;
+    promise.catch = c => {
+        c('should write log when fail');
+        return promise;
     };
-    view.fetchData(param, () => {
-        expect(ReactTestUtils.findRenderedDOMComponentWithClass(view, "number-big").innerHTML).toBe("€9,999.00");
-        done();
-    });
+
+    WidgetApi
+        .fetchData
+        .mockImplementation(() => promise);
+
+    const _log = console.log;
+    console.log = jest.fn();
+
+    //  action
+    component.fetchData(fakeProps);
+
+    // assert
+    expect(console.log).toBeCalledWith('error:', 'should write log when fail');
+    console.log = _log;
 });
