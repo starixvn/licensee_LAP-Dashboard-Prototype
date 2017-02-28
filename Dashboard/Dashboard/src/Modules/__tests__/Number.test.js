@@ -12,6 +12,10 @@ describe('formatCurrency()', () => {
     test('format without correct currency', () => {
         expect(NumberFormat.formatCurrency(1234.1, "CNY")).toBe("¥1,234.10");
     });
+
+    test('default zero', () => {
+        expect(NumberFormat.formatCurrency()).toBe("0.00");
+    });
 });
 
 describe('formatDecimal()', () => {
@@ -27,5 +31,5 @@ describe('format()', () => {
 
     test('format an decimal number with 2 decimal places', () => {
         expect(NumberFormat.format(1234.149, 2)).toBe("1,234.15");
-    });
+    });    
 });
