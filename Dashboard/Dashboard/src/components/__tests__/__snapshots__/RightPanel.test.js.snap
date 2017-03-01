@@ -18,9 +18,12 @@ exports[`event listeners right panel overlay click: toggle panel 1`] = `
           Currency
         </label>
         <select
-          className="currency-dropdown-list"
           onChange={[Function]}
           value={0}>
+          <option
+            value="0">
+            All
+          </option>
           <option
             value="0">
             All
@@ -42,7 +45,6 @@ exports[`event listeners right panel overlay click: toggle panel 1`] = `
           Based
         </label>
         <select
-          className="base-currency-dropdown-list"
           onChange={[Function]}
           value="EUR">
           <option
@@ -54,6 +56,82 @@ exports[`event listeners right panel overlay click: toggle panel 1`] = `
             B
           </option>
         </select>
+      </div>
+      <a
+        className="btn-submit"
+        href="#"
+        onClick={[Function]}>
+        Apply
+      </a>
+      <div
+        className="widgets-config">
+        <div
+          className="widgets-title">
+          WIDGETS
+        </div>
+        <p
+          className="widget-item">
+          <input
+            checked={true}
+            className="filled-in"
+            id="abc"
+            onChange={[Function]}
+            type="checkbox" />
+          <label
+            htmlFor="abc" />
+        </p>
+        <p
+          className="widget-item">
+          <input
+            checked={true}
+            className="filled-in"
+            id="def"
+            onChange={[Function]}
+            type="checkbox" />
+          <label
+            htmlFor="def" />
+        </p>
+      </div>
+    </div>
+  </div>
+  <div
+    className="right-panel-overlay"
+    onClick={[Function]} />
+</div>
+`;
+
+exports[`test hidden state change: re-render 1`] = `
+<div
+  className="dashboard__right-panel is-expanded">
+  <div
+    className="right-panel-wrap">
+    <span
+      className="icon-quickaccess js-icon-quickaccess"
+      onClick={[Function]}>
+      <i
+        className="icon-settings" />
+    </span>
+    <div
+      className="right-panel-content">
+      <div
+        className="currency">
+        <label
+          className="currency-label">
+          Currency
+        </label>
+        <select
+          onChange={[Function]}
+          value={0} />
+      </div>
+      <div
+        className="currency">
+        <label
+          className="currency-label">
+          Based
+        </label>
+        <select
+          onChange={[Function]}
+          value="EUR" />
       </div>
       <a
         className="btn-submit"
@@ -118,7 +196,6 @@ exports[`test renders correctly 1`] = `
           Currency
         </label>
         <select
-          className="currency-dropdown-list"
           onChange={[Function]}
           value={0} />
       </div>
@@ -129,7 +206,6 @@ exports[`test renders correctly 1`] = `
           Based
         </label>
         <select
-          className="base-currency-dropdown-list"
           onChange={[Function]}
           value="EUR" />
       </div>

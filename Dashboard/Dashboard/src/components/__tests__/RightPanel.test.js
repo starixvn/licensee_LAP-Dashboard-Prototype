@@ -33,23 +33,37 @@ const fakeResponse = {
     }
 };
 
-function findElementByClassName(component, className) {
-    if (component.toJSON) {
-        return findElementByClassName(component.toJSON(), className);
+function findElement(component, selector) {
+    if (component._component) {
+        return findElement(component._component, selector);
     }
 
-    if (component.props && component.props.className && component.props.className.match(new RegExp(className))) {
-        return component;
+    if (component._currentElement) {
+        const element = component._currentElement;
+
+        if (element.ref === selector) {
+            return element;
+        }
+
+        if (selector[0] === '.' && element.props && element.props.className) {
+            const reg = new RegExp(selector.substring(1));
+            if (component._currentElement.props.className.match(reg)) {
+                return element;
+            }
+        }
     }
 
-    if (component.children) {
-        for (let i = 0; i < component.children.length; i++) {
-            let found = findElementByClassName(component.children[i], className);
+    if (component._renderedComponent) {
+        return findElement(component._renderedComponent, selector);
+    }
+
+    if (component._renderedChildren) {
+        for (let key in component._renderedChildren) {
+            let found = findElement(component._renderedChildren[key], selector);
             if (found) {
                 return found;
             }
         }
-
     }
 
     return null;
@@ -76,6 +90,20 @@ test('renders correctly', () => {
         .fetchData
         .mockImplementation(() => Promise.resolve(fakeResponse));
     const component = renderer.create(<RightPanel {...fakeProps}/>);
+    let tree = component.toJSON();
+    expect(tree).toMatchSnapshot();
+});
+
+test('hidden state change: re-render', () => {
+    WidgetApi
+        .fetchData
+        .mockImplementation(() => Promise.resolve(fakeResponse));
+    const component = renderer.create(<RightPanel {...fakeProps}/>);
+
+    component
+        .getInstance()
+        .setState({isHidden: false});
+
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
 });
@@ -212,6 +240,9 @@ describe('event listeners', () => {
         WidgetApi
             .fetchData
             .mockReset();
+        fakeProps
+            .callbackParent
+            .mockReset();
         WidgetApi
             .fetchData
             .mockImplementation(() => Promise.resolve(fakeResponse));
@@ -220,9 +251,10 @@ describe('event listeners', () => {
     test('on currency list change: update state', () => {
         const component = renderer.create(<RightPanel {...fakeProps}/>);
         const componentInstance = component.getInstance();
-        const element = findElementByClassName(component, 'currency-dropdown-list');
+        const element = findElement(component, 'currencyDropdownList');
 
         componentInstance.setState = jest.fn();
+
         element
             .props
             .onChange({
@@ -237,7 +269,7 @@ describe('event listeners', () => {
     test('on base currency list change: update state', () => {
         const component = renderer.create(<RightPanel {...fakeProps}/>);
         const componentInstance = component.getInstance();
-        const element = findElementByClassName(component, 'base-currency-dropdown-list');
+        const element = findElement(component, 'baseCurrencyDropdownList');
 
         componentInstance.setState = jest.fn();
         element
@@ -255,7 +287,7 @@ describe('event listeners', () => {
         test('component is unmounted then do nothing', () => {
             const component = renderer.create(<RightPanel {...fakeProps}/>);
             const componentInstance = component.getInstance();
-            const element = findElementByClassName(component, 'btn-submit');
+            const element = findElement(component, '.btn-submit');
 
             componentInstance.setState({isMounted: false});
             fakeProps
@@ -273,7 +305,7 @@ describe('event listeners', () => {
         test('component is mounted then call callbackParent()', () => {
             const component = renderer.create(<RightPanel {...fakeProps}/>);
             const componentInstance = component.getInstance();
-            const element = findElementByClassName(component, 'btn-submit');
+            const element = findElement(component, '.btn-submit');
 
             componentInstance.setState({isMounted: true, SelectedCurrency: 'selected currency', SelectedBaseCurrency: 'selected base currency'});
             element
@@ -293,7 +325,7 @@ describe('event listeners', () => {
     test('on quickaccess click: toggle panel', () => {
         const component = renderer.create(<RightPanel {...fakeProps}/>);
         const componentInstance = component.getInstance();
-        const element = findElementByClassName(component, 'icon-quickaccess');
+        const element = findElement(component, '.icon-quickaccess');
 
         componentInstance.togglePanel = jest.fn();
         element
@@ -306,7 +338,7 @@ describe('event listeners', () => {
     test('right panel overlay click: toggle panel', () => {
         const component = renderer.create(<RightPanel {...fakeProps}/>);
         const componentInstance = component.getInstance();
-        const element = findElementByClassName(component, 'right-panel-overlay');
+        const element = findElement(component, '.right-panel-overlay');
 
         componentInstance.togglePanel = jest.fn();
         element
@@ -315,15 +347,41 @@ describe('event listeners', () => {
 
         expect(componentInstance.togglePanel).toBeCalledWith('fake event');
     });
+
+    describe('on widget item check status change', () => {
+        test('state is unmounted: do nothing', () => {
+            const component = renderer.create(<RightPanel {...fakeProps}/>);
+            const componentInstance = component.getInstance();
+            const element = findElement(component, '.filled-in');
+
+            componentInstance.setState({isMounted: false});
+            element
+                .props
+                .onChange();
+
+            expect(componentInstance.props.callbackParent)
+                .not
+                .toBeCalled();
+        });
+        test('state is mounted: call parent callback and update state', () => {
+            const component = renderer.create(<RightPanel {...fakeProps}/>);
+            const componentInstance = component.getInstance();
+            const element = findElement(component, '.filled-in');
+
+            componentInstance.setState({isMounted: true});
+            element
+                .props
+                .onChange();
+
+            expect(componentInstance.props.callbackParent).toBeCalledWith({
+                action: 'wgSyncStatus',
+                items: [
+                    {
+                        key: 'abc',
+                        enable: false
+                    }
+                ]
+            });
+        });
+    });
 });
-
-/*
-test('has class is-expanded when clicking on handler', () => {
-    const component = shallow(
-        <RightPanel langCode="en" wgs={wgStatus} />
-    );
-    expect(component.hasClass('is-expanded')).toBeFalsy();
-
-    component.find('.icon-quickaccess').simulate('click');
-    expect(component.hasClass('is-expanded')).toBeTruthy();
-});*/

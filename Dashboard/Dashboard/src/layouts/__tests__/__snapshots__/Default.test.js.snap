@@ -20,7 +20,6 @@ exports[`test renders the DefaultLayout component 1`] = `
             Currency
           </label>
           <select
-            className="currency-dropdown-list"
             onChange={[Function]}
             value={0} />
         </div>
@@ -31,7 +30,6 @@ exports[`test renders the DefaultLayout component 1`] = `
             Based
           </label>
           <select
-            className="base-currency-dropdown-list"
             onChange={[Function]}
             value="EUR" />
         </div>
