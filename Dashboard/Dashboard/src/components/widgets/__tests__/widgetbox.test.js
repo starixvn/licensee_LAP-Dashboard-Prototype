@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactTestUtils from 'react-addons-test-utils';
 import renderer from 'react-test-renderer';
 import WidgetBox from '../widgetbox';
 import WidgetLayout from '../../../Modules/WidgetLayout';

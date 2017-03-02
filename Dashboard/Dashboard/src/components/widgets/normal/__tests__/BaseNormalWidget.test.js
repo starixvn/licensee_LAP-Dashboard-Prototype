@@ -2,7 +2,6 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import BaseNormalWidget from '../BaseNormalWidget.jsx';
 import WidgetApi from '../../../../Modules/WidgetApi';
-import ReactTestUtils from 'react-addons-test-utils';
 import WidgetBox from '../../widgetbox.jsx';
 
 jest.mock('../../../../Modules/WidgetApi');

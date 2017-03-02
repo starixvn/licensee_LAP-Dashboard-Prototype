@@ -1,6 +1,5 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import {shallow} from 'enzyme';
 import RightPanel from '../RightPanel.jsx';
 import WidgetLayout from '../../Modules/WidgetLayout';
 import WidgetApi from '../../Modules/WidgetApi';
