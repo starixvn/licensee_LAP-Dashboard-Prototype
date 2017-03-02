@@ -23,7 +23,7 @@ export default class BaseNormalWidget extends React.Component {
         // }
     }
 
-    fetchData(nextProps, callback) {
+    fetchData(nextProps) {
         var param = {
             Data: {
                 CurrencyId: nextProps.filter.currency,
@@ -38,10 +38,6 @@ export default class BaseNormalWidget extends React.Component {
                     data: response.data,
                     isLoading: false
                 })
-
-                if(callback){
-                    callback();
-                }
             })
             .catch(function (error) {
                 console.log("error:", error);

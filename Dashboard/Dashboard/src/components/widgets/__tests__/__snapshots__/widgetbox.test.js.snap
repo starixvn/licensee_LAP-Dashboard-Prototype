@@ -1,0 +1,116 @@
+exports[`test component is mounted & close widget is calling: close state changes 1`] = `
+<div
+  className="widgetbox is-closed">
+  <div
+    className="widgetbox-header w i d g e t">
+    <span
+      className="title">
+      T.T
+    </span>
+    <span
+      className="icon-wrapper right">
+      <span
+        className="icon icon-close"
+        onClick={[Function]} />
+    </span>
+  </div>
+  <div
+    className="widgetbox-content w i d g e t">
+    <div
+      className="loading-process"
+      style={
+        Object {
+          "display": "block",
+        }
+      }>
+      <div
+        className="icon-loading">
+        <div
+          className="loader-inner ball-beat ">
+          <div />
+          <div />
+          <div />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test component is unmounted & close widget is calling: keep close state 1`] = `
+<div
+  className="widgetbox ">
+  <div
+    className="widgetbox-header w i d g e t">
+    <span
+      className="title">
+      T.T
+    </span>
+    <span
+      className="icon-wrapper right">
+      <span
+        className="icon icon-close"
+        onClick={[Function]} />
+    </span>
+  </div>
+  <div
+    className="widgetbox-content w i d g e t">
+    <div
+      className="loading-process"
+      style={
+        Object {
+          "display": "block",
+        }
+      }>
+      <div
+        className="icon-loading">
+        <div
+          className="loader-inner ball-beat ">
+          <div />
+          <div />
+          <div />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test render correctly 1`] = `
+<div
+  className="widgetbox ">
+  <div
+    className="widgetbox-header w i d g e t">
+    <span
+      className="title">
+      T.T
+    </span>
+    <span
+      className="icon-wrapper right">
+      <span
+        className="icon icon-close"
+        onClick={[Function]} />
+    </span>
+  </div>
+  <div
+    className="widgetbox-content w i d g e t">
+    <div
+      className="loading-process"
+      style={
+        Object {
+          "display": "block",
+        }
+      }>
+      <div
+        className="icon-loading">
+        <div
+          className="loader-inner ball-beat ">
+          <div />
+          <div />
+          <div />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

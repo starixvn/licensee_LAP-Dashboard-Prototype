@@ -117,7 +117,7 @@ export default class RightPanel extends React.Component {
 
                     <div className="currency">
                         <label className="currency-label">{LanguageApi.getRes(this.props.langCode, "currency")}</label>
-                        <select onChange={(e) => this.onChangeCurrencyList(e)} value={this.state.SelectedCurrency}>
+                        <select ref="currencyDropdownList" onChange={(e) => this.onChangeCurrencyList(e)} value={this.state.SelectedCurrency}>
                             {
                                 this.state.CurrencyList.map((item, i) => {
                                     return <option key={i} value={item.Value}>{item.Key}</option>
@@ -128,7 +128,7 @@ export default class RightPanel extends React.Component {
 
                     <div className="currency">
                         <label className="currency-label">{LanguageApi.getRes(this.props.langCode, "Based")}</label>
-                        <select onChange={(e) => this.onChangeBaseCurrencyList(e)} value={this.state.SelectedBaseCurrency}>
+                        <select ref="baseCurrencyDropdownList" onChange={(e) => this.onChangeBaseCurrencyList(e)} value={this.state.SelectedBaseCurrency}>
                             {
                                 this.state.BaseCurrencyList.map((item, i) => {
                                     return <option key={i} value={item}>{item}</option>

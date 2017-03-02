@@ -17,7 +17,7 @@ export default class RegisteredCustomer extends React.Component {
         }
     }
 
-    fetchData(nextProps, callback) {
+    fetchData(nextProps) {
         var param = {
             Data: {
                 CurrencyId: nextProps.filter.currency,
@@ -33,10 +33,6 @@ export default class RegisteredCustomer extends React.Component {
                     noneDeposit: response.data.NoneDeposit,
                     isLoading: false
                 })
-
-                if(callback) {
-                    callback();
-                }
             })
             .catch(function (error) {
                 console.log("error:", error);

@@ -1,0 +1,141 @@
+exports[`test animation complete: fill text each dataset 1`] = `
+<div
+  isLoading={false}
+  title="投注輸贏(當月累計)"
+  widgetKey="c_licWL"
+  widgetName="licenseewl default">
+  <div
+    data={
+      Object {
+        "datasets": Array [
+          Object {
+            "backgroundColor": Array [
+              "#35A1FB",
+              "#4B966B",
+              "#4C6375",
+              "#D9544F",
+              "#4473C5",
+            ],
+            "data": Array [
+              2.234,
+              1.234,
+            ],
+          },
+        ],
+        "labels": Array [
+          "總交易額",
+          "總交易額",
+        ],
+      }
+    }
+    options={
+      Object {
+        "animation": Object {
+          "onComplete": [Function],
+        },
+        "hover": Object {
+          "animationDuration": 0,
+        },
+        "layout": Object {
+          "padding": Object {
+            "bottom": 50,
+            "top": 20,
+          },
+        },
+        "legend": Object {
+          "display": false,
+        },
+        "maintainAspectRatio": false,
+        "scales": Object {
+          "xAxes": Array [
+            Object {
+              "gridLines": Object {
+                "display": false,
+              },
+            },
+          ],
+          "yAxes": Array [
+            Object {
+              "ticks": Object {
+                "callback": [Function],
+              },
+            },
+          ],
+        },
+        "tooltips": Object {
+          "enabled": false,
+        },
+      }
+    }>
+    hello bar
+  </div>
+  <div
+    className="footer-total">
+    <span>
+      總投注輸贏
+      : 
+      57.78
+    </span>
+  </div>
+</div>
+`;
+
+exports[`test render correctly 1`] = `
+<div
+  isLoading={true}
+  title="投注輸贏(當月累計)"
+  widgetKey="c_licWL"
+  widgetName="licenseewl default">
+  <div
+    data={Object {}}
+    options={
+      Object {
+        "animation": Object {
+          "onComplete": [Function],
+        },
+        "hover": Object {
+          "animationDuration": 0,
+        },
+        "layout": Object {
+          "padding": Object {
+            "bottom": 50,
+            "top": 20,
+          },
+        },
+        "legend": Object {
+          "display": false,
+        },
+        "maintainAspectRatio": false,
+        "scales": Object {
+          "xAxes": Array [
+            Object {
+              "gridLines": Object {
+                "display": false,
+              },
+            },
+          ],
+          "yAxes": Array [
+            Object {
+              "ticks": Object {
+                "callback": [Function],
+              },
+            },
+          ],
+        },
+        "tooltips": Object {
+          "enabled": false,
+        },
+      }
+    }>
+    hello bar
+  </div>
+  <div
+    className="footer-total">
+    <span>
+      總投注輸贏
+      : 
+      0.00
+    </span>
+  </div>
+</div>
+`;

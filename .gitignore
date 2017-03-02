@@ -242,3 +242,5 @@ ModelManifest.xml
 .fake/
 /Dashboard/Dashboard/test
 Dashboard/Dashboard/wal.bat
+**/coverage/
+**/.vscode

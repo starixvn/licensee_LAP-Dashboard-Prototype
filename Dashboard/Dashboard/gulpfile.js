@@ -160,7 +160,7 @@ gulp.task('bundle', function(cb) {
 });
 
 // Only build 
-gulp.task('onlybuild',['clean','assets', 'images', 'pages', 'styles', 'fonts', 'bundle']);
+gulp.task('onlybuild',['clean','assets', 'images', 'pages','styles','fonts','bundle']);
 
 // Build the app from source code
 gulp.task('build', ['clean'], function(cb) {
