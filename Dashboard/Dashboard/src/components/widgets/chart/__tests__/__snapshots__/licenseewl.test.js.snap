@@ -1,6 +1,7 @@
 exports[`test animation complete: fill text each dataset 1`] = `
 <div
   isLoading={false}
+  name="WidgetBox"
   title="投注輸贏(當月累計)"
   widgetKey="c_licWL"
   widgetName="licenseewl default">
@@ -28,6 +29,7 @@ exports[`test animation complete: fill text each dataset 1`] = `
         ],
       }
     }
+    name="Bar"
     options={
       Object {
         "animation": Object {
@@ -83,11 +85,13 @@ exports[`test animation complete: fill text each dataset 1`] = `
 exports[`test render correctly 1`] = `
 <div
   isLoading={true}
+  name="WidgetBox"
   title="投注輸贏(當月累計)"
   widgetKey="c_licWL"
   widgetName="licenseewl default">
   <div
     data={Object {}}
+    name="Bar"
     options={
       Object {
         "animation": Object {

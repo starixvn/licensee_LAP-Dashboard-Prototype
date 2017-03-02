@@ -106,7 +106,7 @@ beforeAll(() => {
     WidgetBox.mockImplementation(() => ({
         render: function () {
             return (
-                <div {...this.props}>
+                <div {...this.props} name="WidgetBox">
                     {this.props.children}
                 </div>
             )
@@ -115,7 +115,7 @@ beforeAll(() => {
     Bar.mockImplementation(() => ({
         render: function () {
             return (
-                <div {...this.props}>
+                <div {...this.props} name="Bar">
                     hello bar
                 </div>
             )
