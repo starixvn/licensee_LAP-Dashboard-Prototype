@@ -8,7 +8,7 @@ import NumberFormat from '../../../../Modules/Number';
 
 jest.mock('../../../../Modules/WidgetApi');
 jest.mock('../../widgetbox');
-jest.mock('react-chartjs-2',);
+jest.mock('react-chartjs-2');
 
 const Bar = ChartJs.Bar;
 
