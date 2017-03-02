@@ -101,9 +101,6 @@ export default class DashboardApp extends React.Component {
         return <div key={key}><WithdrawalWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
     }
   }
-  componentDidMount() {
-    //setInterval(()=>{this.setState(pre=>({isRefresh:!pre.isRefresh}))},5000) 
-  }
 
   _addWidgetToLayout(widgetKey) {
     const newLayouts = {};

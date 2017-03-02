@@ -51,6 +51,31 @@ function getMockComponentRender(name) {
     }
 }
 
+function findElementByName(component, name) {
+    if (component._component) {
+        return findElementByName(component._component, name);
+    }
+
+    if (component._currentElement && component._currentElement.props && component._currentElement.props.name === name) {
+        return component._currentElement;
+    }
+
+    if (component._renderedComponent) {
+        return findElementByName(component._renderedComponent, name);
+    }
+
+    if (component._renderedChildren) {
+        for (let key in component._renderedChildren) {
+            let found = findElementByName(component._renderedChildren[key], name);
+            if (found) {
+                return found;
+            }
+        }
+    }
+
+    return null;
+}
+
 beforeAll(() => {
     DepositWg.mockImplementation(() => getMockComponentRender('DepositWg'));
     OnlineCustomerWg.mockImplementation(() => getMockComponentRender('OnlineCustomerWg'));
@@ -102,6 +127,7 @@ describe('render correctly', () => {
         const component = renderer.create(<DashboardApp/>);
         expect(component.toJSON()).toMatchSnapshot();
     });
+
     test('with saved widget layout data', () => {
         WidgetLayout.getWidgetLayout = jest.fn(() => ({lg: Wglayouts.lg, xs: Wglayouts.xs}));
 
@@ -110,17 +136,206 @@ describe('render correctly', () => {
     });
 });
 
+describe('constructor()', () => {
+    test('save widget status if it isn\'t saved', () => {
+        const app = new DashboardApp();
+        expect(WidgetLayout.saveWidgetStatus).toBeCalledWith([
+            {
+                key: WidgetKey.chartTurnover,
+                enable: true
+            }, {
+                key: WidgetKey.chartLicenseeWL,
+                enable: true
+            }, {
+                key: WidgetKey.normalDeposit,
+                enable: true
+            }, {
+                key: WidgetKey.chartlOnlineCustomer,
+                enable: true
+            }, {
+                key: WidgetKey.normalPendingFund,
+                enable: true
+            }, {
+                key: WidgetKey.normalRegisterCustomer,
+                enable: true
+            }, {
+                key: WidgetKey.normalCustomerBalance,
+                enable: true
+            }, {
+                key: WidgetKey.normalWithdrawal,
+                enable: true
+            }
+        ]);
+    });
+
+    test('save widget layout if it isn\'t saved', () => {
+        const app = new DashboardApp();
+        expect(WidgetLayout.saveWidgetLayout).toBeCalledWith(app.cloneLayoutConfig());
+    });
+});
+
+describe('when call renderWgItem(key)', () => {
+    const app = new DashboardApp();
+    app.state = {
+        selectedFilter: 'fake filter',
+        refresh: 'fake refresh',
+        langCode: 'fake code'
+    };
+    [
+        'c_turnover',
+        'c_licWL',
+        'n_deposit',
+        'c_online_customer',
+        'n_pending_funds',
+        'n_reg_customer',
+        'n_customer_balance',
+        'n_withdrawal'
+    ].forEach(key => {
+        test(`return a correct element that match key: ${key}`, () => {
+            const widget = renderer.create(
+                <div>{app.renderWgItem(key)}</div>
+            );
+            expect(widget.toJSON()).toMatchSnapshot();
+        });
+    });
+});
+
+describe('when get isTouchScreen', () => {
+    const app = new DashboardApp();
+    const _window = global.window;
+
+    afterEach(() => {
+        global.window = _window;
+    });
+
+    test('if window has ontouchstart: return true', () => {
+        global.window.ontouchstart = null;
+        global.navigator.maxTouchPoints = 0;
+
+        expect(app.isTouchScreen).toBeTruthy();
+    });
+
+    test('if navigator has maxTouchPoints: return true', () => {
+        delete global.window;
+        global.window = {};
+        global.navigator.maxTouchPoints = 1;
+        expect(app.isTouchScreen).toBeTruthy();
+    });
+});
+
+describe('onChildChanged(newState)', () => {
+    const app = new DashboardApp();
+    app.setState = jest.fn();
+    app._removeWidgetFromLayout = jest.fn();
+    app._addWidgetToLayout = jest.fn();
+
+    const newState = {
+        filter: 'fake new filter',
+        items: []
+    };
+
+    const oldState = {
+        refresh: 123456
+    };
+
+    test('if action is apply: update state', () => {
+        app
+            .setState
+            .mockReset();
+        newState.action = 'apply';
+        app.onChildChanged(newState);
+
+        const asyncSetState = app.setState.mock.calls[0][0];
+        expect(asyncSetState(oldState)).toEqual({
+            refresh: oldState.refresh + 1,
+            selectedFilter: newState.filter
+        });
+    });
+
+    test('add widget', () => {
+        app
+            .setState
+            .mockReset();
+        newState
+            .items
+            .push({key: 'n_reg_customer', enable: true});
+        app.state = {
+            wgStatus: [
+                {
+                    key: 'n_reg_customer',
+                    enable: false
+                }
+            ]
+        };
+        app._addWidgetToLayout = jest.fn(key => key === 'n_reg_customer'
+            ? 'add'
+            : '');
+        newState.action = 'other actions';
+        app.onChildChanged(newState);
+
+        expect(app.setState).toBeCalledWith({
+            wgStatus: [
+                {
+                    key: 'n_reg_customer',
+                    enable: true
+                }
+            ],
+            layouts: 'add'
+        });
+        expect(WidgetLayout.saveWidgetStatus).toBeCalledWith([
+            {
+                key: 'n_reg_customer',
+                enable: true
+            }
+        ])
+        expect(WidgetLayout.saveWidgetLayout).toBeCalledWith('add');
+    });
+
+    test('remove widget', () => {
+        app
+            .setState
+            .mockReset();
+        newState
+            .items
+            .push({key: 'n_reg_customer', enable: false});
+        app.state = {
+            wgStatus: [
+                {
+                    key: 'n_reg_customer',
+                    enable: true
+                }
+            ]
+        };
+        app._removeWidgetFromLayout = jest.fn(key => key === 'n_reg_customer'
+            ? 'remove'
+            : '');
+        newState.action = 'other actions';
+        app.onChildChanged(newState);
+
+        expect(app.setState).toBeCalledWith({
+            wgStatus: [
+                {
+                    key: 'n_reg_customer',
+                    enable: false
+                }
+            ],
+            layouts: 'remove'
+        });
+        expect(WidgetLayout.saveWidgetStatus).toBeCalledWith([
+            {
+                key: 'n_reg_customer',
+                enable: false
+            }
+        ])
+        expect(WidgetLayout.saveWidgetLayout).toBeCalledWith('remove');
+    });
+});
+
 test('save layout when layout change', () => {
     const app = new DashboardApp();
     app.onLayoutChange(123, 456);
     expect(WidgetLayout.saveWidgetLayout).toBeCalledWith(456);
 });
-/*
-test('when get defaultWgStatus return _defaultWgStatus', () => {
-    const app = new DashboardApp();
-    app._defaultWgStatus = 123456;
-    expect(app.defaultWgStatus).toBe(123456);
-});*/
 
 test('when call cloneLayoutConfig() return new layout config', () => {
     const app = new DashboardApp();
@@ -179,51 +394,26 @@ test('add widget to layout: find widget then add to all breakpoints ', () => {
     });
 });
 
-describe('when call renderWgItem(key)', () => {
-    const app = new DashboardApp();
-    app.state = {
-        selectedFilter: 'fake filter',
-        refresh: 'fake refresh',
-        langCode: 'fake code'
-    };
-    [
-        'c_turnover',
-        'c_licWL',
-        'n_deposit',
-        'c_online_customer',
-        'n_pending_funds',
-        'n_reg_customer',
-        'n_customer_balance',
-        'n_withdrawal'
-    ].forEach(key => {
-        test(`return a correct element that match key: ${key}`, () => {
-            const widget = renderer.create(
-                <div>{app.renderWgItem(key)}</div>
-            );
-            expect(widget.toJSON()).toMatchSnapshot();
-        });
-    });
+test('DefaultLayout.callbackParent() is bound to onChildChanged()', () => {
+    const component = renderer.create(<DashboardApp/>);
+    const instance = component.getInstance();
+    const element = findElementByName(component, 'DefaultLayout');
+
+    instance.onChildChanged = jest.fn();
+    element
+        .props
+        .callbackParent('new state');
+    expect(instance.onChildChanged).toBeCalledWith('new state');
 });
 
-describe('when get isTouchScreen', () => {
-    const app = new DashboardApp();
-    const _window = global.window;
+test('ResponsiveReactGridLayout.onLayoutChange() is bound to onLayoutChange()', () => {
+    const component = renderer.create(<DashboardApp/>);
+    const instance = component.getInstance();
+    const element = findElementByName(component, 'ResponsiveReactGridLayout');
 
-    afterEach(() => {
-        global.window = _window;
-    });
-
-    test('if window has ontouchstart: return true', () => {
-        global.window.ontouchstart = null;
-        global.navigator.maxTouchPoints = 0;
-
-        expect(app.isTouchScreen).toBeTruthy();
-    });
-
-    test('if navigator has maxTouchPoints: return true', () => {
-        delete global.window;
-        global.window = {};
-        global.navigator.maxTouchPoints = 1;
-        expect(app.isTouchScreen).toBeTruthy();
-    });
+    instance.onLayoutChange = jest.fn();
+    element
+        .props
+        .onLayoutChange('layout', 'layouts');
+    expect(instance.onLayoutChange).toBeCalledWith('layout', 'layouts');
 });
