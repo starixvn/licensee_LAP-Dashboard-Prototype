@@ -5,7 +5,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import DefaultLayout from './layouts/Default';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 import { WidgetKey, Wglayouts } from './config';
 import WidgetLayout from './Modules/WidgetLayout';
@@ -59,6 +58,7 @@ export default class DashboardApp extends React.Component {
     };
 
     this._defaultWgStatus = _wgStatus;
+    this._responsiveReactGridLayout = WidthProvider(Responsive);
   }
 
   cloneLayoutConfig() {
@@ -163,6 +163,7 @@ export default class DashboardApp extends React.Component {
   }
 
   render() {
+    const ResponsiveReactGridLayout = this._responsiveReactGridLayout;
     return <DefaultLayout langCode={this.state.langCode} initialWgStatus={this.defaultWgStatus} callbackParent={(newState) => this.onChildChanged(newState)}>
       <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}

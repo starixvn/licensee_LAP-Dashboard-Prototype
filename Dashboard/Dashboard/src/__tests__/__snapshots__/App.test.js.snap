@@ -1,0 +1,1781 @@
+exports[`render correctly with english as default language 1`] = `
+<div
+  callbackParent={[Function]}
+  initialWgStatus={
+    Array [
+      Object {
+        "enable": true,
+        "key": "c_turnover",
+      },
+      Object {
+        "enable": true,
+        "key": "c_licWL",
+      },
+      Object {
+        "enable": true,
+        "key": "n_deposit",
+      },
+      Object {
+        "enable": true,
+        "key": "c_online_customer",
+      },
+      Object {
+        "enable": true,
+        "key": "n_pending_funds",
+      },
+      Object {
+        "enable": true,
+        "key": "n_reg_customer",
+      },
+      Object {
+        "enable": true,
+        "key": "n_customer_balance",
+      },
+      Object {
+        "enable": true,
+        "key": "n_withdrawal",
+      },
+    ]
+  }
+  langCode="en"
+  name="DefaultLayout">
+  <div
+    breakpoints={
+      Object {
+        "lg": 1200,
+        "md": 996,
+        "sm": 768,
+        "xs": 480,
+        "xxs": 0,
+      }
+    }
+    className="layout"
+    cols={
+      Object {
+        "lg": 12,
+        "md": 10,
+        "sm": 6,
+        "xs": 4,
+        "xxs": 2,
+      }
+    }
+    isDraggable={true}
+    layouts={
+      Object {
+        "lg": Array [
+          Object {
+            "h": 11,
+            "i": "c_turnover",
+            "minH": 9,
+            "minW": 3,
+            "w": 6,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 11,
+            "i": "c_licWL",
+            "minH": 9,
+            "minW": 3,
+            "w": 6,
+            "x": 6,
+            "y": 0,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "minH": 6,
+            "minW": 4,
+            "w": 6,
+            "x": 0,
+            "y": 11,
+          },
+          Object {
+            "h": 6,
+            "i": "c_online_customer",
+            "minH": 5,
+            "minW": 4,
+            "w": 6,
+            "x": 6,
+            "y": 11,
+          },
+          Object {
+            "h": 6,
+            "i": "n_customer_balance",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 0,
+            "y": 17,
+          },
+          Object {
+            "h": 6,
+            "i": "n_pending_funds",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 3,
+            "y": 17,
+          },
+          Object {
+            "h": 6,
+            "i": "n_deposit",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 6,
+            "y": 17,
+          },
+          Object {
+            "h": 6,
+            "i": "n_withdrawal",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 9,
+            "y": 17,
+          },
+        ],
+        "md": Array [
+          Object {
+            "h": 8,
+            "i": "c_turnover",
+            "minH": 8,
+            "minW": 3,
+            "w": 5,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 8,
+            "i": "c_licWL",
+            "minH": 8,
+            "minW": 3,
+            "w": 5,
+            "x": 5,
+            "y": 0,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "minH": 6,
+            "minW": 4,
+            "w": 5,
+            "x": 0,
+            "y": 8,
+          },
+          Object {
+            "h": 6,
+            "i": "c_online_customer",
+            "minH": 4,
+            "minW": 4,
+            "w": 5,
+            "x": 5,
+            "y": 8,
+          },
+          Object {
+            "h": 4,
+            "i": "n_customer_balance",
+            "minH": 3,
+            "minW": 3,
+            "w": 5,
+            "x": 0,
+            "y": 14,
+          },
+          Object {
+            "h": 4,
+            "i": "n_pending_funds",
+            "minH": 3,
+            "minW": 3,
+            "w": 5,
+            "x": 5,
+            "y": 14,
+          },
+          Object {
+            "h": 4,
+            "i": "n_deposit",
+            "minH": 3,
+            "minW": 3,
+            "w": 5,
+            "x": 0,
+            "y": 18,
+          },
+          Object {
+            "h": 4,
+            "i": "n_withdrawal",
+            "minH": 3,
+            "minW": 3,
+            "w": 5,
+            "x": 5,
+            "y": 18,
+          },
+        ],
+        "sm": Array [
+          Object {
+            "h": 9,
+            "i": "c_turnover",
+            "isResizable": false,
+            "w": 6,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 9,
+            "i": "c_licWL",
+            "isResizable": false,
+            "w": 6,
+            "x": 0,
+            "y": 9,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "isResizable": false,
+            "w": 3,
+            "x": 0,
+            "y": 18,
+          },
+          Object {
+            "h": 6,
+            "i": "c_online_customer",
+            "isResizable": false,
+            "w": 3,
+            "x": 3,
+            "y": 18,
+          },
+          Object {
+            "h": 3,
+            "i": "n_customer_balance",
+            "isResizable": false,
+            "w": 3,
+            "x": 0,
+            "y": 24,
+          },
+          Object {
+            "h": 3,
+            "i": "n_pending_funds",
+            "isResizable": false,
+            "w": 3,
+            "x": 3,
+            "y": 24,
+          },
+          Object {
+            "h": 3,
+            "i": "n_deposit",
+            "isResizable": false,
+            "w": 3,
+            "x": 0,
+            "y": 27,
+          },
+          Object {
+            "h": 3,
+            "i": "n_withdrawal",
+            "isResizable": false,
+            "w": 3,
+            "x": 3,
+            "y": 27,
+          },
+        ],
+        "xs": Array [
+          Object {
+            "h": 9,
+            "i": "c_turnover",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 9,
+            "i": "c_licWL",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 9,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 18,
+          },
+          Object {
+            "h": 5,
+            "i": "c_online_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 24,
+          },
+          Object {
+            "h": 3,
+            "i": "n_customer_balance",
+            "isResizable": false,
+            "w": 2,
+            "x": 0,
+            "y": 29,
+          },
+          Object {
+            "h": 3,
+            "i": "n_pending_funds",
+            "isResizable": false,
+            "w": 2,
+            "x": 2,
+            "y": 29,
+          },
+          Object {
+            "h": 3,
+            "i": "n_deposit",
+            "isResizable": false,
+            "w": 2,
+            "x": 0,
+            "y": 32,
+          },
+          Object {
+            "h": 3,
+            "i": "n_withdrawal",
+            "isResizable": false,
+            "w": 2,
+            "x": 2,
+            "y": 32,
+          },
+        ],
+        "xxs": Array [
+          Object {
+            "h": 8,
+            "i": "c_turnover",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 8,
+            "i": "c_licWL",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 8,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 16,
+          },
+          Object {
+            "h": 4,
+            "i": "c_online_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 22,
+          },
+          Object {
+            "h": 3,
+            "i": "n_customer_balance",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 26,
+          },
+          Object {
+            "h": 3,
+            "i": "n_pending_funds",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 29,
+          },
+          Object {
+            "h": 3,
+            "i": "n_deposit",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 32,
+          },
+          Object {
+            "h": 3,
+            "i": "n_withdrawal",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 35,
+          },
+        ],
+      }
+    }
+    name="ResponsiveReactGridLayout"
+    onLayoutChange={[Function]}
+    rowHeight={25}>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="en"
+        name="TurnoverWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="en"
+        name="LicenseeWinLossWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="en"
+        name="DepositWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="en"
+        name="OnlineCustomerWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="en"
+        name="PendingWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="en"
+        name="RegisteredCustomerWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="en"
+        name="CustomerBalanceWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="en"
+        name="WithdrawalWg"
+        refresh={0} />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`render correctly with language from global config 1`] = `
+<div
+  callbackParent={[Function]}
+  initialWgStatus={
+    Array [
+      Object {
+        "enable": true,
+        "key": "c_turnover",
+      },
+      Object {
+        "enable": true,
+        "key": "c_licWL",
+      },
+      Object {
+        "enable": true,
+        "key": "n_deposit",
+      },
+      Object {
+        "enable": true,
+        "key": "c_online_customer",
+      },
+      Object {
+        "enable": true,
+        "key": "n_pending_funds",
+      },
+      Object {
+        "enable": true,
+        "key": "n_reg_customer",
+      },
+      Object {
+        "enable": true,
+        "key": "n_customer_balance",
+      },
+      Object {
+        "enable": true,
+        "key": "n_withdrawal",
+      },
+    ]
+  }
+  langCode="ch"
+  name="DefaultLayout">
+  <div
+    breakpoints={
+      Object {
+        "lg": 1200,
+        "md": 996,
+        "sm": 768,
+        "xs": 480,
+        "xxs": 0,
+      }
+    }
+    className="layout"
+    cols={
+      Object {
+        "lg": 12,
+        "md": 10,
+        "sm": 6,
+        "xs": 4,
+        "xxs": 2,
+      }
+    }
+    isDraggable={true}
+    layouts={
+      Object {
+        "lg": Array [
+          Object {
+            "h": 11,
+            "i": "c_turnover",
+            "minH": 9,
+            "minW": 3,
+            "w": 6,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 11,
+            "i": "c_licWL",
+            "minH": 9,
+            "minW": 3,
+            "w": 6,
+            "x": 6,
+            "y": 0,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "minH": 6,
+            "minW": 4,
+            "w": 6,
+            "x": 0,
+            "y": 11,
+          },
+          Object {
+            "h": 6,
+            "i": "c_online_customer",
+            "minH": 5,
+            "minW": 4,
+            "w": 6,
+            "x": 6,
+            "y": 11,
+          },
+          Object {
+            "h": 6,
+            "i": "n_customer_balance",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 0,
+            "y": 17,
+          },
+          Object {
+            "h": 6,
+            "i": "n_pending_funds",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 3,
+            "y": 17,
+          },
+          Object {
+            "h": 6,
+            "i": "n_deposit",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 6,
+            "y": 17,
+          },
+          Object {
+            "h": 6,
+            "i": "n_withdrawal",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 9,
+            "y": 17,
+          },
+        ],
+        "md": Array [
+          Object {
+            "h": 8,
+            "i": "c_turnover",
+            "minH": 8,
+            "minW": 3,
+            "w": 5,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 8,
+            "i": "c_licWL",
+            "minH": 8,
+            "minW": 3,
+            "w": 5,
+            "x": 5,
+            "y": 0,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "minH": 6,
+            "minW": 4,
+            "w": 5,
+            "x": 0,
+            "y": 8,
+          },
+          Object {
+            "h": 6,
+            "i": "c_online_customer",
+            "minH": 4,
+            "minW": 4,
+            "w": 5,
+            "x": 5,
+            "y": 8,
+          },
+          Object {
+            "h": 4,
+            "i": "n_customer_balance",
+            "minH": 3,
+            "minW": 3,
+            "w": 5,
+            "x": 0,
+            "y": 14,
+          },
+          Object {
+            "h": 4,
+            "i": "n_pending_funds",
+            "minH": 3,
+            "minW": 3,
+            "w": 5,
+            "x": 5,
+            "y": 14,
+          },
+          Object {
+            "h": 4,
+            "i": "n_deposit",
+            "minH": 3,
+            "minW": 3,
+            "w": 5,
+            "x": 0,
+            "y": 18,
+          },
+          Object {
+            "h": 4,
+            "i": "n_withdrawal",
+            "minH": 3,
+            "minW": 3,
+            "w": 5,
+            "x": 5,
+            "y": 18,
+          },
+        ],
+        "sm": Array [
+          Object {
+            "h": 9,
+            "i": "c_turnover",
+            "isResizable": false,
+            "w": 6,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 9,
+            "i": "c_licWL",
+            "isResizable": false,
+            "w": 6,
+            "x": 0,
+            "y": 9,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "isResizable": false,
+            "w": 3,
+            "x": 0,
+            "y": 18,
+          },
+          Object {
+            "h": 6,
+            "i": "c_online_customer",
+            "isResizable": false,
+            "w": 3,
+            "x": 3,
+            "y": 18,
+          },
+          Object {
+            "h": 3,
+            "i": "n_customer_balance",
+            "isResizable": false,
+            "w": 3,
+            "x": 0,
+            "y": 24,
+          },
+          Object {
+            "h": 3,
+            "i": "n_pending_funds",
+            "isResizable": false,
+            "w": 3,
+            "x": 3,
+            "y": 24,
+          },
+          Object {
+            "h": 3,
+            "i": "n_deposit",
+            "isResizable": false,
+            "w": 3,
+            "x": 0,
+            "y": 27,
+          },
+          Object {
+            "h": 3,
+            "i": "n_withdrawal",
+            "isResizable": false,
+            "w": 3,
+            "x": 3,
+            "y": 27,
+          },
+        ],
+        "xs": Array [
+          Object {
+            "h": 9,
+            "i": "c_turnover",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 9,
+            "i": "c_licWL",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 9,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 18,
+          },
+          Object {
+            "h": 5,
+            "i": "c_online_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 24,
+          },
+          Object {
+            "h": 3,
+            "i": "n_customer_balance",
+            "isResizable": false,
+            "w": 2,
+            "x": 0,
+            "y": 29,
+          },
+          Object {
+            "h": 3,
+            "i": "n_pending_funds",
+            "isResizable": false,
+            "w": 2,
+            "x": 2,
+            "y": 29,
+          },
+          Object {
+            "h": 3,
+            "i": "n_deposit",
+            "isResizable": false,
+            "w": 2,
+            "x": 0,
+            "y": 32,
+          },
+          Object {
+            "h": 3,
+            "i": "n_withdrawal",
+            "isResizable": false,
+            "w": 2,
+            "x": 2,
+            "y": 32,
+          },
+        ],
+        "xxs": Array [
+          Object {
+            "h": 8,
+            "i": "c_turnover",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 8,
+            "i": "c_licWL",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 8,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 16,
+          },
+          Object {
+            "h": 4,
+            "i": "c_online_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 22,
+          },
+          Object {
+            "h": 3,
+            "i": "n_customer_balance",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 26,
+          },
+          Object {
+            "h": 3,
+            "i": "n_pending_funds",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 29,
+          },
+          Object {
+            "h": 3,
+            "i": "n_deposit",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 32,
+          },
+          Object {
+            "h": 3,
+            "i": "n_withdrawal",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 35,
+          },
+        ],
+      }
+    }
+    name="ResponsiveReactGridLayout"
+    onLayoutChange={[Function]}
+    rowHeight={25}>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="TurnoverWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="LicenseeWinLossWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="DepositWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="OnlineCustomerWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="PendingWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="RegisteredCustomerWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="CustomerBalanceWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="WithdrawalWg"
+        refresh={0} />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`render correctly with saved widget layout data 1`] = `
+<div
+  callbackParent={[Function]}
+  initialWgStatus={
+    Array [
+      Object {
+        "enable": true,
+        "key": "c_turnover",
+      },
+      Object {
+        "enable": true,
+        "key": "c_licWL",
+      },
+      Object {
+        "enable": true,
+        "key": "n_deposit",
+      },
+      Object {
+        "enable": true,
+        "key": "c_online_customer",
+      },
+      Object {
+        "enable": true,
+        "key": "n_pending_funds",
+      },
+      Object {
+        "enable": true,
+        "key": "n_reg_customer",
+      },
+      Object {
+        "enable": true,
+        "key": "n_customer_balance",
+      },
+      Object {
+        "enable": true,
+        "key": "n_withdrawal",
+      },
+    ]
+  }
+  langCode="ch"
+  name="DefaultLayout">
+  <div
+    breakpoints={
+      Object {
+        "lg": 1200,
+        "md": 996,
+        "sm": 768,
+        "xs": 480,
+        "xxs": 0,
+      }
+    }
+    className="layout"
+    cols={
+      Object {
+        "lg": 12,
+        "md": 10,
+        "sm": 6,
+        "xs": 4,
+        "xxs": 2,
+      }
+    }
+    isDraggable={true}
+    layouts={
+      Object {
+        "lg": Array [
+          Object {
+            "h": 11,
+            "i": "c_turnover",
+            "minH": 9,
+            "minW": 3,
+            "w": 6,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 11,
+            "i": "c_licWL",
+            "minH": 9,
+            "minW": 3,
+            "w": 6,
+            "x": 6,
+            "y": 0,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "minH": 6,
+            "minW": 4,
+            "w": 6,
+            "x": 0,
+            "y": 11,
+          },
+          Object {
+            "h": 6,
+            "i": "c_online_customer",
+            "minH": 5,
+            "minW": 4,
+            "w": 6,
+            "x": 6,
+            "y": 11,
+          },
+          Object {
+            "h": 6,
+            "i": "n_customer_balance",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 0,
+            "y": 17,
+          },
+          Object {
+            "h": 6,
+            "i": "n_pending_funds",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 3,
+            "y": 17,
+          },
+          Object {
+            "h": 6,
+            "i": "n_deposit",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 6,
+            "y": 17,
+          },
+          Object {
+            "h": 6,
+            "i": "n_withdrawal",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 9,
+            "y": 17,
+          },
+        ],
+        "xs": Array [
+          Object {
+            "h": 9,
+            "i": "c_turnover",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 9,
+            "i": "c_licWL",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 9,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 18,
+          },
+          Object {
+            "h": 5,
+            "i": "c_online_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 24,
+          },
+          Object {
+            "h": 3,
+            "i": "n_customer_balance",
+            "isResizable": false,
+            "w": 2,
+            "x": 0,
+            "y": 29,
+          },
+          Object {
+            "h": 3,
+            "i": "n_pending_funds",
+            "isResizable": false,
+            "w": 2,
+            "x": 2,
+            "y": 29,
+          },
+          Object {
+            "h": 3,
+            "i": "n_deposit",
+            "isResizable": false,
+            "w": 2,
+            "x": 0,
+            "y": 32,
+          },
+          Object {
+            "h": 3,
+            "i": "n_withdrawal",
+            "isResizable": false,
+            "w": 2,
+            "x": 2,
+            "y": 32,
+          },
+        ],
+      }
+    }
+    name="ResponsiveReactGridLayout"
+    onLayoutChange={[Function]}
+    rowHeight={25}>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="PendingWg"
+        refresh={0} />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`render correctly with saved widget status data 1`] = `
+<div
+  callbackParent={[Function]}
+  initialWgStatus={
+    Array [
+      Object {
+        "enable": true,
+        "key": "c_turnover",
+      },
+      Object {
+        "enable": true,
+        "key": "c_licWL",
+      },
+      Object {
+        "enable": true,
+        "key": "n_deposit",
+      },
+      Object {
+        "enable": true,
+        "key": "c_online_customer",
+      },
+      Object {
+        "enable": true,
+        "key": "n_pending_funds",
+      },
+      Object {
+        "enable": true,
+        "key": "n_reg_customer",
+      },
+      Object {
+        "enable": true,
+        "key": "n_customer_balance",
+      },
+      Object {
+        "enable": true,
+        "key": "n_withdrawal",
+      },
+    ]
+  }
+  langCode="ch"
+  name="DefaultLayout">
+  <div
+    breakpoints={
+      Object {
+        "lg": 1200,
+        "md": 996,
+        "sm": 768,
+        "xs": 480,
+        "xxs": 0,
+      }
+    }
+    className="layout"
+    cols={
+      Object {
+        "lg": 12,
+        "md": 10,
+        "sm": 6,
+        "xs": 4,
+        "xxs": 2,
+      }
+    }
+    isDraggable={true}
+    layouts={
+      Object {
+        "lg": Array [
+          Object {
+            "h": 11,
+            "i": "c_turnover",
+            "minH": 9,
+            "minW": 3,
+            "w": 6,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 11,
+            "i": "c_licWL",
+            "minH": 9,
+            "minW": 3,
+            "w": 6,
+            "x": 6,
+            "y": 0,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "minH": 6,
+            "minW": 4,
+            "w": 6,
+            "x": 0,
+            "y": 11,
+          },
+          Object {
+            "h": 6,
+            "i": "c_online_customer",
+            "minH": 5,
+            "minW": 4,
+            "w": 6,
+            "x": 6,
+            "y": 11,
+          },
+          Object {
+            "h": 6,
+            "i": "n_customer_balance",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 0,
+            "y": 17,
+          },
+          Object {
+            "h": 6,
+            "i": "n_pending_funds",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 3,
+            "y": 17,
+          },
+          Object {
+            "h": 6,
+            "i": "n_deposit",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 6,
+            "y": 17,
+          },
+          Object {
+            "h": 6,
+            "i": "n_withdrawal",
+            "minH": 3,
+            "minW": 3,
+            "w": 3,
+            "x": 9,
+            "y": 17,
+          },
+        ],
+        "md": Array [
+          Object {
+            "h": 8,
+            "i": "c_turnover",
+            "minH": 8,
+            "minW": 3,
+            "w": 5,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 8,
+            "i": "c_licWL",
+            "minH": 8,
+            "minW": 3,
+            "w": 5,
+            "x": 5,
+            "y": 0,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "minH": 6,
+            "minW": 4,
+            "w": 5,
+            "x": 0,
+            "y": 8,
+          },
+          Object {
+            "h": 6,
+            "i": "c_online_customer",
+            "minH": 4,
+            "minW": 4,
+            "w": 5,
+            "x": 5,
+            "y": 8,
+          },
+          Object {
+            "h": 4,
+            "i": "n_customer_balance",
+            "minH": 3,
+            "minW": 3,
+            "w": 5,
+            "x": 0,
+            "y": 14,
+          },
+          Object {
+            "h": 4,
+            "i": "n_pending_funds",
+            "minH": 3,
+            "minW": 3,
+            "w": 5,
+            "x": 5,
+            "y": 14,
+          },
+          Object {
+            "h": 4,
+            "i": "n_deposit",
+            "minH": 3,
+            "minW": 3,
+            "w": 5,
+            "x": 0,
+            "y": 18,
+          },
+          Object {
+            "h": 4,
+            "i": "n_withdrawal",
+            "minH": 3,
+            "minW": 3,
+            "w": 5,
+            "x": 5,
+            "y": 18,
+          },
+        ],
+        "sm": Array [
+          Object {
+            "h": 9,
+            "i": "c_turnover",
+            "isResizable": false,
+            "w": 6,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 9,
+            "i": "c_licWL",
+            "isResizable": false,
+            "w": 6,
+            "x": 0,
+            "y": 9,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "isResizable": false,
+            "w": 3,
+            "x": 0,
+            "y": 18,
+          },
+          Object {
+            "h": 6,
+            "i": "c_online_customer",
+            "isResizable": false,
+            "w": 3,
+            "x": 3,
+            "y": 18,
+          },
+          Object {
+            "h": 3,
+            "i": "n_customer_balance",
+            "isResizable": false,
+            "w": 3,
+            "x": 0,
+            "y": 24,
+          },
+          Object {
+            "h": 3,
+            "i": "n_pending_funds",
+            "isResizable": false,
+            "w": 3,
+            "x": 3,
+            "y": 24,
+          },
+          Object {
+            "h": 3,
+            "i": "n_deposit",
+            "isResizable": false,
+            "w": 3,
+            "x": 0,
+            "y": 27,
+          },
+          Object {
+            "h": 3,
+            "i": "n_withdrawal",
+            "isResizable": false,
+            "w": 3,
+            "x": 3,
+            "y": 27,
+          },
+        ],
+        "xs": Array [
+          Object {
+            "h": 9,
+            "i": "c_turnover",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 9,
+            "i": "c_licWL",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 9,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 18,
+          },
+          Object {
+            "h": 5,
+            "i": "c_online_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 24,
+          },
+          Object {
+            "h": 3,
+            "i": "n_customer_balance",
+            "isResizable": false,
+            "w": 2,
+            "x": 0,
+            "y": 29,
+          },
+          Object {
+            "h": 3,
+            "i": "n_pending_funds",
+            "isResizable": false,
+            "w": 2,
+            "x": 2,
+            "y": 29,
+          },
+          Object {
+            "h": 3,
+            "i": "n_deposit",
+            "isResizable": false,
+            "w": 2,
+            "x": 0,
+            "y": 32,
+          },
+          Object {
+            "h": 3,
+            "i": "n_withdrawal",
+            "isResizable": false,
+            "w": 2,
+            "x": 2,
+            "y": 32,
+          },
+        ],
+        "xxs": Array [
+          Object {
+            "h": 8,
+            "i": "c_turnover",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 0,
+          },
+          Object {
+            "h": 8,
+            "i": "c_licWL",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 8,
+          },
+          Object {
+            "h": 6,
+            "i": "n_reg_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 16,
+          },
+          Object {
+            "h": 4,
+            "i": "c_online_customer",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 22,
+          },
+          Object {
+            "h": 3,
+            "i": "n_customer_balance",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 26,
+          },
+          Object {
+            "h": 3,
+            "i": "n_pending_funds",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 29,
+          },
+          Object {
+            "h": 3,
+            "i": "n_deposit",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 32,
+          },
+          Object {
+            "h": 3,
+            "i": "n_withdrawal",
+            "isResizable": false,
+            "w": 4,
+            "x": 0,
+            "y": 35,
+          },
+        ],
+      }
+    }
+    name="ResponsiveReactGridLayout"
+    onLayoutChange={[Function]}
+    rowHeight={25}>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="PendingWg"
+        refresh={0} />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`when call renderWgItem(key) return a correct element that match key: c_licWL 1`] = `
+<div>
+  <div>
+    <div
+      filter="fake filter"
+      langCode="fake code"
+      name="LicenseeWinLossWg"
+      refresh="fake refresh" />
+  </div>
+</div>
+`;
+
+exports[`when call renderWgItem(key) return a correct element that match key: c_online_customer 1`] = `
+<div>
+  <div>
+    <div
+      filter="fake filter"
+      langCode="fake code"
+      name="OnlineCustomerWg"
+      refresh="fake refresh" />
+  </div>
+</div>
+`;
+
+exports[`when call renderWgItem(key) return a correct element that match key: c_turnover 1`] = `
+<div>
+  <div>
+    <div
+      filter="fake filter"
+      langCode="fake code"
+      name="TurnoverWg"
+      refresh="fake refresh" />
+  </div>
+</div>
+`;
+
+exports[`when call renderWgItem(key) return a correct element that match key: n_customer_balance 1`] = `
+<div>
+  <div>
+    <div
+      filter="fake filter"
+      langCode="fake code"
+      name="CustomerBalanceWg"
+      refresh="fake refresh" />
+  </div>
+</div>
+`;
+
+exports[`when call renderWgItem(key) return a correct element that match key: n_deposit 1`] = `
+<div>
+  <div>
+    <div
+      filter="fake filter"
+      langCode="fake code"
+      name="DepositWg"
+      refresh="fake refresh" />
+  </div>
+</div>
+`;
+
+exports[`when call renderWgItem(key) return a correct element that match key: n_pending_funds 1`] = `
+<div>
+  <div>
+    <div
+      filter="fake filter"
+      langCode="fake code"
+      name="PendingWg"
+      refresh="fake refresh" />
+  </div>
+</div>
+`;
+
+exports[`when call renderWgItem(key) return a correct element that match key: n_reg_customer 1`] = `
+<div>
+  <div>
+    <div
+      filter="fake filter"
+      langCode="fake code"
+      name="RegisteredCustomerWg"
+      refresh="fake refresh" />
+  </div>
+</div>
+`;
+
+exports[`when call renderWgItem(key) return a correct element that match key: n_withdrawal 1`] = `
+<div>
+  <div>
+    <div
+      filter="fake filter"
+      langCode="fake code"
+      name="WithdrawalWg"
+      refresh="fake refresh" />
+  </div>
+</div>
+`;
