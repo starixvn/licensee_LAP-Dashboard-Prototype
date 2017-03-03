@@ -24,6 +24,55 @@ const fakeResponse = {
     }
 };
 
+function fakeHorizontalBarInstance() {
+    return {
+        chart: {
+            ctx: {
+                fillText: jest.fn()
+            },
+            width: 123456789
+        },
+        data: {
+            datasets: [
+                {
+                    data: [1.2, 2.3]
+                }, {
+                    data: [3.4, 4.5]
+                }
+            ]
+        },
+        getDatasetMeta: jest.fn(index => index === 0
+            ? {
+                data: [
+                    {
+                        _model: {
+                            y: 999
+                        }
+                    }, {
+                        _model: {
+                            y: 9999
+                        }
+                    }
+                ]
+            }
+            : (index === 1
+                ? {
+                    data: [
+                        {
+                            _model: {
+                                y: 888
+                            }
+                        }, {
+                            _model: {
+                                y: 8888
+                            }
+                        }
+                    ]
+                }
+                : null))
+    }
+}
+
 beforeAll(() => {
     WidgetBox.mockImplementation(() => ({
         render: function () {
@@ -116,4 +165,45 @@ test('fetch data by criteria', () => {
     expect(WidgetApi.fetchData).toBeCalledWith({Url: 'GetOnlineCustomers', IsCrossSite: false});
 });
 
-describe('animation complete', () => {});
+describe('animation complete', () => {
+    test('re-format chart', () => {
+        const component = new OnlineCustomer(fakeProps);
+        const horizontalBar = fakeHorizontalBarInstance();
+        component
+            .options
+            .animation
+            .onComplete
+            .call(horizontalBar);
+
+        const formatObject = {
+            fillStyle: "#5162BA",
+            textAlign: "left",
+            textBaseline: "middle"
+        };
+
+        expect(horizontalBar.chart.ctx).toEqual(expect.objectContaining(formatObject));
+    });
+
+     test('fill text each data set', () => {
+        const component = new OnlineCustomer(fakeProps);
+        const horizontalBar = fakeHorizontalBarInstance();
+        component
+            .options
+            .animation
+            .onComplete
+            .call(horizontalBar);
+
+        const formatObject = {
+            fillStyle: "#5162BA",
+            textAlign: "left",
+            textBaseline: "middle"
+        };
+
+        expect(horizontalBar.chart.ctx.fillText.mock.calls).toEqual([
+            ['1',123456699,999],
+            ['2',123456699,9999],
+            ['3',123456699,888],
+            ['5',123456699,8888],
+        ]);
+    });
+});
