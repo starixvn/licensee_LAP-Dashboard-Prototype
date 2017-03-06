@@ -188,7 +188,7 @@ gulp.task('serve', function(cb) {
         gulp.watch(src.pages, ['pages']);
         gulp.watch(src.styles, ['styles']);
         gulp.watch(src.fonts, ['fonts']);
-        gulp.watch(['src/**/*.jsx', 'src/**/*.js'], function(file) {
+        gulp.watch(['src/**/*.jsx', 'src/**/*.js', '!src/**/*.test.js'], function(file) {
             browserSync.reload(path.relative(__dirname, file.path));
         });
         gulp.watch('build/js/**', function (obj) {
