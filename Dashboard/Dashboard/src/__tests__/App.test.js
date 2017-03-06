@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import WidgetLayout from '../Modules/WidgetLayout';
-import {WidgetKey, Wglayouts} from '../config';
+import { WidgetKey, Wglayouts } from '../config';
 import renderer from 'react-test-renderer';
 import * as ReactGridLayout from 'react-grid-layout';
 
@@ -41,10 +41,10 @@ const DashboardApp = require('../App.jsx').default;
 
 function getMockComponentRender(name) {
     return {
-        render: function () {
+        render: function() {
             return (
-                <div {...this.props} name={name}>
-                    {this.props.children}
+                <div {...this.props} name={ name }>
+                  { this.props.children }
                 </div>
             )
         }
@@ -91,7 +91,9 @@ beforeAll(() => {
         .mockImplementation(responsive => {
             expect(responsive).toBe(ReactGridLayout.Responsive);
             return props => (
-                <div {...props} name="ResponsiveReactGridLayout">{props.children}</div>
+                <div {...props} name="ResponsiveReactGridLayout">
+                  { props.children }
+                </div>
             );
         });
 });
@@ -129,7 +131,10 @@ describe('render correctly', () => {
     });
 
     test('with saved widget layout data', () => {
-        WidgetLayout.getWidgetLayout = jest.fn(() => ({lg: Wglayouts.lg, xs: Wglayouts.xs}));
+        WidgetLayout.getWidgetLayout = jest.fn(() => ({
+            lg: Wglayouts.lg,
+            xs: Wglayouts.xs
+        }));
 
         const component = renderer.create(<DashboardApp/>);
         expect(component.toJSON()).toMatchSnapshot();
@@ -137,40 +142,50 @@ describe('render correctly', () => {
 });
 
 describe('constructor()', () => {
-    test('save widget status if it isn\'t saved', () => {
+    test('merge widget permission to local then save', () => {
+        const userSettings = [
+            { key:'c_turnover', enable: true },
+            { key:'n_deposit', enable: false },
+            { key:'dont have permission anymore, should be removed', enable: false },
+        ];
+        WidgetLayout.getWidgetStatus.mockImplementation(() => userSettings);
+        window.widgetPermission = [
+            'c_turnover',
+            'c_licWL',
+            'n_deposit'
+        ];
+        WidgetLayout.saveWidgetStatus.mockReset();
         const app = new DashboardApp();
         expect(WidgetLayout.saveWidgetStatus).toBeCalledWith([
-            {
-                key: WidgetKey.chartTurnover,
-                enable: true
-            }, {
-                key: WidgetKey.chartLicenseeWL,
-                enable: true
-            }, {
-                key: WidgetKey.normalDeposit,
-                enable: true
-            }, {
-                key: WidgetKey.chartlOnlineCustomer,
-                enable: true
-            }, {
-                key: WidgetKey.normalPendingFund,
-                enable: true
-            }, {
-                key: WidgetKey.normalRegisterCustomer,
-                enable: true
-            }, {
-                key: WidgetKey.normalCustomerBalance,
-                enable: true
-            }, {
-                key: WidgetKey.normalWithdrawal,
-                enable: true
-            }
+            { key:'c_turnover', enable: true },
+            { key:'c_licWL', enable: true },
+            { key:'n_deposit', enable: false },
+        ]);
+    });
+
+     test('remove widget if not support', () => {
+        window.widgetPermission = [
+            WidgetKey.chartTurnover,
+            WidgetKey.chartLicenseeWL,
+            'not support',
+            'should be removed'
+        ];
+        WidgetLayout.saveWidgetStatus.mockReset();
+        const app = new DashboardApp();
+        expect(WidgetLayout.saveWidgetStatus).toBeCalledWith([
+            { key:'c_turnover', enable: true },
+            { key:'c_licWL', enable: true }
         ]);
     });
 
     test('save widget layout if it isn\'t saved', () => {
         const app = new DashboardApp();
         expect(WidgetLayout.saveWidgetLayout).toBeCalledWith(app.cloneLayoutConfig());
+    });
+
+    test('clear layout setting if new version', () => {
+        const app = new DashboardApp();
+        expect(WidgetLayout.clearLayoutSettingIfNewVersion).toBeCalled();
     });
 });
 
@@ -193,7 +208,9 @@ describe('when call renderWgItem(key)', () => {
     ].forEach(key => {
         test(`return a correct element that match key: ${key}`, () => {
             const widget = renderer.create(
-                <div>{app.renderWgItem(key)}</div>
+                <div>
+                  { app.renderWgItem(key) }
+                </div>
             );
             expect(widget.toJSON()).toMatchSnapshot();
         });
@@ -258,7 +275,10 @@ describe('onChildChanged(newState)', () => {
             .mockReset();
         newState
             .items
-            .push({key: 'n_reg_customer', enable: true});
+            .push({
+                key: 'n_reg_customer',
+                enable: true
+            });
         app.state = {
             wgStatus: [
                 {
@@ -297,7 +317,10 @@ describe('onChildChanged(newState)', () => {
             .mockReset();
         newState
             .items
-            .push({key: 'n_reg_customer', enable: false});
+            .push({
+                key: 'n_reg_customer',
+                enable: false
+            });
         app.state = {
             wgStatus: [
                 {

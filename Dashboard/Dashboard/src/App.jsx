@@ -18,26 +18,49 @@ import WithdrawalWg from './components/widgets/normal/withdrawal';
 import LicenseeWinLossWg from './components/widgets/chart/licenseewl';
 import TurnoverWg from './components/widgets/chart/turnover';
 
+window.widgetPermission = [
+  'c_turnover',
+  'c_licWL',
+  'n_deposit',
+  'c_online_customer',
+  'n_pending_funds',
+  'n_reg_customer',
+  'n_customer_balance',
+  'n_withdrawal'
+];
+
+function getWidgetStatusSettings(permissions) {
+  const defaultKeys = Object.keys(WidgetKey).map(key => WidgetKey[key]);
+  const wgStatus = [];
+
+  permissions.forEach(key => {
+    if (defaultKeys.indexOf(key) >= 0) {
+      wgStatus.push({
+        key: key,
+        enable: true
+      });
+    }
+  });
+
+  return wgStatus;
+}
+
+function mergeWidgetStatusSettingsToUserSettings(widgetStatus) {
+  const userWgStatus = WidgetLayout.getWidgetStatus();
+
+  return userWgStatus 
+    ? widgetStatus.map(widget => Object.assign({}, widget, userWgStatus.find(w => w.key === widget.key))) 
+    : widgetStatus;
+}
+
 export default class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
 
     WidgetLayout.clearLayoutSettingIfNewVersion();
-    const _wgStatus = [
-      { key: WidgetKey.chartTurnover, enable: true },
-      { key: WidgetKey.chartLicenseeWL, enable: true },
-      { key: WidgetKey.normalDeposit, enable: true },
-      { key: WidgetKey.chartlOnlineCustomer, enable: true },
-      { key: WidgetKey.normalPendingFund, enable: true },
-      { key: WidgetKey.normalRegisterCustomer, enable: true },
-      { key: WidgetKey.normalCustomerBalance, enable: true },
-      { key: WidgetKey.normalWithdrawal, enable: true }
-    ];
-    var userWgStatus = WidgetLayout.getWidgetStatus()
-    if (!userWgStatus) {
-      userWgStatus = _wgStatus
-      WidgetLayout.saveWidgetStatus(_wgStatus)
-    }
+    const wgStatus = getWidgetStatusSettings(window.widgetPermission);
+    const userWgStatus = mergeWidgetStatusSettingsToUserSettings(wgStatus);
+    WidgetLayout.saveWidgetStatus(userWgStatus);
 
     let userWidgetLayouts = WidgetLayout.getWidgetLayout()
     if (!userWidgetLayouts) {
@@ -48,8 +71,7 @@ export default class DashboardApp extends React.Component {
     this.state = {
       langCode: window.dashboardLangCode || 'en',
       refresh: 0,
-      selectedFilter:
-      {
+      selectedFilter: {
         currency: 0,
         baseCurrency: "EUR"
       },
@@ -57,7 +79,7 @@ export default class DashboardApp extends React.Component {
       layouts: userWidgetLayouts
     };
 
-    this._defaultWgStatus = _wgStatus;
+    this._defaultWgStatus = wgStatus;
     this._responsiveReactGridLayout = WidthProvider(Responsive);
   }
 
@@ -173,7 +195,7 @@ export default class DashboardApp extends React.Component {
 
     </DefaultLayout>
   };
-};
+}
 
 ReactDOM.render(
   <DashboardApp />

@@ -1246,7 +1246,79 @@ exports[`render correctly with saved widget layout data 1`] = `
           }
         }
         langCode="ch"
+        name="TurnoverWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="DepositWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="OnlineCustomerWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
         name="PendingWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="RegisteredCustomerWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="CustomerBalanceWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="WithdrawalWg"
         refresh={0} />
     </div>
   </div>
@@ -1677,7 +1749,79 @@ exports[`render correctly with saved widget status data 1`] = `
           }
         }
         langCode="ch"
+        name="TurnoverWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="DepositWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="OnlineCustomerWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
         name="PendingWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="RegisteredCustomerWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="CustomerBalanceWg"
+        refresh={0} />
+    </div>
+    <div>
+      <div
+        filter={
+          Object {
+            "baseCurrency": "EUR",
+            "currency": 0,
+          }
+        }
+        langCode="ch"
+        name="WithdrawalWg"
         refresh={0} />
     </div>
   </div>
