@@ -7,7 +7,7 @@ import DefaultLayout from './layouts/Default';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 
 import { WidgetKey, Wglayouts } from './config';
-import WidgetLayout from './Modules/WidgetLayout';
+import LocalStorageHelper from './Modules/LocalStorageHelper';
 import DepositWg from './components/widgets/normal/deposit';
 import OnlineCustomerWg from './components/widgets/chart/onlinecustomer';
 import PendingWg from './components/widgets/normal/pendingfunds';
@@ -46,7 +46,7 @@ function getWidgetStatusSettings(permissions) {
 }
 
 function mergeWidgetStatusSettingsToUserSettings(widgetStatus) {
-  const userWgStatus = WidgetLayout.getWidgetStatus();
+  const userWgStatus = LocalStorageHelper.getWidgetStatus();
 
   return userWgStatus 
     ? widgetStatus.map(widget => Object.assign({}, widget, userWgStatus.find(w => w.key === widget.key))) 
@@ -57,15 +57,15 @@ export default class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
 
-    WidgetLayout.clearLayoutSettingIfNewVersion();
+    LocalStorageHelper.clearLayoutSettingIfNewVersion();
     const wgStatus = getWidgetStatusSettings(window.widgetPermission);
     const userWgStatus = mergeWidgetStatusSettingsToUserSettings(wgStatus);
-    WidgetLayout.saveWidgetStatus(userWgStatus);
+    LocalStorageHelper.saveWidgetStatus(userWgStatus);
 
-    let userWidgetLayouts = WidgetLayout.getWidgetLayout()
+    let userWidgetLayouts = LocalStorageHelper.getWidgetLayout()
     if (!userWidgetLayouts) {
       userWidgetLayouts = this.cloneLayoutConfig()
-      WidgetLayout.saveWidgetLayout(userWidgetLayouts)
+      LocalStorageHelper.saveWidgetLayout(userWidgetLayouts)
     }
 
     this.state = {
@@ -168,13 +168,13 @@ export default class DashboardApp extends React.Component {
       }
 
       this.setState({ wgStatus: newWidgetStatus, layouts: newLayouts });
-      WidgetLayout.saveWidgetStatus(newWidgetStatus)
-      WidgetLayout.saveWidgetLayout(newLayouts);
+      LocalStorageHelper.saveWidgetStatus(newWidgetStatus)
+      LocalStorageHelper.saveWidgetLayout(newLayouts);
     }
   }
 
   onLayoutChange(layout, layouts) {
-    WidgetLayout.saveWidgetLayout(layouts);
+    LocalStorageHelper.saveWidgetLayout(layouts);
   }
 
   get isTouchScreen() {

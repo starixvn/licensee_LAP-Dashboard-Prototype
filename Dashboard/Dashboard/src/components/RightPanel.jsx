@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom';
 import LanguageApi from '../Modules/LanguageApi';
 import WidgetApi from '../Modules/WidgetApi';
-import WidgetLayout from '../Modules/WidgetLayout';
+import LocalStorageHelper from '../Modules/LocalStorageHelper';
 import { WidgetApiUrl } from '../config'
 
 export default class RightPanel extends React.Component {
@@ -85,7 +85,7 @@ export default class RightPanel extends React.Component {
     }
     togglePanel() {
         if (this.state.isHidden) {
-            var currentWgStatus = WidgetLayout.getWidgetStatus()
+            var currentWgStatus = LocalStorageHelper.getWidgetStatus()
             var isUpdated = false;
             var diffWgs = []
             for (var i = 0; i < this.props.wgs.length; i++) {

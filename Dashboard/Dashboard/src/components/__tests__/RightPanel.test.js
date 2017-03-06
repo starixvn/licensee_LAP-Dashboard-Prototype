@@ -1,10 +1,10 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import RightPanel from '../RightPanel.jsx';
-import WidgetLayout from '../../Modules/WidgetLayout';
+import LocalStorageHelper from '../../Modules/LocalStorageHelper';
 import WidgetApi from '../../Modules/WidgetApi';
 
-jest.mock('../../Modules/WidgetLayout');
+jest.mock('../../Modules/LocalStorageHelper');
 jest.mock('../../Modules/WidgetApi');
 
 const fakeProps = {
@@ -69,7 +69,7 @@ function findElement(component, selector) {
 }
 
 beforeAll(() => {
-    WidgetLayout
+    LocalStorageHelper
         .getWidgetStatus
         .mockImplementation(() => {
             return [

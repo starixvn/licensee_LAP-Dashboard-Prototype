@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import WidgetLayout from '../Modules/WidgetLayout';
+import LocalStorageHelper from '../Modules/LocalStorageHelper';
 import { WidgetKey, Wglayouts } from '../config';
 import renderer from 'react-test-renderer';
 import * as ReactGridLayout from 'react-grid-layout';
@@ -18,7 +18,7 @@ import TurnoverWg from '../components/widgets/chart/turnover';
 jest.mock('react-dom');
 jest.mock('react-grid-layout');
 jest.mock('../layouts/Default');
-jest.mock('../Modules/WidgetLayout');
+jest.mock('../Modules/LocalStorageHelper');
 jest.mock('../components/widgets/normal/deposit');
 jest.mock('../components/widgets/chart/onlinecustomer');
 jest.mock('../components/widgets/normal/pendingfunds');
@@ -116,7 +116,7 @@ describe('render correctly', () => {
         expect(component.toJSON()).toMatchSnapshot();
     });
     test('with saved widget status data', () => {
-        WidgetLayout.getWidgetStatus = jest.fn(() => [
+        LocalStorageHelper.getWidgetStatus = jest.fn(() => [
             {
                 key: WidgetKey.normalPendingFund,
                 enable: true
@@ -131,7 +131,7 @@ describe('render correctly', () => {
     });
 
     test('with saved widget layout data', () => {
-        WidgetLayout.getWidgetLayout = jest.fn(() => ({
+        LocalStorageHelper.getWidgetLayout = jest.fn(() => ({
             lg: Wglayouts.lg,
             xs: Wglayouts.xs
         }));
@@ -148,15 +148,15 @@ describe('constructor()', () => {
             { key:'n_deposit', enable: false },
             { key:'dont have permission anymore, should be removed', enable: false },
         ];
-        WidgetLayout.getWidgetStatus.mockImplementation(() => userSettings);
+        LocalStorageHelper.getWidgetStatus.mockImplementation(() => userSettings);
         window.widgetPermission = [
             'c_turnover',
             'c_licWL',
             'n_deposit'
         ];
-        WidgetLayout.saveWidgetStatus.mockReset();
+        LocalStorageHelper.saveWidgetStatus.mockReset();
         const app = new DashboardApp();
-        expect(WidgetLayout.saveWidgetStatus).toBeCalledWith([
+        expect(LocalStorageHelper.saveWidgetStatus).toBeCalledWith([
             { key:'c_turnover', enable: true },
             { key:'c_licWL', enable: true },
             { key:'n_deposit', enable: false },
@@ -170,9 +170,9 @@ describe('constructor()', () => {
             'not support',
             'should be removed'
         ];
-        WidgetLayout.saveWidgetStatus.mockReset();
+        LocalStorageHelper.saveWidgetStatus.mockReset();
         const app = new DashboardApp();
-        expect(WidgetLayout.saveWidgetStatus).toBeCalledWith([
+        expect(LocalStorageHelper.saveWidgetStatus).toBeCalledWith([
             { key:'c_turnover', enable: true },
             { key:'c_licWL', enable: true }
         ]);
@@ -180,12 +180,12 @@ describe('constructor()', () => {
 
     test('save widget layout if it isn\'t saved', () => {
         const app = new DashboardApp();
-        expect(WidgetLayout.saveWidgetLayout).toBeCalledWith(app.cloneLayoutConfig());
+        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(app.cloneLayoutConfig());
     });
 
     test('clear layout setting if new version', () => {
         const app = new DashboardApp();
-        expect(WidgetLayout.clearLayoutSettingIfNewVersion).toBeCalled();
+        expect(LocalStorageHelper.clearLayoutSettingIfNewVersion).toBeCalled();
     });
 });
 
@@ -302,13 +302,13 @@ describe('onChildChanged(newState)', () => {
             ],
             layouts: 'add'
         });
-        expect(WidgetLayout.saveWidgetStatus).toBeCalledWith([
+        expect(LocalStorageHelper.saveWidgetStatus).toBeCalledWith([
             {
                 key: 'n_reg_customer',
                 enable: true
             }
         ])
-        expect(WidgetLayout.saveWidgetLayout).toBeCalledWith('add');
+        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('add');
     });
 
     test('remove widget', () => {
@@ -344,20 +344,20 @@ describe('onChildChanged(newState)', () => {
             ],
             layouts: 'remove'
         });
-        expect(WidgetLayout.saveWidgetStatus).toBeCalledWith([
+        expect(LocalStorageHelper.saveWidgetStatus).toBeCalledWith([
             {
                 key: 'n_reg_customer',
                 enable: false
             }
         ])
-        expect(WidgetLayout.saveWidgetLayout).toBeCalledWith('remove');
+        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('remove');
     });
 });
 
 test('save layout when layout change', () => {
     const app = new DashboardApp();
     app.onLayoutChange(123, 456);
-    expect(WidgetLayout.saveWidgetLayout).toBeCalledWith(456);
+    expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(456);
 });
 
 test('when call cloneLayoutConfig() return new layout config', () => {

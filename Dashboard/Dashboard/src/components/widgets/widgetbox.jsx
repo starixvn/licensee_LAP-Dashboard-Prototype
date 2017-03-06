@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
-import WidgetLayout from '../../Modules/WidgetLayout';
+import LocalStorageHelper from '../../Modules/LocalStorageHelper';
 import Loader from '../Loader';
 
 export default class WidgetBox extends React.Component {
@@ -18,10 +18,10 @@ export default class WidgetBox extends React.Component {
     this.setState({ isMounted: false });
   }
   toggleClose() {
-    var wgStatus = WidgetLayout.getWidgetStatus()
+    var wgStatus = LocalStorageHelper.getWidgetStatus()
     var currentWidget = wgStatus.find(x => x.key == this.props.widgetKey)
     currentWidget.enable = false
-    WidgetLayout.saveWidgetStatus(wgStatus)
+    LocalStorageHelper.saveWidgetStatus(wgStatus)
 
     if (this.state.isMounted) {
       this.setState(prevState => ({

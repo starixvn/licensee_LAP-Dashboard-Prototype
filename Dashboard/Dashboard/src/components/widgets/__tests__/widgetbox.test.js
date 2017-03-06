@@ -1,9 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import WidgetBox from '../widgetbox';
-import WidgetLayout from '../../../Modules/WidgetLayout';
+import LocalStorageHelper from '../../../Modules/LocalStorageHelper';
 
-jest.mock('../../../Modules/WidgetLayout');
+jest.mock('../../../Modules/LocalStorageHelper');
 const fakeWidgetStates = [
     {
         key: 'fap fap fap'
@@ -33,7 +33,7 @@ function findElementByClassName(component, className) {
 }
 
 beforeAll(() => {
-    WidgetLayout
+    LocalStorageHelper
         .getWidgetStatus
         .mockImplementation(() => fakeWidgetStates);
 });
@@ -117,11 +117,11 @@ test('component closed: save state', () => {
         isLoading={true}/>);
     const componentInstance = component.getInstance();
 
-    WidgetLayout
+    LocalStorageHelper
         .saveWidgetStatus
         .mockReset();
     componentInstance.toggleClose();
-    expect(WidgetLayout.saveWidgetStatus).toBeCalledWith(fakeWidgetStates);
+    expect(LocalStorageHelper.saveWidgetStatus).toBeCalledWith(fakeWidgetStates);
 });
 
 test('on close element clicked: toggle close', () => {

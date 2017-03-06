@@ -4,7 +4,7 @@ const widgetStatusCacheKey = "_LAP_Dashboard_Wg_Status";
 
 const widgetLayoutCacheKey = "_LAP_Dashboard_Wg_Layout";
 
-export default class WidgetLayout {
+export default class LocalStorageHelper {
     static clearLayoutSettingIfNewVersion() {
         var scriptElement = document.getElementById("dashboard-script");
         if (!scriptElement) {
