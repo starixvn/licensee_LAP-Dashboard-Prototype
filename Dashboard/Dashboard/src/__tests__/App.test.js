@@ -195,8 +195,16 @@ describe('constructor()', () => {
     });
 
     test('save widget layout if it isn\'t saved', () => {
+        LocalStorageHelper.getWidgetLayout.mockImplementation(() => null);
+        LocalStorageHelper.saveWidgetLayout.mockReset();
         const app = new DashboardApp();
-        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(app.cloneLayoutConfig());
+        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith({
+            lg: [...Wglayouts.lg],
+            md: [...Wglayouts.md],
+            sm: [...Wglayouts.sm],
+            xs: [...Wglayouts.xs],
+            xxs: [...Wglayouts.xxs]
+        });
     });
 
     test('clear layout setting if new version', () => {
@@ -374,17 +382,6 @@ test('save layout when layout change', () => {
     const app = new DashboardApp();
     app.onLayoutChange(123, 456);
     expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(456);
-});
-
-test('when call cloneLayoutConfig() return new layout config', () => {
-    const app = new DashboardApp();
-    expect(app.cloneLayoutConfig()).toEqual({
-        lg: [...Wglayouts.lg],
-        md: [...Wglayouts.md],
-        sm: [...Wglayouts.sm],
-        xs: [...Wglayouts.xs],
-        xxs: [...Wglayouts.xxs]
-    });
 });
 
 test('when remove widget from layout: remove widget from all breakpoints ', () => {

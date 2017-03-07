@@ -5,16 +5,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import DefaultLayout from './layouts/Default';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-
 import { WidgetKey, Wglayouts } from './config';
 import LocalStorageHelper from './Modules/LocalStorageHelper';
+import WidgetLayout from './Modules/WidgetLayout';
+
 import DepositWg from './components/widgets/normal/deposit';
 import OnlineCustomerWg from './components/widgets/chart/onlinecustomer';
 import PendingWg from './components/widgets/normal/pendingfunds';
 import RegisteredCustomerWg from './components/widgets/normal/registercustomer';
 import CustomerBalanceWg from './components/widgets/normal/customerbalance';
 import WithdrawalWg from './components/widgets/normal/withdrawal';
-
 import LicenseeWinLossWg from './components/widgets/chart/licenseewl';
 import TurnoverWg from './components/widgets/chart/turnover';
 
@@ -29,43 +29,19 @@ window.widgetPermission = [
   'n_withdrawal'
 ];
 
-function getWidgetStatusSettings(permissions) {
-  const defaultKeys = Object.keys(WidgetKey).map(key => WidgetKey[key]);
-  const wgStatus = [];
-
-  permissions.forEach(key => {
-    if (defaultKeys.indexOf(key) >= 0) {
-      wgStatus.push({
-        key: key,
-        enable: true
-      });
-    }
-  });
-
-  return wgStatus;
-}
-
-function mergeWidgetStatusSettingsToUserSettings(widgetStatus) {
-  const userWgStatus = LocalStorageHelper.getWidgetStatus();
-
-  return userWgStatus 
-    ? widgetStatus.map(widget => Object.assign({}, widget, userWgStatus.find(w => w.key === widget.key))) 
-    : widgetStatus;
-}
-
 export default class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
 
     LocalStorageHelper.clearLayoutSettingIfNewVersion();
-    const wgStatus = getWidgetStatusSettings(window.widgetPermission);
-    const userWgStatus = mergeWidgetStatusSettingsToUserSettings(wgStatus);
+    const wgStatus = WidgetLayout.getWidgetStatusSettings(window.widgetPermission);
+    const userWgStatus = WidgetLayout.mergeWidgetStatusSettingsToUserSettings(wgStatus);
     LocalStorageHelper.saveWidgetStatus(userWgStatus);
 
-    let userWidgetLayouts = LocalStorageHelper.getWidgetLayout()
+    let userWidgetLayouts = LocalStorageHelper.getWidgetLayout();
     if (!userWidgetLayouts) {
-      userWidgetLayouts = this.cloneLayoutConfig()
-      LocalStorageHelper.saveWidgetLayout(userWidgetLayouts)
+      userWidgetLayouts = WidgetLayout.cloneWidgetLayoutConfigs();
+      LocalStorageHelper.saveWidgetLayout(userWidgetLayouts);
     }
 
     this.state = {
@@ -81,16 +57,6 @@ export default class DashboardApp extends React.Component {
 
     this._defaultWgStatus = wgStatus;
     this._responsiveReactGridLayout = WidthProvider(Responsive);
-  }
-
-  cloneLayoutConfig() {
-    return {
-      lg: Array.from(Wglayouts.lg),
-      md: Array.from(Wglayouts.md),
-      sm: Array.from(Wglayouts.sm),
-      xs: Array.from(Wglayouts.xs),
-      xxs: Array.from(Wglayouts.xxs)
-    }
   }
 
   get defaultWgStatus() {
