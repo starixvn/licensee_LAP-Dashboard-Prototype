@@ -163,6 +163,22 @@ describe('constructor()', () => {
         ]);
     });
 
+    test('don\'t merge widget permission if no user settings', () => {
+        LocalStorageHelper.getWidgetStatus.mockImplementation(() => null);
+        window.widgetPermission = [
+            'c_turnover',
+            'c_licWL',
+            'n_deposit'
+        ];
+        LocalStorageHelper.saveWidgetStatus.mockReset();
+        const app = new DashboardApp();
+        expect(LocalStorageHelper.saveWidgetStatus).toBeCalledWith([
+            { key:'c_turnover', enable: true },
+            { key:'c_licWL', enable: true },
+            { key:'n_deposit', enable: true },
+        ]);
+    });
+
      test('remove widget if not support', () => {
         window.widgetPermission = [
             WidgetKey.chartTurnover,
