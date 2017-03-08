@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import LocalStorageHelper from '../Modules/LocalStorageHelper';
+import WidgetLayout from '../Modules/WidgetLayout';
 import { WidgetKey, Wglayouts } from '../config';
 import renderer from 'react-test-renderer';
 import * as ReactGridLayout from 'react-grid-layout';
@@ -96,6 +97,16 @@ beforeAll(() => {
                 </div>
             );
         });
+    window.widgetPermission = [
+        'c_turnover',
+        'c_licWL',
+        'n_deposit',
+        'c_online_customer',
+        'n_pending_funds',
+        'n_reg_customer',
+        'n_customer_balance',
+        'n_withdrawal'
+    ];
 });
 
 test('render DashboardApp to #dashboad-app', () => {
@@ -267,8 +278,6 @@ describe('when get isTouchScreen', () => {
 describe('onChildChanged(newState)', () => {
     const app = new DashboardApp();
     app.setState = jest.fn();
-    app._removeWidgetFromLayout = jest.fn();
-    app._addWidgetToLayout = jest.fn();
 
     const newState = {
         filter: 'fake new filter',
@@ -311,9 +320,9 @@ describe('onChildChanged(newState)', () => {
                 }
             ]
         };
-        app._addWidgetToLayout = jest.fn(key => key === 'n_reg_customer'
-            ? 'add'
-            : '');
+        const _addWidgetToLayout = WidgetLayout.addWidgetToLayout;
+        WidgetLayout.addWidgetToLayout = jest.fn(
+            (layouts, key) => key === 'n_reg_customer' ? 'add' : '');
         newState.action = 'other actions';
         app.onChildChanged(newState);
 
@@ -333,48 +342,30 @@ describe('onChildChanged(newState)', () => {
             }
         ])
         expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('add');
+        WidgetLayout.addWidgetToLayout = _addWidgetToLayout;
     });
 
     test('remove widget', () => {
-        app
-            .setState
-            .mockReset();
-        newState
-            .items
-            .push({
-                key: 'n_reg_customer',
-                enable: false
-            });
+        app.setState.mockReset();
+        newState.items.push({key: 'n_reg_customer', enable: false});
         app.state = {
-            wgStatus: [
-                {
-                    key: 'n_reg_customer',
-                    enable: true
-                }
-            ]
+            wgStatus: [{key: 'n_reg_customer', enable: true}]
         };
-        app._removeWidgetFromLayout = jest.fn(key => key === 'n_reg_customer'
-            ? 'remove'
-            : '');
+        const _removeWidgetFromLayout = WidgetLayout.removeWidgetFromLayout;
+        WidgetLayout.removeWidgetFromLayout = jest.fn(
+            (layouts, key) => key === 'n_reg_customer' ? 'remove' : '');
         newState.action = 'other actions';
         app.onChildChanged(newState);
 
         expect(app.setState).toBeCalledWith({
-            wgStatus: [
-                {
-                    key: 'n_reg_customer',
-                    enable: false
-                }
-            ],
+            wgStatus: [{key: 'n_reg_customer', enable: false}],
             layouts: 'remove'
         });
         expect(LocalStorageHelper.saveWidgetStatus).toBeCalledWith([
-            {
-                key: 'n_reg_customer',
-                enable: false
-            }
+            {key: 'n_reg_customer',enable: false}
         ])
         expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('remove');
+        WidgetLayout.removeWidgetFromLayout = _removeWidgetFromLayout;
     });
 });
 
@@ -382,52 +373,6 @@ test('save layout when layout change', () => {
     const app = new DashboardApp();
     app.onLayoutChange(123, 456);
     expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(456);
-});
-
-test('when remove widget from layout: remove widget from all breakpoints ', () => {
-    const app = new DashboardApp();
-    const breakpoints = ['lg', 'md', 'sm', 'xs', 'xxs'];
-
-    app.state = {
-        layouts: Wglayouts
-    };
-
-    breakpoints.forEach(name => {
-        expect(app.state.layouts[name].find(w => w.i === 'c_turnover'))
-            .not
-            .toBeUndefined();
-    });
-
-    const newLayout = app._removeWidgetFromLayout('c_turnover');
-
-    breakpoints.forEach(name => {
-        expect(newLayout[name].find(w => w.i === 'c_turnover')).toBeUndefined();
-    });
-});
-
-test('add widget to layout: find widget then add to all breakpoints ', () => {
-    const app = new DashboardApp();
-    const dummyLayout = {
-        i: 'hello'
-    };
-    const breakpoints = ['lg', 'md', 'sm', 'xs', 'xxs'];
-
-    app.state = {
-        layouts: {
-            lg: [dummyLayout],
-            md: [dummyLayout],
-            sm: [dummyLayout],
-            xs: [dummyLayout],
-            xxs: [dummyLayout]
-        }
-    };
-
-    const newLayout = app._addWidgetToLayout('c_turnover');
-
-    breakpoints.forEach(name => {
-        expect(newLayout[name][0]).toBe(dummyLayout);
-        expect(newLayout[name][1].i).toBe('c_turnover');
-    });
 });
 
 test('DefaultLayout.callbackParent() is bound to onChildChanged()', () => {
