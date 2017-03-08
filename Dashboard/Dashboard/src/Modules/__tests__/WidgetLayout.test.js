@@ -104,3 +104,60 @@ describe('addWidgetToLayout(layouts, key)', () => {
         expect(newLayout).toEqual({});
     });
 });
+
+describe('getUserWidgetLayoutSettingsForDisplay()', () => {
+    LocalStorageHelper.getWidgetStatus.mockImplementation(() => [
+        {key: 'c_turnover', enable: true},
+        {key: 'c_licWL',enable: false},
+        {key: 'n_reg_customer',enable: false},
+        {key: 'c_online_customer',enable: true},
+        {key: 'n_customer_balance',enable: false},
+        {key: 'n_pending_funds',enable: false},
+        {key: 'n_deposit',enable: true},
+        {key: 'n_withdrawal',enable: true}
+    ]);
+
+    test('don\'t have local settings: store default settings', () => {
+        LocalStorageHelper.getWidgetLayout.mockImplementation(() => null);
+        LocalStorageHelper.saveWidgetLayout.mockReset();
+        WidgetLayout.getUserWidgetLayoutSettingsForDisplay();
+        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(Wglayouts);
+    });
+
+    test('don\'t have local settings: get enabled widgets from default layout', () => {
+        LocalStorageHelper.getWidgetLayout.mockImplementation(() => null);        
+
+        const layouts = WidgetLayout.getUserWidgetLayoutSettingsForDisplay();
+        const enabled = ['c_turnover', 'c_online_customer', 'n_deposit', 'n_withdrawal'];
+        const filter = w => enabled.indexOf(w.i) >= 0;
+
+        expect(layouts).toEqual({
+            lg: Wglayouts.lg.filter(filter),
+            md: Wglayouts.md.filter(filter),
+            sm: Wglayouts.sm.filter(filter),
+            xs: Wglayouts.xs.filter(filter),
+            xxs:Wglayouts.xxs.filter(filter),
+        });
+    });
+
+    test('has local settings: get enabled widgets from local settings', () => {
+        const userSettings = {
+            lg: [Wglayouts.lg[0], Wglayouts.lg[1]],
+            md: [Wglayouts.md[0], Wglayouts.md[1]],
+            sm: [Wglayouts.sm[0], Wglayouts.sm[1]],
+            xs: [Wglayouts.xs[0], Wglayouts.xs[1]],
+            xxs:[Wglayouts.xxs[0], Wglayouts.xxs[1]]
+        }; 
+        LocalStorageHelper.getWidgetLayout.mockImplementation(() => userSettings);        
+
+        const layouts = WidgetLayout.getUserWidgetLayoutSettingsForDisplay();
+
+        expect(layouts).toEqual({
+            lg: [Wglayouts.lg[0]],
+            md: [Wglayouts.md[0]],
+            sm: [Wglayouts.sm[0]],
+            xs: [Wglayouts.xs[0]],
+            xxs:[Wglayouts.xxs[0]]
+        });
+    });
+});

@@ -38,11 +38,7 @@ export default class DashboardApp extends React.Component {
     const userWgStatus = WidgetLayout.mergeWidgetStatusSettingsToUserSettings(wgStatus);
     LocalStorageHelper.saveWidgetStatus(userWgStatus);
 
-    let userWidgetLayouts = LocalStorageHelper.getWidgetLayout();
-    if (!userWidgetLayouts) {
-      userWidgetLayouts = WidgetLayout.cloneWidgetLayoutConfigs();
-      LocalStorageHelper.saveWidgetLayout(userWidgetLayouts);
-    }
+    const userWidgetLayouts = WidgetLayout.getUserWidgetLayoutSettingsForDisplay();
 
     this.state = {
       langCode: window.dashboardLangCode || 'en',

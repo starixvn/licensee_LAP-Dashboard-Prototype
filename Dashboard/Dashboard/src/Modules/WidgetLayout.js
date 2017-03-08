@@ -76,4 +76,23 @@ export default class WidgetLayout {
         
         return newLayouts;
     }
+
+    static getUserWidgetLayoutSettingsForDisplay(){
+        let userWidgetLayouts = LocalStorageHelper.getWidgetLayout();
+        if (!userWidgetLayouts) {
+            userWidgetLayouts = WidgetLayout.cloneWidgetLayoutConfigs();
+            LocalStorageHelper.saveWidgetLayout(userWidgetLayouts);
+        }
+
+        const widgetStatus = LocalStorageHelper.getWidgetStatus();
+        const filter = w => !!widgetStatus.find(widget => widget.key === w.i && widget.enable);
+
+        return {
+            lg: userWidgetLayouts.lg.filter(filter),
+            md: userWidgetLayouts.md.filter(filter),
+            sm: userWidgetLayouts.sm.filter(filter),
+            xs: userWidgetLayouts.xs.filter(filter),
+            xxs:userWidgetLayouts.xxs.filter(filter)
+        };
+    }
 }

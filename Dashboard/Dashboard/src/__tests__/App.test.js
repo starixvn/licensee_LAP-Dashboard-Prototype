@@ -39,6 +39,17 @@ const dashboardAppElement = (function injectDashboardAppElementToDocument() {
 })();
 
 const DashboardApp = require('../App.jsx').default;
+const fakeWidgetLayout = Wglayouts;
+const fakeWidgetStatus = [
+    {key: 'c_turnover', enable: true},
+    {key: 'c_licWL',enable: true},
+    {key: 'n_reg_customer',enable: true},
+    {key: 'c_online_customer',enable: true},
+    {key: 'n_customer_balance',enable: true},
+    {key: 'n_pending_funds',enable: true},
+    {key: 'n_deposit',enable: true},
+    {key: 'n_withdrawal',enable: true}
+];
 
 function getMockComponentRender(name) {
     return {
@@ -97,6 +108,9 @@ beforeAll(() => {
                 </div>
             );
         });
+});
+
+beforeEach(() => {
     window.widgetPermission = [
         'c_turnover',
         'c_licWL',
@@ -107,6 +121,9 @@ beforeAll(() => {
         'n_customer_balance',
         'n_withdrawal'
     ];
+    LocalStorageHelper.mockReset();
+    LocalStorageHelper.getWidgetStatus.mockImplementation(() => fakeWidgetStatus);
+    LocalStorageHelper.getWidgetLayout.mockImplementation(() => fakeWidgetLayout);
 });
 
 test('render DashboardApp to #dashboad-app', () => {
@@ -127,6 +144,7 @@ describe('render correctly', () => {
         expect(component.toJSON()).toMatchSnapshot();
     });
     test('with saved widget status data', () => {
+        LocalStorageHelper.getWidgetLayout = jest.fn(() => fakeWidgetLayout);
         LocalStorageHelper.getWidgetStatus = jest.fn(() => [
             {
                 key: WidgetKey.normalPendingFund,
@@ -144,7 +162,10 @@ describe('render correctly', () => {
     test('with saved widget layout data', () => {
         LocalStorageHelper.getWidgetLayout = jest.fn(() => ({
             lg: Wglayouts.lg,
-            xs: Wglayouts.xs
+            xs: Wglayouts.xs,
+            md:[],
+            sm:[],
+            xxs:[]
         }));
 
         const component = renderer.create(<DashboardApp/>);
@@ -175,13 +196,17 @@ describe('constructor()', () => {
     });
 
     test('don\'t merge widget permission if no user settings', () => {
-        LocalStorageHelper.getWidgetStatus.mockImplementation(() => null);
+        LocalStorageHelper.saveWidgetStatus.mockReset();
+        LocalStorageHelper.getWidgetStatus.mockReset();
+
+        LocalStorageHelper.getWidgetStatus
+            .mockImplementationOnce(() => null)
+            .mockImplementationOnce(() => fakeWidgetStatus);
         window.widgetPermission = [
             'c_turnover',
             'c_licWL',
             'n_deposit'
         ];
-        LocalStorageHelper.saveWidgetStatus.mockReset();
         const app = new DashboardApp();
         expect(LocalStorageHelper.saveWidgetStatus).toBeCalledWith([
             { key:'c_turnover', enable: true },
@@ -190,7 +215,7 @@ describe('constructor()', () => {
         ]);
     });
 
-     test('remove widget if not support', () => {
+    test('remove widget if not support', () => {
         window.widgetPermission = [
             WidgetKey.chartTurnover,
             WidgetKey.chartLicenseeWL,
@@ -205,32 +230,13 @@ describe('constructor()', () => {
         ]);
     });
 
-    test('save widget layout if it isn\'t saved', () => {
-        LocalStorageHelper.getWidgetLayout.mockImplementation(() => null);
-        LocalStorageHelper.saveWidgetLayout.mockReset();
-        const app = new DashboardApp();
-        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith({
-            lg: [...Wglayouts.lg],
-            md: [...Wglayouts.md],
-            sm: [...Wglayouts.sm],
-            xs: [...Wglayouts.xs],
-            xxs: [...Wglayouts.xxs]
-        });
-    });
-
     test('clear layout setting if new version', () => {
         const app = new DashboardApp();
         expect(LocalStorageHelper.clearLayoutSettingIfNewVersion).toBeCalled();
     });
 });
 
-describe('when call renderWgItem(key)', () => {
-    const app = new DashboardApp();
-    app.state = {
-        selectedFilter: 'fake filter',
-        refresh: 'fake refresh',
-        langCode: 'fake code'
-    };
+describe('when call renderWgItem(key)', () => {    
     [
         'c_turnover',
         'c_licWL',
@@ -242,6 +248,12 @@ describe('when call renderWgItem(key)', () => {
         'n_withdrawal'
     ].forEach(key => {
         test(`return a correct element that match key: ${key}`, () => {
+            const app = new DashboardApp();
+            app.state = {
+                selectedFilter: 'fake filter',
+                refresh: 'fake refresh',
+                langCode: 'fake code'
+            };
             const widget = renderer.create(
                 <div>
                   { app.renderWgItem(key) }
@@ -253,7 +265,6 @@ describe('when call renderWgItem(key)', () => {
 });
 
 describe('when get isTouchScreen', () => {
-    const app = new DashboardApp();
     const _window = global.window;
 
     afterEach(() => {
@@ -261,6 +272,7 @@ describe('when get isTouchScreen', () => {
     });
 
     test('if window has ontouchstart: return true', () => {
+        const app = new DashboardApp();
         global.window.ontouchstart = null;
         global.navigator.maxTouchPoints = 0;
 
@@ -268,6 +280,7 @@ describe('when get isTouchScreen', () => {
     });
 
     test('if navigator has maxTouchPoints: return true', () => {
+        const app = new DashboardApp();
         delete global.window;
         global.window = {};
         global.navigator.maxTouchPoints = 1;
@@ -276,9 +289,6 @@ describe('when get isTouchScreen', () => {
 });
 
 describe('onChildChanged(newState)', () => {
-    const app = new DashboardApp();
-    app.setState = jest.fn();
-
     const newState = {
         filter: 'fake new filter',
         items: []
@@ -289,6 +299,8 @@ describe('onChildChanged(newState)', () => {
     };
 
     test('if action is apply: update state', () => {
+        const app = new DashboardApp();
+        app.setState = jest.fn();
         app
             .setState
             .mockReset();
@@ -303,6 +315,8 @@ describe('onChildChanged(newState)', () => {
     });
 
     test('add widget', () => {
+        const app = new DashboardApp();
+        app.setState = jest.fn();
         app
             .setState
             .mockReset();
@@ -346,6 +360,8 @@ describe('onChildChanged(newState)', () => {
     });
 
     test('remove widget', () => {
+        const app = new DashboardApp();
+        app.setState = jest.fn();
         app.setState.mockReset();
         newState.items.push({key: 'n_reg_customer', enable: false});
         app.state = {
