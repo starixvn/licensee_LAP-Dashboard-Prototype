@@ -78,32 +78,14 @@ export default class DashboardApp extends React.Component {
         selectedFilter: newState.filter
       }))
     } else if (newState.items && newState.items.length) {
-      let newWidgetStatus = [...this.state.wgStatus];
-      let newLayouts = Object.assign({}, this.state.layouts);
-      let removedLayouts = LocalStorageHelper.getRemovedWidgetLayout();
-
-      newState.items.forEach(widgetItem => {
-        let status = newWidgetStatus.find(w => w.key === widgetItem.key);
-        status.enable = widgetItem.enable;
-
-        if (status.enable) {
-          const addedItem = removedLayouts[widgetItem.key] || WidgetLayout.getWidgetLayoutByKey(Wglayouts, widgetItem.key);
-          newLayouts = WidgetLayout.addWidgetToLayout(newLayouts, addedItem);
-          removedLayouts[widgetItem.key] = null;
-        } else {
-          const remmovedItem = WidgetLayout.getWidgetLayoutByKey(newLayouts, widgetItem.key);
-          newLayouts = WidgetLayout.removeWidgetFromLayout(newLayouts, widgetItem.key);
-          removedLayouts[widgetItem.key] = remmovedItem;
-        }
-      });
-
+      const syncResult = WidgetLayout.syncLayoutWithNewStatus(newState.items, this.state.wgStatus, this.state.layouts);
       this.setState({
-        wgStatus: newWidgetStatus,
-        layouts: newLayouts
+        wgStatus: syncResult.newWidgetStatus,
+        layouts: syncResult.newLayouts
       });
-      LocalStorageHelper.saveWidgetStatus(newWidgetStatus);
-      LocalStorageHelper.saveWidgetLayout(newLayouts);
-      LocalStorageHelper.saveRemovedWidgetLayout(removedLayouts);
+      LocalStorageHelper.saveWidgetStatus(syncResult.newWidgetStatus);
+      LocalStorageHelper.saveWidgetLayout(syncResult.newLayouts);
+      LocalStorageHelper.saveRemovedWidgetLayout(syncResult.removedLayouts);
     }
   }
 

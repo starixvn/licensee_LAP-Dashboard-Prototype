@@ -12,7 +12,7 @@ describe('removeWidgetFromLayout(layouts, key)', () => {
     };
 
     test('key is found: remove widget from all breakpoints', () => {
-        const newLayout = WidgetLayout.removeWidgetFromLayout(layouts, 'bb');
+        const newLayout = WidgetLayout._removeWidgetFromLayout(layouts, 'bb');
         expect(newLayout).toEqual({
             a:[{ i: 'a' }, { i: 'ccc' }],
             b:[{ i: 'a' }, { i: 'ccc' }],
@@ -21,12 +21,12 @@ describe('removeWidgetFromLayout(layouts, key)', () => {
     });
 
     test('key is nout found: return layouts', () => {
-        const newLayout = WidgetLayout.removeWidgetFromLayout(layouts, 'not found');
+        const newLayout = WidgetLayout._removeWidgetFromLayout(layouts, 'not found');
         expect(newLayout).toEqual(layouts);
     });
 
     test('no layouts: return empty object', () => {
-        const newLayout = WidgetLayout.removeWidgetFromLayout(null, 'anykey');
+        const newLayout = WidgetLayout._removeWidgetFromLayout(null, 'anykey');
         expect(newLayout).toEqual({});
     });
 });
@@ -47,7 +47,7 @@ test('when call addWidgetToLayout(layouts, widgetLayout): add given layout to la
         xxs: { i: 'n_reg_customer', a:1, b:2 }
     };
 
-    const newLayouts = WidgetLayout.addWidgetToLayout(layouts, widgetLayout);
+    const newLayouts = WidgetLayout._addWidgetToLayout(layouts, widgetLayout);
     expect(newLayouts).toEqual({
         lg:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
         md:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
@@ -89,13 +89,13 @@ describe('getWidgetLayoutSettings()', () => {
 
     test('return local settings but remove disabled items', () => {
         const emptyLayouts = {lg:[], md:[], sm:[], xs:[], xxs:[]};
-        let userLayouts = WidgetLayout.addWidgetToLayout(emptyLayouts, WidgetLayout.getWidgetLayoutByKey(Wglayouts, 'c_turnover'));
-        userLayouts = WidgetLayout.addWidgetToLayout(userLayouts, WidgetLayout.getWidgetLayoutByKey(Wglayouts, 'n_reg_customer'));
+        let userLayouts = WidgetLayout._addWidgetToLayout(emptyLayouts, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'c_turnover'));
+        userLayouts = WidgetLayout._addWidgetToLayout(userLayouts, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'n_reg_customer'));
         
         LocalStorageHelper.getWidgetLayout.mockImplementation(() => userLayouts);
         LocalStorageHelper.saveWidgetLayout.mockReset();
         const actual = WidgetLayout.getWidgetLayoutSettings();
-        const expected = WidgetLayout.addWidgetToLayout(emptyLayouts, WidgetLayout.getWidgetLayoutByKey(Wglayouts, 'c_turnover'));
+        const expected = WidgetLayout._addWidgetToLayout(emptyLayouts, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'c_turnover'));
         
         expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(expected);
         expect(actual).toEqual(expected);

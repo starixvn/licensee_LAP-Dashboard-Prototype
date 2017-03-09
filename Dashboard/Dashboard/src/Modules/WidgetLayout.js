@@ -26,29 +26,6 @@ export default class WidgetLayout {
             : widgetStatus;
     }
 
-    static removeWidgetFromLayout(layouts, key) {
-        const filter = w => w.i !== key;
-        const newLayout = {};
-
-        if (layouts) {
-            Object.keys(layouts).forEach(breakpoint => {
-                newLayout[breakpoint] = layouts[breakpoint].filter(filter);
-            });
-        }
-
-        return newLayout;
-    }
-
-    static addWidgetToLayout(layouts, widgetLayout) {
-        const newLayouts = {};
-
-        Object.keys(layouts).forEach(breakpoint => {
-            newLayouts[breakpoint] = [...layouts[breakpoint], widgetLayout[breakpoint]];
-        });
-
-        return newLayouts;
-    }
-
     static getWidgetLayoutSettings() {
         let userWidgetLayouts = LocalStorageHelper.getWidgetLayout();
 
@@ -66,7 +43,54 @@ export default class WidgetLayout {
         return layouts;
     }
 
-    static getWidgetLayoutByKey(layouts, key) {
+    static syncLayoutWithNewStatus(newStatus, widgetStatus, widgetLayouts) {
+        let newWidgetStatus = [...widgetStatus];
+        let newLayouts = Object.assign({}, widgetLayouts);
+        let removedLayouts = LocalStorageHelper.getRemovedWidgetLayout();
+        const me = WidgetLayout;
+
+        newStatus.forEach(widgetItem => {
+            let status = newWidgetStatus.find(w => w.key === widgetItem.key);
+            status.enable = widgetItem.enable;
+
+            if (status.enable) {
+                const addedItem = removedLayouts[widgetItem.key] || me._getWidgetLayoutByKey(Wglayouts, widgetItem.key);
+                newLayouts = me._addWidgetToLayout(newLayouts, addedItem);
+                removedLayouts[widgetItem.key] = null;
+            } else {
+                const remmovedItem = me._getWidgetLayoutByKey(newLayouts, widgetItem.key);
+                newLayouts = me._removeWidgetFromLayout(newLayouts, widgetItem.key);
+                removedLayouts[widgetItem.key] = remmovedItem;
+            }
+        });
+
+        return {newWidgetStatus, newLayouts, removedLayouts};
+    }
+
+    static _removeWidgetFromLayout(layouts, key) {
+        const filter = w => w.i !== key;
+        const newLayout = {};
+
+        if (layouts) {
+            Object.keys(layouts).forEach(breakpoint => {
+                newLayout[breakpoint] = layouts[breakpoint].filter(filter);
+            });
+        }
+
+        return newLayout;
+    }
+
+    static _addWidgetToLayout(layouts, widgetLayout) {
+        const newLayouts = {};
+
+        Object.keys(layouts).forEach(breakpoint => {
+            newLayouts[breakpoint] = [...layouts[breakpoint], widgetLayout[breakpoint]];
+        });
+
+        return newLayouts;
+    }    
+
+    static _getWidgetLayoutByKey(layouts, key) {
         const widgetLayout = {};
 
         Object.keys(layouts).forEach(breakpoint => {
@@ -82,5 +106,5 @@ export default class WidgetLayout {
             newLayouts[breakpoint] = [...Wglayouts[breakpoint]];
         });
         return newLayouts;
-    }
+    }    
 }

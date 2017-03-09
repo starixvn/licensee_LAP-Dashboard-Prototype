@@ -344,8 +344,8 @@ describe('onChildChanged(newState)', () => {
                 }
             ]
         };
-        const _addWidgetToLayout = WidgetLayout.addWidgetToLayout;
-        WidgetLayout.addWidgetToLayout = jest.fn(
+        const _addWidgetToLayout = WidgetLayout._addWidgetToLayout;
+        WidgetLayout._addWidgetToLayout = jest.fn(
             (layouts, item) => item.lg.i === 'n_reg_customer' ? 'add' : '');
         app.onChildChanged(newState);
 
@@ -365,7 +365,7 @@ describe('onChildChanged(newState)', () => {
             }
         ])
         expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('add');
-        WidgetLayout.addWidgetToLayout = _addWidgetToLayout;
+        WidgetLayout._addWidgetToLayout = _addWidgetToLayout;
     });
 
     test('remove widget', () => {
@@ -382,8 +382,8 @@ describe('onChildChanged(newState)', () => {
         app.state = {
             wgStatus: [{key: 'n_reg_customer', enable: true}]
         };
-        const _removeWidgetFromLayout = WidgetLayout.removeWidgetFromLayout;
-        WidgetLayout.removeWidgetFromLayout = jest.fn(
+        const _removeWidgetFromLayout = WidgetLayout._removeWidgetFromLayout;
+        WidgetLayout._removeWidgetFromLayout = jest.fn(
             (layouts, key) => key === 'n_reg_customer' ? 'remove' : '');
         app.onChildChanged(newState);
 
@@ -395,7 +395,7 @@ describe('onChildChanged(newState)', () => {
             {key: 'n_reg_customer',enable: false}
         ])
         expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('remove');
-        WidgetLayout.removeWidgetFromLayout = _removeWidgetFromLayout;
+        WidgetLayout._removeWidgetFromLayout = _removeWidgetFromLayout;
     });
 
     test('no item: do nothing', () => {
