@@ -247,7 +247,7 @@ describe('constructor()', () => {
     });
 });
 
-describe('when call renderWgItem(key)', () => {    
+describe('_renderWgItem(key)', () => {    
     [
         'c_turnover',
         'c_licWL',
@@ -267,7 +267,7 @@ describe('when call renderWgItem(key)', () => {
             };
             const widget = renderer.create(
                 <div>
-                  { app.renderWgItem(key) }
+                  { app._renderWgItem(key) }
                 </div>
             );
             expect(widget.toJSON()).toMatchSnapshot();

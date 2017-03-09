@@ -58,28 +58,46 @@ test('when call addWidgetToLayout(layouts, widgetLayout): add given layout to la
 });
 
 describe('getWidgetLayoutSettings()', () => {
-    test('don\'t have local settings: store default settings', () => {
+    const widgetIsEnabledFilter = w => enabledWidgets.indexOf(w.i) >= 0;
+    const enabledWidgets = ['c_turnover', 'c_online_customer', 'n_deposit', 'n_withdrawal'];
+    LocalStorageHelper.getWidgetStatus.mockImplementation(() => [
+        {key: 'c_turnover', enable: true},
+        {key: 'c_licWL',enable: false},
+        {key: 'n_reg_customer',enable: false},
+        {key: 'c_online_customer',enable: true},
+        {key: 'n_customer_balance',enable: false},
+        {key: 'n_pending_funds',enable: false},
+        {key: 'n_deposit',enable: true},
+        {key: 'n_withdrawal',enable: true}
+    ]);
+
+    test('don\'t have local settings: store default settings but remove disabled items', () => {
         LocalStorageHelper.getWidgetLayout.mockImplementation(() => null);
         LocalStorageHelper.saveWidgetLayout.mockReset();
-        WidgetLayout.getWidgetLayoutSettings();
-        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(Wglayouts);
+        const actual = WidgetLayout.getWidgetLayoutSettings();
+        const expected = {
+            lg: Wglayouts.lg.filter(widgetIsEnabledFilter),
+            md: Wglayouts.md.filter(widgetIsEnabledFilter),
+            sm: Wglayouts.sm.filter(widgetIsEnabledFilter),
+            xs: Wglayouts.xs.filter(widgetIsEnabledFilter),
+            xxs:Wglayouts.xxs.filter(widgetIsEnabledFilter),
+        };
+
+        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(expected);
+        expect(actual).toEqual(expected);
     });
 
-    test('don\'t have local settings: return default layout', () => {
-        LocalStorageHelper.getWidgetLayout.mockImplementation(() => null);
-        const layouts = WidgetLayout.getWidgetLayoutSettings();
-        expect(layouts).toEqual(Wglayouts);
-    });
-
-    test('return local settings', () => {
-        const userSettings = {
-            lg: 'some settings',
-            md: 's******t*ting'
-        }; 
-        LocalStorageHelper.getWidgetLayout.mockImplementation(() => userSettings);        
-
-        const layouts = WidgetLayout.getWidgetLayoutSettings();
-
-        expect(layouts).toBe(userSettings);
+    test('return local settings but remove disabled items', () => {
+        const emptyLayouts = {lg:[], md:[], sm:[], xs:[], xxs:[]};
+        let userLayouts = WidgetLayout.addWidgetToLayout(emptyLayouts, WidgetLayout.getWidgetLayoutByKey(Wglayouts, 'c_turnover'));
+        userLayouts = WidgetLayout.addWidgetToLayout(userLayouts, WidgetLayout.getWidgetLayoutByKey(Wglayouts, 'n_reg_customer'));
+        
+        LocalStorageHelper.getWidgetLayout.mockImplementation(() => userLayouts);
+        LocalStorageHelper.saveWidgetLayout.mockReset();
+        const actual = WidgetLayout.getWidgetLayoutSettings();
+        const expected = WidgetLayout.addWidgetToLayout(emptyLayouts, WidgetLayout.getWidgetLayoutByKey(Wglayouts, 'c_turnover'));
+        
+        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(expected);
+        expect(actual).toEqual(expected);
     });
 });

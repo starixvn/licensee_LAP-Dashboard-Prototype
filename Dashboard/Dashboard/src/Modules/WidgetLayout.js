@@ -51,17 +51,19 @@ export default class WidgetLayout {
 
     static getWidgetLayoutSettings() {
         let userWidgetLayouts = LocalStorageHelper.getWidgetLayout();
+
         if (!userWidgetLayouts) {
-            userWidgetLayouts = {
-                lg: [...Wglayouts.lg],
-                md: [...Wglayouts.md],
-                sm: [...Wglayouts.sm],
-                xs: [...Wglayouts.xs],
-                xxs: [...Wglayouts.xxs]
-            };
-            LocalStorageHelper.saveWidgetLayout(userWidgetLayouts);
+            userWidgetLayouts = WidgetLayout._cloneDefaultWidgetLayout();
         }
-        return userWidgetLayouts;
+        const widgetStatus = LocalStorageHelper.getWidgetStatus();
+        const enabledLayoutFilter = w => !!widgetStatus.find(widget => widget.key === w.i && widget.enable);
+        const layouts = {};
+
+        Object.keys(userWidgetLayouts).forEach(breakpoint => {
+            layouts[breakpoint] = userWidgetLayouts[breakpoint].filter(enabledLayoutFilter);
+        });
+        LocalStorageHelper.saveWidgetLayout(layouts);
+        return layouts;
     }
 
     static getWidgetLayoutByKey(layouts, key) {
@@ -73,4 +75,12 @@ export default class WidgetLayout {
         
         return widgetLayout;
     }    
+
+    static _cloneDefaultWidgetLayout(){
+        const newLayouts = {};
+        Object.keys(Wglayouts).forEach(breakpoint => {
+            newLayouts[breakpoint] = [...Wglayouts[breakpoint]];
+        });
+        return newLayouts;
+    }
 }
