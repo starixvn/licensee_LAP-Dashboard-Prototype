@@ -79,10 +79,10 @@ export default class DashboardApp extends React.Component {
       }))
     } else if (newState.items && newState.items.length) {
       const syncResult = WidgetLayout.syncLayoutWithNewStatus(newState.items, this.state.wgStatus, this.state.layouts);
-      this.setState({
+      this.setState(() => ({
         wgStatus: syncResult.newWidgetStatus,
         layouts: syncResult.newLayouts
-      });
+      }));
       LocalStorageHelper.saveWidgetStatus(syncResult.newWidgetStatus);
       LocalStorageHelper.saveWidgetLayout(syncResult.newLayouts);
       LocalStorageHelper.saveRemovedWidgetLayout(syncResult.removedLayouts);

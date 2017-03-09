@@ -349,7 +349,7 @@ describe('onChildChanged(newState)', () => {
             (layouts, item) => item.lg.i === 'n_reg_customer' ? 'add' : '');
         app.onChildChanged(newState);
 
-        expect(app.setState).toBeCalledWith({
+        expect(app.setState.mock.calls[0][0]()).toEqual({
             wgStatus: [
                 {
                     key: 'n_reg_customer',
@@ -387,7 +387,7 @@ describe('onChildChanged(newState)', () => {
             (layouts, key) => key === 'n_reg_customer' ? 'remove' : '');
         app.onChildChanged(newState);
 
-        expect(app.setState).toBeCalledWith({
+        expect(app.setState.mock.calls[0][0]()).toEqual({
             wgStatus: [{key: 'n_reg_customer', enable: false}],
             layouts: 'remove'
         });
@@ -409,8 +409,25 @@ describe('onChildChanged(newState)', () => {
         [[], null, undefined].forEach(items => {
             newState.items = items;
             app.onChildChanged(newState);
-            expect(app.setState).not.toBeCalled();
         });
+
+        expect(app.setState).not.toBeCalled();
+    });
+
+    test('status not change: dont change layout', () => {
+        const app = new DashboardApp();
+        app.setState = jest.fn();
+        app.state.wgStatus = [{key:'no change', enable: false}];
+        app.state.layouts = {say:'fake layout should not be changed'};
+        const newState = {
+            filter: 'fake new filter',
+            action: 'other actions',
+            items: [{key:'no change', enable: false}]
+        };
+        
+        app.onChildChanged(newState);
+
+        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith({say:'fake layout should not be changed'});
     });
 });
 

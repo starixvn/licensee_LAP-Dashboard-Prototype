@@ -51,6 +51,9 @@ export default class WidgetLayout {
 
         newStatus.forEach(widgetItem => {
             let status = newWidgetStatus.find(w => w.key === widgetItem.key);
+            if(status.enable === widgetItem.enable){
+                return;
+            }
             status.enable = widgetItem.enable;
 
             if (status.enable) {
@@ -82,12 +85,18 @@ export default class WidgetLayout {
 
     static _addWidgetToLayout(layouts, widgetLayout) {
         const newLayouts = {};
+        const breakpoints = Object.keys(layouts);
+        let isValid = true;
 
-        Object.keys(layouts).forEach(breakpoint => {
-            newLayouts[breakpoint] = [...layouts[breakpoint], widgetLayout[breakpoint]];
+        breakpoints .forEach(breakpoint => {
+            newLayouts[breakpoint] = [...layouts[breakpoint]];
+            if(!widgetLayout[breakpoint]) {
+                return (isValid = false);
+            }
+            newLayouts[breakpoint].push(widgetLayout[breakpoint]);
         });
 
-        return newLayouts;
+        return isValid ? newLayouts : layouts;
     }    
 
     static _getWidgetLayoutByKey(layouts, key) {

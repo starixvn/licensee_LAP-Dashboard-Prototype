@@ -31,29 +31,51 @@ describe('removeWidgetFromLayout(layouts, key)', () => {
     });
 });
 
-test('when call addWidgetToLayout(layouts, widgetLayout): add given layout to layout settings', () => {
-    const layouts = {
-        lg:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
-        md:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
-        sm:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
-        xs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
-        xxs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }]
-    };
-    const widgetLayout = {
-        lg: { i: 'n_reg_customer', a:1, b:2 },
-        md: { i: 'n_reg_customer', a:1, b:2 },
-        sm: { i: 'n_reg_customer', a:1, b:2 },
-        xs: { i: 'n_reg_customer', a:1, b:2 },
-        xxs: { i: 'n_reg_customer', a:1, b:2 }
-    };
+describe('_addWidgetToLayout(layouts, widgetLayout)', () => {
+    test('add given layout to layout settings', () => {
+        const layouts = {
+            lg:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            md:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            sm:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            xs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            xxs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }]
+        };
+        const widgetLayout = {
+            lg: { i: 'n_reg_customer', a:1, b:2 },
+            md: { i: 'n_reg_customer', a:1, b:2 },
+            sm: { i: 'n_reg_customer', a:1, b:2 },
+            xs: { i: 'n_reg_customer', a:1, b:2 },
+            xxs: { i: 'n_reg_customer', a:1, b:2 }
+        };
 
-    const newLayouts = WidgetLayout._addWidgetToLayout(layouts, widgetLayout);
-    expect(newLayouts).toEqual({
-        lg:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
-        md:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
-        sm:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
-        xs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
-        xxs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' },{ i: 'n_reg_customer', a:1, b:2 }]
+        const newLayouts = WidgetLayout._addWidgetToLayout(layouts, widgetLayout);
+        expect(newLayouts).toEqual({
+            lg:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
+            md:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
+            sm:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
+            xs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
+            xxs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' },{ i: 'n_reg_customer', a:1, b:2 }]
+        });
+    });
+
+    test('invalid widget layout: do not add', () => {
+        const layouts = {
+            lg:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            md:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            sm:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            xs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            xxs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }]
+        };
+        const invalidWidgetLayout = {
+            lg:null,
+            md:'i dont know',
+            sm:null,
+            xs:null,
+            xxs:'something else'
+        };
+
+        const newLayouts = WidgetLayout._addWidgetToLayout(layouts, invalidWidgetLayout);
+        expect(newLayouts).toBe(layouts);
     });
 });
 
