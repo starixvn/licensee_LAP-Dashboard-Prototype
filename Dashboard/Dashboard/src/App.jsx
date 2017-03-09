@@ -5,6 +5,7 @@ import { Responsive, WidthProvider } from 'react-grid-layout';
 import { WidgetKey, Wglayouts } from './config';
 import LocalStorageHelper from './Modules/LocalStorageHelper';
 import WidgetLayout from './Modules/WidgetLayout';
+import LanguageApi from './Modules/LanguageApi';
 
 import DepositWg from './components/widgets/normal/deposit';
 import OnlineCustomerWg from './components/widgets/chart/onlinecustomer';
@@ -15,30 +16,27 @@ import WithdrawalWg from './components/widgets/normal/withdrawal';
 import LicenseeWinLossWg from './components/widgets/chart/licenseewl';
 import TurnoverWg from './components/widgets/chart/turnover';
 
-window.widgetPermission = [
-  'c_turnover',
-  'c_licWL',
-  'n_deposit',
-  'c_online_customer',
-  'n_pending_funds',
-  'n_reg_customer',
-  'n_customer_balance',
-  'n_withdrawal'
-];
-
 export default class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
 
     LocalStorageHelper.clearLayoutSettingIfNewVersion();
-    const wgStatus = WidgetLayout.getWidgetStatusSettings(window.widgetPermission);
+
+    const langCode = window.dashboardLangCode || 'en';
+    const permission = window.widgetPermission;
+
+    if (!permission || !permission.length) {
+      alert(LanguageApi.getRes(langCode, 'no_widget_permission'));
+    }
+
+    const wgStatus = WidgetLayout.getWidgetStatusSettings(permission);
     const userWgStatus = WidgetLayout.mergeWidgetStatusSettingsToUserSettings(wgStatus);
     LocalStorageHelper.saveWidgetStatus(userWgStatus);
 
     const userWidgetLayouts = WidgetLayout.getWidgetLayoutSettings();
 
     this.state = {
-      langCode: window.dashboardLangCode || 'en',
+      langCode: langCode,
       refresh: 0,
       selectedFilter: {
         currency: 0,
@@ -56,31 +54,21 @@ export default class DashboardApp extends React.Component {
     return this._defaultWgStatus;
   }
 
-  renderWgItem(key) {
-    switch (key) {
-      case WidgetKey.chartTurnover:
-        return <div key={key}><TurnoverWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
-      case WidgetKey.chartLicenseeWL:
-        return <div key={key}><LicenseeWinLossWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
-
-      case WidgetKey.normalDeposit:
-        return <div key={key}><DepositWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
-
-      case WidgetKey.chartlOnlineCustomer:
-        return <div key={key}><OnlineCustomerWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
-
-      case WidgetKey.normalPendingFund:
-        return <div key={key}><PendingWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
-
-      case WidgetKey.normalRegisterCustomer:
-        return <div key={key}><RegisteredCustomerWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
-
-      case WidgetKey.normalCustomerBalance:
-        return <div key={key}><CustomerBalanceWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
-
-      case WidgetKey.normalWithdrawal:
-        return <div key={key}><WithdrawalWg filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} /></div>
-    }
+  _renderWgItem(key) {
+    const keyToWidget = {
+      [WidgetKey.chartTurnover]: TurnoverWg,
+      [WidgetKey.chartLicenseeWL]: LicenseeWinLossWg,
+      [WidgetKey.normalDeposit]: DepositWg,
+      [WidgetKey.chartlOnlineCustomer]: OnlineCustomerWg,
+      [WidgetKey.normalPendingFund]: PendingWg,
+      [WidgetKey.normalRegisterCustomer]: RegisteredCustomerWg,
+      [WidgetKey.normalCustomerBalance]: CustomerBalanceWg,
+      [WidgetKey.normalWithdrawal]: WithdrawalWg
+    };
+    const Widget = keyToWidget[key];
+    return (<div key={ key }>
+              <Widget filter={ this.state.selectedFilter } refresh={ this.state.refresh } langCode={ this.state.langCode } />
+            </div>);
   }
 
   onChildChanged(newState) {
@@ -122,9 +110,9 @@ export default class DashboardApp extends React.Component {
   onLayoutChange(layout, layouts) {
     LocalStorageHelper.saveWidgetLayout(layouts);
     this.setState({
-        wgStatus: this.state.wgStatus,
-        layouts: layouts
-      });
+      wgStatus: this.state.wgStatus,
+      layouts: layouts
+    });
   }
 
   get isTouchScreen() {
@@ -133,22 +121,13 @@ export default class DashboardApp extends React.Component {
 
   render() {
     const ResponsiveReactGridLayout = this._responsiveReactGridLayout;
-    return <DefaultLayout langCode={ this.state.langCode } initialWgStatus={ this.defaultWgStatus } callbackParent={ (newState) => this.onChildChanged(newState) }>
-      <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
-        breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-        cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-        isDraggable={!this.isTouchScreen}>
-
-        {this.state.wgStatus.filter(i => i.enable).map((item) => this.renderWgItem(item.key))}
-
-      </ResponsiveReactGridLayout>
-
-           </DefaultLayout>
+    return (<DefaultLayout langCode={ this.state.langCode } initialWgStatus={ this.defaultWgStatus } callbackParent={ (newState) => this.onChildChanged(newState) }>
+              <ResponsiveReactGridLayout className="layout" layouts={ this.state.layouts } rowHeight={ 25 } onLayoutChange={ (layout, layouts) => this.onLayoutChange(layout, layouts) } breakpoints={ { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 } }
+                cols={ { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 } } isDraggable={ !this.isTouchScreen }>
+                { this.state.wgStatus.filter(i => i.enable).map((item) => this._renderWgItem(item.key)) }
+              </ResponsiveReactGridLayout>
+            </DefaultLayout>);
   };
 }
 
-ReactDOM.render(
-  <DashboardApp />
-  ,
-  document.getElementById("dashboad-app")
-);
+ReactDOM.render(<DashboardApp />, document.getElementById("dashboad-app"));

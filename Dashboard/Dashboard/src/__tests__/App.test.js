@@ -235,6 +235,16 @@ describe('constructor()', () => {
         const app = new DashboardApp();
         expect(LocalStorageHelper.clearLayoutSettingIfNewVersion).toBeCalled();
     });
+
+    test('alert when no permission', () => {
+        [undefined, []].forEach(permission => {
+            window.widgetPermission = permission;
+            window.dashboardLangCode = 'en';
+            window.alert = jest.fn();
+            const app = new DashboardApp();
+            expect(window.alert).toBeCalledWith('You do not have sufficient permissions to access this page');
+        });
+    });
 });
 
 describe('when call renderWgItem(key)', () => {    

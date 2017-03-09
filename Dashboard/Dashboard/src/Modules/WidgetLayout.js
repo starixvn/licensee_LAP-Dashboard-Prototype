@@ -2,7 +2,7 @@ import LocalStorageHelper from './LocalStorageHelper';
 import { WidgetKey, Wglayouts } from '../config';
 
 export default class WidgetLayout {
-    static getWidgetStatusSettings(permissions) {
+    static getWidgetStatusSettings(permissions = []) {
         const defaultKeys = Object.keys(WidgetKey).map(key => WidgetKey[key]);
         const wgStatus = [];
 

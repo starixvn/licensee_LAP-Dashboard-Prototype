@@ -32,5 +32,6 @@ export const en = {
     All: "All",
     Web: "Web",
     total_turnover: "Total Turnover",
-    total_winloss: "Total Win Loss"
+    total_winloss: "Total Win Loss",
+    no_widget_permission: "You do not have sufficient permissions to access this page"
 };
