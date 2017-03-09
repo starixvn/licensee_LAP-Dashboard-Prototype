@@ -99,13 +99,13 @@ export default class DashboardApp extends React.Component {
         status.enable = widgetItem.enable;
 
         if (status.enable) {
-          const toBeAdded = removedLayouts[widgetItem.key] || WidgetLayout.getWidgetLayoutByKey(Wglayouts, widgetItem.key);
-          newLayouts = WidgetLayout.addWidgetToLayout(newLayouts, toBeAdded);
+          const addedItem = removedLayouts[widgetItem.key] || WidgetLayout.getWidgetLayoutByKey(Wglayouts, widgetItem.key);
+          newLayouts = WidgetLayout.addWidgetToLayout(newLayouts, addedItem);
           removedLayouts[widgetItem.key] = null;
         } else {
-          const toBeRemoved = WidgetLayout.getWidgetLayoutByKey(newLayouts, widgetItem.key);
+          const remmovedItem = WidgetLayout.getWidgetLayoutByKey(newLayouts, widgetItem.key);
           newLayouts = WidgetLayout.removeWidgetFromLayout(newLayouts, widgetItem.key);
-          removedLayouts[widgetItem.key] = toBeRemoved;
+          removedLayouts[widgetItem.key] = remmovedItem;
         }
       });
 
