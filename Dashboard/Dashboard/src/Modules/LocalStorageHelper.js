@@ -4,6 +4,8 @@ const widgetStatusCacheKey = "_LAP_Dashboard_Wg_Status";
 
 const widgetLayoutCacheKey = "_LAP_Dashboard_Wg_Layout";
 
+const widgetLayoutRemovedCacheKey = "_LAP_Dashboard_Wg_Layout_removed";
+
 export default class LocalStorageHelper {
     static clearLayoutSettingIfNewVersion() {
         var scriptElement = document.getElementById("dashboard-script");
@@ -22,9 +24,9 @@ export default class LocalStorageHelper {
             window.localStorage.setItem(widgetVersionCacheKey, newVersion);
             window.localStorage.removeItem(widgetStatusCacheKey);
             window.localStorage.removeItem(widgetLayoutCacheKey);
+            window.localStorage.removeItem(widgetLayoutRemovedCacheKey);
         }
     }
-
     static saveWidgetStatus(wgs) {
         try {
             window.localStorage.setItem(widgetStatusCacheKey, JSON.stringify(wgs))
@@ -36,7 +38,6 @@ export default class LocalStorageHelper {
         var item = window.localStorage.getItem(widgetStatusCacheKey)
         return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : null;
     }
-
     static saveWidgetLayout(layout) {
         try {
             window.localStorage.setItem(widgetLayoutCacheKey, JSON.stringify(layout))
@@ -47,5 +48,16 @@ export default class LocalStorageHelper {
     static getWidgetLayout() {
         var item = window.localStorage.getItem(widgetLayoutCacheKey)
         return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : null;
+    }
+    static saveRemovedWidgetLayout(layout) {
+        try {
+            window.localStorage.setItem(widgetLayoutRemovedCacheKey, JSON.stringify(layout))
+        } catch (error) {
+            alert("To continue use dashboard. Please turn private browsing off!!");
+        }
+    }
+    static getRemovedWidgetLayout() {
+        var item = window.localStorage.getItem(widgetLayoutRemovedCacheKey)
+        return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : {};
     }
 }
