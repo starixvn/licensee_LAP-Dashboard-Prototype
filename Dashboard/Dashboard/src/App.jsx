@@ -1,6 +1,3 @@
-import Promise from 'core-js/es6/promise';
-import Array from 'core-js/es6/array';
-import 'core-js/es6/object';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DefaultLayout from './layouts/Default';
@@ -38,7 +35,7 @@ export default class DashboardApp extends React.Component {
     const userWgStatus = WidgetLayout.mergeWidgetStatusSettingsToUserSettings(wgStatus);
     LocalStorageHelper.saveWidgetStatus(userWgStatus);
 
-    const userWidgetLayouts = WidgetLayout.getUserWidgetLayoutSettingsForDisplay();
+    const userWidgetLayouts = WidgetLayout.getWidgetLayoutSettings();
 
     this.state = {
       langCode: window.dashboardLangCode || 'en',
@@ -88,28 +85,46 @@ export default class DashboardApp extends React.Component {
 
   onChildChanged(newState) {
     if (newState.action == 'apply') {
-      this.setState(pre => ({ refresh: pre.refresh + 1, selectedFilter: newState.filter }))
-    }
-    else {
+      this.setState(pre => ({
+        refresh: pre.refresh + 1,
+        selectedFilter: newState.filter
+      }))
+    } else if (newState.items && newState.items.length) {
+      let newWidgetStatus = [...this.state.wgStatus];
+      let newLayouts = Object.assign({}, this.state.layouts);
+      let removedLayouts = LocalStorageHelper.getRemovedWidgetLayout();
 
-      let newWidgetStatus = Array.from(this.state.wgStatus);
-      let newLayouts = {};
-      for (let i = 0; i < newState.items.length; i++) {
-        var widgetItem = newState.items[i];
-        newWidgetStatus.find(w => w.key == widgetItem.key).enable = widgetItem.enable;
-        newLayouts = widgetItem.enable 
-          ? WidgetLayout.addWidgetToLayout(this.state.layouts, widgetItem.key) 
-          : WidgetLayout.removeWidgetFromLayout(this.state.layouts, widgetItem.key);
-      }
+      newState.items.forEach(widgetItem => {
+        let status = newWidgetStatus.find(w => w.key === widgetItem.key);
+        status.enable = widgetItem.enable;
 
-      this.setState({ wgStatus: newWidgetStatus, layouts: newLayouts });
-      LocalStorageHelper.saveWidgetStatus(newWidgetStatus)
+        if (status.enable) {
+          const toBeAdded = removedLayouts[widgetItem.key] || WidgetLayout.getWidgetLayoutByKey(Wglayouts, widgetItem.key);
+          newLayouts = WidgetLayout.addWidgetToLayout(newLayouts, toBeAdded);
+          removedLayouts[widgetItem.key] = null;
+        } else {
+          const toBeRemoved = WidgetLayout.getWidgetLayoutByKey(newLayouts, widgetItem.key);
+          newLayouts = WidgetLayout.removeWidgetFromLayout(newLayouts, widgetItem.key);
+          removedLayouts[widgetItem.key] = toBeRemoved;
+        }
+      });
+
+      this.setState({
+        wgStatus: newWidgetStatus,
+        layouts: newLayouts
+      });
+      LocalStorageHelper.saveWidgetStatus(newWidgetStatus);
       LocalStorageHelper.saveWidgetLayout(newLayouts);
+      LocalStorageHelper.saveRemovedWidgetLayout(removedLayouts);
     }
   }
 
   onLayoutChange(layout, layouts) {
     LocalStorageHelper.saveWidgetLayout(layouts);
+    this.setState({
+        wgStatus: this.state.wgStatus,
+        layouts: layouts
+      });
   }
 
   get isTouchScreen() {
@@ -118,7 +133,7 @@ export default class DashboardApp extends React.Component {
 
   render() {
     const ResponsiveReactGridLayout = this._responsiveReactGridLayout;
-    return <DefaultLayout langCode={this.state.langCode} initialWgStatus={this.defaultWgStatus} callbackParent={(newState) => this.onChildChanged(newState)}>
+    return <DefaultLayout langCode={ this.state.langCode } initialWgStatus={ this.defaultWgStatus } callbackParent={ (newState) => this.onChildChanged(newState) }>
       <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
@@ -128,7 +143,7 @@ export default class DashboardApp extends React.Component {
 
       </ResponsiveReactGridLayout>
 
-    </DefaultLayout>
+           </DefaultLayout>
   };
 }
 

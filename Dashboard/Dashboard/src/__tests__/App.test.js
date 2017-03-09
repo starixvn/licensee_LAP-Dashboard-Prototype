@@ -124,6 +124,7 @@ beforeEach(() => {
     LocalStorageHelper.mockReset();
     LocalStorageHelper.getWidgetStatus.mockImplementation(() => fakeWidgetStatus);
     LocalStorageHelper.getWidgetLayout.mockImplementation(() => fakeWidgetLayout);
+    LocalStorageHelper.getRemovedWidgetLayout.mockImplementation(() => ({}));
 });
 
 test('render DashboardApp to #dashboad-app', () => {
@@ -289,22 +290,21 @@ describe('when get isTouchScreen', () => {
 });
 
 describe('onChildChanged(newState)', () => {
-    const newState = {
-        filter: 'fake new filter',
-        items: []
-    };
-
     const oldState = {
         refresh: 123456
     };
 
     test('if action is apply: update state', () => {
         const app = new DashboardApp();
+        const newState = {
+            filter: 'fake new filter',
+            items: [],
+            action: 'apply'
+        };
         app.setState = jest.fn();
         app
             .setState
             .mockReset();
-        newState.action = 'apply';
         app.onChildChanged(newState);
 
         const asyncSetState = app.setState.mock.calls[0][0];
@@ -317,15 +317,15 @@ describe('onChildChanged(newState)', () => {
     test('add widget', () => {
         const app = new DashboardApp();
         app.setState = jest.fn();
-        app
-            .setState
-            .mockReset();
-        newState
-            .items
-            .push({
+        const newState = {
+            filter: 'fake new filter',
+            items: [{
                 key: 'n_reg_customer',
                 enable: true
-            });
+            }],
+            action: 'other actions'
+        };
+
         app.state = {
             wgStatus: [
                 {
@@ -336,8 +336,7 @@ describe('onChildChanged(newState)', () => {
         };
         const _addWidgetToLayout = WidgetLayout.addWidgetToLayout;
         WidgetLayout.addWidgetToLayout = jest.fn(
-            (layouts, key) => key === 'n_reg_customer' ? 'add' : '');
-        newState.action = 'other actions';
+            (layouts, item) => item.lg.i === 'n_reg_customer' ? 'add' : '');
         app.onChildChanged(newState);
 
         expect(app.setState).toBeCalledWith({
@@ -362,15 +361,20 @@ describe('onChildChanged(newState)', () => {
     test('remove widget', () => {
         const app = new DashboardApp();
         app.setState = jest.fn();
-        app.setState.mockReset();
-        newState.items.push({key: 'n_reg_customer', enable: false});
+        const newState = {
+            filter: 'fake new filter',
+            items: [{
+                key: 'n_reg_customer',
+                enable: false
+            }],
+            action: 'other actions'
+        };
         app.state = {
             wgStatus: [{key: 'n_reg_customer', enable: true}]
         };
         const _removeWidgetFromLayout = WidgetLayout.removeWidgetFromLayout;
         WidgetLayout.removeWidgetFromLayout = jest.fn(
             (layouts, key) => key === 'n_reg_customer' ? 'remove' : '');
-        newState.action = 'other actions';
         app.onChildChanged(newState);
 
         expect(app.setState).toBeCalledWith({
@@ -383,12 +387,33 @@ describe('onChildChanged(newState)', () => {
         expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('remove');
         WidgetLayout.removeWidgetFromLayout = _removeWidgetFromLayout;
     });
+
+    test('no item: do nothing', () => {
+        const app = new DashboardApp();
+        app.setState = jest.fn();
+        const newState = {
+            filter: 'fake new filter',
+            action: 'other actions'
+        };
+        
+        [[], null, undefined].forEach(items => {
+            newState.items = items;
+            app.onChildChanged(newState);
+            expect(app.setState).not.toBeCalled();
+        });
+    });
 });
 
 test('save layout when layout change', () => {
     const app = new DashboardApp();
-    app.onLayoutChange(123, 456);
-    expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(456);
+    app.setState = jest.fn();
+    app.state.wgStatus = 'fake widget status';
+    app.onLayoutChange('current layout', 'all layout settings');
+    expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('all layout settings');
+    expect(app.setState).toBeCalledWith({
+        wgStatus: 'fake widget status',
+        layouts: 'all layout settings'
+    });
 });
 
 test('DefaultLayout.callbackParent() is bound to onChildChanged()', () => {

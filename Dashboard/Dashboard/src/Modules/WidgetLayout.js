@@ -26,16 +26,6 @@ export default class WidgetLayout {
             : widgetStatus;
     }
 
-    static cloneWidgetLayoutConfigs() {
-        return {
-            lg: [...Wglayouts.lg],
-            md: [...Wglayouts.md],
-            sm: [...Wglayouts.sm],
-            xs: [...Wglayouts.xs],
-            xxs: [...Wglayouts.xxs]
-        }
-    }
-
     static removeWidgetFromLayout(layouts, key) {
         const filter = w => w.i !== key;
         const newLayout = {};
@@ -49,50 +39,38 @@ export default class WidgetLayout {
         return newLayout;
     }
 
-    static addWidgetToLayout(layouts, key) {
+    static addWidgetToLayout(layouts, widgetLayout) {
         const newLayouts = {};
-        const find = w => w.i === key;
 
-        if (layouts) {
-            const breakpoints = Object.keys(Wglayouts);
-            let widget = Wglayouts[breakpoints[0]].find(find);
+        Object.keys(layouts).forEach(breakpoint => {
+            newLayouts[breakpoint] = [...layouts[breakpoint], widgetLayout[breakpoint]];
+        });
 
-            if (!widget) {
-                return layouts;
-            }
-
-            const userSettings = LocalStorageHelper.getWidgetLayout() || {
-                lg:[], md:[], sm:[], xs:[], xxs:[]
-            };
-
-            breakpoints.forEach(breakpoint => {
-                const layout = Object.assign({}, 
-                    Wglayouts[breakpoint].find(find),
-                    userSettings[breakpoint].find(find)
-                );
-                newLayouts[breakpoint] = [...layouts[breakpoint], layout];
-            });
-        }
-        
         return newLayouts;
     }
 
-    static getUserWidgetLayoutSettingsForDisplay(){
+    static getWidgetLayoutSettings() {
         let userWidgetLayouts = LocalStorageHelper.getWidgetLayout();
         if (!userWidgetLayouts) {
-            userWidgetLayouts = WidgetLayout.cloneWidgetLayoutConfigs();
+            userWidgetLayouts = {
+                lg: [...Wglayouts.lg],
+                md: [...Wglayouts.md],
+                sm: [...Wglayouts.sm],
+                xs: [...Wglayouts.xs],
+                xxs: [...Wglayouts.xxs]
+            };
             LocalStorageHelper.saveWidgetLayout(userWidgetLayouts);
         }
-
-        const widgetStatus = LocalStorageHelper.getWidgetStatus();
-        const filter = w => !!widgetStatus.find(widget => widget.key === w.i && widget.enable);
-
-        return {
-            lg: userWidgetLayouts.lg.filter(filter),
-            md: userWidgetLayouts.md.filter(filter),
-            sm: userWidgetLayouts.sm.filter(filter),
-            xs: userWidgetLayouts.xs.filter(filter),
-            xxs:userWidgetLayouts.xxs.filter(filter)
-        };
+        return userWidgetLayouts;
     }
+
+    static getWidgetLayoutByKey(layouts, key) {
+        const widgetLayout = {};
+
+        Object.keys(layouts).forEach(breakpoint => {
+            widgetLayout[breakpoint] = layouts[breakpoint].find( w => w.i === key);
+        });
+        
+        return widgetLayout;
+    }    
 }
