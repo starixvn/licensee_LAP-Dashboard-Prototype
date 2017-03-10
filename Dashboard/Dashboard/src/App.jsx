@@ -1,5 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+import 'core-js/es6/promise';
+import 'core-js/es6/array';
+import 'core-js/es6/object';
+
 import DefaultLayout from './layouts/Default';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import { WidgetKey, Wglayouts } from './config';

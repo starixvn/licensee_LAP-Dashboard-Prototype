@@ -32,5 +32,6 @@ export const cs = {
     All: "全部",
     Web: "桌机版",
     total_turnover: "总交易额",
-    total_winloss: "总投注输赢"
+    total_winloss: "总投注输赢",
+    no_widget_permission: "You do not have sufficient permissions to access this page"
 };
