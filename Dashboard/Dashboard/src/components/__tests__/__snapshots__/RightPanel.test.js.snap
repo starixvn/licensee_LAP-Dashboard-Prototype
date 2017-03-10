@@ -1,4 +1,4 @@
-exports[`event listeners right panel overlay click: toggle panel 1`] = `
+exports[`event listeners on widget item check status change state is mounted: call parent callback and update state 1`] = `
 <div
   className="dashboard__right-panel">
   <div

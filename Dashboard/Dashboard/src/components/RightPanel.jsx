@@ -2,8 +2,7 @@
 import ReactDOM from 'react-dom';
 import LanguageApi from '../Modules/LanguageApi';
 import WidgetApi from '../Modules/WidgetApi';
-import LocalStorageHelper from '../Modules/LocalStorageHelper';
-import { WidgetApiUrl } from '../config'
+import {WidgetApiUrl} from '../config'
 
 export default class RightPanel extends React.Component {
     constructor(props) {
@@ -16,135 +15,175 @@ export default class RightPanel extends React.Component {
             SelectedCurrency: 0,
             BaseCurrencyList: [],
             CurrencyList: [],
-            wgs: this.bindWgCheckBox(props.wgs)
+            wgs: this._bindWgCheckBox(props.wgs)
         };
-        
-    };
-  componentWillReceiveProps(nextProps) {
-        if(this.state.isMounted)
-        {
-            this.setState({ wgs: this.bindWgCheckBox(nextProps.wgs) })
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.state.isMounted) {
+            this.setState({
+                wgs: this._bindWgCheckBox(nextProps.wgs)
+            });
         }
     }
-    get selectedFilter() {
-        return {
-            currency: this.state.SelectedCurrency,
-            baseCurrency: this.state.SelectedBaseCurrency
-        }
+
+    componentDidMount() {
+        this.setState({isMounted: true})
+        this._fetchData();
     }
-    bindWgCheckBox(wgs) {
+
+    componentWillUnmount() {
+        this.setState({isMounted: false});
+    }
+
+    _bindWgCheckBox(wgs) {
         var _tempWgs = {};
-        wgs.map((x) => { _tempWgs[x.key] = x.enable; })
+        wgs.map((x) => {
+            _tempWgs[x.key] = x.enable;
+        })
         return _tempWgs;
     }
+
     _fetchData() {
         var param = {
             Url: WidgetApiUrl.CurrenyList,
             IsCrossSite: true
         };
-        WidgetApi.fetchData(param)
+        WidgetApi
+            .fetchData(param)
             .then((response) => {
-                response.data.CurrencyList.unshift({ Key: "All", Value: "0" });
-                this.setState({
-                    isMounted: true,
-                    CurrencyList: response.data.CurrencyList,
-                    BaseCurrencyList: response.data.BaseCurrencyList
-                })
+                response
+                    .data
+                    .CurrencyList
+                    .unshift({Key: "All", Value: "0"});
+                this.setState({isMounted: true, CurrencyList: response.data.CurrencyList, BaseCurrencyList: response.data.BaseCurrencyList})
             })
             .catch(function (error) {
                 console.log("error:", error);
             });
     }
-    componentDidMount() {
-        this.setState({
-            isMounted: true
-        })
-        this._fetchData()
 
-    }
-
-    
-    componentWillUnmount() {
-        this.setState({ isMounted: false });
-    }
-    applyAction() {
+    _applyAction() {
         if (this.state.isMounted) {
-            return this.props.callbackParent({ action: 'apply', filter: this.selectedFilter });
+            return this
+                .props
+                .callbackParent({
+                    action: 'apply',
+                    filter: {
+                        currency: this.state.SelectedCurrency,
+                        baseCurrency: this.state.SelectedBaseCurrency
+                    }
+                });
         }
     }
+
+    _togglePanel() {
+        this.setState(prevState => ({
+            isHidden: !prevState.isHidden
+        }));
+    }
+
+    _getCurrencyDropdownListOptions() {
+        return this
+            .state
+            .CurrencyList
+            .map((item, i) => {
+                return <option key={i} value={item.Value}>{item.Key}</option>
+            });
+    }
+
+    _getBaseCurrencyDropdownListOptions() {
+        return this
+            .state
+            .BaseCurrencyList
+            .map((item, i) => {
+                return <option key={i} value={item}>{item}</option>
+            });
+    }
+
+    _getWidgetCheckBoxes() {
+        return this
+            .props
+            .wgs
+            .map(item => (
+                <p key={item.key} className="widget-item">
+                    <input
+                        onChange={(e) => this.onCheckWg(item.key)}
+                        checked={this.state.wgs[item.key]}
+                        className="filled-in"
+                        type="checkbox"
+                        id={item.key}/>
+                    <label htmlFor={item.key}>{LanguageApi.getRes(this.props.langCode, item.key)}</label>
+                </p>
+            ));
+    }
+
     onChangeCurrencyList(event) {
-        this.setState({
-            SelectedCurrency: event.target.value
-        });
+        this.setState({SelectedCurrency: event.target.value});
     }
+
     onChangeBaseCurrencyList(event) {
-        this.setState({
-            SelectedBaseCurrency: event.target.value
-        });
+        this.setState({SelectedBaseCurrency: event.target.value});
     }
+
     onCheckWg(key) {
         if (this.state.isMounted) {
             var temp = this.state.wgs;
             temp[key] = !temp[key];
-           this.setState({ wgs: temp })
-            return this.props.callbackParent({ action: 'wgSyncStatus', items: [{ key: key, enable: this.state.wgs[key] }] });
+            this.setState({wgs: temp})
+            return this
+                .props
+                .callbackParent({
+                    action: 'wgSyncStatus',
+                    items: [
+                        {
+                            key: key,
+                            enable: this.state.wgs[key]
+                        }
+                    ]
+                });
         }
     }
-    togglePanel() {
-        this.setState(prevState => ({
-            isHidden: !prevState.isHidden
-        }));
-    };
-    render() {
-        const isHidden = this.state.isHidden;
-        return <div className={isHidden ? 'dashboard__right-panel' : 'dashboard__right-panel is-expanded'} >
-            <div className="right-panel-wrap">
 
-                <span onClick={(e) => this.togglePanel(e)} className="icon-quickaccess js-icon-quickaccess">
+    render() {
+        const isHidden = this.state.isHidden
+            ? ''
+            : ' is-expanded';
+        return <div className={`dashboard__right-panel${isHidden}`}>
+            <div className="right-panel-wrap">
+                <span
+                    onClick={(e) => this.togglePanel(e)}
+                    className="icon-quickaccess js-icon-quickaccess">
                     <i className="icon-settings"></i>
                 </span>
-                <div className="right-panel-content" >
-
+                <div className="right-panel-content">
                     <div className="currency">
                         <label className="currency-label">{LanguageApi.getRes(this.props.langCode, "currency")}</label>
-                        <select ref="currencyDropdownList" onChange={(e) => this.onChangeCurrencyList(e)} value={this.state.SelectedCurrency}>
-                            {
-                                this.state.CurrencyList.map((item, i) => {
-                                    return <option key={i} value={item.Value}>{item.Key}</option>
-                                })
-                            }
+                        <select
+                            ref="currencyDropdownList"
+                            onChange={(e) => this.onChangeCurrencyList(e)}
+                            value={this.state.SelectedCurrency}>
+                            {this._getCurrencyDropdownListOptions()}
                         </select>
                     </div>
-
                     <div className="currency">
                         <label className="currency-label">{LanguageApi.getRes(this.props.langCode, "Based")}</label>
-                        <select ref="baseCurrencyDropdownList" onChange={(e) => this.onChangeBaseCurrencyList(e)} value={this.state.SelectedBaseCurrency}>
-                            {
-                                this.state.BaseCurrencyList.map((item, i) => {
-                                    return <option key={i} value={item}>{item}</option>
-                                })
-                            }
+                        <select
+                            ref="baseCurrencyDropdownList"
+                            onChange={(e) => this.onChangeBaseCurrencyList(e)}
+                            value={this.state.SelectedBaseCurrency}>
+                            {this._getBaseCurrencyDropdownListOptions()}
                         </select>
                     </div>
-
-                    <a className="btn-submit" onClick={(e) => this.applyAction(e)} href="#">{LanguageApi.getRes(this.props.langCode, "apply")}</a>
-
+                    <a className="btn-submit" onClick={(e) => this._applyAction(e)} href="#">{LanguageApi.getRes(this.props.langCode, "apply")}</a>
                     <div className="widgets-config">
-
                         <div className="widgets-title">{LanguageApi.getRes(this.props.langCode, "Widgets")}</div>
-
-                        {
-                            this.props.wgs.map(item => {
-                                return <p key={item.key} className="widget-item">
-                                    <input onChange={(e) => this.onCheckWg(item.key)} checked={this.state.wgs[item.key]} className="filled-in" type="checkbox" id={item.key} />
-                                    <label htmlFor={item.key}>{LanguageApi.getRes(this.props.langCode, item.key)}</label>
-                                </p>
-                            })
-                        }
+                        {this._getWidgetCheckBoxes()}
                     </div>
                 </div>
             </div>
             <div className="right-panel-overlay" onClick={(e) => this.togglePanel(e)}></div>
         </div>
     }
-};
+}

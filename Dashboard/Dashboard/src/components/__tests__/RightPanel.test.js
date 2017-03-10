@@ -1,10 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import RightPanel from '../RightPanel.jsx';
-import LocalStorageHelper from '../../Modules/LocalStorageHelper';
+import RightPanel from '../RightPanel';
 import WidgetApi from '../../Modules/WidgetApi';
 
-jest.mock('../../Modules/LocalStorageHelper');
 jest.mock('../../Modules/WidgetApi');
 
 const fakeProps = {
@@ -68,22 +66,6 @@ function findElement(component, selector) {
     return null;
 }
 
-beforeAll(() => {
-    LocalStorageHelper
-        .getWidgetStatus
-        .mockImplementation(() => {
-            return [
-                {
-                    key: "abc",
-                    enable: true
-                }, {
-                    key: "abc",
-                    enable: false
-                }
-            ];
-        });
-});
-
 test('renders correctly', () => {
     WidgetApi
         .fetchData
@@ -129,7 +111,7 @@ test('componentWillUnmount: set mount status false', () => {
 test('bindWgCheckBox(wgs): return mapped items from given parameter', () => {
     const component = new RightPanel(fakeProps);
 
-    const result = component.bindWgCheckBox([
+    const result = component._bindWgCheckBox([
         {
             key: 'a',
             enable: true
@@ -192,45 +174,12 @@ describe('togglePanel()', () => {
                 isHidden: isHidden
             };
 
-            component.togglePanel();
-            const asyncUpdateState = component.setState.mock.calls[0][0];
-            const result = asyncUpdateState(component.state);
+            component._togglePanel();
+            const result = component.setState.mock.calls[0][0](component.state);
             expect(result).toEqual({
                 isHidden: !isHidden
             });
         });
-    });
-
-    test('widget status different with saved data:call parent callback', () => {
-        const component = new RightPanel(fakeProps);
-        component.setState = jest.fn();
-        component.state = {
-            isHidden: true
-        };
-
-        component.togglePanel();
-
-        expect(component.props.callbackParent).toBeCalledWith({
-            action: 'wgSyncStatus',
-            items: [
-                {
-                    key: "abc",
-                    enable: false
-                }
-            ]
-        });
-    });
-    test('widget status different with saved data: update state', () => {
-        const component = new RightPanel(fakeProps);
-        component.setState = jest.fn();
-        component.bindWgCheckBox = () => 123.456;
-        component.state = {
-            isHidden: true
-        };
-
-        component.togglePanel();
-
-        expect(component.setState).toBeCalledWith({wgs: 123.456});
     });
 });
 
@@ -381,6 +330,43 @@ describe('event listeners', () => {
                     }
                 ]
             });
+        });
+    });
+});
+
+describe('componentWillReceiveProps(nextProps)', () => {
+    test('component unmounted: do nothing', () => {
+        const component = new RightPanel(fakeProps);
+        component.state.isMounted = false;
+        component.setState = jest.fn();
+        component.componentWillReceiveProps();
+
+        expect(component.setState)
+            .not
+            .toBeCalled();
+    });
+
+    test('mounted: bind widget status', () => {
+        const component = new RightPanel(fakeProps);
+        component.state.isMounted = true;
+        component.setState = jest.fn();
+        component.componentWillReceiveProps({
+            wgs: [
+                {
+                    key: "abcxxx",
+                    enable: true
+                }, {
+                    key: "defxxx",
+                    enable: false
+                }
+            ]
+        });
+
+        expect(component.setState).toBeCalledWith({
+            wgs: {
+                "abcxxx": true,
+                "defxxx": false
+            }
         });
     });
 });
