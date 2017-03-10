@@ -39,7 +39,8 @@ export default class DashboardApp extends React.Component {
     LocalStorageHelper.saveWidgetStatus(userWgStatus);
 
     const userWidgetLayouts = WidgetLayout.getWidgetLayoutSettings();
-
+    LocalStorageHelper.saveWidgetLayout(userWidgetLayouts);
+    
     this.state = {
       langCode: langCode,
       refresh: 0,

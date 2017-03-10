@@ -245,6 +245,16 @@ describe('constructor()', () => {
             expect(window.alert).toBeCalledWith('You do not have sufficient permissions to access this page');
         });
     });
+
+    test('get widget layout then save', () => {
+        const _getWidgetLayoutSettings = WidgetLayout.getWidgetLayoutSettings;
+        WidgetLayout.getWidgetLayoutSettings = jest.fn(() => 'fake widget layout settings');
+        LocalStorageHelper.saveWidgetLayout.mockReset();
+        const app = new DashboardApp();
+
+        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('fake widget layout settings');
+        WidgetLayout.getWidgetLayoutSettings = _getWidgetLayoutSettings;        
+    });
 });
 
 describe('_renderWgItem(key)', () => {    

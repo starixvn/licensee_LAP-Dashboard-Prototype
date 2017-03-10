@@ -30,7 +30,7 @@ export default class WidgetLayout {
         let userWidgetLayouts = LocalStorageHelper.getWidgetLayout();
 
         if (!userWidgetLayouts) {
-            userWidgetLayouts = WidgetLayout._cloneDefaultWidgetLayout();
+            userWidgetLayouts = WidgetLayout._createEmptyLayout();
         }
         const widgetStatus = LocalStorageHelper.getWidgetStatus();
         let layouts = WidgetLayout._createEmptyLayout();
@@ -43,7 +43,7 @@ export default class WidgetLayout {
                 layouts = WidgetLayout._addWidgetToLayout(layouts, widgetLayout);
             }
         });
-        LocalStorageHelper.saveWidgetLayout(layouts);
+
         return layouts;
     }
 
@@ -115,15 +115,7 @@ export default class WidgetLayout {
         });
         
         return isValid ? widgetLayout : null;
-    }    
-
-    static _cloneDefaultWidgetLayout(){
-        const newLayouts = {};
-        Object.keys(Wglayouts).forEach(breakpoint => {
-            newLayouts[breakpoint] = [...Wglayouts[breakpoint]];
-        });
-        return newLayouts;
-    }    
+    }     
 
     static _createEmptyLayout(){
         const layouts = {};

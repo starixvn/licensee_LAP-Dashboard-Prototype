@@ -105,7 +105,6 @@ describe('getWidgetLayoutSettings()', () => {
             xxs:Wglayouts.xxs.filter(widgetIsEnabledFilter),
         };
 
-        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(expected);
         expect(actual).toEqual(expected);
     });
 
@@ -122,7 +121,6 @@ describe('getWidgetLayoutSettings()', () => {
         expected = WidgetLayout._addWidgetToLayout(expected, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'n_deposit'));
         expected = WidgetLayout._addWidgetToLayout(expected, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'n_withdrawal'));
         
-        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(expected);
         expect(actual).toEqual(expected);
     });
 });
