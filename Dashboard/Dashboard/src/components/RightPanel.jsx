@@ -18,8 +18,14 @@ export default class RightPanel extends React.Component {
             CurrencyList: [],
             wgs: this.bindWgCheckBox(props.wgs)
         };
+        
     };
-
+  componentWillReceiveProps(nextProps) {
+        if(this.state.isMounted)
+        {
+            this.setState({ wgs: this.bindWgCheckBox(nextProps.wgs) })
+        }
+    }
     get selectedFilter() {
         return {
             currency: this.state.SelectedCurrency,
@@ -57,6 +63,7 @@ export default class RightPanel extends React.Component {
 
     }
 
+    
     componentWillUnmount() {
         this.setState({ isMounted: false });
     }
@@ -79,28 +86,11 @@ export default class RightPanel extends React.Component {
         if (this.state.isMounted) {
             var temp = this.state.wgs;
             temp[key] = !temp[key];
-            this.setState({ wgs: temp })
+           this.setState({ wgs: temp })
             return this.props.callbackParent({ action: 'wgSyncStatus', items: [{ key: key, enable: this.state.wgs[key] }] });
         }
     }
     togglePanel() {
-        if (this.state.isHidden) {
-            var currentWgStatus = LocalStorageHelper.getWidgetStatus()
-            var isUpdated = false;
-            var diffWgs = []
-            for (var i = 0; i < this.props.wgs.length; i++) {
-                if (this.props.wgs[i].enable != currentWgStatus[i].enable) {
-                    isUpdated = true;
-                    diffWgs.push(currentWgStatus[i])
-                }
-            }
-
-            if (isUpdated) {
-                this.props.callbackParent({ action: 'wgSyncStatus', items: diffWgs });
-                this.setState({ wgs: this.bindWgCheckBox(currentWgStatus) })
-            }
-        }
-
         this.setState(prevState => ({
             isHidden: !prevState.isHidden
         }));

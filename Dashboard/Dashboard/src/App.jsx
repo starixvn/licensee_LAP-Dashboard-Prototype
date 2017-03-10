@@ -52,12 +52,8 @@ export default class DashboardApp extends React.Component {
       layouts: userWidgetLayouts
     };
 
-    this._defaultWgStatus = wgStatus;
+ 
     this._responsiveReactGridLayout = WidthProvider(Responsive);
-  }
-
-  get defaultWgStatus() {
-    return this._defaultWgStatus;
   }
 
   _renderWgItem(key) {
@@ -72,8 +68,10 @@ export default class DashboardApp extends React.Component {
       [WidgetKey.normalWithdrawal]: WithdrawalWg
     };
     const Widget = keyToWidget[key];
+    var itemStatus=this.state.wgStatus.find(x=>x.key===key);
+  
     return (<div key={ key }>
-              <Widget filter={ this.state.selectedFilter } refresh={ this.state.refresh } langCode={ this.state.langCode } />
+              <Widget wgItemFromParent={itemStatus} callbackParent={(newState) => this.onChildChanged(newState)} filter={ this.state.selectedFilter } refresh={ this.state.refresh } langCode={ this.state.langCode } />
             </div>);
   }
 
@@ -109,7 +107,7 @@ export default class DashboardApp extends React.Component {
 
   render() {
     const ResponsiveReactGridLayout = this._responsiveReactGridLayout;
-    return (<DefaultLayout langCode={ this.state.langCode } initialWgStatus={ this.defaultWgStatus } callbackParent={ (newState) => this.onChildChanged(newState) }>
+    return (<DefaultLayout langCode={ this.state.langCode } initialWgStatus={ this.state.wgStatus } callbackParent={ (newState) => this.onChildChanged(newState) }>
               <ResponsiveReactGridLayout className="layout" layouts={ this.state.layouts } rowHeight={ 25 } onLayoutChange={ (layout, layouts) => this.onLayoutChange(layout, layouts) } breakpoints={ { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 } }
                 cols={ { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 } } isDraggable={ !this.isTouchScreen }>
                 { this.state.wgStatus.filter(i => i.enable).map((item) => this._renderWgItem(item.key)) }

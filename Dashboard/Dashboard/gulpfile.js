@@ -209,7 +209,7 @@ gulp.task('serve', function(cb) {
     });
 });
 
-gulp.task('copytoLocal',['build'], function(cb) {
+gulp.task('copytoLocal', function(cb) {
     gulp.src('build/css/**')
     .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP/css/pages/dashboard/main'))
     .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP/css/pages/dashboard/main'));

@@ -7,8 +7,7 @@ export default class WidgetBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isMounted: false,
-      isClosed: false
+      isMounted: false
     }
   }
   componentDidMount() {
@@ -18,20 +17,14 @@ export default class WidgetBox extends React.Component {
     this.setState({ isMounted: false });
   }
   toggleClose() {
-    var wgStatus = LocalStorageHelper.getWidgetStatus()
-    var currentWidget = wgStatus.find(x => x.key == this.props.widgetKey)
-    currentWidget.enable = false
-    LocalStorageHelper.saveWidgetStatus(wgStatus)
+    var item = Object.assign({}, this.props.wgItem);
+    item.enable = !item.enable;
 
-    if (this.state.isMounted) {
-      this.setState(prevState => ({
-        isClosed: !prevState.isClosed
-      }));
-    }
+    this.props.callbackParent({ action: 'wgSyncStatus', items: [item] });
   }
 
   render() {
-    return <div className={`widgetbox ${this.state.isClosed ? 'is-closed' : ''}`}>
+    return <div className={`widgetbox ${this.props.wgItem.enable ? '' : 'is-closed'}`}>
       <div className={`widgetbox-header ${this.props.widgetName}`}>
         <span className="title">
           {this.props.title}
