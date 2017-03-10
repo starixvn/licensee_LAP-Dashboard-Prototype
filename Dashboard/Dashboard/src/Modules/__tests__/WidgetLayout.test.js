@@ -117,7 +117,10 @@ describe('getWidgetLayoutSettings()', () => {
         LocalStorageHelper.getWidgetLayout.mockImplementation(() => userLayouts);
         LocalStorageHelper.saveWidgetLayout.mockReset();
         const actual = WidgetLayout.getWidgetLayoutSettings();
-        const expected = WidgetLayout._addWidgetToLayout(emptyLayouts, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'c_turnover'));
+        let expected = WidgetLayout._addWidgetToLayout(emptyLayouts, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'c_turnover'));
+        expected = WidgetLayout._addWidgetToLayout(expected, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'c_online_customer'));
+        expected = WidgetLayout._addWidgetToLayout(expected, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'n_deposit'));
+        expected = WidgetLayout._addWidgetToLayout(expected, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'n_withdrawal'));
         
         expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith(expected);
         expect(actual).toEqual(expected);

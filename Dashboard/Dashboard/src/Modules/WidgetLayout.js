@@ -33,11 +33,15 @@ export default class WidgetLayout {
             userWidgetLayouts = WidgetLayout._cloneDefaultWidgetLayout();
         }
         const widgetStatus = LocalStorageHelper.getWidgetStatus();
-        const enabledLayoutFilter = w => !!widgetStatus.find(widget => widget.key === w.i && widget.enable);
-        const layouts = {};
+        let layouts = WidgetLayout._createEmptyLayout();
 
-        Object.keys(userWidgetLayouts).forEach(breakpoint => {
-            layouts[breakpoint] = userWidgetLayouts[breakpoint].filter(enabledLayoutFilter);
+        widgetStatus.forEach(status => {
+            if(status.enable){
+                let widgetLayout = 
+                    WidgetLayout._getWidgetLayoutByKey(userWidgetLayouts, status.key) ||
+                    WidgetLayout._getWidgetLayoutByKey(Wglayouts, status.key);
+                layouts = WidgetLayout._addWidgetToLayout(layouts, widgetLayout);
+            }
         });
         LocalStorageHelper.saveWidgetLayout(layouts);
         return layouts;
@@ -89,10 +93,10 @@ export default class WidgetLayout {
         let isValid = true;
 
         breakpoints .forEach(breakpoint => {
-            newLayouts[breakpoint] = [...layouts[breakpoint]];
             if(!widgetLayout[breakpoint]) {
                 return (isValid = false);
             }
+            newLayouts[breakpoint] = [...layouts[breakpoint]];
             newLayouts[breakpoint].push(widgetLayout[breakpoint]);
         });
 
@@ -101,12 +105,16 @@ export default class WidgetLayout {
 
     static _getWidgetLayoutByKey(layouts, key) {
         const widgetLayout = {};
+        let isValid = true;
 
         Object.keys(layouts).forEach(breakpoint => {
             widgetLayout[breakpoint] = layouts[breakpoint].find( w => w.i === key);
+            if(!widgetLayout[breakpoint] ){
+                isValid = false;
+            }
         });
         
-        return widgetLayout;
+        return isValid ? widgetLayout : null;
     }    
 
     static _cloneDefaultWidgetLayout(){
@@ -116,4 +124,10 @@ export default class WidgetLayout {
         });
         return newLayouts;
     }    
+
+    static _createEmptyLayout(){
+        const layouts = {};
+        Object.keys(Wglayouts).forEach(breakpoint => layouts[breakpoint] = []);
+        return layouts;
+    }
 }
