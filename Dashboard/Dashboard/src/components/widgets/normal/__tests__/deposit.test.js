@@ -1,13 +1,25 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import DepositWidget from '../deposit.jsx';
+import DepositWidget from '../deposit';
 import WidgetApi from '../../../../Modules/WidgetApi';
+import {WidgetApiUrl} from '../../../../config';
 import WidgetBox from '../../widgetbox';
 
 jest.mock('../../widgetbox');
 jest.mock('../../../../Modules/WidgetApi');
 
-test('renders correctly', () => {
+const fakeProps = {
+    filter: {
+        baseCurrency: "EUR",
+        currency: "123"
+    },
+    refresh: 100,
+    langCode: 'en',
+    callbackParent: 'fake callbackParent',
+    wgItemFromParent: 'fake wgItemFromParent'
+};
+
+beforeAll(() => {
     WidgetApi
         .fetchData
         .mockImplementation(() => Promise.resolve({data: 9999}));
@@ -20,15 +32,21 @@ test('renders correctly', () => {
             )
         }
     }));
-    const props = {
-        filter: {
-            baseCurrency: "EUR"
-        },
-        refresh: 100,
-        langCode: 'en',
-        callbackParent: 'fake callbackParent',
-        wgItemFromParent: 'fake wgItemFromParent'
-    };
-    const component = renderer.create(<DepositWidget {...props}/>);
+});
+
+test('renders correctly', () => {
+    const component = renderer.create(<DepositWidget {...fakeProps}/>);
     expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('componentDidMount: fetch data with correct criteria', () => {
+    const component = renderer.create(<DepositWidget {...fakeProps}/>);
+    expect(WidgetApi.fetchData).toBeCalledWith({
+        Data: {
+            CurrencyId: fakeProps.filter.currency,
+            BaseCurrency: fakeProps.filter.baseCurrency
+        },
+        Url: WidgetApiUrl.normalDeposit,
+        IsCrossSite: true
+    })
 });
