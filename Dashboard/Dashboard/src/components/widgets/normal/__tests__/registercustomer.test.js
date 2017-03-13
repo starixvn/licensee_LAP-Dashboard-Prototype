@@ -13,7 +13,9 @@ const fakeProps = {
         currency: 111
     },
     refresh: 100,
-    langCode: "zhcn"
+    langCode: "zhcn",
+    callbackParent: 'fake callbackParent',
+    wgItemFromParent: 'fake wgItemFromParent'
 };
 
 beforeAll(() => {
@@ -27,6 +29,7 @@ beforeAll(() => {
         }
     }));
 });
+
 afterEach(() => {
     WidgetApi.mockReset();
 });
