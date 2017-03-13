@@ -19,7 +19,9 @@ const fakeProps = {
     },
     langCode: 'ch',
     refresh: 1000,
-    some_prop: "fap fap fap!"
+    some_prop: 'fap fap fap!',
+    callbackParent: 'fake callbackParent',
+    wgItemFromParent: 'fake wgItemFromParent'
 };
 
 function getDummyFetchData(count) {
