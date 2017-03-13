@@ -1,8 +1,10 @@
 exports[`test renders correctly 1`] = `
 <div
+  callbackParent={undefined}
   isLoading={true}
   name="WidgetBox"
   title="已註冊會員"
+  wgItem={undefined}
   widgetKey="n_reg_customer"
   widgetName="registered-customer default">
   <div
@@ -47,66 +49,6 @@ exports[`test renders correctly 1`] = `
         <p
           className="number">
           0
-        </p>
-        <p
-          className="text">
-          注册未存款
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`test write log when fetch data fail 1`] = `
-<div
-  isLoading={false}
-  name="WidgetBox"
-  title="已註冊會員"
-  widgetKey="n_reg_customer"
-  widgetName="registered-customer default">
-  <div
-    className="clearfix registered-customer-content">
-    <span
-      className="icon-group-users left" />
-    <div
-      className="right">
-      <div
-        className="registered-info">
-        <p
-          className="number">
-          111,111
-        </p>
-        <p
-          className="text">
-          今日注册会员
-        </p>
-      </div>
-    </div>
-  </div>
-  <div
-    className="clearfix registered-customer-content dark-bg">
-    <div
-      className="registered-info">
-      <div
-        className="center-block">
-        <p
-          className="number">
-          12,346
-        </p>
-        <p
-          className="text">
-          注册且存款
-        </p>
-      </div>
-    </div>
-    <div
-      className="registered-info">
-      <div
-        className="center-block">
-        <p
-          className="number">
-          98,765
         </p>
         <p
           className="text">

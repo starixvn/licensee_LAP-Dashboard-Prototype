@@ -511,6 +511,7 @@ exports[`render correctly with english as default language 1`] = `
     rowHeight={25}>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -519,10 +520,17 @@ exports[`render correctly with english as default language 1`] = `
         }
         langCode="en"
         name="TurnoverWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "c_turnover",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -531,10 +539,17 @@ exports[`render correctly with english as default language 1`] = `
         }
         langCode="en"
         name="LicenseeWinLossWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "c_licWL",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -543,10 +558,17 @@ exports[`render correctly with english as default language 1`] = `
         }
         langCode="en"
         name="DepositWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_deposit",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -555,10 +577,17 @@ exports[`render correctly with english as default language 1`] = `
         }
         langCode="en"
         name="OnlineCustomerWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "c_online_customer",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -567,10 +596,17 @@ exports[`render correctly with english as default language 1`] = `
         }
         langCode="en"
         name="PendingWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_pending_funds",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -579,10 +615,17 @@ exports[`render correctly with english as default language 1`] = `
         }
         langCode="en"
         name="RegisteredCustomerWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_reg_customer",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -591,10 +634,17 @@ exports[`render correctly with english as default language 1`] = `
         }
         langCode="en"
         name="CustomerBalanceWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_customer_balance",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -603,7 +653,13 @@ exports[`render correctly with english as default language 1`] = `
         }
         langCode="en"
         name="WithdrawalWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_withdrawal",
+          }
+        } />
     </div>
   </div>
 </div>
@@ -1026,6 +1082,7 @@ exports[`render correctly with language from global config 1`] = `
     rowHeight={25}>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1034,10 +1091,17 @@ exports[`render correctly with language from global config 1`] = `
         }
         langCode="ch"
         name="TurnoverWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "c_turnover",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1046,10 +1110,17 @@ exports[`render correctly with language from global config 1`] = `
         }
         langCode="ch"
         name="LicenseeWinLossWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "c_licWL",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1058,10 +1129,17 @@ exports[`render correctly with language from global config 1`] = `
         }
         langCode="ch"
         name="DepositWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_deposit",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1070,10 +1148,17 @@ exports[`render correctly with language from global config 1`] = `
         }
         langCode="ch"
         name="OnlineCustomerWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "c_online_customer",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1082,10 +1167,17 @@ exports[`render correctly with language from global config 1`] = `
         }
         langCode="ch"
         name="PendingWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_pending_funds",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1094,10 +1186,17 @@ exports[`render correctly with language from global config 1`] = `
         }
         langCode="ch"
         name="RegisteredCustomerWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_reg_customer",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1106,10 +1205,17 @@ exports[`render correctly with language from global config 1`] = `
         }
         langCode="ch"
         name="CustomerBalanceWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_customer_balance",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1118,7 +1224,13 @@ exports[`render correctly with language from global config 1`] = `
         }
         langCode="ch"
         name="WithdrawalWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_withdrawal",
+          }
+        } />
     </div>
   </div>
 </div>
@@ -1541,6 +1653,7 @@ exports[`render correctly with saved widget layout data 1`] = `
     rowHeight={25}>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1549,10 +1662,17 @@ exports[`render correctly with saved widget layout data 1`] = `
         }
         langCode="ch"
         name="TurnoverWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "c_turnover",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1561,10 +1681,17 @@ exports[`render correctly with saved widget layout data 1`] = `
         }
         langCode="ch"
         name="LicenseeWinLossWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "c_licWL",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1573,10 +1700,17 @@ exports[`render correctly with saved widget layout data 1`] = `
         }
         langCode="ch"
         name="DepositWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_deposit",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1585,10 +1719,17 @@ exports[`render correctly with saved widget layout data 1`] = `
         }
         langCode="ch"
         name="OnlineCustomerWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "c_online_customer",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1597,10 +1738,17 @@ exports[`render correctly with saved widget layout data 1`] = `
         }
         langCode="ch"
         name="PendingWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_pending_funds",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1609,10 +1757,17 @@ exports[`render correctly with saved widget layout data 1`] = `
         }
         langCode="ch"
         name="RegisteredCustomerWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_reg_customer",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1621,10 +1776,17 @@ exports[`render correctly with saved widget layout data 1`] = `
         }
         langCode="ch"
         name="CustomerBalanceWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_customer_balance",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1633,7 +1795,13 @@ exports[`render correctly with saved widget layout data 1`] = `
         }
         langCode="ch"
         name="WithdrawalWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_withdrawal",
+          }
+        } />
     </div>
   </div>
 </div>
@@ -1649,7 +1817,7 @@ exports[`render correctly with saved widget status data 1`] = `
         "key": "c_turnover",
       },
       Object {
-        "enable": true,
+        "enable": false,
         "key": "c_licWL",
       },
       Object {
@@ -1762,6 +1930,7 @@ exports[`render correctly with saved widget status data 1`] = `
     rowHeight={25}>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1770,10 +1939,17 @@ exports[`render correctly with saved widget status data 1`] = `
         }
         langCode="ch"
         name="TurnoverWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "c_turnover",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1782,10 +1958,17 @@ exports[`render correctly with saved widget status data 1`] = `
         }
         langCode="ch"
         name="DepositWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_deposit",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1794,10 +1977,17 @@ exports[`render correctly with saved widget status data 1`] = `
         }
         langCode="ch"
         name="OnlineCustomerWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "c_online_customer",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1806,10 +1996,17 @@ exports[`render correctly with saved widget status data 1`] = `
         }
         langCode="ch"
         name="PendingWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_pending_funds",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1818,10 +2015,17 @@ exports[`render correctly with saved widget status data 1`] = `
         }
         langCode="ch"
         name="RegisteredCustomerWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_reg_customer",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1830,10 +2034,17 @@ exports[`render correctly with saved widget status data 1`] = `
         }
         langCode="ch"
         name="CustomerBalanceWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_customer_balance",
+          }
+        } />
     </div>
     <div>
       <div
+        callbackParent={[Function]}
         filter={
           Object {
             "baseCurrency": "EUR",
@@ -1842,7 +2053,13 @@ exports[`render correctly with saved widget status data 1`] = `
         }
         langCode="ch"
         name="WithdrawalWg"
-        refresh={0} />
+        refresh={0}
+        wgItemFromParent={
+          Object {
+            "enable": true,
+            "key": "n_withdrawal",
+          }
+        } />
     </div>
   </div>
 </div>

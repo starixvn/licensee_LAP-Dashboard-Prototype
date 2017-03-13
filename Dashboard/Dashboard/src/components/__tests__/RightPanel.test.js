@@ -275,12 +275,12 @@ describe('event listeners', () => {
         const componentInstance = component.getInstance();
         const element = findElement(component, '.icon-quickaccess');
 
-        componentInstance.togglePanel = jest.fn();
+        componentInstance._togglePanel = jest.fn();
         element
             .props
             .onClick('fake event');
 
-        expect(componentInstance.togglePanel).toBeCalledWith('fake event');
+        expect(componentInstance._togglePanel).toBeCalledWith('fake event');
     });
 
     test('right panel overlay click: toggle panel', () => {
@@ -288,12 +288,12 @@ describe('event listeners', () => {
         const componentInstance = component.getInstance();
         const element = findElement(component, '.right-panel-overlay');
 
-        componentInstance.togglePanel = jest.fn();
+        componentInstance._togglePanel = jest.fn();
         element
             .props
             .onClick('fake event');
 
-        expect(componentInstance.togglePanel).toBeCalledWith('fake event');
+        expect(componentInstance._togglePanel).toBeCalledWith('fake event');
     });
 
     describe('on widget item check status change', () => {

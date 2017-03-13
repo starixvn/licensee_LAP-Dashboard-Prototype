@@ -109,7 +109,7 @@ export default class RightPanel extends React.Component {
             .map(item => (
                 <p key={item.key} className="widget-item">
                     <input
-                        onChange={(e) => this.onCheckWg(item.key)}
+                        onChange={(e) => this._onCheckWg(item.key)}
                         checked={this.state.wgs[item.key]}
                         className="filled-in"
                         type="checkbox"
@@ -119,19 +119,16 @@ export default class RightPanel extends React.Component {
             ));
     }
 
-    onChangeCurrencyList(event) {
+    _onChangeCurrencyList(event) {
         this.setState({SelectedCurrency: event.target.value});
     }
 
-    onChangeBaseCurrencyList(event) {
+    _onChangeBaseCurrencyList(event) {
         this.setState({SelectedBaseCurrency: event.target.value});
     }
 
-    onCheckWg(key) {
+    _onCheckWg(key) {
         if (this.state.isMounted) {
-            var temp = this.state.wgs;
-            temp[key] = !temp[key];
-            this.setState({wgs: temp})
             return this
                 .props
                 .callbackParent({
@@ -139,7 +136,7 @@ export default class RightPanel extends React.Component {
                     items: [
                         {
                             key: key,
-                            enable: this.state.wgs[key]
+                            enable: !this.state.wgs[key]
                         }
                     ]
                 });
@@ -153,7 +150,7 @@ export default class RightPanel extends React.Component {
         return <div className={`dashboard__right-panel${isHidden}`}>
             <div className="right-panel-wrap">
                 <span
-                    onClick={(e) => this.togglePanel(e)}
+                    onClick={(e) => this._togglePanel(e)}
                     className="icon-quickaccess js-icon-quickaccess">
                     <i className="icon-settings"></i>
                 </span>
@@ -162,7 +159,7 @@ export default class RightPanel extends React.Component {
                         <label className="currency-label">{LanguageApi.getRes(this.props.langCode, "currency")}</label>
                         <select
                             ref="currencyDropdownList"
-                            onChange={(e) => this.onChangeCurrencyList(e)}
+                            onChange={(e) => this._onChangeCurrencyList(e)}
                             value={this.state.SelectedCurrency}>
                             {this._getCurrencyDropdownListOptions()}
                         </select>
@@ -171,7 +168,7 @@ export default class RightPanel extends React.Component {
                         <label className="currency-label">{LanguageApi.getRes(this.props.langCode, "Based")}</label>
                         <select
                             ref="baseCurrencyDropdownList"
-                            onChange={(e) => this.onChangeBaseCurrencyList(e)}
+                            onChange={(e) => this._onChangeBaseCurrencyList(e)}
                             value={this.state.SelectedBaseCurrency}>
                             {this._getBaseCurrencyDropdownListOptions()}
                         </select>
@@ -183,7 +180,7 @@ export default class RightPanel extends React.Component {
                     </div>
                 </div>
             </div>
-            <div className="right-panel-overlay" onClick={(e) => this.togglePanel(e)}></div>
+            <div className="right-panel-overlay" onClick={(e) => this._togglePanel(e)}></div>
         </div>
     }
 }

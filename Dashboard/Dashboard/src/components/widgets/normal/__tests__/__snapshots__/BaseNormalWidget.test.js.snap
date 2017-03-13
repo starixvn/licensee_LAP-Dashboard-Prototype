@@ -1,7 +1,9 @@
 exports[`test renders correctly 1`] = `
 <div
+  callbackParent={undefined}
   isLoading={true}
   title="Licensee Win Loss (Month to date)"
+  wgItem={undefined}
   widgetKey="this is a f**k key"
   widgetName="this is a f**k name">
   <div
@@ -9,22 +11,6 @@ exports[`test renders correctly 1`] = `
     <span
       className="number-big">
       €0.00
-    </span>
-  </div>
-</div>
-`;
-
-exports[`test write log when fetch data fail 1`] = `
-<div
-  isLoading={false}
-  title="Licensee Win Loss (Month to date)"
-  widgetKey="this is a f**k key"
-  widgetName="this is a f**k name">
-  <div
-    className="center-block">
-    <span
-      className="number-big">
-      €888.78
     </span>
   </div>
 </div>
