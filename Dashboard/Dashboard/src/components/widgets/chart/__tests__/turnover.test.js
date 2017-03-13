@@ -17,7 +17,9 @@ const fakeProps = {
     filter: {
         baseCurrency: 'USD',
         currency: 'HKD'
-    }
+    },
+    callbackParent: 'fake callbackParent',
+    wgItemFromParent: 'fake wgItemFromParent'
 };
 
 const fakeResponse = {

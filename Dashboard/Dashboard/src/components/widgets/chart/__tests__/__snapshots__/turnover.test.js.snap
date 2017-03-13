@@ -1,10 +1,89 @@
+exports[`animation complete fill text each data set when segmentPercent < 1 1`] = `
+<div
+  callbackParent="fake callbackParent"
+  isLoading={false}
+  name="WidgetBox"
+  title="Turnover by Platform (Month to date)"
+  wgItem="fake wgItemFromParent"
+  widgetKey="c_turnover"
+  widgetName="turnover default">
+  <div
+    data={
+      Object {
+        "datasets": Array [
+          Object {
+            "backgroundColor": Array [
+              "#35A1FB",
+              "#4B966B",
+              "#4C6375",
+              "#D9544F",
+              "#4473C5",
+            ],
+            "data": Array [
+              1.2,
+              3.4,
+            ],
+          },
+        ],
+        "labels": Array [
+          "Total Turnover",
+          "Non - Deposit",
+        ],
+      }
+    }
+    name="Doughnut"
+    options={
+      Object {
+        "animation": Object {
+          "onComplete": [Function],
+        },
+        "hover": Object {
+          "animationDuration": 0,
+        },
+        "layout": Object {
+          "padding": Object {
+            "bottom": 50,
+            "top": 10,
+          },
+        },
+        "legend": Object {
+          "display": true,
+          "labels": Object {
+            "boxWidth": 20,
+            "padding": 20,
+            "usePointStyle": true,
+          },
+          "position": "right",
+        },
+        "maintainAspectRatio": false,
+        "tooltips": Object {
+          "callbacks": Object {
+            "label": [Function],
+          },
+        },
+      }
+    }>
+    hello bar
+  </div>
+  <div
+    className="footer-total">
+    <span>
+      Total Turnover
+      : 
+      $98,765.43
+       
+    </span>
+  </div>
+</div>
+`;
+
 exports[`test render correctly 1`] = `
 <div
-  callbackParent={undefined}
+  callbackParent="fake callbackParent"
   isLoading={true}
   name="WidgetBox"
   title="Turnover by Platform (Month to date)"
-  wgItem={undefined}
+  wgItem="fake wgItemFromParent"
   widgetKey="c_turnover"
   widgetName="turnover default">
   <div
