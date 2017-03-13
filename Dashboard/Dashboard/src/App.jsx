@@ -68,9 +68,9 @@ export default class DashboardApp extends React.Component {
       [WidgetKey.normalWithdrawal]: WithdrawalWg
     };
     const Widget = keyToWidget[key];
-    var itemStatus=this.state.wgStatus.find(x=>x.key===key);
+    var itemStatus = this.state.wgStatus.find(x => x.key === key);
   
-    return (<div key={ key }>
+    return (<div key={key}>
               <Widget wgItemFromParent={itemStatus} callbackParent={(newState) => this.onChildChanged(newState)} filter={ this.state.selectedFilter } refresh={ this.state.refresh } langCode={ this.state.langCode } />
             </div>);
   }

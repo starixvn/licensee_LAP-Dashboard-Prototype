@@ -2,10 +2,17 @@ exports[`_renderWgItem(key) return a correct element that match key: c_licWL 1`]
 <div>
   <div>
     <div
+      callbackParent={[Function]}
       filter="fake filter"
       langCode="fake code"
       name="LicenseeWinLossWg"
-      refresh="fake refresh" />
+      refresh="fake refresh"
+      wgItemFromParent={
+        Object {
+          "enable": true,
+          "key": "c_licWL",
+        }
+      } />
   </div>
 </div>
 `;
@@ -14,10 +21,17 @@ exports[`_renderWgItem(key) return a correct element that match key: c_online_cu
 <div>
   <div>
     <div
+      callbackParent={[Function]}
       filter="fake filter"
       langCode="fake code"
       name="OnlineCustomerWg"
-      refresh="fake refresh" />
+      refresh="fake refresh"
+      wgItemFromParent={
+        Object {
+          "enable": true,
+          "key": "c_online_customer",
+        }
+      } />
   </div>
 </div>
 `;
@@ -26,10 +40,17 @@ exports[`_renderWgItem(key) return a correct element that match key: c_turnover 
 <div>
   <div>
     <div
+      callbackParent={[Function]}
       filter="fake filter"
       langCode="fake code"
       name="TurnoverWg"
-      refresh="fake refresh" />
+      refresh="fake refresh"
+      wgItemFromParent={
+        Object {
+          "enable": true,
+          "key": "c_turnover",
+        }
+      } />
   </div>
 </div>
 `;
@@ -38,10 +59,17 @@ exports[`_renderWgItem(key) return a correct element that match key: n_customer_
 <div>
   <div>
     <div
+      callbackParent={[Function]}
       filter="fake filter"
       langCode="fake code"
       name="CustomerBalanceWg"
-      refresh="fake refresh" />
+      refresh="fake refresh"
+      wgItemFromParent={
+        Object {
+          "enable": true,
+          "key": "n_customer_balance",
+        }
+      } />
   </div>
 </div>
 `;
@@ -50,10 +78,17 @@ exports[`_renderWgItem(key) return a correct element that match key: n_deposit 1
 <div>
   <div>
     <div
+      callbackParent={[Function]}
       filter="fake filter"
       langCode="fake code"
       name="DepositWg"
-      refresh="fake refresh" />
+      refresh="fake refresh"
+      wgItemFromParent={
+        Object {
+          "enable": true,
+          "key": "n_deposit",
+        }
+      } />
   </div>
 </div>
 `;
@@ -62,10 +97,17 @@ exports[`_renderWgItem(key) return a correct element that match key: n_pending_f
 <div>
   <div>
     <div
+      callbackParent={[Function]}
       filter="fake filter"
       langCode="fake code"
       name="PendingWg"
-      refresh="fake refresh" />
+      refresh="fake refresh"
+      wgItemFromParent={
+        Object {
+          "enable": true,
+          "key": "n_pending_funds",
+        }
+      } />
   </div>
 </div>
 `;
@@ -74,10 +116,17 @@ exports[`_renderWgItem(key) return a correct element that match key: n_reg_custo
 <div>
   <div>
     <div
+      callbackParent={[Function]}
       filter="fake filter"
       langCode="fake code"
       name="RegisteredCustomerWg"
-      refresh="fake refresh" />
+      refresh="fake refresh"
+      wgItemFromParent={
+        Object {
+          "enable": true,
+          "key": "n_reg_customer",
+        }
+      } />
   </div>
 </div>
 `;
@@ -86,10 +135,17 @@ exports[`_renderWgItem(key) return a correct element that match key: n_withdrawa
 <div>
   <div>
     <div
+      callbackParent={[Function]}
       filter="fake filter"
       langCode="fake code"
       name="WithdrawalWg"
-      refresh="fake refresh" />
+      refresh="fake refresh"
+      wgItemFromParent={
+        Object {
+          "enable": true,
+          "key": "n_withdrawal",
+        }
+      } />
   </div>
 </div>
 `;

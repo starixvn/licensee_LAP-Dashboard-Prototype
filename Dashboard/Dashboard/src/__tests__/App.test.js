@@ -273,7 +273,12 @@ describe('_renderWgItem(key)', () => {
             app.state = {
                 selectedFilter: 'fake filter',
                 refresh: 'fake refresh',
-                langCode: 'fake code'
+                langCode: 'fake code',
+                wgStatus: [{
+                    key: 'fake key', enable: false
+                },{
+                    key: key, enable: true
+                }]
             };
             const widget = renderer.create(
                 <div>
@@ -283,6 +288,25 @@ describe('_renderWgItem(key)', () => {
             expect(widget.toJSON()).toMatchSnapshot();
         });
     });
+
+     test('callbackParent is mapped to onChildChanged', () => {
+            const app = new DashboardApp();
+            app.state = { wgStatus: [] };
+            app.onChildChanged = jest.fn();
+
+            const widget = renderer.create(
+                <div>
+                  { app._renderWgItem('n_customer_balance') }
+                </div>
+            );
+            const widgetjson = widget.toJSON();
+            const callbackParent = widgetjson
+                .children[0]
+                .children[0]
+                .props.callbackParent;
+            callbackParent('fake next state');
+            expect(app.onChildChanged).toBeCalledWith('fake next state');
+        });
 });
 
 describe('when get isTouchScreen', () => {
