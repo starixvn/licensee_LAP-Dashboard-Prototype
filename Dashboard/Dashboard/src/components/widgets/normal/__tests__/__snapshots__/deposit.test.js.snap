@@ -1,45 +1,18 @@
 exports[`test renders correctly 1`] = `
 <div
-  className="widgetbox ">
+  callbackParent="fake callbackParent"
+  isLoading={true}
+  name="WidgetBox"
+  title="Deposit (Today)"
+  wgItem="fake wgItemFromParent"
+  widgetKey="n_deposit"
+  widgetName="deposit">
   <div
-    className="widgetbox-header deposit">
+    className="center-block">
     <span
-      className="title">
-      Deposit (Today)
+      className="number-big">
+      €0.00
     </span>
-    <span
-      className="icon-wrapper right">
-      <span
-        className="icon icon-close"
-        onClick={[Function]} />
-    </span>
-  </div>
-  <div
-    className="widgetbox-content deposit">
-    <div
-      className="loading-process"
-      style={
-        Object {
-          "display": "block",
-        }
-      }>
-      <div
-        className="icon-loading">
-        <div
-          className="loader-inner ball-beat loader-white">
-          <div />
-          <div />
-          <div />
-        </div>
-      </div>
-    </div>
-    <div
-      className="center-block">
-      <span
-        className="number-big">
-        €0.00
-      </span>
-    </div>
   </div>
 </div>
 `;
