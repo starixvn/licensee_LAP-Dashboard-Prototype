@@ -13,7 +13,9 @@ const fakeProps = {
         currency: 1111
     },
     refresh: 1000,
-    langCode: "en"
+    langCode: "en",
+    callbackParent: 'fake callbackParent',
+    wgItemFromParent: 'f**k wgItemFromParent'
 };
 const fakeConfigs = {
     WidgetKey: 'this is a f**k key',
