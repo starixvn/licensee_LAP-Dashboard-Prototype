@@ -13,7 +13,9 @@ const HorizontalBar = ChartJs.HorizontalBar;
 
 const fakeProps = {
     langCode: 'ch',
-    refresh: 12345
+    refresh: 12345,
+    callbackParent: 'fake callbackParent',
+    wgItemFromParent: 'fake wgItemFromParent'
 };
 
 const fakeResponse = {
