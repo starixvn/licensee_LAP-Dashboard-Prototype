@@ -1,7 +1,10 @@
 exports[`test animation complete: fill text each dataset 1`] = `
 <div
+  callbackParent="fake callbackParent"
   isLoading={false}
+  name="WidgetBox"
   title="投注輸贏(當月累計)"
+  wgItem="fake wgItemFromParent"
   widgetKey="c_licWL"
   widgetName="licenseewl default">
   <div
@@ -28,6 +31,7 @@ exports[`test animation complete: fill text each dataset 1`] = `
         ],
       }
     }
+    name="Bar"
     options={
       Object {
         "animation": Object {
@@ -82,12 +86,16 @@ exports[`test animation complete: fill text each dataset 1`] = `
 
 exports[`test render correctly 1`] = `
 <div
+  callbackParent="fake callbackParent"
   isLoading={true}
+  name="WidgetBox"
   title="投注輸贏(當月累計)"
+  wgItem="fake wgItemFromParent"
   widgetKey="c_licWL"
   widgetName="licenseewl default">
   <div
     data={Object {}}
+    name="Bar"
     options={
       Object {
         "animation": Object {

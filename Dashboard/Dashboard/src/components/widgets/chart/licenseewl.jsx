@@ -122,7 +122,7 @@ export default class LicenseeWinLoss extends React.Component {
     }
 
     render() {
-        return <WidgetBox title={LanguageApi.getRes(this.props.langCode, "licensee_winloss_month_todate")} widgetKey={WidgetKey.chartLicenseeWL}
+        return <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} title={LanguageApi.getRes(this.props.langCode, "licensee_winloss_month_todate")} widgetKey={WidgetKey.chartLicenseeWL}
             widgetName="licenseewl default" isLoading={this.state.isLoading}>
             <Bar data={this.state.data} options={this.options} />
             <div className="footer-total">

@@ -1,14 +1,18 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import WidgetBox from '../widgetbox';
-import WidgetLayout from '../../../Modules/WidgetLayout';
 
-jest.mock('../../../Modules/WidgetLayout');
-const fakeWidgetStates = [
-    {
-        key: 'fap fap fap'
-    }
-];
+const fakeProps = () => ({
+    wgItem: {
+        key: 'fap fap fap',
+        enable: true
+    },
+    widgetKey: 'fap fap fap',
+    widgetName: 'w i d g e t',
+    title: 'T.T',
+    isLoading: true,
+    callbackParent: jest.fn()
+});
 
 function findElementByClassName(component, className) {
     if (component.toJSON) {
@@ -32,104 +36,38 @@ function findElementByClassName(component, className) {
     return null;
 }
 
-beforeAll(() => {
-    WidgetLayout
-        .getWidgetStatus
-        .mockImplementation(() => fakeWidgetStates);
+describe('render correctly', () => {
+    test('widget enabled', () => {
+        const component = renderer.create(<WidgetBox {...fakeProps()}/>);
+        expect(component.toJSON()).toMatchSnapshot();
+    });
+
+    test('widget disabled', () => {
+        const props = fakeProps();
+        props.wgItem.enable = false;
+        const component = renderer.create(<WidgetBox {...props}/>);
+        expect(component.toJSON()).toMatchSnapshot();
+    });
 });
 
-test('render correctly', () => {
-    const component = renderer.create(<WidgetBox
-        widgetKey="fap fap fap"
-        widgetName="w i d g e t"
-        title="T.T"
-        isLoading={true}/>);
+test('toggleClose is called: toggle close state and call back to parent', () => {
+    const props = fakeProps();
+    const component = new WidgetBox(props);
+    component.toggleClose();
 
-    expect(component.toJSON()).toMatchSnapshot();
-});
-
-test('update mount status', () => {
-    const component = renderer.create(<WidgetBox
-        widgetKey="fap fap fap"
-        widgetName="w i d g e t"
-        title="T.T"
-        isLoading={true}/>);
-    const componentInstance = component.getInstance();
-
-    componentInstance.componentDidMount();
-    expect(componentInstance.state.isMounted).toBeTruthy();
-
-    componentInstance.componentWillUnmount();
-    expect(componentInstance.state.isMounted).toBeFalsy();
-});
-
-test('component is mounted & close widget is calling: close state changes', () => {
-    const component = renderer.create(<WidgetBox
-        widgetKey="fap fap fap"
-        widgetName="w i d g e t"
-        title="T.T"
-        isLoading={true}/>);
-    const componentInstance = component.getInstance();
-
-    expect(componentInstance.state.isClosed).toBeFalsy();
-
-    componentInstance.toggleClose();
-
-    expect(componentInstance.state.isClosed).toBeTruthy();
-    expect(component.toJSON()).toMatchSnapshot();
-});
-
-test('component is unmounted & close widget is calling: keep close state', () => {
-    const component = renderer.create(<WidgetBox
-        widgetKey="fap fap fap"
-        widgetName="w i d g e t"
-        title="T.T"
-        isLoading={true}/>);
-    const componentInstance = component.getInstance();
-
-    componentInstance.componentWillUnmount();
-    expect(componentInstance.state.isClosed).toBeFalsy();
-
-    componentInstance.toggleClose();
-    expect(componentInstance.state.isClosed).toBeFalsy();
-    expect(component.toJSON()).toMatchSnapshot();
-});
-
-test('disable widget when close', () => {
-    const component = renderer.create(<WidgetBox
-        widgetKey="fap fap fap"
-        widgetName="w i d g e t"
-        title="T.T"
-        isLoading={true}/>);
-    const componentInstance = component.getInstance();
-
-    fakeWidgetStates[0].enable = true;
-
-    componentInstance.toggleClose();
-    expect(fakeWidgetStates[0].enable).toBeFalsy();
-});
-
-test('component closed: save state', () => {
-    const component = renderer.create(<WidgetBox
-        widgetKey="fap fap fap"
-        widgetName="w i d g e t"
-        title="T.T"
-        isLoading={true}/>);
-    const componentInstance = component.getInstance();
-
-    WidgetLayout
-        .saveWidgetStatus
-        .mockReset();
-    componentInstance.toggleClose();
-    expect(WidgetLayout.saveWidgetStatus).toBeCalledWith(fakeWidgetStates);
+    expect(props.callbackParent).toBeCalledWith({
+        action: 'wgSyncStatus',
+        items: [
+            {
+                key: 'fap fap fap',
+                enable: false
+            }
+        ]
+    });
 });
 
 test('on close element clicked: toggle close', () => {
-    const component = renderer.create(<WidgetBox
-        widgetKey="fap fap fap"
-        widgetName="w i d g e t"
-        title="T.T"
-        isLoading={true}/>);
+    const component = renderer.create(<WidgetBox {...fakeProps()}/>);
     const componentInstance = component.getInstance();
     const closeElement = findElementByClassName(component, 'icon-close');
     expect(closeElement)

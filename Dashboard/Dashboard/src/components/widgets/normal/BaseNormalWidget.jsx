@@ -9,6 +9,7 @@ import NumberFormat from '../../../Modules/Number';
 export default class BaseNormalWidget extends React.Component {
     constructor(props, configs) {
         super(props);
+       
         this.state = {
             data: 0,
             isLoading: true
@@ -54,7 +55,7 @@ export default class BaseNormalWidget extends React.Component {
     }
 
     render() {
-        return <WidgetBox widgetKey={this.configs.WidgetKey} title={LanguageApi.getRes(this.props.langCode, this.configs.TitleKey)}
+        return <WidgetBox callbackParent={this.props.callbackParent}  wgItem={this.props.wgItemFromParent} widgetKey={this.configs.WidgetKey} title={LanguageApi.getRes(this.props.langCode, this.configs.TitleKey)}
             widgetName={this.configs.WidgetName} isLoading={this.state.isLoading}>
             <div className="center-block">
                 <span className="number-big">{NumberFormat.formatCurrency(this.state.data, this.props.filter.baseCurrency)}</span>

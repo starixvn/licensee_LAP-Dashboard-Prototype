@@ -1,28 +1,52 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import DepositWidget from '../deposit.jsx';
+import DepositWidget from '../deposit';
 import WidgetApi from '../../../../Modules/WidgetApi';
+import {WidgetApiUrl} from '../../../../config';
+import WidgetBox from '../../widgetbox';
 
+jest.mock('../../widgetbox');
 jest.mock('../../../../Modules/WidgetApi');
 
-const selectedFilter = {
-    baseCurrency: "EUR"
+const fakeProps = {
+    filter: {
+        baseCurrency: "EUR",
+        currency: "123"
+    },
+    refresh: 100,
+    langCode: 'en',
+    callbackParent: 'fake callbackParent',
+    wgItemFromParent: 'fake wgItemFromParent'
 };
 
 beforeAll(() => {
-    WidgetApi.fetchData.mockImplementation(() => {
-        return new Promise(resolve => {
-            resolve({
-                data: 9999
-            })
-        });
-    });
+    WidgetApi
+        .fetchData
+        .mockImplementation(() => Promise.resolve({data: 9999}));
+    WidgetBox.mockImplementation(() => ({
+        render: function () {
+            return (
+                <div {...this.props} name="WidgetBox">
+                    {this.props.children}
+                </div>
+            )
+        }
+    }));
 });
 
 test('renders correctly', () => {
-    const component = renderer.create(
-        <DepositWidget filter={selectedFilter} refresh="100" langCode="en"  />
-    );
-    let tree = component.toJSON();
-    expect(tree).toMatchSnapshot();
+    const component = renderer.create(<DepositWidget {...fakeProps}/>);
+    expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('componentDidMount: fetch data with correct criteria', () => {
+    const component = renderer.create(<DepositWidget {...fakeProps}/>);
+    expect(WidgetApi.fetchData).toBeCalledWith({
+        Data: {
+            CurrencyId: fakeProps.filter.currency,
+            BaseCurrency: fakeProps.filter.baseCurrency
+        },
+        Url: WidgetApiUrl.normalDeposit,
+        IsCrossSite: true
+    })
 });

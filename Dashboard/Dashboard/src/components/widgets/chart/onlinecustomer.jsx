@@ -108,7 +108,7 @@ export default class OnlineCustomer extends React.Component {
     }
 
     render() {
-        return <WidgetBox widgetKey={WidgetKey.chartlOnlineCustomer} title={LanguageApi.getRes(this.props.langCode, "online_customer")}
+        return <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} widgetKey={WidgetKey.chartlOnlineCustomer} title={LanguageApi.getRes(this.props.langCode, "online_customer")}
             widgetName="online-customer default" isLoading={this.state.isLoading}>
             <HorizontalBar data={this.state.data} options={this.options} />
         </WidgetBox>;

@@ -8,7 +8,7 @@ import NumberFormat from '../../../../Modules/Number';
 
 jest.mock('../../../../Modules/WidgetApi');
 jest.mock('../../widgetbox');
-jest.mock('react-chartjs-2',);
+jest.mock('react-chartjs-2');
 
 const Bar = ChartJs.Bar;
 
@@ -19,7 +19,9 @@ const fakeProps = {
     },
     langCode: 'ch',
     refresh: 1000,
-    some_prop: "fap fap fap!"
+    some_prop: 'fap fap fap!',
+    callbackParent: 'fake callbackParent',
+    wgItemFromParent: 'fake wgItemFromParent'
 };
 
 function getDummyFetchData(count) {
@@ -106,7 +108,7 @@ beforeAll(() => {
     WidgetBox.mockImplementation(() => ({
         render: function () {
             return (
-                <div {...this.props}>
+                <div {...this.props} name="WidgetBox">
                     {this.props.children}
                 </div>
             )
@@ -115,7 +117,7 @@ beforeAll(() => {
     Bar.mockImplementation(() => ({
         render: function () {
             return (
-                <div {...this.props}>
+                <div {...this.props} name="Bar">
                     hello bar
                 </div>
             )

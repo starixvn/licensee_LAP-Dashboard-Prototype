@@ -13,20 +13,23 @@ const fakeProps = {
         currency: 111
     },
     refresh: 100,
-    langCode: "zhcn"
+    langCode: "zhcn",
+    callbackParent: 'fake callbackParent',
+    wgItemFromParent: 'fake wgItemFromParent'
 };
 
 beforeAll(() => {
     WidgetBox.mockImplementation(() => ({
         render: function () {
             return (
-                <div {...this.props}>
+                <div {...this.props} name="WidgetBox">
                     {this.props.children}
                 </div>
             )
         }
     }));
 });
+
 afterEach(() => {
     WidgetApi.mockReset();
 });

@@ -1,51 +1,125 @@
-const widgetVersionCacheKey = "_LAP_Dashboard_Wg_Version";
-
-const widgetStatusCacheKey = "_LAP_Dashboard_Wg_Status";
-
-const widgetLayoutCacheKey = "_LAP_Dashboard_Wg_Layout";
+import LocalStorageHelper from './LocalStorageHelper';
+import { WidgetKey, Wglayouts } from '../config';
 
 export default class WidgetLayout {
-    static clearLayoutSettingIfNewVersion() {
-        var scriptElement = document.getElementById("dashboard-script");
-        if (!scriptElement) {
-            return;
-        }
+    static getWidgetStatusSettings(permissions = []) {
+        const defaultKeys = Object.keys(WidgetKey).map(key => WidgetKey[key]);
+        const wgStatus = [];
 
-        var jsVersions = scriptElement.src.match(/v=\d*/);
-        if (!jsVersions) {
-            return;
-        }
+        permissions.forEach(key => {
+            if (defaultKeys.indexOf(key) >= 0) {
+                wgStatus.push({
+                    key: key,
+                    enable: true
+                });
+            }
+        });
 
-        var newVersion = jsVersions[0];
-        var cacheVersion = window.localStorage.getItem(widgetVersionCacheKey);
-        if (newVersion !== cacheVersion) {
-            window.localStorage.setItem(widgetVersionCacheKey, newVersion);
-            window.localStorage.removeItem(widgetStatusCacheKey);
-            window.localStorage.removeItem(widgetLayoutCacheKey);
-        }
+        return wgStatus;
     }
 
-    static saveWidgetStatus(wgs) {
-        try {
-            window.localStorage.setItem(widgetStatusCacheKey, JSON.stringify(wgs))
-        } catch (error) {
-            alert("To continue use dashboard. Please turn private browsing off!!")
-        }
-    }
-    static getWidgetStatus() {
-        var item = window.localStorage.getItem(widgetStatusCacheKey)
-        return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : null;
+    static mergeWidgetStatusSettingsToUserSettings(widgetStatus) {
+        const userWgStatus = LocalStorageHelper.getWidgetStatus();
+
+        return userWgStatus
+            ? widgetStatus.map(widget => Object.assign({}, widget, userWgStatus.find(w => w.key === widget.key)))
+            : widgetStatus;
     }
 
-    static saveWidgetLayout(layout) {
-        try {
-            window.localStorage.setItem(widgetLayoutCacheKey, JSON.stringify(layout))
-        } catch (error) {
-            alert("To continue use dashboard. Please turn private browsing off!!")
+    static getWidgetLayoutSettings() {
+        let userWidgetLayouts = LocalStorageHelper.getWidgetLayout();
+
+        if (!userWidgetLayouts) {
+            userWidgetLayouts = WidgetLayout._createEmptyLayout();
         }
+        const widgetStatus = LocalStorageHelper.getWidgetStatus();
+        let layouts = WidgetLayout._createEmptyLayout();
+
+        widgetStatus.forEach(status => {
+            if(status.enable){
+                let widgetLayout = 
+                    WidgetLayout._getWidgetLayoutByKey(userWidgetLayouts, status.key) ||
+                    WidgetLayout._getWidgetLayoutByKey(Wglayouts, status.key);
+                layouts = WidgetLayout._addWidgetToLayout(layouts, widgetLayout);
+            }
+        });
+
+        return layouts;
     }
-    static getWidgetLayout() {
-        var item = window.localStorage.getItem(widgetLayoutCacheKey)
-        return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : null;
+
+    static syncLayoutWithNewStatus(newStatus, widgetStatus, widgetLayouts) {
+        let newWidgetStatus = [...widgetStatus];
+        let newLayouts = Object.assign({}, widgetLayouts);
+        let removedLayouts = LocalStorageHelper.getRemovedWidgetLayout();
+        const me = WidgetLayout;
+
+        newStatus.forEach(widgetItem => {
+            let status = newWidgetStatus.find(w => w.key === widgetItem.key);
+            if(status.enable === widgetItem.enable){
+                return;
+            }
+            status.enable = widgetItem.enable;
+
+            if (status.enable) {
+                const addedItem = removedLayouts[widgetItem.key] || me._getWidgetLayoutByKey(Wglayouts, widgetItem.key);
+                newLayouts = me._addWidgetToLayout(newLayouts, addedItem);
+                removedLayouts[widgetItem.key] = null;
+            } else {
+                const remmovedItem = me._getWidgetLayoutByKey(newLayouts, widgetItem.key);
+                newLayouts = me._removeWidgetFromLayout(newLayouts, widgetItem.key);
+                removedLayouts[widgetItem.key] = remmovedItem;
+            }
+        });
+
+        return {newWidgetStatus, newLayouts, removedLayouts};
+    }
+
+    static _removeWidgetFromLayout(layouts, key) {
+        const filter = w => w.i !== key;
+        const newLayout = {};
+
+        if (layouts) {
+            Object.keys(layouts).forEach(breakpoint => {
+                newLayout[breakpoint] = layouts[breakpoint].filter(filter);
+            });
+        }
+
+        return newLayout;
+    }
+
+    static _addWidgetToLayout(layouts, widgetLayout) {
+        const newLayouts = {};
+        const breakpoints = Object.keys(layouts);
+        let isValid = true;
+
+        breakpoints .forEach(breakpoint => {
+            if(!widgetLayout[breakpoint]) {
+                return (isValid = false);
+            }
+            newLayouts[breakpoint] = [...layouts[breakpoint]];
+            newLayouts[breakpoint].push(widgetLayout[breakpoint]);
+        });
+
+        return isValid ? newLayouts : layouts;
+    }    
+
+    static _getWidgetLayoutByKey(layouts, key) {
+        const widgetLayout = {};
+        let isValid = true;
+
+        Object.keys(layouts).forEach(breakpoint => {
+            widgetLayout[breakpoint] = layouts[breakpoint].find( w => w.i === key);
+            if(!widgetLayout[breakpoint] ){
+                isValid = false;
+            }
+        });
+        
+        return isValid ? widgetLayout : null;
+    }     
+
+    static _createEmptyLayout(){
+        const layouts = {};
+        Object.keys(Wglayouts).forEach(breakpoint => layouts[breakpoint] = []);
+        return layouts;
     }
 }

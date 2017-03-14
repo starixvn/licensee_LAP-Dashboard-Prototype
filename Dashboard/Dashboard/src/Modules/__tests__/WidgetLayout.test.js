@@ -1,150 +1,126 @@
 import WidgetLayout from '../WidgetLayout';
+import LocalStorageHelper from '../LocalStorageHelper';
+import { Wglayouts } from '../../config';
 
-function fakeDashboardScript(scriptSrc) {
-    var scriptElement = window
-        .document
-        .createElement("script");
-    scriptElement.id = "dashboard-script";
-    scriptElement.src = scriptSrc;
-    window
-        .document
-        .body
-        .appendChild(scriptElement);
+jest.mock('../LocalStorageHelper')
 
-    return scriptElement;
-}
-
-beforeEach(() => {
-    window.localStorage = {
-        setItem: jest.fn(),
-        getItem: jest.fn(),
-        removeItem: jest.fn()
+describe('removeWidgetFromLayout(layouts, key)', () => {
+    const layouts = {
+        a:[{ i: 'a' }, { i: 'bb' }, { i: 'ccc' }],
+        b:[{ i: 'a' }, { i: 'bb' }, { i: 'ccc' }],
+        c:[{ i: 'a' }, { i: 'bb' }, { i: 'ccc' }],
     };
-});
-afterEach(() => {
-    window.localStorage = null;
-    window.document.body.innerHTML = '';
-});
 
-describe('clearLayoutSettingIfNewVersion()', () => {
-    test('no dashboard script: do nothing', () => {
-        WidgetLayout.clearLayoutSettingIfNewVersion();
-        expect(window.localStorage.getItem)
-            .not
-            .toBeCalled();
-    });
-    test('script version not match: do nothing', () => {
-        var scriptElement = fakeDashboardScript('something else i don\'t know');
-
-        WidgetLayout.clearLayoutSettingIfNewVersion();
-        expect(window.localStorage.getItem)
-            .not
-            .toBeCalled();
-    });
-    test('get cache version with correct setting key', () => {
-        var scriptElement = fakeDashboardScript('f**k.js?v=123');
-
-        WidgetLayout.clearLayoutSettingIfNewVersion();
-
-        expect(window.localStorage.getItem).toBeCalledWith('_LAP_Dashboard_Wg_Version');
-    });
-
-    [null, '', undefined, 'v=122'].forEach(cacheVersion => {
-        test('dashboard script has different version with cache: set new version', () => {
-            // new version
-            var scriptElement = fakeDashboardScript('f**k.js?v=123456');
-
-            // cache version
-            window.localStorage.getItem = jest.fn(() => cacheVersion);
-
-            WidgetLayout.clearLayoutSettingIfNewVersion();
-
-            expect(window.localStorage.setItem).toBeCalledWith('_LAP_Dashboard_Wg_Version', 'v=123456');
-            expect(window.localStorage.removeItem).toBeCalledWith('_LAP_Dashboard_Wg_Status');
-            expect(window.localStorage.removeItem).toBeCalledWith('_LAP_Dashboard_Wg_Layout');
+    test('key is found: remove widget from all breakpoints', () => {
+        const newLayout = WidgetLayout._removeWidgetFromLayout(layouts, 'bb');
+        expect(newLayout).toEqual({
+            a:[{ i: 'a' }, { i: 'ccc' }],
+            b:[{ i: 'a' }, { i: 'ccc' }],
+            c:[{ i: 'a' }, { i: 'ccc' }],
         });
     });
 
-    test('dashboard script has same version with cache: do not set new version', () => {
-        // new version
-        var scriptElement = fakeDashboardScript('f**k.js?v=123456');
+    test('key is nout found: return layouts', () => {
+        const newLayout = WidgetLayout._removeWidgetFromLayout(layouts, 'not found');
+        expect(newLayout).toEqual(layouts);
+    });
 
-        // cache version
-        window.localStorage.getItem = jest.fn(() => 'v=123456');
-
-        WidgetLayout.clearLayoutSettingIfNewVersion();
-
-        expect(window.localStorage.setItem)
-            .not
-            .toBeCalled();
+    test('no layouts: return empty object', () => {
+        const newLayout = WidgetLayout._removeWidgetFromLayout(null, 'anykey');
+        expect(newLayout).toEqual({});
     });
 });
 
-describe('saveWidgetStatus()', () => {
-    test('set item to localStorage with correct key', () => {
-        WidgetLayout.saveWidgetStatus('any-status');
-        expect(window.localStorage.setItem).toBeCalledWith('_LAP_Dashboard_Wg_Status', JSON.stringify('any-status'));
-    });
-    test('cannot save: show alert', () => {
-        window.alert = jest.fn();
-        window.localStorage.setItem = () => {
-            throw 'fake exception'
+describe('_addWidgetToLayout(layouts, widgetLayout)', () => {
+    test('add given layout to layout settings', () => {
+        const layouts = {
+            lg:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            md:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            sm:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            xs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            xxs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }]
+        };
+        const widgetLayout = {
+            lg: { i: 'n_reg_customer', a:1, b:2 },
+            md: { i: 'n_reg_customer', a:1, b:2 },
+            sm: { i: 'n_reg_customer', a:1, b:2 },
+            xs: { i: 'n_reg_customer', a:1, b:2 },
+            xxs: { i: 'n_reg_customer', a:1, b:2 }
         };
 
-        WidgetLayout.saveWidgetStatus('any-status');
-
-        expect(window.alert).toBeCalledWith('To continue use dashboard. Please turn private browsing off!!');
-    });
-});
-
-describe('getWidgetStatus()', () => {
-    test('get item from localStorage with correct key', () => {
-        window.localStorage.getItem = key => key === '_LAP_Dashboard_Wg_Status'
-            ? '{"any":"should return this"}'
-            : null;
-        expect(WidgetLayout.getWidgetStatus()).toEqual({"any": "should return this"});
-    });
-
-    [null, undefined, '', 'undefined'].forEach(savedStatus => {
-        test('dont have saved data: return null', () => {
-            window.localStorage.getItem = () => savedStatus;
-            expect(WidgetLayout.getWidgetStatus()).toBeNull();
+        const newLayouts = WidgetLayout._addWidgetToLayout(layouts, widgetLayout);
+        expect(newLayouts).toEqual({
+            lg:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
+            md:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
+            sm:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
+            xs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }, { i: 'n_reg_customer', a:1, b:2 }],
+            xxs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' },{ i: 'n_reg_customer', a:1, b:2 }]
         });
     });
+
+    test('invalid widget layout: do not add', () => {
+        const layouts = {
+            lg:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            md:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            sm:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            xs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }],
+            xxs:[{ i: 'aaa' }, { i: 'bb' }, { i: 'c' }]
+        };
+        const invalidWidgetLayout = {
+            lg:null,
+            md:'i dont know',
+            sm:null,
+            xs:null,
+            xxs:'something else'
+        };
+
+        const newLayouts = WidgetLayout._addWidgetToLayout(layouts, invalidWidgetLayout);
+        expect(newLayouts).toBe(layouts);
+    });
 });
 
-describe('saveWidgetLayout()', () => {
-    test('set item from localStorage with correct key', () => {
-        const layoutConfigs = {
-            any: 'layout-config'
+describe('getWidgetLayoutSettings()', () => {
+    const widgetIsEnabledFilter = w => enabledWidgets.indexOf(w.i) >= 0;
+    const enabledWidgets = ['c_turnover', 'c_online_customer', 'n_deposit', 'n_withdrawal'];
+    LocalStorageHelper.getWidgetStatus.mockImplementation(() => [
+        {key: 'c_turnover', enable: true},
+        {key: 'c_licWL',enable: false},
+        {key: 'n_reg_customer',enable: false},
+        {key: 'c_online_customer',enable: true},
+        {key: 'n_customer_balance',enable: false},
+        {key: 'n_pending_funds',enable: false},
+        {key: 'n_deposit',enable: true},
+        {key: 'n_withdrawal',enable: true}
+    ]);
+
+    test('don\'t have local settings: store default settings but remove disabled items', () => {
+        LocalStorageHelper.getWidgetLayout.mockImplementation(() => null);
+        LocalStorageHelper.saveWidgetLayout.mockReset();
+        const actual = WidgetLayout.getWidgetLayoutSettings();
+        const expected = {
+            lg: Wglayouts.lg.filter(widgetIsEnabledFilter),
+            md: Wglayouts.md.filter(widgetIsEnabledFilter),
+            sm: Wglayouts.sm.filter(widgetIsEnabledFilter),
+            xs: Wglayouts.xs.filter(widgetIsEnabledFilter),
+            xxs:Wglayouts.xxs.filter(widgetIsEnabledFilter),
         };
-        WidgetLayout.saveWidgetLayout(layoutConfigs);
-        expect(window.localStorage.setItem).toBeCalledWith('_LAP_Dashboard_Wg_Layout', JSON.stringify(layoutConfigs));
-    });
-    test('cannot save: show alert', () => {
-        window.alert = jest.fn();
-        window.localStorage.setItem = () => {
-            throw 'fake exception'
-        };
 
-        WidgetLayout.saveWidgetLayout('any-status');
-
-        expect(window.alert).toBeCalledWith('To continue use dashboard. Please turn private browsing off!!');
-    });
-});
-
-describe('getWidgetLayout()', () => {
-    test('get item from localStorage with correct key', () => {
-        window.localStorage.getItem = key => key === '_LAP_Dashboard_Wg_Layout'
-            ? '{"any":"should return this"}'
-            : null;
-        expect(WidgetLayout.getWidgetLayout()).toEqual({"any": "should return this"});
+        expect(actual).toEqual(expected);
     });
 
-    [null, undefined, '', 'undefined'].forEach(savedStatus => {
-        test('dont have saved data: return null', () => {
-            window.localStorage.getItem = () => savedStatus;
-            expect(WidgetLayout.getWidgetLayout()).toBeNull();
-        });
+    test('return local settings but remove disabled items', () => {
+        const emptyLayouts = {lg:[], md:[], sm:[], xs:[], xxs:[]};
+        let userLayouts = WidgetLayout._addWidgetToLayout(emptyLayouts, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'c_turnover'));
+        userLayouts = WidgetLayout._addWidgetToLayout(userLayouts, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'n_reg_customer'));
+        
+        LocalStorageHelper.getWidgetLayout.mockImplementation(() => userLayouts);
+        LocalStorageHelper.saveWidgetLayout.mockReset();
+        const actual = WidgetLayout.getWidgetLayoutSettings();
+        let expected = WidgetLayout._addWidgetToLayout(emptyLayouts, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'c_turnover'));
+        expected = WidgetLayout._addWidgetToLayout(expected, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'c_online_customer'));
+        expected = WidgetLayout._addWidgetToLayout(expected, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'n_deposit'));
+        expected = WidgetLayout._addWidgetToLayout(expected, WidgetLayout._getWidgetLayoutByKey(Wglayouts, 'n_withdrawal'));
+        
+        expect(actual).toEqual(expected);
     });
 });

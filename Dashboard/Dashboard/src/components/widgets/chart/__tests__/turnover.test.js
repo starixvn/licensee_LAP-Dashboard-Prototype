@@ -1,0 +1,349 @@
+import React from 'react';
+import renderer from 'react-test-renderer';
+import WidgetApi from '../../../../Modules/WidgetApi';
+import Turnover from '../turnover.jsx';
+import WidgetBox from '../../widgetbox';
+import * as ChartJs from 'react-chartjs-2'
+
+jest.mock('../../../../Modules/WidgetApi');
+jest.mock('../../widgetbox');
+jest.mock('react-chartjs-2');
+
+const Doughnut = ChartJs.Doughnut;
+
+const fakeProps = {
+    langCode: 'en',
+    refresh: 12345,
+    filter: {
+        baseCurrency: 'USD',
+        currency: 'HKD'
+    },
+    callbackParent: 'fake callbackParent',
+    wgItemFromParent: 'fake wgItemFromParent'
+};
+
+const fakeResponse = {
+    data: {
+        Data: [{
+            Key: 'total_turnover',
+            Value: 1.2
+        }, {
+            Key: 'none_deposit',
+            Value: 3.4
+        }],
+        Total: 98765.4321
+    }
+};
+
+function fakeDoughnutInstance() {
+    return {
+        chart: {
+            ctx: {
+                fillText: jest.fn(),
+                save: jest.fn(),
+                restore: jest.fn()
+            },
+            width: 12345,
+            height: 98765,
+            config: {
+                options: {
+                    circumference: 222
+                }
+            }
+        },
+        data: {
+            datasets: [{
+                data: [1.2, 2.3]
+            }, {
+                data: [3.4, 4.5]
+            }]
+        },
+        getDatasetMeta: jest.fn(index => index === 0
+            ? {
+                data: [{
+                    _model: {
+                        circumference: 999
+                    },
+                    tooltipPosition: () => ({
+                        x: 1,
+                        y: 2
+                    })
+                }, {
+                    _model: {
+                        circumference: 9999
+                    },
+                    tooltipPosition: () => ({
+                        x: 11,
+                        y: 22
+                    })
+                }]
+            }
+            : (index === 1
+                ? {
+                    data: [{
+                        _model: {
+                            circumference: 888
+                        },
+                        tooltipPosition: () => ({
+                            x: 111,
+                            y: 222
+                        })
+                    }, {
+                        _model: {
+                            circumference: 8888
+                        },
+                        tooltipPosition: () => ({
+                            x: 1111,
+                            y: 2222
+                        })
+                    }]
+                }
+                : null))
+    }
+}
+
+beforeAll(() => {
+    WidgetBox.mockImplementation(() => ({
+        render: function() {
+            return (
+                <div {...this.props} name="WidgetBox">
+                  { this.props.children }
+                </div>
+            )
+        }
+    }));
+    Doughnut.mockImplementation(() => ({
+        render: function() {
+            return (
+                <div {...this.props} name="Doughnut">
+                  hello bar
+                </div>
+            )
+        }
+    }));
+});
+
+test('render correctly', () => {
+    const promise = Promise.resolve();
+    WidgetApi.fetchData = jest.fn(() => promise);
+    promise.then = () => promise;
+
+    const component = renderer.create(<Turnover {...fakeProps}/>);
+    expect(component.toJSON()).toMatchSnapshot();
+});
+
+test('component did mount then fetch new data', () => {
+    const promise = Promise.resolve(fakeResponse);
+    WidgetApi.fetchData = jest.fn(() => promise);
+
+    const component = renderer.create(<Turnover {...fakeProps}/>);
+    promise.then(() => expect(component.toJSON()).toMatchSnapshot());
+});
+
+describe('componentWillReceiveProps(nextProps)', () => {
+    test('refresh greater than old value: fetch data', () => {
+        const component = new Turnover(fakeProps);
+        component.props = {
+            refresh: 123
+        };
+        component.setState = jest.fn();
+        component.fetchData = jest.fn();
+        const nextProps = {
+            refresh: 456,
+            a: 1,
+            b: 2
+        };
+        component.componentWillReceiveProps(nextProps);
+
+        expect(component.setState).toBeCalledWith({
+            isLoading: true
+        });
+        expect(component.fetchData).toBeCalledWith(nextProps);
+    });
+
+    test('refresh less than or equal old value: do nothing', () => {
+        const component = new Turnover(fakeProps);
+        component.props = {
+            refresh: 123
+        };
+        component.setState = jest.fn();
+        component.fetchData = jest.fn();
+
+        component.componentWillReceiveProps({
+            refresh: 123
+        });
+        expect(component.setState).not.toBeCalled();
+        expect(component.fetchData).not.toBeCalled();
+
+        component.componentWillReceiveProps({
+            refresh: 1
+        });
+        expect(component.setState).not.toBeCalled();
+        expect(component.fetchData).not.toBeCalled();
+    });
+});
+
+test('fetch data by criteria', () => {
+    const component = new Turnover(fakeProps);
+    const promise = Promise.resolve();
+    promise.then = () => promise;
+    WidgetApi.fetchData = jest.fn(() => promise);
+
+    const nextProps = {
+        filter: {
+            baseCurrency: 'USD 999',
+            currency: 'HKD 888'
+        }
+    };
+
+    component.fetchData(nextProps);
+    expect(WidgetApi.fetchData).toBeCalledWith({
+        Data: {
+            CurrencyId: nextProps.filter.currency,
+            BaseCurrency: nextProps.filter.baseCurrency
+        },
+        Url: '/api/TurnoverByPlatform/GetData',
+        IsCrossSite: true
+    });
+});
+
+test('write log when fetch data fail', () => {
+    // assign
+    const component = new Turnover(fakeProps);
+    const promise = Promise.resolve();
+    promise.then = () => promise;
+    promise.catch = c => {
+        c('should write log when fail');
+        return promise;
+    };
+
+    WidgetApi.fetchData.mockImplementation(() => promise);
+
+    const _log = console.log;
+    console.log = jest.fn();
+
+    //  action
+    component.fetchData(fakeProps);
+
+    // assert
+    expect(console.log).toBeCalledWith('error:', 'should write log when fail');
+    console.log = _log;
+});
+
+test('format tooltip label', () => {
+    const component = new Turnover(fakeProps);
+    const tooltipItem = {
+        datasetIndex: 1,
+        index: 1
+    };
+    const data = {
+        datasets: [{}, {
+            data: [-1, 789.9]
+        }],
+        labels: ['wrong value', 'should return this']
+    };
+
+    const result = component.options.tooltips.callbacks.label(tooltipItem, data);
+    expect(result).toBe('should return this: 790');
+});
+
+describe('animation complete', () => {
+    test('re-format chart', () => {
+        const component = new Turnover(fakeProps);
+        const doughnut = fakeDoughnutInstance();
+        component.options.animation.onComplete.call(doughnut);
+
+        const formatObject = {
+            fillStyle: "#fff",
+            textAlign: "center",
+            shadowColor: "black",
+            shadowBlur: 3
+        };
+
+        expect(doughnut.chart.ctx).toEqual(expect.objectContaining(formatObject));
+    });
+
+    test('size of chart < 100: do nothing', () => {
+        const component = new Turnover(fakeProps);
+        const doughnut = fakeDoughnutInstance();
+
+        doughnut.chart.width = 99;
+        doughnut.chart.height = 88;
+
+        component.options.animation.onComplete.call(doughnut);
+
+        expect(doughnut.chart.ctx.save).not.toBeCalled();
+        expect(doughnut.chart.ctx.restore).not.toBeCalled();
+        expect(doughnut.chart.ctx.fillText).not.toBeCalled();
+    });
+
+    test('_model.circumference <= 0: do not fill text', () => {
+        const component = new Turnover(fakeProps);
+        const doughnut = fakeDoughnutInstance();
+        const meta0 = doughnut.getDatasetMeta(0);
+        const meta1 = doughnut.getDatasetMeta(1);
+
+        meta0.data.forEach(e => e._model.circumference = -1);
+        meta1.data.forEach(e => e._model.circumference = 0);
+
+        doughnut.getDatasetMeta = jest.fn(index => index === 0 ? meta0 : (index === 1 ? meta1 : null));
+
+        component.options.animation.onComplete.call(doughnut);
+
+        expect(doughnut.chart.ctx.save).toBeCalled();
+        expect(doughnut.chart.ctx.restore).toBeCalled();
+        expect(doughnut.chart.ctx.fillText).not.toBeCalled();
+    });
+
+    test('save context, fill text then restore', () => {
+        const component = new Turnover(fakeProps);
+        const doughnut = fakeDoughnutInstance();
+        const callOrders = [];
+
+        doughnut.chart.ctx.save = () => callOrders.push('save');
+        doughnut.chart.ctx.fillText = () => callOrders.push('fillText');
+        doughnut.chart.ctx.restore = () => callOrders.push('restore');
+
+        component.options.animation.onComplete.call(doughnut);
+
+        expect(callOrders).toEqual([
+            'save',
+            'fillText',
+            'fillText',
+            'fillText',
+            'fillText',
+            'restore'
+        ]);
+    });
+
+    test('fill text each data set when segmentPercent > 1', () => {
+        const component = new Turnover(fakeProps);
+        const doughnut = fakeDoughnutInstance();
+        component.options.animation.onComplete.call(doughnut);
+
+        expect(doughnut.chart.ctx.fillText.mock.calls).toEqual([
+            ['450%', 1, 2],
+            ['4504%', 11, 22],
+            ['400%', 111, 222],
+            ['4004%', 1111, 2222]
+        ]);
+    });
+
+    test('fill text each data set when segmentPercent < 1', () => {
+        const component = new Turnover(fakeProps);
+        const doughnut = fakeDoughnutInstance();
+        const meta = doughnut.getDatasetMeta(0);
+
+        meta.data.forEach(e => e._model.circumference = 1);
+        doughnut.getDatasetMeta = jest.fn(() => meta);
+
+        component.options.animation.onComplete.call(doughnut);
+
+        expect(doughnut.chart.ctx.fillText.mock.calls).toEqual([
+            ['<1%', 1, 2],
+            ['<1%', 11, 22],
+            ['<1%', 1, 2],
+            ['<1%', 11, 22]
+        ]);
+    });
+});
