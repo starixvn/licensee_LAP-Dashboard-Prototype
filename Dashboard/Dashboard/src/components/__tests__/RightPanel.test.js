@@ -22,8 +22,8 @@ const fakeResponse = {
     data: {
         Currency: [
             {
-                Key: 1,
-                Value: "1"
+                CurrencyId: 1,
+                Currency: "USD"
             }
         ],
         BaseCurrency: ["A", "B"]
