@@ -56,7 +56,7 @@ export default class RightPanel extends React.Component {
                 response
                     .data
                     .Currency
-                    .unshift({Key: "All", Value: "0"});
+                    .unshift({Currency: "All", CurrencyId: "0"});
                 this.setState({isMounted: true, CurrencyList: response.data.Currency, BaseCurrencyList: response.data.BaseCurrency})
             })
             .catch(function (error) {
