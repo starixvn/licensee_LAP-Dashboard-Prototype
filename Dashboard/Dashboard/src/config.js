@@ -18,7 +18,7 @@ export const WidgetApiUrl = {
     normalPendingFund: '/api/PendingFund/GetData',
     normalDeposit: '/api/TodayDeposit/GetData',
     normalWithdrawal: '/api/TodayWithdrawal/GetData',
-    CurrenyList: "/api/Dashboard/GetCurrencyList"
+    CurrenyList: "GetCurrencyInfo"
 };
 
 export const Wglayouts = {

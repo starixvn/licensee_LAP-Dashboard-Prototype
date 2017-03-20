@@ -48,16 +48,16 @@ export default class RightPanel extends React.Component {
     _fetchData() {
         var param = {
             Url: WidgetApiUrl.CurrenyList,
-            IsCrossSite: true
+            IsCrossSite: false
         };
         WidgetApi
             .fetchData(param)
             .then((response) => {
                 response
                     .data
-                    .CurrencyList
+                    .Currency
                     .unshift({Key: "All", Value: "0"});
-                this.setState({isMounted: true, CurrencyList: response.data.CurrencyList, BaseCurrencyList: response.data.BaseCurrencyList})
+                this.setState({isMounted: true, CurrencyList: response.data.Currency, BaseCurrencyList: response.data.BaseCurrency})
             })
             .catch(function (error) {
                 console.log("error:", error);
@@ -89,7 +89,7 @@ export default class RightPanel extends React.Component {
             .state
             .CurrencyList
             .map((item, i) => {
-                return <option key={i} value={item.Value}>{item.Key}</option>
+                return <option key={i} value={item.CurrencyId}>{item.CurrencyName}</option>
             });
     }
 

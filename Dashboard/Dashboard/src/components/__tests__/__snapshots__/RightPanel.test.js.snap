@@ -21,21 +21,13 @@ exports[`event listeners on widget item check status change state is mounted: ca
           onChange={[Function]}
           value={0}>
           <option
-            value="0">
-            All
-          </option>
+            value={undefined} />
           <option
-            value="0">
-            All
-          </option>
+            value={undefined} />
           <option
-            value="0">
-            All
-          </option>
+            value={undefined} />
           <option
-            value="1">
-            1
-          </option>
+            value={undefined} />
         </select>
       </div>
       <div

@@ -20,13 +20,13 @@ const fakeProps = {
 };
 const fakeResponse = {
     data: {
-        CurrencyList: [
+        Currency: [
             {
                 Key: 1,
                 Value: "1"
             }
         ],
-        BaseCurrencyList: ["A", "B"]
+        BaseCurrency: ["A", "B"]
     }
 };
 
@@ -136,7 +136,7 @@ describe('_fetchData()', () => {
 
         component._fetchData();
 
-        expect(WidgetApi.fetchData).toBeCalledWith({Url: '/api/Dashboard/GetCurrencyList', IsCrossSite: true});
+        expect(WidgetApi.fetchData).toBeCalledWith({Url: 'GetCurrencyInfo', IsCrossSite: false});
     });
 
     test('write log when fetch data fail', () => {

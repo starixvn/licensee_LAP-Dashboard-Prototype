@@ -15,21 +15,3 @@ exports[`test renders correctly 1`] = `
   </div>
 </div>
 `;
-
-exports[`test write log when fetch data fail 1`] = `
-<div
-  callbackParent="fake callbackParent"
-  isLoading={false}
-  title="Licensee Win Loss (Month to date)"
-  wgItem="f**k wgItemFromParent"
-  widgetKey="this is a f**k key"
-  widgetName="this is a f**k name">
-  <div
-    className="center-block">
-    <span
-      className="number-big">
-      €888.78
-    </span>
-  </div>
-</div>
-`;
