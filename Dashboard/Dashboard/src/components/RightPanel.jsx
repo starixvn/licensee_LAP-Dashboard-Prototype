@@ -89,7 +89,7 @@ export default class RightPanel extends React.Component {
             .state
             .CurrencyList
             .map((item, i) => {
-                return <option key={i} value={item.CurrencyId}>{item.CurrencyName}</option>
+                return <option key={i} value={item.CurrencyId}>{item.Currency}</option>
             });
     }
 
