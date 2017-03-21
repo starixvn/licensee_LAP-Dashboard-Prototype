@@ -66,6 +66,7 @@ export default class BaseNormalWidget extends React.Component {
             callbackParent={this.props.callbackParent}
             reloadCallback={() => this._reload()}
             defaultCountdown={this.configs.defaultCountdown}
+            countdownValues={this.configs.countdownValues}
             wgItem={this.props.wgItemFromParent}
             widgetKey={this.configs.WidgetKey}
             title={LanguageApi.getRes(this.props.langCode, this.configs.TitleKey)}

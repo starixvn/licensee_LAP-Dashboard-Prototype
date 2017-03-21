@@ -13,7 +13,8 @@ export default class AutoReload extends React.Component {
 
         this.state = {
             countdown: countdown,
-            currentCountdown: countdown
+            currentCountdown: countdown,
+            isShowSelection: false
         };
 
     }
@@ -53,7 +54,35 @@ export default class AutoReload extends React.Component {
         }
     }
 
+    _onCounterClick() {
+        this.setState({ isShowSelection: !this.state.isShowSelection });
+    }
+
+    _onSelectCounterValue(value) {
+        this.setState({
+            isShowSelection: false,
+            countdown: value,
+            currentCountdown: value
+        });
+
+        const countdowns = LocalStorageHelper.getWidgetReloadCountdown();
+        countdowns[this.props.dataKey] = value;
+        LocalStorageHelper.saveWidgetReloadCountdown(countdowns);
+    }
+
+    _renderCountdownSelection() {
+        return (<ul style={{
+            display: (this.state.isShowSelection ? '' : 'none'),
+            position: 'absolute', top: 0, right: 22
+        }}>{(this.props.countdownValues || []).map(value => (<li onClick={() => this._onSelectCounterValue(value)}>{value}</li>))}</ul>);
+    }
+
     render() {
-        return (<span>{this.state.currentCountdown}s</span>);
+        return (<div style={{
+            position: 'absolute', top: 0, right: 22
+        }}>
+            <span onClick={() => this._onCounterClick()}>{this.state.currentCountdown}s</span>
+            {this._renderCountdownSelection()}
+        </div>);
     }
 }
