@@ -9,8 +9,30 @@ exports[`test renders correctly 1`] = `
   <div
     className="center-block">
     <span
-      className="number-big">
+      callbackParent={[Function]}
+      className="number-big"
+      refresh={undefined}>
       €0.00
+    </span>
+  </div>
+</div>
+`;
+
+exports[`test write log when fetch data fail 1`] = `
+<div
+  callbackParent="fake callbackParent"
+  isLoading={false}
+  title="Licensee Win Loss (Month to date)"
+  wgItem="f**k wgItemFromParent"
+  widgetKey="this is a f**k key"
+  widgetName="this is a f**k name">
+  <div
+    className="center-block">
+    <span
+      callbackParent={[Function]}
+      className="number-big"
+      refresh={undefined}>
+      €888.78
     </span>
   </div>
 </div>
