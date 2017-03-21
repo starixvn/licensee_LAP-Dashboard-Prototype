@@ -1,0 +1,9 @@
+exports[`test render corectly 1`] = `
+<span
+  className="a b c"
+  hello="world">
+  <b>
+    i\'m super
+  </b>
+</span>
+`;
