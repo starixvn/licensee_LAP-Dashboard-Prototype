@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import Loader from '../Loader';
+import AutoReload from '../AutoReload';
 
 export default class WidgetBox extends React.Component {
   constructor(props) {
@@ -24,6 +25,7 @@ export default class WidgetBox extends React.Component {
       <div className={`widgetbox-header ${this.props.widgetName}`}>
         <span className="title">
           {this.props.title}
+          <AutoReload dataKey={this.props.widgetKey} defaultCountdown={this.props.defaultCountdown} reloadCallback={this.props.reloadCallback}/>
         </span>
         <span className="icon-wrapper right">
           <span onClick={() => this.toggleClose()} className="icon icon-close"></span>

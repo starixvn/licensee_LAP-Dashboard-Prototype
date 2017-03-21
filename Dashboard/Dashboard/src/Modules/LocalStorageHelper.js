@@ -1,10 +1,8 @@
 const widgetVersionCacheKey = "_LAP_Dashboard_Wg_Version";
-
 const widgetStatusCacheKey = "_LAP_Dashboard_Wg_Status";
-
 const widgetLayoutCacheKey = "_LAP_Dashboard_Wg_Layout";
-
 const widgetLayoutRemovedCacheKey = "_LAP_Dashboard_Wg_Layout_removed";
+const widgetReloadCountdownCacheKey = "_LAP_Dashboard_Wg_Reload_Countdown";
 
 export default class LocalStorageHelper {
     static clearLayoutSettingIfNewVersion() {
@@ -59,5 +57,16 @@ export default class LocalStorageHelper {
     static getRemovedWidgetLayout() {
         var item = window.localStorage.getItem(widgetLayoutRemovedCacheKey)
         return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : {};
+    }
+    static getWidgetReloadCountdown(){
+        var item = window.localStorage.getItem(widgetReloadCountdownCacheKey)
+        return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : {};
+    }
+    static saveWidgetReloadCountdown(values){
+        try {
+            window.localStorage.setItem(widgetReloadCountdownCacheKey, JSON.stringify(values))
+        } catch (error) {
+            alert("To continue use dashboard. Please turn private browsing off!!");
+        }
     }
 }
