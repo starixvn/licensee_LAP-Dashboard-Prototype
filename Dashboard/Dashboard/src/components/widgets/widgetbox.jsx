@@ -25,12 +25,16 @@ export default class WidgetBox extends React.Component {
       reloadCallback={this.props.reloadCallback} />);
   }
 
+  _isAutoReloadEnabled() {
+    return this.props.countdownValues && this.props.defaultCountdown && this.props.reloadCallback;
+  }
+
   render() {
     const isClosed = this.props.wgItem.enable
       ? ''
       : 'is-closed';
 
-    const autoReload = this.props.reloadCallback
+    const autoReload = this._isAutoReloadEnabled()
       ? this._getAutoReload()
       : null;
 
