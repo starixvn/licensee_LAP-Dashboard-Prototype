@@ -209,7 +209,7 @@ gulp.task('serve', function(cb) {
                     .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/main'));
             }
         });
-        gulp.watch('build/font/**', function (obj) {
+        gulp.watch('build/fonts/**', function (obj) {
             if (obj.type === 'changed') {
                 gulp.src(obj.path)
                     .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP/css/pages/dashboard/fonts'))
@@ -223,7 +223,7 @@ gulp.task('serve', function(cb) {
 });
 
 gulp.task('copytoLocal', function(cb) {
-    gulp.src('build/font/**')
+    gulp.src('build/fonts/**')
     .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP/css/pages/dashboard/fonts'))
     .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP/css/pages/dashboard/fonts'));
     gulp.src('build/css/**')
@@ -235,7 +235,7 @@ gulp.task('copytoLocal', function(cb) {
     .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP/js/pages/dashboard'));
 });
 gulp.task('copytoLocal2', function(cb) {
-    gulp.src('build/font/**')
+    gulp.src('build/fonts/**')
     .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/fonts'))
     .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/fonts'));
 
