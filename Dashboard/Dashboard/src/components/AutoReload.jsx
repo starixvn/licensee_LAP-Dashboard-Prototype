@@ -71,16 +71,17 @@ export default class AutoReload extends React.Component {
     }
 
     _renderCountdownSelection() {
-        return (<ul style={{
+        return (<ul className="dropdown-timer" style={{
             display: (this.state.isShowSelection ? '' : 'none'),
-            position: 'absolute', top: 0, right: 22
+            //position: 'absolute', top: 0, right: 22
         }}>{(this.props.countdownValues || []).map(value => (<li onClick={() => this._onSelectCounterValue(value)}>{value}</li>))}</ul>);
     }
 
     render() {
-        return (<div style={{
-            position: 'absolute', top: 0, right: 22
+        return (<div className="btn-refresh right" style={{
+            //position: 'absolute', top: 0, right: 22
         }}>
+            <i className="icon-refresh"></i>
             <span onClick={() => this._onCounterClick()}>{this.state.currentCountdown}s</span>
             {this._renderCountdownSelection()}
         </div>);
