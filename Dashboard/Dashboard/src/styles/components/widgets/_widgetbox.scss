@@ -90,6 +90,11 @@ $bg-Withdrawal: $blue-Bayoux;
                 color: #fff;
             }
 
+            &.border-blue {
+                border: 1px solid #4b96cf;
+                color: #4b96cf;
+            }
+
             .currentCountdown {
                 padding: 0 5px;
                 display: inline-block;

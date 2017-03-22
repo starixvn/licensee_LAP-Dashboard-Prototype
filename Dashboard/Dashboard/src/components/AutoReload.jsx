@@ -80,7 +80,7 @@ export default class AutoReload extends React.Component {
             </ul>)
             : null;
 
-        return (<div className="btn-refresh right" onClick={() => this._onCounterClick()}>
+        return (<div className="btn-refresh right border-white" onClick={() => this._onCounterClick()}>
             <i className="icon-refresh"></i>
             <span className="currentCountdown">{this.state.currentCountdown + 's'}</span>
             <i className="icon-menu-down"></i>
