@@ -78,12 +78,14 @@ $bg-Withdrawal: $blue-Bayoux;
             position: relative;
             cursor: pointer;
             border-radius: 2px;
-            height: 18px;
-            width: 68px;
+            height: 20px;
+            width: 58px;
             line-height: 16px;
             margin-top: 8px;
             text-align: center;
             font-size: 11px;
+            padding-top: 1px;
+            box-sizing: border-box;
 
             &.border-white {
                 border: 1px solid #fff;
@@ -96,16 +98,20 @@ $bg-Withdrawal: $blue-Bayoux;
             }
 
             .currentCountdown {
-                padding: 0 5px;
                 display: inline-block;
                 vertical-align: middle;
+                text-align: center;
+                width: 28px;
             }
 
             .icon-refresh, .icon-menu-down {
                 display: inline-block;
-                vertical-align: middle;
-                //padding: 0 3px;
+                vertical-align: middle;                
                 font-size: 14px;
+            }
+
+            .icon-menu-down {
+                width: 11px;
             }
 
             &:hover, &:focus, &:active {
@@ -119,14 +125,14 @@ $bg-Withdrawal: $blue-Bayoux;
             background: #fff;
             padding: 0;
             list-style: none;
-            width: 68px;
+            width: 58px;
             z-index: 1001;
             box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
             color: #444;
             text-align: left;
 
             li {
-                padding: 5px;
+                padding: 3px 5px;
 
                 &:hover {
                     background: #ddd;
