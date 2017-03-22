@@ -11,6 +11,7 @@ export default class AutoReload extends React.Component {
             countdown = this.props.defaultCountdown;
         }
 
+        this.countdownValues = this.props.countdownValues;
         this.state = {
             countdown: countdown,
             currentCountdown: countdown,
@@ -70,20 +71,19 @@ export default class AutoReload extends React.Component {
         LocalStorageHelper.saveWidgetReloadCountdown(countdowns);
     }
 
-    _renderCountdownSelection() {
-        return (<ul className="dropdown-timer" style={{
-            display: (this.state.isShowSelection ? '' : 'none'),
-            //position: 'absolute', top: 0, right: 22
-        }}>{(this.props.countdownValues || []).map(value => (<li onClick={() => this._onSelectCounterValue(value)}>{value}</li>))}</ul>);
-    }
-
     render() {
-        return (<div className="btn-refresh right" style={{
-            //position: 'absolute', top: 0, right: 22
-        }}>
+        const selection = this.state.isShowSelection
+            ? (<ul className="dropdown-timer">
+                {(this.countdownValues || []).map(value => (
+                    <li key={value} onClick={() => this._onSelectCounterValue(value)}>{value}</li>
+                ))}
+            </ul>)
+            : null;
+
+        return (<div className="btn-refresh right" onClick={() => this._onCounterClick()}>
             <i className="icon-refresh"></i>
-            <span onClick={() => this._onCounterClick()}>{this.state.currentCountdown}s</span>
-            {this._renderCountdownSelection()}
+            <span>{this.state.currentCountdown + 's'}</span>
+            {selection}
         </div>);
     }
 }
