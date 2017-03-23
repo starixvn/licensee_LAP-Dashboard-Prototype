@@ -1,7 +1,16 @@
-exports[`test renders correctly 1`] = `
+exports[`test reloadCallback: fetch data 1`] = `
 <div
   callbackParent="fake callbackParent"
-  isLoading={true}
+  countdownValues={
+    Array [
+      1,
+      2,
+      3,
+    ]
+  }
+  defaultCountdown={123}
+  isLoading={false}
+  reloadCallback={[Function]}
   title="Licensee Win Loss (Month to date)"
   wgItem="f**k wgItemFromParent"
   widgetKey="this is a f**k key"
@@ -9,19 +18,26 @@ exports[`test renders correctly 1`] = `
   <div
     className="center-block">
     <span
-      callbackParent={[Function]}
-      className="number-big"
-      refresh={undefined}>
-      €0.00
+      className="number-big">
+      €888.78
     </span>
   </div>
 </div>
 `;
 
-exports[`test write log when fetch data fail 1`] = `
+exports[`test renders correctly 1`] = `
 <div
   callbackParent="fake callbackParent"
-  isLoading={false}
+  countdownValues={
+    Array [
+      1,
+      2,
+      3,
+    ]
+  }
+  defaultCountdown={123}
+  isLoading={true}
+  reloadCallback={[Function]}
   title="Licensee Win Loss (Month to date)"
   wgItem="f**k wgItemFromParent"
   widgetKey="this is a f**k key"
@@ -29,10 +45,8 @@ exports[`test write log when fetch data fail 1`] = `
   <div
     className="center-block">
     <span
-      callbackParent={[Function]}
-      className="number-big"
-      refresh={undefined}>
-      €888.78
+      className="number-big">
+      €0.00
     </span>
   </div>
 </div>

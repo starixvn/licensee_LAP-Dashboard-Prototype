@@ -21,7 +21,9 @@ const fakeConfigs = {
     WidgetKey: 'this is a f**k key',
     Url: 'this is a f**k url',
     WidgetName: 'this is a f**k name',
-    TitleKey: 'licensee_winloss_month_todate'
+    TitleKey: 'licensee_winloss_month_todate',
+    defaultCountdown: 123,
+    countdownValues: [1, 2, 3]
 };
 class FakeConfiguredBaseNormalWidget extends BaseNormalWidget {
     constructor(props) {
@@ -45,18 +47,18 @@ afterEach(() => {
 test('renders correctly', () => {
     WidgetApi
         .fetchData
-        .mockImplementation(() => Promise.resolve({data: 999.888}))
-    const component = renderer.create(<FakeConfiguredBaseNormalWidget {...fakeProps}/>);
+        .mockImplementation(() => Promise.resolve({ data: 999.888 }))
+    const component = renderer.create(<FakeConfiguredBaseNormalWidget {...fakeProps} />);
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
 });
 
 test('data was rendered correctly from API', () => {
-    const promise = Promise.resolve({data: 888.777});
+    const promise = Promise.resolve({ data: 888.777 });
     WidgetApi
         .fetchData
         .mockImplementation(() => promise);
-    const component = renderer.create(<FakeConfiguredBaseNormalWidget {...fakeProps}/>);
+    const component = renderer.create(<FakeConfiguredBaseNormalWidget {...fakeProps} />);
 
     promise.then(() => expect(component.toJSON()).toMatchSnapshot());
 });
@@ -76,7 +78,7 @@ test('componentWillReceiveProps: next.refresh > old.refresh, fetch new data', ()
     component.componentWillReceiveProps(nextProps);
 
     // assert
-    expect(component.setState).toBeCalledWith({isLoading: true});
+    expect(component.setState).toBeCalledWith({ isLoading: true });
     expect(component.fetchData).toBeCalledWith(nextProps);
 });
 
@@ -144,4 +146,19 @@ test('write log when fetch data fail', () => {
     // assert
     expect(console.log).toBeCalledWith('error:', 'should write log when fail');
     console.log = _log;
+});
+
+test('reloadCallback: fetch data', () => {
+    // assign
+    const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+    component.setState = jest.fn();
+    component.fetchData = jest.fn();
+
+    //  action
+    const rendered = component.render();
+    rendered.props.reloadCallback();
+
+    // assert
+    expect(component.setState).toBeCalledWith({ isLoading: true })
+    expect(component.fetchData).toBeCalledWith(fakeProps);
 });
