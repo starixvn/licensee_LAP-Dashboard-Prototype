@@ -9,8 +9,8 @@ export default class WithdrawalWidget extends BaseNormalWidget {
             TitleKey: "withdrawal_today",
             WidgetName: "withdrawal",
             WidgetKey: WidgetKey.normalWithdrawal,
-            defaultCountdown: 45,
-            countdownValues: [5, 15, 30, 45]
+            defaultCountdown: 75,
+            countdownValues: [15, 30, 45, 60, 75]
         });
     }
 };

@@ -9,8 +9,8 @@ export default class PendingFundsWidget extends BaseNormalWidget {
             TitleKey: "pending_funds",
             WidgetName: "pending-fund",
             WidgetKey: WidgetKey.normalPendingFund,
-            defaultCountdown: 45,
-            countdownValues: [5, 15, 30, 45]
+            defaultCountdown: 75,
+            countdownValues: [15, 30, 45, 60, 75]
         });
     }
 };
