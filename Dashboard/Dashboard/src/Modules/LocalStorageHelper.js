@@ -20,10 +20,13 @@ export default class LocalStorageHelper {
         var cacheVersion = window.localStorage.getItem(widgetVersionCacheKey);
         if (newVersion !== cacheVersion) {
             window.localStorage.setItem(widgetVersionCacheKey, newVersion);
-            window.localStorage.removeItem(widgetStatusCacheKey);
-            window.localStorage.removeItem(widgetLayoutCacheKey);
-            window.localStorage.removeItem(widgetLayoutRemovedCacheKey);
+            LocalStorageHelper.clearWidgetCache();
         }
+    }
+    static clearWidgetCache() {
+        window.localStorage.removeItem(widgetStatusCacheKey);
+        window.localStorage.removeItem(widgetLayoutCacheKey);
+        window.localStorage.removeItem(widgetLayoutRemovedCacheKey);
     }
     static saveWidgetStatus(wgs) {
         try {
@@ -58,11 +61,11 @@ export default class LocalStorageHelper {
         var item = window.localStorage.getItem(widgetLayoutRemovedCacheKey)
         return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : {};
     }
-    static getWidgetReloadCountdown(){
+    static getWidgetReloadCountdown() {
         var item = window.localStorage.getItem(widgetReloadCountdownCacheKey)
         return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : {};
     }
-    static saveWidgetReloadCountdown(values){
+    static saveWidgetReloadCountdown(values) {
         try {
             window.localStorage.setItem(widgetReloadCountdownCacheKey, JSON.stringify(values))
         } catch (error) {

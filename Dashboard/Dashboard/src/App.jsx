@@ -43,25 +43,14 @@ export default class DashboardApp extends React.Component {
       alert(LanguageApi.getRes(langCode, 'no_widget_permission'));
     }
 
-    const wgStatus = WidgetLayout.getWidgetStatusSettings(permission);
-    const userWgStatus = WidgetLayout.mergeWidgetStatusSettingsToUserSettings(wgStatus);
-    LocalStorageHelper.saveWidgetStatus(userWgStatus);
-
-    const userWidgetLayouts = WidgetLayout.getWidgetLayoutSettings();
-    LocalStorageHelper.saveWidgetLayout(userWidgetLayouts);
-    
-    this.state = {
+    this.state = Object.assign({
       langCode: langCode,
       refresh: 0,
       selectedFilter: {
         currency: 0,
         baseCurrency: "EUR"
-      },
-      wgStatus: userWgStatus,
-      layouts: userWidgetLayouts
-    };
-
- 
+      }
+    }, this._getLayoutSettings());
     this._responsiveReactGridLayout = WidthProvider(Responsive);
   }
 
@@ -78,10 +67,29 @@ export default class DashboardApp extends React.Component {
     };
     const Widget = keyToWidget[key];
     var itemStatus = this.state.wgStatus.find(x => x.key === key);
-  
+
     return (<div key={key}>
-              <Widget wgItemFromParent={itemStatus} callbackParent={(newState) => this.onChildChanged(newState)} filter={ this.state.selectedFilter } refresh={ this.state.refresh } langCode={ this.state.langCode } />
-            </div>);
+      <Widget wgItemFromParent={itemStatus} callbackParent={(newState) => this.onChildChanged(newState)} filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} />
+    </div>);
+  }
+
+  _resetLayout() {
+    LocalStorageHelper.clearWidgetCache();
+    this.setState(this._getLayoutSettings());
+  }
+
+  _getLayoutSettings() {
+    const wgStatus = WidgetLayout.getWidgetStatusSettings(window.widgetPermission);
+    const userWgStatus = WidgetLayout.mergeWidgetStatusSettingsToUserSettings(wgStatus);
+    LocalStorageHelper.saveWidgetStatus(userWgStatus);
+
+    const userWidgetLayouts = WidgetLayout.getWidgetLayoutSettings();
+    LocalStorageHelper.saveWidgetLayout(userWidgetLayouts);
+
+    return {
+      wgStatus: userWgStatus,
+      layouts: userWidgetLayouts
+    }
   }
 
   onChildChanged(newState) {
@@ -90,6 +98,8 @@ export default class DashboardApp extends React.Component {
         refresh: pre.refresh + 1,
         selectedFilter: newState.filter
       }))
+    } else if (newState.action == 'reset') {
+      this._resetLayout();
     } else if (newState.items && newState.items.length) {
       const syncResult = WidgetLayout.syncLayoutWithNewStatus(newState.items, this.state.wgStatus, this.state.layouts);
       this.setState(() => ({
@@ -116,12 +126,12 @@ export default class DashboardApp extends React.Component {
 
   render() {
     const ResponsiveReactGridLayout = this._responsiveReactGridLayout;
-    return (<DefaultLayout langCode={ this.state.langCode } initialWgStatus={ this.state.wgStatus } callbackParent={ (newState) => this.onChildChanged(newState) }>
-              <ResponsiveReactGridLayout className="layout" layouts={ this.state.layouts } rowHeight={ 25 } onLayoutChange={ (layout, layouts) => this.onLayoutChange(layout, layouts) } breakpoints={ { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 } }
-                cols={ { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 } } isDraggable={ !this.isTouchScreen }>
-                { this.state.wgStatus.filter(i => i.enable).map((item) => this._renderWgItem(item.key)) }
-              </ResponsiveReactGridLayout>
-            </DefaultLayout>);
+    return (<DefaultLayout langCode={this.state.langCode} initialWgStatus={this.state.wgStatus} callbackParent={(newState) => this.onChildChanged(newState)}>
+      <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)} breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+        cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }} isDraggable={!this.isTouchScreen}>
+        {this.state.wgStatus.filter(i => i.enable).map((item) => this._renderWgItem(item.key))}
+      </ResponsiveReactGridLayout>
+    </DefaultLayout>);
   };
 }
 
