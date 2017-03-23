@@ -160,11 +160,11 @@ export default class RightPanel extends React.Component {
                         </select>
                     </div>
                     <a className="btn-submit" onClick={(e) => this._applyAction(e)} href="#">{LanguageApi.getRes(this.props.langCode, "apply")}</a>
-                    <a className="btn-reset" onClick={() => this._onResetLayout()} href="#">{LanguageApi.getRes(this.props.langCode, "reset_layout")}</a>
                     <div className="widgets-config">
                         <div className="widgets-title">{LanguageApi.getRes(this.props.langCode, "Widgets")}</div>
                         {this._getWidgetCheckBoxes()}
                     </div>
+                    <a className="btn-reset" onClick={() => this._onResetLayout()} href="#">{LanguageApi.getRes(this.props.langCode, "reset_layout")}</a>
                 </div>
             </div>
             <div className="right-panel-overlay" onClick={(e) => this._togglePanel(e)}></div>
