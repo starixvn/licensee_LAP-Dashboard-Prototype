@@ -27,7 +27,7 @@ export default class LicenseeWinLoss extends React.Component {
             },
             animation: {
                 onComplete: function () {
-                    var self = this,
+                    const self = this,
                         chart = this.chart,
                         ctx = chart.ctx;
 
@@ -37,11 +37,13 @@ export default class LicenseeWinLoss extends React.Component {
                     ctx.textBaseline = "middle";
 
                     self.data.datasets.forEach(function (dataset, datasetIndex) {
-                        var meta = self.getDatasetMeta(datasetIndex);
+                        const meta = self.getDatasetMeta(datasetIndex);
                         meta.data.forEach(function (element, elementIndex) {
-                            var text = NumberFormat.formatDecimal(dataset.data[elementIndex]);
-                            var textWidth = ctx.measureText(text).width;
-                            ctx.fillText(text, element._model.x - (textWidth / 2), element._model.y - 5);
+                            const value = dataset.data[elementIndex];
+                            const text = NumberFormat.formatDecimal(value);
+                            const textWidth = ctx.measureText(text).width;
+                            const yOffset = value > 0 ? 6 : -7;
+                            ctx.fillText(text, element._model.x - (textWidth / 2), element._model.y - yOffset);
                         });
                     });
                 }
