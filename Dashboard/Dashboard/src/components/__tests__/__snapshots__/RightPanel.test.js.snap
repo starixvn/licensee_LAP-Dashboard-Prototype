@@ -63,6 +63,12 @@ exports[`event listeners on widget item check status change state is mounted: ca
         onClick={[Function]}>
         Apply
       </a>
+      <a
+        className="btn-reset"
+        href="#"
+        onClick={[Function]}>
+        Reset layout
+      </a>
       <div
         className="widgets-config">
         <div
@@ -139,6 +145,12 @@ exports[`test hidden state change: re-render 1`] = `
         onClick={[Function]}>
         Apply
       </a>
+      <a
+        className="btn-reset"
+        href="#"
+        onClick={[Function]}>
+        Reset layout
+      </a>
       <div
         className="widgets-config">
         <div
@@ -214,6 +226,12 @@ exports[`test renders correctly 1`] = `
         href="#"
         onClick={[Function]}>
         Apply
+      </a>
+      <a
+        className="btn-reset"
+        href="#"
+        onClick={[Function]}>
+        Reset layout
       </a>
       <div
         className="widgets-config">

@@ -7,13 +7,8 @@ jest.mock('../../Modules/WidgetApi');
 
 const fakeProps = {
     wgs: [
-        {
-            key: "abc",
-            enable: true
-        }, {
-            key: "def",
-            enable: true
-        }
+        { key: "abc", enable: true },
+        { key: "def", enable: true }
     ],
     langCode: 'en',
     callbackParent: jest.fn()
@@ -70,7 +65,7 @@ test('renders correctly', () => {
     WidgetApi
         .fetchData
         .mockImplementation(() => Promise.resolve(fakeResponse));
-    const component = renderer.create(<RightPanel {...fakeProps}/>);
+    const component = renderer.create(<RightPanel {...fakeProps} />);
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
 });
@@ -79,11 +74,11 @@ test('hidden state change: re-render', () => {
     WidgetApi
         .fetchData
         .mockImplementation(() => Promise.resolve(fakeResponse));
-    const component = renderer.create(<RightPanel {...fakeProps}/>);
+    const component = renderer.create(<RightPanel {...fakeProps} />);
 
     component
         .getInstance()
-        .setState({isHidden: false});
+        .setState({ isHidden: false });
 
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
@@ -94,7 +89,7 @@ test('componentDidMount: fetch data with given props', () => {
     WidgetApi
         .fetchData
         .mockImplementation(() => promise);
-    const component = renderer.create(<RightPanel {...fakeProps}/>);
+    const component = renderer.create(<RightPanel {...fakeProps} />);
 
     promise.then(() => expect(component.toJSON()).toMatchSnapshot());
 });
@@ -105,7 +100,7 @@ test('componentWillUnmount: set mount status false', () => {
 
     component.componentWillUnmount();
 
-    expect(component.setState).toBeCalledWith({isMounted: false});
+    expect(component.setState).toBeCalledWith({ isMounted: false });
 });
 
 test('bindWgCheckBox(wgs): return mapped items from given parameter', () => {
@@ -121,7 +116,7 @@ test('bindWgCheckBox(wgs): return mapped items from given parameter', () => {
         }
     ]);
 
-    expect(result).toEqual({a: true, b: false});
+    expect(result).toEqual({ a: true, b: false });
 });
 
 describe('_fetchData()', () => {
@@ -136,7 +131,7 @@ describe('_fetchData()', () => {
 
         component._fetchData();
 
-        expect(WidgetApi.fetchData).toBeCalledWith({Url: 'GetCurrencyInfo', IsCrossSite: false});
+        expect(WidgetApi.fetchData).toBeCalledWith({ Url: 'GetCurrencyInfo', IsCrossSite: false });
     });
 
     test('write log when fetch data fail', () => {
@@ -165,10 +160,10 @@ describe('_fetchData()', () => {
     });
 });
 
-describe('togglePanel()', () => {
+describe('_togglePanel()', () => {
     [true, false].forEach(isHidden => {
         test('toggle hidden status', () => {
-            const component = new RightPanel({wgs: []});
+            const component = new RightPanel({ wgs: [] });
             component.setState = jest.fn();
             component.state = {
                 isHidden: isHidden
@@ -185,80 +180,62 @@ describe('togglePanel()', () => {
 
 describe('event listeners', () => {
     beforeEach(() => {
-        WidgetApi
-            .fetchData
-            .mockReset();
-        fakeProps
-            .callbackParent
-            .mockReset();
-        WidgetApi
-            .fetchData
-            .mockImplementation(() => Promise.resolve(fakeResponse));
+        WidgetApi.fetchData.mockReset();
+        fakeProps.callbackParent.mockReset();
+        WidgetApi.fetchData.mockImplementation(() => Promise.resolve(fakeResponse));
     });
 
     test('on currency list change: update state', () => {
-        const component = renderer.create(<RightPanel {...fakeProps}/>);
+        const component = renderer.create(<RightPanel {...fakeProps} />);
         const componentInstance = component.getInstance();
         const element = findElement(component, 'currencyDropdownList');
 
         componentInstance.setState = jest.fn();
 
-        element
-            .props
-            .onChange({
-                target: {
-                    value: 'fake currency value'
-                }
-            });
+        element.props.onChange({
+            target: {
+                value: 'fake currency value'
+            }
+        });
 
-        expect(componentInstance.setState).toBeCalledWith({SelectedCurrency: 'fake currency value'});
+        expect(componentInstance.setState).toBeCalledWith({ SelectedCurrency: 'fake currency value' });
     });
 
     test('on base currency list change: update state', () => {
-        const component = renderer.create(<RightPanel {...fakeProps}/>);
+        const component = renderer.create(<RightPanel {...fakeProps} />);
         const componentInstance = component.getInstance();
         const element = findElement(component, 'baseCurrencyDropdownList');
 
         componentInstance.setState = jest.fn();
-        element
-            .props
-            .onChange({
-                target: {
-                    value: 'fake currency value'
-                }
-            });
+        element.props.onChange({
+            target: {
+                value: 'fake currency value'
+            }
+        });
 
-        expect(componentInstance.setState).toBeCalledWith({SelectedBaseCurrency: 'fake currency value'});
+        expect(componentInstance.setState).toBeCalledWith({ SelectedBaseCurrency: 'fake currency value' });
     });
 
     describe('on submit button click', () => {
         test('component is unmounted then do nothing', () => {
-            const component = renderer.create(<RightPanel {...fakeProps}/>);
+            const component = renderer.create(<RightPanel {...fakeProps} />);
             const componentInstance = component.getInstance();
             const element = findElement(component, '.btn-submit');
 
-            componentInstance.setState({isMounted: false});
-            fakeProps
-                .callbackParent
-                .mockReset();
-            element
-                .props
-                .onClick();
+            componentInstance.setState({ isMounted: false });
+            fakeProps.callbackParent.mockReset();
+            element.props.onClick();
 
-            expect(fakeProps.callbackParent)
-                .not
-                .toBeCalled();
+            expect(fakeProps.callbackParent).not.toBeCalled();
         });
 
         test('component is mounted then call callbackParent()', () => {
-            const component = renderer.create(<RightPanel {...fakeProps}/>);
+            const component = renderer.create(<RightPanel {...fakeProps} />);
             const componentInstance = component.getInstance();
             const element = findElement(component, '.btn-submit');
 
-            componentInstance.setState({isMounted: true, SelectedCurrency: 'selected currency', SelectedBaseCurrency: 'selected base currency'});
-            element
-                .props
-                .onClick();
+            componentInstance.setState({ isMounted: true, SelectedCurrency: 'selected currency', SelectedBaseCurrency: 'selected base currency' });
+            element.props.onClick();
 
             expect(fakeProps.callbackParent).toBeCalledWith({
                 action: 'apply',
@@ -271,64 +248,74 @@ describe('event listeners', () => {
     });
 
     test('on quickaccess click: toggle panel', () => {
-        const component = renderer.create(<RightPanel {...fakeProps}/>);
+        const component = renderer.create(<RightPanel {...fakeProps} />);
         const componentInstance = component.getInstance();
         const element = findElement(component, '.icon-quickaccess');
 
         componentInstance._togglePanel = jest.fn();
-        element
-            .props
-            .onClick('fake event');
+        element.props.onClick('fake event');
 
         expect(componentInstance._togglePanel).toBeCalledWith('fake event');
     });
 
     test('right panel overlay click: toggle panel', () => {
-        const component = renderer.create(<RightPanel {...fakeProps}/>);
+        const component = renderer.create(<RightPanel {...fakeProps} />);
         const componentInstance = component.getInstance();
         const element = findElement(component, '.right-panel-overlay');
 
         componentInstance._togglePanel = jest.fn();
-        element
-            .props
-            .onClick('fake event');
+        element.props.onClick('fake event');
 
         expect(componentInstance._togglePanel).toBeCalledWith('fake event');
     });
 
     describe('on widget item check status change', () => {
         test('state is unmounted: do nothing', () => {
-            const component = renderer.create(<RightPanel {...fakeProps}/>);
+            const component = renderer.create(<RightPanel {...fakeProps} />);
             const componentInstance = component.getInstance();
             const element = findElement(component, '.filled-in');
 
-            componentInstance.setState({isMounted: false});
-            element
-                .props
-                .onChange();
+            componentInstance.setState({ isMounted: false });
+            element.props.onChange();
 
-            expect(componentInstance.props.callbackParent)
-                .not
-                .toBeCalled();
+            expect(componentInstance.props.callbackParent).not.toBeCalled();
         });
         test('state is mounted: call parent callback and update state', () => {
-            const component = renderer.create(<RightPanel {...fakeProps}/>);
+            const component = renderer.create(<RightPanel {...fakeProps} />);
             const componentInstance = component.getInstance();
             const element = findElement(component, '.filled-in');
 
-            componentInstance.setState({isMounted: true});
-            element
-                .props
-                .onChange();
+            componentInstance.setState({ isMounted: true });
+            element.props.onChange();
 
             expect(componentInstance.props.callbackParent).toBeCalledWith({
                 action: 'wgSyncStatus',
-                items: [
-                    {
-                        key: 'abc',
-                        enable: false
-                    }
-                ]
+                items: [{ key: 'abc', enable: false }]
+            });
+        });
+    });
+
+     describe('on rết button click', () => {
+        test('state is unmounted: do nothing', () => {
+            const component = renderer.create(<RightPanel {...fakeProps} />);
+            const componentInstance = component.getInstance();
+            const element = findElement(component, '.btn-reset');
+
+            componentInstance.setState({ isMounted: false });
+            element.props.onClick();
+
+            expect(componentInstance.props.callbackParent).not.toBeCalled();
+        });
+        test('state is mounted: call parent callback with action reset', () => {
+            const component = renderer.create(<RightPanel {...fakeProps} />);
+            const componentInstance = component.getInstance();
+            const element = findElement(component, '.btn-reset');
+
+            componentInstance.setState({ isMounted: true });
+            element.props.onClick();
+
+            expect(componentInstance.props.callbackParent).toBeCalledWith({
+                action: 'reset'
             });
         });
     });
@@ -341,9 +328,7 @@ describe('componentWillReceiveProps(nextProps)', () => {
         component.setState = jest.fn();
         component.componentWillReceiveProps();
 
-        expect(component.setState)
-            .not
-            .toBeCalled();
+        expect(component.setState).not.toBeCalled();
     });
 
     test('mounted: bind widget status', () => {
@@ -352,13 +337,8 @@ describe('componentWillReceiveProps(nextProps)', () => {
         component.setState = jest.fn();
         component.componentWillReceiveProps({
             wgs: [
-                {
-                    key: "abcxxx",
-                    enable: true
-                }, {
-                    key: "defxxx",
-                    enable: false
-                }
+                { key: "abcxxx", enable: true },
+                { key: "defxxx", enable: false }
             ]
         });
 
