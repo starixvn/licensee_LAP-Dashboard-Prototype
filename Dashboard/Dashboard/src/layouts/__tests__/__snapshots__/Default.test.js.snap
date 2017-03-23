@@ -57,6 +57,12 @@ exports[`test renders the DefaultLayout component 1`] = `
               htmlFor="abc" />
           </p>
         </div>
+        <a
+          className="btn-reset"
+          href="#"
+          onClick={[Function]}>
+          Reset layout
+        </a>
       </div>
     </div>
     <div
