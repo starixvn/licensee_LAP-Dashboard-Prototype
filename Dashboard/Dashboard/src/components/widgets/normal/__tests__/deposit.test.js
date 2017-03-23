@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import DepositWidget from '../deposit';
 import WidgetApi from '../../../../Modules/WidgetApi';
-import {WidgetApiUrl} from '../../../../config';
+import { WidgetApiUrl, WidgetKey } from '../../../../config';
 import WidgetBox from '../../widgetbox';
 
 jest.mock('../../widgetbox');
@@ -22,7 +22,7 @@ const fakeProps = {
 beforeAll(() => {
     WidgetApi
         .fetchData
-        .mockImplementation(() => Promise.resolve({data: 9999}));
+        .mockImplementation(() => Promise.resolve({ data: 9999 }));
     WidgetBox.mockImplementation(() => ({
         render: function () {
             return (
@@ -35,12 +35,12 @@ beforeAll(() => {
 });
 
 test('renders correctly', () => {
-    const component = renderer.create(<DepositWidget {...fakeProps}/>);
+    const component = renderer.create(<DepositWidget {...fakeProps} />);
     expect(component.toJSON()).toMatchSnapshot();
 });
 
 test('componentDidMount: fetch data with correct criteria', () => {
-    const component = renderer.create(<DepositWidget {...fakeProps}/>);
+    const component = renderer.create(<DepositWidget {...fakeProps} />);
     expect(WidgetApi.fetchData).toBeCalledWith({
         Data: {
             CurrencyId: fakeProps.filter.currency,
@@ -48,5 +48,17 @@ test('componentDidMount: fetch data with correct criteria', () => {
         },
         Url: WidgetApiUrl.normalDeposit,
         IsCrossSite: true
+    })
+});
+
+test('has specific configs', () => {
+    const component = new DepositWidget(fakeProps);
+    expect(component.configs).toEqual({
+        Url: WidgetApiUrl.normalDeposit,
+        TitleKey: "deposit_today",
+        WidgetName: "deposit",
+        WidgetKey: WidgetKey.normalDeposit,
+        defaultCountdown: 75,
+        countdownValues: [15, 30, 45, 60, 75]
     })
 });
