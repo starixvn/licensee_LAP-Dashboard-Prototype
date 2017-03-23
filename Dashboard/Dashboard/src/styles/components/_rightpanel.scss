@@ -19,17 +19,26 @@
     }
 }
 
-.btn-submit {
+.btn-submit, .btn-reset {
     display: inline-block;
     padding: 0.5rem 1rem;
     border-radius: 2px;
     color: #fff;
     background: #f05b1f;
     text-decoration: none;
-    text-transform: uppercase;
+    text-transform: uppercase;    
     &:hover,
     &:active {
         background: lighten(#f05b1f, 10%);
+    }
+}
+
+.btn-reset{
+    background: #35A1FB;
+    margin-left: 5px;
+    &:hover,
+    &:active {
+        background: lighten(#35A1FB, 10%);
     }
 }
 

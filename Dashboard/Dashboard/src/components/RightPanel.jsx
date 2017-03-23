@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom';
 import LanguageApi from '../Modules/LanguageApi';
 import WidgetApi from '../Modules/WidgetApi';
-import {WidgetApiUrl} from '../config'
+import { WidgetApiUrl } from '../config'
 
 export default class RightPanel extends React.Component {
     constructor(props) {
@@ -29,20 +29,18 @@ export default class RightPanel extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({isMounted: true})
+        this.setState({ isMounted: true })
         this._fetchData();
     }
 
     componentWillUnmount() {
-        this.setState({isMounted: false});
+        this.setState({ isMounted: false });
     }
 
     _bindWgCheckBox(wgs) {
-        var _tempWgs = {};
-        wgs.map((x) => {
-            _tempWgs[x.key] = x.enable;
-        })
-        return _tempWgs;
+        var arrayToDictionary = {};
+        wgs.forEach(x => arrayToDictionary[x.key] = x.enable);
+        return arrayToDictionary;
     }
 
     _fetchData() {
@@ -50,31 +48,26 @@ export default class RightPanel extends React.Component {
             Url: WidgetApiUrl.CurrenyList,
             IsCrossSite: false
         };
-        WidgetApi
-            .fetchData(param)
-            .then((response) => {
-                response
-                    .data
-                    .Currency
-                    .unshift({Currency: "All", CurrencyId: "0"});
-                this.setState({isMounted: true, CurrencyList: response.data.Currency, BaseCurrencyList: response.data.BaseCurrency})
-            })
-            .catch(function (error) {
-                console.log("error:", error);
-            });
+        WidgetApi.fetchData(param).then((response) => {
+            response
+                .data
+                .Currency
+                .unshift({ Currency: "All", CurrencyId: "0" });
+            this.setState({ isMounted: true, CurrencyList: response.data.Currency, BaseCurrencyList: response.data.BaseCurrency })
+        }).catch(function (error) {
+            console.log("error:", error);
+        });
     }
 
     _applyAction() {
         if (this.state.isMounted) {
-            return this
-                .props
-                .callbackParent({
-                    action: 'apply',
-                    filter: {
-                        currency: this.state.SelectedCurrency,
-                        baseCurrency: this.state.SelectedBaseCurrency
-                    }
-                });
+            this.props.callbackParent({
+                action: 'apply',
+                filter: {
+                    currency: this.state.SelectedCurrency,
+                    baseCurrency: this.state.SelectedBaseCurrency
+                }
+            });
         }
     }
 
@@ -85,61 +78,54 @@ export default class RightPanel extends React.Component {
     }
 
     _getCurrencyDropdownListOptions() {
-        return this
-            .state
-            .CurrencyList
-            .map((item, i) => {
-                return <option key={i} value={item.CurrencyId}>{item.Currency}</option>
-            });
+        return this.state.CurrencyList.map((item, i) => {
+            return <option key={i} value={item.CurrencyId}>{item.Currency}</option>
+        });
     }
 
     _getBaseCurrencyDropdownListOptions() {
-        return this
-            .state
-            .BaseCurrencyList
-            .map((item, i) => {
-                return <option key={i} value={item}>{item}</option>
-            });
+        return this.state.BaseCurrencyList.map((item, i) => {
+            return <option key={i} value={item}>{item}</option>
+        });
     }
 
     _getWidgetCheckBoxes() {
-        return this
-            .props
-            .wgs
-            .map(item => (
-                <p key={item.key} className="widget-item">
-                    <input
-                        onChange={(e) => this._onCheckWg(item.key)}
-                        checked={this.state.wgs[item.key]}
-                        className="filled-in"
-                        type="checkbox"
-                        id={item.key}/>
-                    <label htmlFor={item.key}>{LanguageApi.getRes(this.props.langCode, item.key)}</label>
-                </p>
-            ));
+        return this.props.wgs.map(item => (
+            <p key={item.key} className="widget-item">
+                <input
+                    onChange={(e) => this._onCheckWg(item.key)}
+                    checked={this.state.wgs[item.key]}
+                    className="filled-in"
+                    type="checkbox"
+                    id={item.key} />
+                <label htmlFor={item.key}>{LanguageApi.getRes(this.props.langCode, item.key)}</label>
+            </p>
+        ));
     }
 
     _onChangeCurrencyList(event) {
-        this.setState({SelectedCurrency: event.target.value});
+        this.setState({ SelectedCurrency: event.target.value });
     }
 
     _onChangeBaseCurrencyList(event) {
-        this.setState({SelectedBaseCurrency: event.target.value});
+        this.setState({ SelectedBaseCurrency: event.target.value });
     }
 
     _onCheckWg(key) {
         if (this.state.isMounted) {
-            return this
-                .props
-                .callbackParent({
-                    action: 'wgSyncStatus',
-                    items: [
-                        {
-                            key: key,
-                            enable: !this.state.wgs[key]
-                        }
-                    ]
-                });
+            this.props.callbackParent({
+                action: 'wgSyncStatus',
+                items: [{
+                    key: key,
+                    enable: !this.state.wgs[key]
+                }]
+            });
+        }
+    }
+
+    _onResetLayout() {
+        if (this.state.isMounted) {
+            this.props.callbackParent({ action: 'reset' });
         }
     }
 
@@ -174,6 +160,7 @@ export default class RightPanel extends React.Component {
                         </select>
                     </div>
                     <a className="btn-submit" onClick={(e) => this._applyAction(e)} href="#">{LanguageApi.getRes(this.props.langCode, "apply")}</a>
+                    <a className="btn-reset" onClick={() => this._onResetLayout()} href="#">{LanguageApi.getRes(this.props.langCode, "reset_layout")}</a>
                     <div className="widgets-config">
                         <div className="widgets-title">{LanguageApi.getRes(this.props.langCode, "Widgets")}</div>
                         {this._getWidgetCheckBoxes()}
