@@ -20,16 +20,7 @@ import CustomerBalanceWg from './components/widgets/normal/customerbalance';
 import WithdrawalWg from './components/widgets/normal/withdrawal';
 import LicenseeWinLossWg from './components/widgets/chart/licenseewl';
 import TurnoverWg from './components/widgets/chart/turnover';
-window.widgetPermission = [
-  'c_turnover',
-  'c_licWL',
-  'n_deposit',
-  'c_online_customer',
-  'n_pending_funds',
-  'n_reg_customer',
-  'n_customer_balance',
-  'n_withdrawal'
-];
+
 export default class DashboardApp extends React.Component {
   constructor(props) {
     super(props);
