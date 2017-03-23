@@ -61,8 +61,8 @@ function fakeCharBarInstance() {
 
 function getDummyDataSets() {
     return [
-        { data: [1.2, 2.3] },
-        { data: [3.4, 4.5] }
+        { data: [1.2, -2.3] },
+        { data: [3.4, -4.5] }
     ]
 }
 
