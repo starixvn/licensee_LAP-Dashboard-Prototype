@@ -33,5 +33,6 @@ export const en = {
     Web: "Web",
     total_turnover: "Total Turnover",
     total_winloss: "Total Win Loss",
-    no_widget_permission: "You do not have sufficient permissions to access this page"
+    no_widget_permission: "You do not have sufficient permissions to access this page",
+    reset_layout: "Reset layout"
 };
