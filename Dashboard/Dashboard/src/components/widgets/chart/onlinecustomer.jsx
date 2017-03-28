@@ -25,13 +25,11 @@ export default class OnlineCustomer extends React.Component {
         };
 
         this.options = {
+            beginAtZero: true,
+            type: 'line',
             maintainAspectRatio: false,
-            tooltips: {
-                enabled: false
-            },
-            hover: {
-                animationDuration: 0
-            },
+            tooltips: { enabled: false },
+            hover: { animationDuration: 0 },
             animation: {
                 onComplete: function () {
                     var self = this,
@@ -52,12 +50,13 @@ export default class OnlineCustomer extends React.Component {
                 }
             },
             layout: {
-                padding: { right: 100, bottom: 20 }
+                padding: { right: 100, bottom: 20, left: 30 }
             },
             scales: {
                 xAxes: [{
                     barPercentage: 0.5,
-                    display: false
+                    display: true,
+                    ticks: { min: 0 }
                 }],
                 yAxes: [{
                     ticks: {
