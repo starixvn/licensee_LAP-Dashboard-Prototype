@@ -168,6 +168,7 @@ describe('componentWillReceiveProps(nextProps):', () => {
         // assign
         const component = new LicenseeWinLoss(fakeProps);
         component.fetchData = jest.fn();
+        component.state.isMounted = true;
 
         const nextProps = Object.assign({}, fakeProps);
         nextProps.refresh -= 1000;
