@@ -54,17 +54,18 @@ export default class BaseNormalWidget extends React.Component {
     }
 
     componentDidMount() {
-          this.setState({ isMounted: true },()=>{
-             this.fetchData(this.props)
+        this.setState({ isMounted: true }, () => {
+            this.fetchData(this.props)
 
         });
     }
-     componentWillUnmount() {
+    
+    componentWillUnmount() {
         this.setState({ isMounted: false });
     }
+
     _reload() {
-        if(this.state.isMounted)
-        {
+        if (this.state.isMounted) {
             this.setState({ isLoading: true });
             this.fetchData(this.props);
         }

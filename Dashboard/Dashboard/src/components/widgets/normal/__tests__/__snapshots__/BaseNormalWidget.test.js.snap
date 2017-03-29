@@ -1,4 +1,4 @@
-exports[`test reloadCallback: fetch data 1`] = `
+exports[`test reloadCallback and component is un-mounted: do nothing 1`] = `
 <div
   callbackParent="fake callbackParent"
   countdownValues={

@@ -30,6 +30,7 @@ class FakeConfiguredBaseNormalWidget extends BaseNormalWidget {
         super(props, fakeConfigs);
     }
 }
+
 beforeAll(() => {
     WidgetBox.mockImplementation(() => ({
         render: function () {
@@ -41,9 +42,11 @@ beforeAll(() => {
         }
     }));
 });
+
 afterEach(() => {
     WidgetApi.mockReset();
 });
+
 test('renders correctly', () => {
     WidgetApi
         .fetchData
@@ -69,7 +72,7 @@ test('componentWillReceiveProps: next.refresh > old.refresh, fetch new data', ()
 
     component.fetchData = jest.fn();
     component.setState = jest.fn();
-
+    component.state.isMounted = true;
     const nextProps = Object.assign({}, fakeProps);
     nextProps.refresh += 1000;
     nextProps.langCode = 'zhcn';
@@ -86,7 +89,7 @@ test('componentWillReceiveProps: next.refresh <= old.refresh, do nothing', () =>
     // assign
     const component = new FakeConfiguredBaseNormalWidget(fakeProps);
     component.fetchData = jest.fn();
-
+    component.state.isMounted = true;
     const nextProps = Object.assign({}, fakeProps);
     nextProps.refresh -= 1000;
     const propsNotChanged = fakeProps;
@@ -96,10 +99,49 @@ test('componentWillReceiveProps: next.refresh <= old.refresh, do nothing', () =>
     component.componentWillReceiveProps(nextProps);
 
     // assert
-    expect(component.fetchData)
-        .not
-        .toBeCalled();
+    expect(component.fetchData).not.toBeCalled();
 });
+
+test('componentWillReceiveProps: not mounted: do nothing', () => {
+    // assign
+    const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+    component.fetchData = jest.fn();
+    component.setState = jest.fn();
+    component.state.isMounted = false;
+    const nextProps = Object.assign({ refresh: 5000 }, fakeProps);
+
+    // action
+    component.componentWillReceiveProps(nextProps);
+
+    // assert
+    expect(component.fetchData).not.toBeCalled();
+    expect(component.setState).not.toBeCalled();
+});
+
+test('componentDidMount: set mount state true', () => {
+    // assign
+    const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+    component.setState = jest.fn();
+
+    // action
+    component.componentDidMount();
+
+    // assert
+    expect(component.setState.mock.calls[0][0].isMounted).toBeTruthy();
+});
+
+test('componentWillUnmount: set mount state false', () => {
+    // assign
+    const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+    component.setState = jest.fn();
+
+    // action
+    component.componentWillUnmount();
+
+    // assert
+    expect(component.setState).toBeCalledWith({ isMounted: false });
+});
+
 test('fetch data by criteria', () => {
     // assign
     const component = new FakeConfiguredBaseNormalWidget(fakeProps);
@@ -123,6 +165,7 @@ test('fetch data by criteria', () => {
         IsCrossSite: true
     })
 });
+
 test('write log when fetch data fail', () => {
     // assign
     const component = new FakeConfiguredBaseNormalWidget(fakeProps);
@@ -148,11 +191,12 @@ test('write log when fetch data fail', () => {
     console.log = _log;
 });
 
-test('reloadCallback: fetch data', () => {
+test('reloadCallback and component is mounted: fetch data', () => {
     // assign
     const component = new FakeConfiguredBaseNormalWidget(fakeProps);
     component.setState = jest.fn();
     component.fetchData = jest.fn();
+    component.state.isMounted = true;
 
     //  action
     const rendered = component.render();
@@ -161,4 +205,20 @@ test('reloadCallback: fetch data', () => {
     // assert
     expect(component.setState).toBeCalledWith({ isLoading: true })
     expect(component.fetchData).toBeCalledWith(fakeProps);
+});
+
+test('reloadCallback and component is un-mounted: do nothing', () => {
+    // assign
+    const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+    component.setState = jest.fn();
+    component.fetchData = jest.fn();
+    component.state.isMounted = false
+
+    //  action
+    const rendered = component.render();
+    rendered.props.reloadCallback();
+
+    // assert
+    expect(component.setState).not.toBeCalled();
+    expect(component.fetchData).not.toBeCalled();
 });
