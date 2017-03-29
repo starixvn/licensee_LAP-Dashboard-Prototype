@@ -84,6 +84,13 @@ test('hidden state change: re-render', () => {
     expect(tree).toMatchSnapshot();
 });
 
+test('componentDidMount: set mount state true', () => {
+    const component = new RightPanel(fakeProps)
+    component.setState = jest.fn();
+    component.componentDidMount();
+    expect(component.setState.mock.calls[0][0].isMounted).toBeTruthy();
+});
+
 test('componentDidMount: fetch data with given props', () => {
     const promise = Promise.resolve(fakeResponse);
     WidgetApi
@@ -295,7 +302,7 @@ describe('event listeners', () => {
         });
     });
 
-     describe('on rết button click', () => {
+    describe('on rết button click', () => {
         test('state is unmounted: do nothing', () => {
             const component = renderer.create(<RightPanel {...fakeProps} />);
             const componentInstance = component.getInstance();

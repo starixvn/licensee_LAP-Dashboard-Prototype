@@ -29,11 +29,9 @@ export default class RightPanel extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ isMounted: true },()=>{
-             this._fetchData(this.props)
-
+        this.setState({ isMounted: true }, () => {
+            this._fetchData(this.props)
         });
-        
     }
 
     componentWillUnmount() {
