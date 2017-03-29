@@ -8,7 +8,9 @@ export default class CustomerBalanceWidget extends BaseNormalWidget {
             Url: WidgetApiUrl.normalCustomerBalance,
             TitleKey: "customer_balance",
             WidgetName: "customer-balance",
-            WidgetKey: WidgetKey.normalCustomerBalance
+            WidgetKey: WidgetKey.normalCustomerBalance,
+            defaultCountdown: 75,
+            countdownValues: [15, 30, 45, 60, 75]
         });
     }
 };

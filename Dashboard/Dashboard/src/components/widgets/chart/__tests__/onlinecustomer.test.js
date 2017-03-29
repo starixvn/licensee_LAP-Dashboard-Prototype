@@ -101,24 +101,50 @@ test('render correctly', () => {
     WidgetApi.fetchData = jest.fn(() => promise);
     promise.then = () => promise;
 
-    const component = renderer.create(<OnlineCustomer {...fakeProps}/>);
+    const component = renderer.create(<OnlineCustomer {...fakeProps} />);
     expect(component.toJSON()).toMatchSnapshot();
 });
 
-test('component did mount then fetch new data', () => {
-    const promise = Promise.resolve(fakeResponse);
-    WidgetApi.fetchData = jest.fn(() => promise);
+describe('componentDidMount:', () => {
+    test('fetch new data', () => {
+        const promise = Promise.resolve(fakeResponse);
+        WidgetApi.fetchData = jest.fn(() => promise);
 
-    const component = renderer.create(<OnlineCustomer {...fakeProps}/>);
-    promise.then(() => expect(component.toJSON()).toMatchSnapshot());
+        const component = renderer.create(<OnlineCustomer {...fakeProps} />);
+        promise.then(() => expect(component.toJSON()).toMatchSnapshot());
+    });
+
+    test('component did mount set mount state true', () => {
+        const component = new OnlineCustomer(fakeProps);
+        component.setState = jest.fn();
+        component.componentDidMount();
+        expect(component.setState.mock.calls[0][0].isMounted).toBeTruthy();
+    });
+});
+
+test('component will un-mount set mount state false', () => {
+    const component = new OnlineCustomer(fakeProps);
+    component.setState = jest.fn();
+    component.componentWillUnmount();
+    expect(component.setState).toBeCalledWith({ isMounted: false });
 });
 
 describe('componentWillReceiveProps(nextProps)', () => {
+    test('component is unmounted: do nothing', () => {
+        const component = new OnlineCustomer(fakeProps);
+       component.state.isMounted = false;
+        component.fetchData = jest.fn();
+        component.setState = jest.fn();
+
+        component.componentWillReceiveProps({ refresh: 123 });
+        expect(component.fetchData).not.toBeCalled();
+        expect(component.setState).not.toBeCalled();
+    });
+
     test('refresh greater than old value: fetch data', () => {
         const component = new OnlineCustomer(fakeProps);
-        component.props = {
-            refresh: 123
-        };
+        component.props = { refresh: 123 };
+        component.state.isMounted = true;
         component.setState = jest.fn();
         component.fetchData = jest.fn();
         const nextProps = {
@@ -128,33 +154,24 @@ describe('componentWillReceiveProps(nextProps)', () => {
         };
         component.componentWillReceiveProps(nextProps);
 
-        expect(component.setState).toBeCalledWith({isLoading: true});
+        expect(component.setState).toBeCalledWith({ isLoading: true });
         expect(component.fetchData).toBeCalled();
     });
 
     test('refresh less than or equal old value: do nothing', () => {
         const component = new OnlineCustomer(fakeProps);
-        component.props = {
-            refresh: 123
-        };
+        component.props = { refresh: 123 };
+        component.state.isMounted = true;
         component.setState = jest.fn();
         component.fetchData = jest.fn();
 
-        component.componentWillReceiveProps({refresh: 123});
-        expect(component.setState)
-            .not
-            .toBeCalled();
-        expect(component.fetchData)
-            .not
-            .toBeCalled();
+        component.componentWillReceiveProps({ refresh: 123 });
+        expect(component.setState).not.toBeCalled();
+        expect(component.fetchData).not.toBeCalled();
 
-        component.componentWillReceiveProps({refresh: 1});
-        expect(component.setState)
-            .not
-            .toBeCalled();
-        expect(component.fetchData)
-            .not
-            .toBeCalled();
+        component.componentWillReceiveProps({ refresh: 1 });
+        expect(component.setState).not.toBeCalled();
+        expect(component.fetchData).not.toBeCalled();
     });
 });
 
@@ -164,7 +181,7 @@ test('fetch data by criteria', () => {
     promise.then = () => promise;
     WidgetApi.fetchData = jest.fn(() => promise);
     component.fetchData();
-    expect(WidgetApi.fetchData).toBeCalledWith({Url: 'GetOnlineCustomers', IsCrossSite: false});
+    expect(WidgetApi.fetchData).toBeCalledWith({ Url: 'GetOnlineCustomers', IsCrossSite: false });
 });
 
 describe('animation complete', () => {
@@ -186,7 +203,7 @@ describe('animation complete', () => {
         expect(horizontalBar.chart.ctx).toEqual(expect.objectContaining(formatObject));
     });
 
-     test('fill text each data set', () => {
+    test('fill text each data set', () => {
         const component = new OnlineCustomer(fakeProps);
         const horizontalBar = fakeHorizontalBarInstance();
         component
@@ -202,10 +219,10 @@ describe('animation complete', () => {
         };
 
         expect(horizontalBar.chart.ctx.fillText.mock.calls).toEqual([
-            ['1',123456699,999],
-            ['2',123456699,9999],
-            ['3',123456699,888],
-            ['5',123456699,8888],
+            ['1', 123456699, 999],
+            ['2', 123456699, 9999],
+            ['3', 123456699, 888],
+            ['5', 123456699, 8888],
         ]);
     });
 });

@@ -27,7 +27,7 @@ $bg-Withdrawal: $blue-Bayoux;
         border-top-left-radius: 2px;
         border-top-right-radius: 2px;
         box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
-        overflow: hidden;
+        //overflow: hidden;
         .title {
             text-transform: uppercase;
             color: $white;
@@ -72,6 +72,75 @@ $bg-Withdrawal: $blue-Bayoux;
         }
         &.withdrawal {
             background: darken($bg-Withdrawal, 3%);
+        }
+
+        .btn-refresh {
+            position: relative;
+            cursor: pointer;
+            border-radius: 2px;
+            height: 20px;
+            width: 58px;
+            line-height: 16px;
+            margin-top: 8px;
+            text-align: center;
+            font-size: 11px;
+            padding-top: 1px;
+            box-sizing: border-box;
+
+            &.border-white {
+                border: 1px solid #fff;
+                color: #fff;
+            }
+
+            &.border-blue {
+                border: 1px solid #4b96cf;
+                color: #4b96cf;
+            }
+
+            .currentCountdown {
+                display: inline-block;
+                vertical-align: middle;
+                text-align: center;
+                width: 28px;
+            }
+
+            .icon-refresh, .icon-menu-down {
+                display: inline-block;
+                vertical-align: middle;                
+                font-size: 14px;
+            }
+
+            .icon-menu-down {
+                width: 11px;
+            }
+
+            &:hover, &:focus, &:active {
+                background: rgba(255,255,255,0.2)
+            }
+        }
+
+        .dropdown-timer {
+            position: absolute;
+            top: 7px;
+            left: -1px;
+            background: #fff;
+            padding: 0;
+            list-style: none;
+            width: 58px;
+            z-index: 1001;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+            color: #444;
+            text-align: left;
+            border-bottom-left-radius: 2px;
+            border-bottom-right-radius: 2px;
+
+            li {
+                padding: 2px 5px;
+
+                &:hover {
+                    background: #ddd;
+                }
+            }
         }
     }
     &-content {

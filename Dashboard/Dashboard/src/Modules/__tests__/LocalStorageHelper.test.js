@@ -1,15 +1,10 @@
 import LocalStorageHelper from '../LocalStorageHelper';
 
 function fakeDashboardScript(scriptSrc) {
-    var scriptElement = window
-        .document
-        .createElement("script");
+    var scriptElement = window.document.createElement("script");
     scriptElement.id = "dashboard-script";
     scriptElement.src = scriptSrc;
-    window
-        .document
-        .body
-        .appendChild(scriptElement);
+    window.document.body.appendChild(scriptElement);
 
     return scriptElement;
 }
@@ -21,12 +16,16 @@ beforeEach(() => {
         removeItem: jest.fn()
     };
 });
+
 afterEach(() => {
     window.localStorage = null;
-    window.document.body.innerHTML = '';
 });
 
 describe('clearLayoutSettingIfNewVersion()', () => {
+    afterEach(() => {
+        window.document.body.innerHTML = '';
+    });
+
     test('no dashboard script: do nothing', () => {
         LocalStorageHelper.clearLayoutSettingIfNewVersion();
         expect(window.localStorage.getItem)
@@ -102,7 +101,7 @@ describe('getWidgetStatus()', () => {
         window.localStorage.getItem = key => key === '_LAP_Dashboard_Wg_Status'
             ? '{"any":"should return this"}'
             : null;
-        expect(LocalStorageHelper.getWidgetStatus()).toEqual({"any": "should return this"});
+        expect(LocalStorageHelper.getWidgetStatus()).toEqual({ "any": "should return this" });
     });
 
     [null, undefined, '', 'undefined'].forEach(savedStatus => {
@@ -138,7 +137,7 @@ describe('getWidgetLayout()', () => {
         window.localStorage.getItem = key => key === '_LAP_Dashboard_Wg_Layout'
             ? '{"any":"should return this"}'
             : null;
-        expect(LocalStorageHelper.getWidgetLayout()).toEqual({"any": "should return this"});
+        expect(LocalStorageHelper.getWidgetLayout()).toEqual({ "any": "should return this" });
     });
 
     [null, undefined, '', 'undefined'].forEach(savedStatus => {
@@ -174,7 +173,7 @@ describe('getRemovedWidgetLayout()', () => {
         window.localStorage.getItem = key => key === '_LAP_Dashboard_Wg_Layout_removed'
             ? '{"any":"should return this"}'
             : null;
-        expect(LocalStorageHelper.getRemovedWidgetLayout()).toEqual({"any": "should return this"});
+        expect(LocalStorageHelper.getRemovedWidgetLayout()).toEqual({ "any": "should return this" });
     });
 
     [null, undefined, '', 'undefined'].forEach(savedStatus => {
@@ -182,5 +181,41 @@ describe('getRemovedWidgetLayout()', () => {
             window.localStorage.getItem = () => savedStatus;
             expect(LocalStorageHelper.getRemovedWidgetLayout()).toEqual({});
         });
+    });
+});
+
+describe('getWidgetReloadCountdown()', () => {
+    test('get item from localStorage with correct key', () => {
+        window.localStorage.getItem = key => key === '_LAP_Dashboard_Wg_Reload_Countdown'
+            ? '{"any":"should return this"}'
+            : null;
+        expect(LocalStorageHelper.getWidgetReloadCountdown()).toEqual({ "any": "should return this" });
+    });
+
+    [null, undefined, '', 'undefined'].forEach(savedStatus => {
+        test('dont have saved data: return empty object', () => {
+            window.localStorage.getItem = () => savedStatus;
+            expect(LocalStorageHelper.getWidgetReloadCountdown()).toEqual({});
+        });
+    });
+});
+
+describe('saveWidgetReloadCountdown(values)', () => {
+    test('set item to localStorage with correct key', () => {
+        const somethingTobeSaved = { any: 'hellllo' };
+        LocalStorageHelper.saveWidgetReloadCountdown(somethingTobeSaved);
+        expect(window.localStorage.setItem).toBeCalledWith(
+            '_LAP_Dashboard_Wg_Reload_Countdown',
+            JSON.stringify(somethingTobeSaved));
+    });
+    test('cannot save: show alert', () => {
+        window.alert = jest.fn();
+        window.localStorage.setItem = () => {
+            throw 'fake exception'
+        };
+
+        LocalStorageHelper.saveWidgetReloadCountdown('any-status');
+
+        expect(window.alert).toBeCalledWith('To continue use dashboard. Please turn private browsing off!!');
     });
 });

@@ -1,7 +1,43 @@
+exports[`test reloadCallback and component is un-mounted: do nothing 1`] = `
+<div
+  callbackParent="fake callbackParent"
+  countdownValues={
+    Array [
+      1,
+      2,
+      3,
+    ]
+  }
+  defaultCountdown={123}
+  isLoading={false}
+  reloadCallback={[Function]}
+  title="Licensee Win Loss (Month to date)"
+  wgItem="f**k wgItemFromParent"
+  widgetKey="this is a f**k key"
+  widgetName="this is a f**k name">
+  <div
+    className="center-block">
+    <span
+      className="number-big">
+      €888.78
+    </span>
+  </div>
+</div>
+`;
+
 exports[`test renders correctly 1`] = `
 <div
   callbackParent="fake callbackParent"
+  countdownValues={
+    Array [
+      1,
+      2,
+      3,
+    ]
+  }
+  defaultCountdown={123}
   isLoading={true}
+  reloadCallback={[Function]}
   title="Licensee Win Loss (Month to date)"
   wgItem="f**k wgItemFromParent"
   widgetKey="this is a f**k key"

@@ -1,11 +1,11 @@
 export const cs = {
     n_deposit: "存款(今日)",
-    c_turnover: "交易額",
-    c_licWL: "投注輸贏",
-    n_reg_customer: "已註冊會員",
-    c_online_customer: "在線會員",
-    n_customer_balance: "會員餘額",
-    n_pending_funds: "未結算金額",
+    c_turnover: "交易额",
+    c_licWL: "投注输赢",
+    n_reg_customer: "已注册会员",
+    c_online_customer: "在线会员",
+    n_customer_balance: "会员馀额",
+    n_pending_funds: "未结算金额",
     n_withdrawal: "提款(今日)",
 
     turnover_byplatform_month_todate: '交易额(当月累计)',
@@ -18,8 +18,8 @@ export const cs = {
     pending_funds: "未結算金額",
     withdrawal_today: "提款(今日)",
     apply: "设定",
-    currency: "會員幣別",
-    Based: "顯示幣別",
+    currency: "会员币别",
+    Based: "显示币别",
     Widgets: "小工具",
     total_registered_cus_today: "今日注册会员",
     deposit: "注册且存款",
@@ -33,5 +33,6 @@ export const cs = {
     Web: "桌机版",
     total_turnover: "总交易额",
     total_winloss: "总投注输赢",
-    no_widget_permission: "You do not have sufficient permissions to access this page"
+    no_widget_permission: "You do not have sufficient permissions to access this page",
+    reset_layout: "Reset layout"
 };

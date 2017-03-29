@@ -1,0 +1,144 @@
+exports[`render corectly: load countdown from user settings 1`] = `
+<div
+  className="btn-refresh right border-white"
+  onClick={[Function]}>
+  <i
+    className="icon-refresh" />
+  <span
+    className="currentCountdown">
+    100s
+  </span>
+  <i
+    className="icon-menu-down" />
+</div>
+`;
+
+exports[`render corectly: on counter click: hide dropdown 1`] = `
+<div
+  className="btn-refresh right border-white"
+  onClick={[Function]}>
+  <i
+    className="icon-refresh" />
+  <span
+    className="currentCountdown">
+    1000s
+  </span>
+  <i
+    className="icon-menu-down" />
+</div>
+`;
+
+exports[`render corectly: on counter click: show dropdown 1`] = `
+<div
+  className="btn-refresh right border-white"
+  onClick={[Function]}>
+  <i
+    className="icon-refresh" />
+  <span
+    className="currentCountdown">
+    1000s
+  </span>
+  <i
+    className="icon-menu-down" />
+  <ul
+    className="dropdown-timer">
+    <li
+      onClick={[Function]}>
+      1
+    </li>
+    <li
+      onClick={[Function]}>
+      2
+    </li>
+    <li
+      onClick={[Function]}>
+      3
+    </li>
+    <li
+      onClick={[Function]}>
+      4
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`render corectly: on counter click: show empty dropdown 1`] = `
+<div
+  className="btn-refresh right border-white"
+  onClick={[Function]}>
+  <i
+    className="icon-refresh" />
+  <span
+    className="currentCountdown">
+    1000s
+  </span>
+  <i
+    className="icon-menu-down" />
+  <ul
+    className="dropdown-timer" />
+</div>
+`;
+
+exports[`render corectly: on counter click: show empty dropdown 2`] = `
+<div
+  className="btn-refresh right border-white"
+  onClick={[Function]}>
+  <i
+    className="icon-refresh" />
+  <span
+    className="currentCountdown">
+    1000s
+  </span>
+  <i
+    className="icon-menu-down" />
+  <ul
+    className="dropdown-timer" />
+</div>
+`;
+
+exports[`render corectly: on counter click: show empty dropdown 3`] = `
+<div
+  className="btn-refresh right border-white"
+  onClick={[Function]}>
+  <i
+    className="icon-refresh" />
+  <span
+    className="currentCountdown">
+    1000s
+  </span>
+  <i
+    className="icon-menu-down" />
+  <ul
+    className="dropdown-timer" />
+</div>
+`;
+
+exports[`render corectly: on timer tick: decrease countdown by 1 1`] = `
+<div
+  className="btn-refresh right border-white"
+  onClick={[Function]}>
+  <i
+    className="icon-refresh" />
+  <span
+    className="currentCountdown">
+    999s
+  </span>
+  <i
+    className="icon-menu-down" />
+</div>
+`;
+
+exports[`render corectly: without user settings: use default countdown 1`] = `
+<div
+  className="btn-refresh right border-white"
+  onClick={[Function]}>
+  <i
+    className="icon-refresh" />
+  <span
+    className="currentCountdown">
+    1000s
+  </span>
+  <i
+    className="icon-menu-down" />
+</div>
+`;

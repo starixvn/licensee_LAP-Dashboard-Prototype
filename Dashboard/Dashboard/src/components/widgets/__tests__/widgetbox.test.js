@@ -1,6 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import WidgetBox from '../widgetbox';
+import AutoReload from '../../AutoReload';
+
+jest.mock('../../AutoReload');
 
 const fakeProps = () => ({
     wgItem: {
@@ -38,14 +41,29 @@ function findElementByClassName(component, className) {
 
 describe('render correctly', () => {
     test('widget enabled', () => {
-        const component = renderer.create(<WidgetBox {...fakeProps()}/>);
+        const component = renderer.create(<WidgetBox {...fakeProps() } />);
         expect(component.toJSON()).toMatchSnapshot();
     });
 
     test('widget disabled', () => {
         const props = fakeProps();
         props.wgItem.enable = false;
-        const component = renderer.create(<WidgetBox {...props}/>);
+        const component = renderer.create(<WidgetBox {...props} />);
+        expect(component.toJSON()).toMatchSnapshot();
+    });
+
+    test('has auto reload config', () => {
+        AutoReload.mockImplementation(() => ({
+            render: function () {
+                return <span {...this.props}>AutoReload</span>
+            }
+        }));
+        const props = Object.assign({
+            countdownValues: [1, 2, 3],
+            defaultCountdown: 123,
+            reloadCallback: 'reloadCallback'
+        }, fakeProps());
+        const component = renderer.create(<WidgetBox {...props} />);
         expect(component.toJSON()).toMatchSnapshot();
     });
 });
@@ -67,7 +85,7 @@ test('toggleClose is called: toggle close state and call back to parent', () => 
 });
 
 test('on close element clicked: toggle close', () => {
-    const component = renderer.create(<WidgetBox {...fakeProps()}/>);
+    const component = renderer.create(<WidgetBox {...fakeProps() } />);
     const componentInstance = component.getInstance();
     const closeElement = findElementByClassName(component, 'icon-close');
     expect(closeElement)

@@ -1,4 +1,4 @@
-exports[`event listeners on widget item check status change state is mounted: call parent callback and update state 1`] = `
+exports[`event listeners on widget item check status change state is unmounted: do nothing 1`] = `
 <div
   className="dashboard__right-panel">
   <div
@@ -92,6 +92,12 @@ exports[`event listeners on widget item check status change state is mounted: ca
             htmlFor="def" />
         </p>
       </div>
+      <a
+        className="btn-reset"
+        href="#"
+        onClick={[Function]}>
+        Reset layout
+      </a>
     </div>
   </div>
   <div
@@ -168,6 +174,12 @@ exports[`test hidden state change: re-render 1`] = `
             htmlFor="def" />
         </p>
       </div>
+      <a
+        className="btn-reset"
+        href="#"
+        onClick={[Function]}>
+        Reset layout
+      </a>
     </div>
   </div>
   <div
@@ -244,6 +256,12 @@ exports[`test renders correctly 1`] = `
             htmlFor="def" />
         </p>
       </div>
+      <a
+        className="btn-reset"
+        href="#"
+        onClick={[Function]}>
+        Reset layout
+      </a>
     </div>
   </div>
   <div

@@ -46,60 +46,37 @@ function getDummyFetchData(count) {
 
 function fakeChartContext() {
     return {
-        measureText: text => ({width: text.length}),
+        measureText: text => ({ width: text.length }),
         fillText: jest.fn()
     }
 }
 
 function fakeCharBarInstance() {
     return {
-        chart: {
-            ctx: fakeChartContext()
-        },
-        data: {
-            datasets: []
-        },
+        chart: { ctx: fakeChartContext() },
+        data: { datasets: [] },
         getDatasetMeta: jest.fn()
     }
 }
 
 function getDummyDataSets() {
     return [
-        {
-            data: [1.2, 2.3]
-        }, {
-            data: [3.4, 4.5]
-        }
+        { data: [1.2, -2.3] },
+        { data: [3.4, -4.5] }
     ]
 }
 
 function getDummyMetaData1() {
     return {
-        data: [
-            {
-                _model: {
-                    x: 5.8,
-                    y: 80
-                }
-            }
-        ]
+        data: [{ _model: { x: 5.8, y: 80 } }]
     }
 }
 
 function getDummyMetaData2() {
     return {
         data: [
-            {
-                _model: {
-                    x: 7.8,
-                    y: 9
-                }
-            }, {
-                _model: {
-                    x: 9.10,
-                    y: 100
-                }
-            }
+            { _model: { x: 7.8, y: 9 } },
+            { _model: { x: 9.10, y: 100 } }
         ]
     }
 }
@@ -136,7 +113,7 @@ test('render correctly', () => {
         .mockImplementationOnce(() => Promise.resolve(getDummyFetchData(1)));
 
     // action
-    const component = renderer.create(<LicenseeWinLoss { ...fakeProps }/>);
+    const component = renderer.create(<LicenseeWinLoss { ...fakeProps } />);
 
     // assert
     expect(component.toJSON()).toMatchSnapshot();
@@ -145,52 +122,89 @@ test('render correctly', () => {
 test('componentDidMount: fetch data with given props', () => {
     // assign
     const promise = Promise.resolve(getDummyFetchData(2));
-    WidgetApi
-        .fetchData
-        .mockImplementationOnce(() => promise);
+    WidgetApi.fetchData.mockImplementationOnce(() => promise);
 
     // action
-    const component = renderer.create(<LicenseeWinLoss { ...fakeProps }/>);
+    const component = renderer.create(<LicenseeWinLoss { ...fakeProps } />);
 
     // assert
     promise.then(() => expect(component.toJSON()).toMatchSnapshot());
 });
 
-test('componentWillReceiveProps: next [refresh] > old [refresh], fetch new data', () => {
+test('componentDidMount: set mount state true', () => {
     // assign
-    const component = new LicenseeWinLoss(fakeProps);
-
-    component.fetchData = jest.fn();
+    var component = new LicenseeWinLoss(fakeProps);
     component.setState = jest.fn();
 
-    const nextProps = Object.assign({}, fakeProps);
-    nextProps.refresh += 1000;
-    nextProps.langCode = 'zhcn';
-
     // action
-    component.componentWillReceiveProps(nextProps);
+    component.componentDidMount();
 
     // assert
-    expect(component.setState).toBeCalledWith({isLoading: true});
-    expect(component.fetchData).toBeCalledWith(nextProps);
+    expect(component.setState.mock.calls[0][0].isMounted).toBeTruthy();
 });
 
-test('componentWillReceiveProps: next [refresh] <= old [refresh], do nothing', () => {
+describe('componentWillReceiveProps(nextProps):', () => {
+    test('next [refresh] > old [refresh], fetch new data', () => {
+        // assign
+        const component = new LicenseeWinLoss(fakeProps);
+
+        component.fetchData = jest.fn();
+        component.setState = jest.fn();
+        component.state.isMounted = true;
+
+        const nextProps = Object.assign({}, fakeProps);
+        nextProps.refresh += 1000;
+        nextProps.langCode = 'zhcn';
+
+        // action
+        component.componentWillReceiveProps(nextProps);
+
+        // assert
+        expect(component.setState).toBeCalledWith({ isLoading: true });
+        expect(component.fetchData).toBeCalledWith(nextProps);
+    });
+
+    test('next [refresh] <= old [refresh], do nothing', () => {
+        // assign
+        const component = new LicenseeWinLoss(fakeProps);
+        component.fetchData = jest.fn();
+        component.state.isMounted = true;
+
+        const nextProps = Object.assign({}, fakeProps);
+        nextProps.refresh -= 1000;
+
+        // action
+        component.componentWillReceiveProps(fakeProps);
+        component.componentWillReceiveProps(nextProps);
+
+        // assert
+        expect(component.fetchData).not.toBeCalled();
+    });
+
+    test('component is umounted: do nothing', () => {
+        // assign
+        const component = new LicenseeWinLoss(fakeProps);
+        component.fetchData = jest.fn();
+        component.state.isMounted = false;
+
+        // action
+        component.componentWillReceiveProps(fakeProps);
+
+        // assert
+        expect(component.fetchData).not.toBeCalled();
+    });
+});
+
+test('componentWillUnmount: set mount state false', () => {
     // assign
     const component = new LicenseeWinLoss(fakeProps);
-    component.fetchData = jest.fn();
-
-    const nextProps = Object.assign({}, fakeProps);
-    nextProps.refresh -= 1000;
+    component.setState = jest.fn();
 
     // action
-    component.componentWillReceiveProps(fakeProps);
-    component.componentWillReceiveProps(nextProps);
+    component.componentWillUnmount();
 
     // assert
-    expect(component.fetchData)
-        .not
-        .toBeCalled();
+    expect(component.setState).toBeCalledWith({ isMounted: false });
 });
 
 test('fetch data by criteria', () => {
@@ -198,9 +212,7 @@ test('fetch data by criteria', () => {
     const component = new LicenseeWinLoss(fakeProps);
     const promise = Promise.resolve();
     promise.then = () => promise;
-    WidgetApi
-        .fetchData
-        .mockImplementationOnce(() => promise);
+    WidgetApi.fetchData.mockImplementationOnce(() => promise);
 
     // action
     component.fetchData(fakeProps);
@@ -221,14 +233,12 @@ test('write log when fetch data fail', () => {
     const component = new LicenseeWinLoss(fakeProps);
     const promise = Promise.resolve();
     promise.then = () => promise;
-    promise.catch = c => {
-        c('should write log when fail');
+    promise.catch = callback => {
+        callback('should write log when fail');
         return promise;
     };
 
-    WidgetApi
-        .fetchData
-        .mockImplementation(() => promise);
+    WidgetApi.fetchData.mockImplementation(() => promise);
 
     const _log = console.log;
     console.log = jest.fn();
@@ -252,11 +262,7 @@ test('animation complete: re-format chart', () => {
     const bar = fakeCharBarInstance();
 
     // action
-    component
-        .options
-        .animation
-        .onComplete
-        .call(bar);
+    component.options.animation.onComplete.call(bar);
 
     expect(bar.chart.ctx.fillStyle).toBe('#555');
     expect(bar.chart.ctx.textAlign).toBe('left');
@@ -268,42 +274,29 @@ test('animation complete: fill text each dataset', () => {
     const bar = fakeCharBarInstance();
 
     bar.data.datasets = getDummyDataSets();
-    bar
-        .getDatasetMeta
-        .mockImplementation(datasetIndex => datasetIndex === 0
-            ? getDummyMetaData1()
-            : (datasetIndex === 1
-                ? getDummyMetaData2()
-                : null));
+    bar.getDatasetMeta.mockImplementation(datasetIndex => datasetIndex === 0
+        ? getDummyMetaData1()
+        : (datasetIndex === 1
+            ? getDummyMetaData2()
+            : null));
 
     // action
-    component
-        .options
-        .animation
-        .onComplete
-        .call(bar);
+    component.options.animation.onComplete.call(bar);
 
+    // build expected data
     const expected = [];
-    bar
-        .data
-        .datasets
-        .forEach((datasetValue, datasetIndex) => {
-            bar
-                .getDatasetMeta(datasetIndex)
-                .data
-                .forEach((value, index) => {
-                    let text = NumberFormat.formatDecimal(datasetValue.data[index]);
-                    let textWidth = bar
-                        .chart
-                        .ctx
-                        .measureText(text)
-                        .width;
-                    expected.push([
-                        text, value._model.x - (textWidth / 2),
-                        value._model.y - 5
-                    ]);
-                })
-        });
+    bar.data.datasets.forEach((datasetValue, datasetIndex) => {
+        bar.getDatasetMeta(datasetIndex).data.forEach((value, index) => {
+            const text = NumberFormat.formatDecimal(datasetValue.data[index]);
+            const textWidth = bar.chart.ctx.measureText(text).width;
+            const isNegativeValue = datasetValue.data[index] < 0;
+
+            expected.push([
+                text, value._model.x - (textWidth / 2),
+                value._model.y - (isNegativeValue ? -7 : 6)
+            ]);
+        })
+    });
 
     expect(bar.chart.ctx.fillText.mock.calls).toEqual(expected);
 });

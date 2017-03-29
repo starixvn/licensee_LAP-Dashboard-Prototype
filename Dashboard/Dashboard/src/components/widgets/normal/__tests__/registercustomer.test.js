@@ -43,7 +43,7 @@ test('renders correctly', () => {
                 NoneDeposit: 98765.4321
             }
         }));
-    const component = renderer.create(<RegisteredCustomer {...fakeProps}/>);
+    const component = renderer.create(<RegisteredCustomer {...fakeProps} />);
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
 });
@@ -56,15 +56,27 @@ test('componentDidMount: fetch data with given props', () => {
             NoneDeposit: 98765.4321
         }
     });
-    WidgetApi
-        .fetchData
-        .mockImplementationOnce(() => promise);
+    WidgetApi.fetchData.mockImplementationOnce(() => promise);
 
     // action
-    const component = renderer.create(<RegisteredCustomer { ...fakeProps }/>);
+    const component = renderer.create(<RegisteredCustomer { ...fakeProps } />);
 
     // assert
     promise.then(() => expect(component.toJSON()).toMatchSnapshot());
+});
+
+test('componentDidMount: set isMounted = true', () => {
+    const component = new RegisteredCustomer(fakeProps);
+    component.setState = jest.fn();
+    component.componentDidMount();
+    expect(component.setState.mock.calls[0][0].isMounted).toBeTruthy();
+});
+
+test('componentWillUnmount: set isMounted = false', () => {
+    const component = new RegisteredCustomer(fakeProps);
+    component.setState = jest.fn();
+    component.componentWillUnmount();
+    expect(component.setState).toBeCalledWith({ isMounted: false });
 });
 
 test('componentWillReceiveProps: next.refresh > old.refresh, fetch new data', () => {
@@ -73,6 +85,7 @@ test('componentWillReceiveProps: next.refresh > old.refresh, fetch new data', ()
 
     component.fetchData = jest.fn();
     component.setState = jest.fn();
+    component.state.isMounted = true;
 
     const nextProps = Object.assign({}, fakeProps);
     nextProps.refresh += 1000;
@@ -82,7 +95,7 @@ test('componentWillReceiveProps: next.refresh > old.refresh, fetch new data', ()
     component.componentWillReceiveProps(nextProps);
 
     // assert
-    expect(component.setState).toBeCalledWith({isLoading: true});
+    expect(component.setState).toBeCalledWith({ isLoading: true });
     expect(component.fetchData).toBeCalledWith(nextProps);
 });
 
@@ -90,7 +103,7 @@ test('componentWillReceiveProps: next.refresh <= old.refresh, do nothing', () =>
     // assign
     const component = new RegisteredCustomer(fakeProps);
     component.fetchData = jest.fn();
-
+    component.state.isMounted = true;
     const nextProps = Object.assign({}, fakeProps);
     nextProps.refresh -= 1000;
     const propsNotChanged = fakeProps;
@@ -103,6 +116,22 @@ test('componentWillReceiveProps: next.refresh <= old.refresh, do nothing', () =>
     expect(component.fetchData)
         .not
         .toBeCalled();
+});
+
+test('componentWillReceiveProps: not mounted: do nothing', () => {
+    // assign
+    const component = new RegisteredCustomer(fakeProps);
+    component.fetchData = jest.fn();
+    component.setState = jest.fn();
+    component.state.isMounted = false;
+    const nextProps = Object.assign({ refresh: 5000 }, fakeProps);
+
+    // action
+    component.componentWillReceiveProps(nextProps);
+
+    // assert
+    expect(component.fetchData).not.toBeCalled();
+    expect(component.setState).not.toBeCalled();
 });
 
 test('fetch data by criteria', () => {

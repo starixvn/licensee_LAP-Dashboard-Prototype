@@ -8,7 +8,9 @@ export default class DepositWidget extends BaseNormalWidget {
             Url: WidgetApiUrl.normalDeposit,
             TitleKey: "deposit_today",
             WidgetName: "deposit",
-            WidgetKey: WidgetKey.normalDeposit
+            WidgetKey: WidgetKey.normalDeposit,
+            defaultCountdown: 75,
+            countdownValues: [15, 30, 45, 60, 75]
         });
     }
 };

@@ -14,7 +14,8 @@ export default class LicenseeWinLoss extends React.Component {
         this.state = {
             data: {},
             total: 0,
-            isLoading: true
+            isLoading: true,
+            isMounted: false
         };
 
         this.options = {
@@ -27,7 +28,7 @@ export default class LicenseeWinLoss extends React.Component {
             },
             animation: {
                 onComplete: function () {
-                    var self = this,
+                    const self = this,
                         chart = this.chart,
                         ctx = chart.ctx;
 
@@ -37,11 +38,13 @@ export default class LicenseeWinLoss extends React.Component {
                     ctx.textBaseline = "middle";
 
                     self.data.datasets.forEach(function (dataset, datasetIndex) {
-                        var meta = self.getDatasetMeta(datasetIndex);
+                        const meta = self.getDatasetMeta(datasetIndex);
                         meta.data.forEach(function (element, elementIndex) {
-                            var text = NumberFormat.formatDecimal(dataset.data[elementIndex]);
-                            var textWidth = ctx.measureText(text).width;
-                            ctx.fillText(text, element._model.x - (textWidth / 2), element._model.y - 5);
+                            const value = dataset.data[elementIndex];
+                            const text = NumberFormat.formatDecimal(value);
+                            const textWidth = ctx.measureText(text).width;
+                            const yOffset = value > 0 ? 6 : -7;
+                            ctx.fillText(text, element._model.x - (textWidth / 2), element._model.y - yOffset);
                         });
                     });
                 }
@@ -112,15 +115,22 @@ export default class LicenseeWinLoss extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.refresh > this.props.refresh) {
+        if (this.state.isMounted && nextProps.refresh > this.props.refresh) {
             this.setState({ isLoading: true })
             this.fetchData(nextProps)
         }
     }
+
     componentDidMount() {
-        this.fetchData(this.props)
+        this.setState({ isMounted: true }, () => {
+            this.fetchData(this.props)
+        });
     }
 
+    componentWillUnmount() {
+        this.setState({ isMounted: false });
+    }
+    
     render() {
         return <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} title={LanguageApi.getRes(this.props.langCode, "licensee_winloss_month_todate")} widgetKey={WidgetKey.chartLicenseeWL}
             widgetName="licenseewl default" isLoading={this.state.isLoading}>

@@ -21,17 +21,16 @@ export default class OnlineCustomer extends React.Component {
                 ],
                 datasets: []
             },
-            isLoading: true
+            isLoading: true,
+            isMounted: false
         };
 
         this.options = {
+            beginAtZero: true,
+            type: 'line',
             maintainAspectRatio: false,
-            tooltips: {
-                enabled: false
-            },
-            hover: {
-                animationDuration: 0
-            },
+            tooltips: { enabled: false },
+            hover: { animationDuration: 0 },
             animation: {
                 onComplete: function () {
                     var self = this,
@@ -52,12 +51,13 @@ export default class OnlineCustomer extends React.Component {
                 }
             },
             layout: {
-                padding: { right: 100, bottom: 20 }
+                padding: { right: 100, bottom: 20, left: 30 }
             },
             scales: {
                 xAxes: [{
                     barPercentage: 0.5,
-                    display: false
+                    display: false,
+                    ticks: { min: 0 }
                 }],
                 yAxes: [{
                     ticks: {
@@ -97,16 +97,24 @@ export default class OnlineCustomer extends React.Component {
                 });
             });
     }
+
     componentWillReceiveProps(nextProps) {
-        if (nextProps.refresh > this.props.refresh) {
+        if (this.state.isMounted && nextProps.refresh > this.props.refresh) {
             this.setState({ isLoading: true })
             this.fetchData(nextProps)
         }
     }
+
     componentDidMount() {
-        this.fetchData(this.props)
+        this.setState({ isMounted: true }, () => {
+            this.fetchData(this.props)
+        });
     }
 
+    componentWillUnmount() {
+        this.setState({ isMounted: false });
+    }
+    
     render() {
         return <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} widgetKey={WidgetKey.chartlOnlineCustomer} title={LanguageApi.getRes(this.props.langCode, "online_customer")}
             widgetName="online-customer default" isLoading={this.state.isLoading}>

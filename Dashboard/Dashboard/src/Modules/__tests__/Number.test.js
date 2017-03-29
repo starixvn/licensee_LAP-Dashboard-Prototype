@@ -29,7 +29,11 @@ describe('format()', () => {
         expect(NumberFormat.format(1234, 3)).toBe("1,234.000");
     });
 
-    test('format an decimal number with 2 decimal places', () => {
+    test('format a decimal number with 2 decimal places', () => {
         expect(NumberFormat.format(1234.149, 2)).toBe("1,234.15");
-    });    
+    });
+
+    test('format an integer number', () => {
+        expect(NumberFormat.format(1234.149)).toBe("1,234");
+    });   
 });

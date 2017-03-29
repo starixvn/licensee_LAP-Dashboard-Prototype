@@ -41,22 +41,22 @@ const dashboardAppElement = (function injectDashboardAppElementToDocument() {
 const DashboardApp = require('../App.jsx').default;
 const fakeWidgetLayout = Wglayouts;
 const fakeWidgetStatus = [
-    {key: 'c_turnover', enable: true},
-    {key: 'c_licWL',enable: true},
-    {key: 'n_reg_customer',enable: true},
-    {key: 'c_online_customer',enable: true},
-    {key: 'n_customer_balance',enable: true},
-    {key: 'n_pending_funds',enable: true},
-    {key: 'n_deposit',enable: true},
-    {key: 'n_withdrawal',enable: true}
+    { key: 'c_turnover', enable: true },
+    { key: 'c_licWL', enable: true },
+    { key: 'n_reg_customer', enable: true },
+    { key: 'c_online_customer', enable: true },
+    { key: 'n_customer_balance', enable: true },
+    { key: 'n_pending_funds', enable: true },
+    { key: 'n_deposit', enable: true },
+    { key: 'n_withdrawal', enable: true }
 ];
 
 function getMockComponentRender(name) {
     return {
-        render: function() {
+        render: function () {
             return (
-                <div {...this.props} name={ name }>
-                  { this.props.children }
+                <div {...this.props} name={name}>
+                    {this.props.children}
                 </div>
             )
         }
@@ -104,7 +104,7 @@ beforeAll(() => {
             expect(responsive).toBe(ReactGridLayout.Responsive);
             return props => (
                 <div {...props} name="ResponsiveReactGridLayout">
-                  { props.children }
+                    {props.children}
                 </div>
             );
         });
@@ -128,20 +128,20 @@ beforeEach(() => {
 });
 
 test('render DashboardApp to #dashboad-app', () => {
-    expect(ReactDOM.render).toBeCalledWith((<DashboardApp/>), dashboardAppElement);
+    expect(ReactDOM.render).toBeCalledWith((<DashboardApp />), dashboardAppElement);
 });
 
 describe('render correctly', () => {
     test('with english as default language', () => {
         window.dashboardLangCode = null;
 
-        const component = renderer.create(<DashboardApp/>);
+        const component = renderer.create(<DashboardApp />);
         expect(component.toJSON()).toMatchSnapshot();
     });
     test('with language from global config', () => {
         window.dashboardLangCode = 'ch';
 
-        const component = renderer.create(<DashboardApp/>);
+        const component = renderer.create(<DashboardApp />);
         expect(component.toJSON()).toMatchSnapshot();
     });
     test('with saved widget status data', () => {
@@ -156,7 +156,7 @@ describe('render correctly', () => {
             }
         ]);
 
-        const component = renderer.create(<DashboardApp/>);
+        const component = renderer.create(<DashboardApp />);
         expect(component.toJSON()).toMatchSnapshot();
     });
 
@@ -164,12 +164,12 @@ describe('render correctly', () => {
         LocalStorageHelper.getWidgetLayout = jest.fn(() => ({
             lg: Wglayouts.lg,
             xs: Wglayouts.xs,
-            md:[],
-            sm:[],
-            xxs:[]
+            md: [],
+            sm: [],
+            xxs: []
         }));
 
-        const component = renderer.create(<DashboardApp/>);
+        const component = renderer.create(<DashboardApp />);
         expect(component.toJSON()).toMatchSnapshot();
     });
 });
@@ -177,9 +177,9 @@ describe('render correctly', () => {
 describe('constructor()', () => {
     test('merge widget permission to local then save', () => {
         const userSettings = [
-            { key:'c_turnover', enable: true },
-            { key:'n_deposit', enable: false },
-            { key:'dont have permission anymore, should be removed', enable: false },
+            { key: 'c_turnover', enable: true },
+            { key: 'n_deposit', enable: false },
+            { key: 'dont have permission anymore, should be removed', enable: false },
         ];
         LocalStorageHelper.getWidgetStatus.mockImplementation(() => userSettings);
         window.widgetPermission = [
@@ -190,9 +190,9 @@ describe('constructor()', () => {
         LocalStorageHelper.saveWidgetStatus.mockReset();
         const app = new DashboardApp();
         expect(LocalStorageHelper.saveWidgetStatus).toBeCalledWith([
-            { key:'c_turnover', enable: true },
-            { key:'c_licWL', enable: true },
-            { key:'n_deposit', enable: false },
+            { key: 'c_turnover', enable: true },
+            { key: 'c_licWL', enable: true },
+            { key: 'n_deposit', enable: false },
         ]);
     });
 
@@ -210,9 +210,9 @@ describe('constructor()', () => {
         ];
         const app = new DashboardApp();
         expect(LocalStorageHelper.saveWidgetStatus).toBeCalledWith([
-            { key:'c_turnover', enable: true },
-            { key:'c_licWL', enable: true },
-            { key:'n_deposit', enable: true },
+            { key: 'c_turnover', enable: true },
+            { key: 'c_licWL', enable: true },
+            { key: 'n_deposit', enable: true },
         ]);
     });
 
@@ -226,8 +226,8 @@ describe('constructor()', () => {
         LocalStorageHelper.saveWidgetStatus.mockReset();
         const app = new DashboardApp();
         expect(LocalStorageHelper.saveWidgetStatus).toBeCalledWith([
-            { key:'c_turnover', enable: true },
-            { key:'c_licWL', enable: true }
+            { key: 'c_turnover', enable: true },
+            { key: 'c_licWL', enable: true }
         ]);
     });
 
@@ -253,11 +253,11 @@ describe('constructor()', () => {
         const app = new DashboardApp();
 
         expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('fake widget layout settings');
-        WidgetLayout.getWidgetLayoutSettings = _getWidgetLayoutSettings;        
+        WidgetLayout.getWidgetLayoutSettings = _getWidgetLayoutSettings;
     });
 });
 
-describe('_renderWgItem(key)', () => {    
+describe('_renderWgItem(key)', () => {
     [
         'c_turnover',
         'c_licWL',
@@ -276,37 +276,37 @@ describe('_renderWgItem(key)', () => {
                 langCode: 'fake code',
                 wgStatus: [{
                     key: 'fake key', enable: false
-                },{
+                }, {
                     key: key, enable: true
                 }]
             };
             const widget = renderer.create(
                 <div>
-                  { app._renderWgItem(key) }
+                    {app._renderWgItem(key)}
                 </div>
             );
             expect(widget.toJSON()).toMatchSnapshot();
         });
     });
 
-     test('callbackParent is mapped to onChildChanged', () => {
-            const app = new DashboardApp();
-            app.state = { wgStatus: [] };
-            app.onChildChanged = jest.fn();
+    test('callbackParent is mapped to onChildChanged', () => {
+        const app = new DashboardApp();
+        app.state = { wgStatus: [] };
+        app.onChildChanged = jest.fn();
 
-            const widget = renderer.create(
-                <div>
-                  { app._renderWgItem('n_customer_balance') }
-                </div>
-            );
-            const widgetjson = widget.toJSON();
-            const callbackParent = widgetjson
-                .children[0]
-                .children[0]
-                .props.callbackParent;
-            callbackParent('fake next state');
-            expect(app.onChildChanged).toBeCalledWith('fake next state');
-        });
+        const widget = renderer.create(
+            <div>
+                {app._renderWgItem('n_customer_balance')}
+            </div>
+        );
+        const widgetjson = widget.toJSON();
+        const callbackParent = widgetjson
+            .children[0]
+            .children[0]
+            .props.callbackParent;
+        callbackParent('fake next state');
+        expect(app.onChildChanged).toBeCalledWith('fake next state');
+    });
 });
 
 describe('when get isTouchScreen', () => {
@@ -346,9 +346,8 @@ describe('onChildChanged(newState)', () => {
             action: 'apply'
         };
         app.setState = jest.fn();
-        app
-            .setState
-            .mockReset();
+        app.setState.mockReset();
+        app.state.isMounted = true;
         app.onChildChanged(newState);
 
         const asyncSetState = app.setState.mock.calls[0][0];
@@ -356,6 +355,31 @@ describe('onChildChanged(newState)', () => {
             refresh: oldState.refresh + 1,
             selectedFilter: newState.filter
         });
+    });
+
+    test('if action is reset: reset layout', () => {
+        const app = new DashboardApp();
+        app.setState = jest.fn();
+        app.state.isMounted = true;
+        app._getLayoutSettings = jest.fn(() => 'get layout settings');
+        LocalStorageHelper.clearWidgetCache = jest.fn();
+
+        app.onChildChanged({ action: 'reset' });
+
+        expect(LocalStorageHelper.clearWidgetCache).toBeCalled();
+        expect(app.setState).toBeCalledWith('get layout settings');
+    });
+
+    test('if action is reset but component not mounted: do not reset layout', () => {
+        const app = new DashboardApp();
+        app.setState = jest.fn();
+        app.state.isMounted = false;
+        LocalStorageHelper.clearWidgetCache = jest.fn();
+
+        app.onChildChanged({ action: 'reset' });
+
+        expect(LocalStorageHelper.clearWidgetCache).not.toBeCalled();
+        expect(app.setState).not.toBeCalled();
     });
 
     test('add widget', () => {
@@ -414,7 +438,7 @@ describe('onChildChanged(newState)', () => {
             action: 'other actions'
         };
         app.state = {
-            wgStatus: [{key: 'n_reg_customer', enable: true}]
+            wgStatus: [{ key: 'n_reg_customer', enable: true }]
         };
         const _removeWidgetFromLayout = WidgetLayout._removeWidgetFromLayout;
         WidgetLayout._removeWidgetFromLayout = jest.fn(
@@ -422,11 +446,11 @@ describe('onChildChanged(newState)', () => {
         app.onChildChanged(newState);
 
         expect(app.setState.mock.calls[0][0]()).toEqual({
-            wgStatus: [{key: 'n_reg_customer', enable: false}],
+            wgStatus: [{ key: 'n_reg_customer', enable: false }],
             layouts: 'remove'
         });
         expect(LocalStorageHelper.saveWidgetStatus).toBeCalledWith([
-            {key: 'n_reg_customer',enable: false}
+            { key: 'n_reg_customer', enable: false }
         ])
         expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('remove');
         WidgetLayout._removeWidgetFromLayout = _removeWidgetFromLayout;
@@ -439,7 +463,7 @@ describe('onChildChanged(newState)', () => {
             filter: 'fake new filter',
             action: 'other actions'
         };
-        
+
         [[], null, undefined].forEach(items => {
             newState.items = items;
             app.onChildChanged(newState);
@@ -451,25 +475,29 @@ describe('onChildChanged(newState)', () => {
     test('status not change: dont change layout', () => {
         const app = new DashboardApp();
         app.setState = jest.fn();
-        app.state.wgStatus = [{key:'no change', enable: false}];
-        app.state.layouts = {say:'fake layout should not be changed'};
+        app.state.wgStatus = [{ key: 'no change', enable: false }];
+        app.state.layouts = { say: 'fake layout should not be changed' };
         const newState = {
             filter: 'fake new filter',
             action: 'other actions',
-            items: [{key:'no change', enable: false}]
+            items: [{ key: 'no change', enable: false }]
         };
-        
+
         app.onChildChanged(newState);
 
-        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith({say:'fake layout should not be changed'});
+        expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith({ say: 'fake layout should not be changed' });
     });
 });
 
 test('save layout when layout change', () => {
     const app = new DashboardApp();
     app.setState = jest.fn();
+    app.state.isMounted = true;
     app.state.wgStatus = 'fake widget status';
+
+    LocalStorageHelper.saveWidgetLayout.mockReset();
     app.onLayoutChange('current layout', 'all layout settings');
+
     expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('all layout settings');
     expect(app.setState).toBeCalledWith({
         wgStatus: 'fake widget status',
@@ -477,8 +505,34 @@ test('save layout when layout change', () => {
     });
 });
 
+test('component is unmounted: do not save layout when layout change', () => {
+    const app = new DashboardApp();
+    app.setState = jest.fn();
+    app.state.isMounted = false;
+
+    LocalStorageHelper.saveWidgetLayout.mockReset();
+    app.onLayoutChange('current layout', 'all layout settings');
+
+    expect(LocalStorageHelper.saveWidgetLayout).not.toBeCalled();
+    expect(app.setState).not.toBeCalled();
+});
+
+test('componentDidMount(): set mount state true', () => {
+    const app = new DashboardApp();
+    app.setState = jest.fn();
+    app.componentDidMount();
+    expect(app.setState).toBeCalledWith({ isMounted: true });
+});
+
+test('componentWillUnmount(): set mount state false', () => {
+    const app = new DashboardApp();
+    app.setState = jest.fn();
+    app.componentWillUnmount();
+    expect(app.setState).toBeCalledWith({ isMounted: false });
+});
+
 test('DefaultLayout.callbackParent() is bound to onChildChanged()', () => {
-    const component = renderer.create(<DashboardApp/>);
+    const component = renderer.create(<DashboardApp />);
     const instance = component.getInstance();
     const element = findElementByName(component, 'DefaultLayout');
 
@@ -490,7 +544,7 @@ test('DefaultLayout.callbackParent() is bound to onChildChanged()', () => {
 });
 
 test('ResponsiveReactGridLayout.onLayoutChange() is bound to onLayoutChange()', () => {
-    const component = renderer.create(<DashboardApp/>);
+    const component = renderer.create(<DashboardApp />);
     const instance = component.getInstance();
     const element = findElementByName(component, 'ResponsiveReactGridLayout');
 
