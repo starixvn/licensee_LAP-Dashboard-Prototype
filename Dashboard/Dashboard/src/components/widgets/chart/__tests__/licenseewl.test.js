@@ -131,39 +131,79 @@ test('componentDidMount: fetch data with given props', () => {
     promise.then(() => expect(component.toJSON()).toMatchSnapshot());
 });
 
-test('componentWillReceiveProps: next [refresh] > old [refresh], fetch new data', () => {
+test('componentDidMount: set mount state true', () => {
     // assign
-    const component = new LicenseeWinLoss(fakeProps);
-
-    component.fetchData = jest.fn();
+    var component = new LicenseeWinLoss(fakeProps);
     component.setState = jest.fn();
 
-    const nextProps = Object.assign({}, fakeProps);
-    nextProps.refresh += 1000;
-    nextProps.langCode = 'zhcn';
-
     // action
-    component.componentWillReceiveProps(nextProps);
+    component.componentDidMount();
 
     // assert
-    expect(component.setState).toBeCalledWith({ isLoading: true });
-    expect(component.fetchData).toBeCalledWith(nextProps);
+    expect(component.setState.mock.calls[0][0].isMounted).toBeTruthy();
 });
 
-test('componentWillReceiveProps: next [refresh] <= old [refresh], do nothing', () => {
+describe('componentWillReceiveProps(nextProps):', () => {
+    test('next [refresh] > old [refresh], fetch new data', () => {
+        // assign
+        const component = new LicenseeWinLoss(fakeProps);
+
+        component.fetchData = jest.fn();
+        component.setState = jest.fn();
+        component.state.isMounted = true;
+
+        const nextProps = Object.assign({}, fakeProps);
+        nextProps.refresh += 1000;
+        nextProps.langCode = 'zhcn';
+
+        // action
+        component.componentWillReceiveProps(nextProps);
+
+        // assert
+        expect(component.setState).toBeCalledWith({ isLoading: true });
+        expect(component.fetchData).toBeCalledWith(nextProps);
+    });
+
+    test('next [refresh] <= old [refresh], do nothing', () => {
+        // assign
+        const component = new LicenseeWinLoss(fakeProps);
+        component.fetchData = jest.fn();
+
+        const nextProps = Object.assign({}, fakeProps);
+        nextProps.refresh -= 1000;
+
+        // action
+        component.componentWillReceiveProps(fakeProps);
+        component.componentWillReceiveProps(nextProps);
+
+        // assert
+        expect(component.fetchData).not.toBeCalled();
+    });
+
+    test('component is umounted: do nothing', () => {
+        // assign
+        const component = new LicenseeWinLoss(fakeProps);
+        component.fetchData = jest.fn();
+        component.state.isMounted = false;
+
+        // action
+        component.componentWillReceiveProps(fakeProps);
+
+        // assert
+        expect(component.fetchData).not.toBeCalled();
+    });
+});
+
+test('componentWillUnmount: set mount state false', () => {
     // assign
     const component = new LicenseeWinLoss(fakeProps);
-    component.fetchData = jest.fn();
-
-    const nextProps = Object.assign({}, fakeProps);
-    nextProps.refresh -= 1000;
+    component.setState = jest.fn();
 
     // action
-    component.componentWillReceiveProps(fakeProps);
-    component.componentWillReceiveProps(nextProps);
+    component.componentWillUnmount();
 
     // assert
-    expect(component.fetchData).not.toBeCalled();
+    expect(component.setState).toBeCalledWith({ isMounted: false });
 });
 
 test('fetch data by criteria', () => {

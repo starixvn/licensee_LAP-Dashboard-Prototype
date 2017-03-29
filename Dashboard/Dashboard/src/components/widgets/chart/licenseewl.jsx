@@ -15,7 +15,7 @@ export default class LicenseeWinLoss extends React.Component {
             data: {},
             total: 0,
             isLoading: true,
-            isMounted:false
+            isMounted: false
         };
 
         this.options = {
@@ -120,17 +120,17 @@ export default class LicenseeWinLoss extends React.Component {
             this.fetchData(nextProps)
         }
     }
- 
- componentDidMount() {
 
-         this.setState({ isMounted: true },()=>{
-             this.fetchData(this.props)
-
+    componentDidMount() {
+        this.setState({ isMounted: true }, () => {
+            this.fetchData(this.props)
         });
     }
+
     componentWillUnmount() {
         this.setState({ isMounted: false });
     }
+    
     render() {
         return <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} title={LanguageApi.getRes(this.props.langCode, "licensee_winloss_month_todate")} widgetKey={WidgetKey.chartLicenseeWL}
             widgetName="licenseewl default" isLoading={this.state.isLoading}>
