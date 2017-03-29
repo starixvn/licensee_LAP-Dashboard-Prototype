@@ -113,6 +113,15 @@ describe('render corectly:', () => {
         element.props.onClick();
         expect(component.toJSON()).toMatchSnapshot();
     });
+
+    test('on counter click: component unmounted: do nothing', () => {
+        const component = new AutoReload(fakeProps);
+        component.setState = jest.fn();
+        component.state.isMounted = false;
+
+        component._onCounterClick();
+        expect(component.setState).not.toBeCalled();
+    });
 });
 
 describe('componentDidMount', () => {
