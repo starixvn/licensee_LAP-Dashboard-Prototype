@@ -33,12 +33,14 @@ exports[`animation complete fill text each data set 1`] = `
         "animation": Object {
           "onComplete": [Function],
         },
+        "beginAtZero": true,
         "hover": Object {
           "animationDuration": 0,
         },
         "layout": Object {
           "padding": Object {
             "bottom": 20,
+            "left": 30,
             "right": 100,
           },
         },
@@ -51,6 +53,9 @@ exports[`animation complete fill text each data set 1`] = `
             Object {
               "barPercentage": 0.5,
               "display": false,
+              "ticks": Object {
+                "min": 0,
+              },
             },
           ],
           "yAxes": Array [
@@ -67,6 +72,7 @@ exports[`animation complete fill text each data set 1`] = `
         "tooltips": Object {
           "enabled": false,
         },
+        "type": "line",
       }
     }>
     hello bar
@@ -100,12 +106,14 @@ exports[`test render correctly 1`] = `
         "animation": Object {
           "onComplete": [Function],
         },
+        "beginAtZero": true,
         "hover": Object {
           "animationDuration": 0,
         },
         "layout": Object {
           "padding": Object {
             "bottom": 20,
+            "left": 30,
             "right": 100,
           },
         },
@@ -118,6 +126,9 @@ exports[`test render correctly 1`] = `
             Object {
               "barPercentage": 0.5,
               "display": false,
+              "ticks": Object {
+                "min": 0,
+              },
             },
           ],
           "yAxes": Array [
@@ -134,6 +145,7 @@ exports[`test render correctly 1`] = `
         "tooltips": Object {
           "enabled": false,
         },
+        "type": "line",
       }
     }>
     hello bar
