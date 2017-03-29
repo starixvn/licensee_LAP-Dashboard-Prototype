@@ -14,7 +14,7 @@ export default class RegisteredCustomer extends React.Component {
             deposit: 0,
             noneDeposit: 0,
             isLoading: true,
-            isMounted:false
+            isMounted: false
         }
     }
 
@@ -39,21 +39,24 @@ export default class RegisteredCustomer extends React.Component {
                 console.log("error:", error);
             });
     }
+
     componentWillReceiveProps(nextProps) {
         if (this.state.isMounted && nextProps.refresh > this.props.refresh) {
             this.setState({ isLoading: true })
             this.fetchData(nextProps)
         }
     }
-    componentDidMount() {
-           this.setState({ isMounted: true },()=>{
-           this.fetchData(this.props)
 
+    componentDidMount() {
+        this.setState({ isMounted: true }, () => {
+            this.fetchData(this.props)
         });
     }
+
     componentWillUnmount() {
         this.setState({ isMounted: false });
     }
+
     render() {
         return <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} widgetKey={WidgetKey.normalRegisterCustomer} title={LanguageApi.getRes(this.props.langCode, "registered_customer")}
             widgetName="registered-customer default" isLoading={this.state.isLoading}>
