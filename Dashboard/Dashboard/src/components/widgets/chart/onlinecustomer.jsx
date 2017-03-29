@@ -55,7 +55,7 @@ export default class OnlineCustomer extends React.Component {
             scales: {
                 xAxes: [{
                     barPercentage: 0.5,
-                    display: true,
+                    display: false,
                     ticks: { min: 0 }
                 }],
                 yAxes: [{
