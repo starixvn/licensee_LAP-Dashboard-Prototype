@@ -346,9 +346,8 @@ describe('onChildChanged(newState)', () => {
             action: 'apply'
         };
         app.setState = jest.fn();
-        app
-            .setState
-            .mockReset();
+        app.setState.mockReset();
+        app.state.isMounted = true;
         app.onChildChanged(newState);
 
         const asyncSetState = app.setState.mock.calls[0][0];
@@ -360,15 +359,27 @@ describe('onChildChanged(newState)', () => {
 
     test('if action is reset: reset layout', () => {
         const app = new DashboardApp();
-        const newState = { action: 'reset' };
         app.setState = jest.fn();
+        app.state.isMounted = true;
         app._getLayoutSettings = jest.fn(() => 'get layout settings');
         LocalStorageHelper.clearWidgetCache = jest.fn();
 
-        app.onChildChanged(newState);
+        app.onChildChanged({ action: 'reset' });
 
         expect(LocalStorageHelper.clearWidgetCache).toBeCalled();
         expect(app.setState).toBeCalledWith('get layout settings');
+    });
+
+    test('if action is reset but component not mounted: do not reset layout', () => {
+        const app = new DashboardApp();
+        app.setState = jest.fn();
+        app.state.isMounted = false;
+        LocalStorageHelper.clearWidgetCache = jest.fn();
+
+        app.onChildChanged({ action: 'reset' });
+
+        expect(LocalStorageHelper.clearWidgetCache).not.toBeCalled();
+        expect(app.setState).not.toBeCalled();
     });
 
     test('add widget', () => {
@@ -481,13 +492,43 @@ describe('onChildChanged(newState)', () => {
 test('save layout when layout change', () => {
     const app = new DashboardApp();
     app.setState = jest.fn();
+    app.state.isMounted = true;
     app.state.wgStatus = 'fake widget status';
+
+    LocalStorageHelper.saveWidgetLayout.mockReset();
     app.onLayoutChange('current layout', 'all layout settings');
+
     expect(LocalStorageHelper.saveWidgetLayout).toBeCalledWith('all layout settings');
     expect(app.setState).toBeCalledWith({
         wgStatus: 'fake widget status',
         layouts: 'all layout settings'
     });
+});
+
+test('component is unmounted: do not save layout when layout change', () => {
+    const app = new DashboardApp();
+    app.setState = jest.fn();
+    app.state.isMounted = false;
+
+    LocalStorageHelper.saveWidgetLayout.mockReset();
+    app.onLayoutChange('current layout', 'all layout settings');
+
+    expect(LocalStorageHelper.saveWidgetLayout).not.toBeCalled();
+    expect(app.setState).not.toBeCalled();
+});
+
+test('componentDidMount(): set mount state true', () => {
+    const app = new DashboardApp();
+    app.setState = jest.fn();
+    app.componentDidMount();
+    expect(app.setState).toBeCalledWith({ isMounted: true });
+});
+
+test('componentWillUnmount(): set mount state false', () => {
+    const app = new DashboardApp();
+    app.setState = jest.fn();
+    app.componentWillUnmount();
+    expect(app.setState).toBeCalledWith({ isMounted: false });
 });
 
 test('DefaultLayout.callbackParent() is bound to onChildChanged()', () => {

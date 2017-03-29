@@ -65,11 +65,11 @@ export default class DashboardApp extends React.Component {
       <Widget wgItemFromParent={itemStatus} callbackParent={(newState) => this.onChildChanged(newState)} filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} />
     </div>);
   }
+
   _resetLayout() {
-    if(this.state.isMounted)
-    {
-    LocalStorageHelper.clearWidgetCache();
-    this.setState(this._getLayoutSettings());
+    if (this.state.isMounted) {
+      LocalStorageHelper.clearWidgetCache();
+      this.setState(this._getLayoutSettings());
     }
   }
 
@@ -120,12 +120,15 @@ export default class DashboardApp extends React.Component {
   get isTouchScreen() {
     return 'ontouchstart' in window || navigator.maxTouchPoints
   }
+
   componentDidMount() {
     this.setState({ isMounted: true });
   }
+
   componentWillUnmount() {
     this.setState({ isMounted: false });
   }
+  
   render() {
     const ResponsiveReactGridLayout = this._responsiveReactGridLayout;
     return (<DefaultLayout langCode={this.state.langCode} initialWgStatus={this.state.wgStatus} callbackParent={(newState) => this.onChildChanged(newState)}>
