@@ -126,7 +126,16 @@ describe('componentDidMount', () => {
         window.setInterval = _setInterval;
     });
 
-    test('countdown equal or less than zero: do nothing', () => {
+    test('set isMounted = true', () => {
+        const component = new AutoReload({ dataKey: 'test', defaultCountdown: 123 });
+        component.setState = jest.fn();
+
+        component.componentDidMount();
+
+        expect(component.setState.mock.calls[0][0].isMounted).toBeTruthy();
+    });
+
+    test('setState callback: countdown equal or less than zero: do nothing', () => {
         [-1, 0].forEach(countdown => {
             LocalStorageHelper.getWidgetReloadCountdown = jest.fn(() => ({ test: countdown }));
             window.setInterval = jest.fn();
@@ -134,16 +143,20 @@ describe('componentDidMount', () => {
                 dataKey: 'test',
                 defaultCountdown: countdown
             });
-
+            component.setState = jest.fn();
             component.componentDidMount();
+            component.setState.mock.calls[0][1]();
             expect(window.setInterval).not.toBeCalled();
         });
     });
-    test('countdown greater than zero: start timer', () => {
+
+    test('setState callback: countdown greater than zero: start timer', () => {
         const component = new AutoReload(fakeProps);
         window.setInterval = jest.fn(() => 123456);
         component._onTick = jest.fn();
+        component.setState = jest.fn();
         component.componentDidMount();
+        component.setState.mock.calls[0][1]();
 
         expect(component.timerId).toBe(123456);
         expect(window.setInterval.mock.calls[0][1]).toBe(1000);
@@ -169,7 +182,7 @@ describe('componentWillUnmount', () => {
         [null, undefined, 0, false].forEach(timerId => {
             const component = new AutoReload(fakeProps);
             component.timerId = timerId;
-
+            component.setState = jest.fn();
             component.componentWillUnmount();
             expect(window.clearInterval).not.toBeCalled();
         });
@@ -178,22 +191,40 @@ describe('componentWillUnmount', () => {
     test('has timerId: stop timer', () => {
         const component = new AutoReload(fakeProps);
         component.timerId = 123;
-
+        component.setState = jest.fn();
         component.componentWillUnmount();
         expect(window.clearInterval).toBeCalledWith(123);
     });
+
+    test('set isMounted = false', () => {
+        const component = new AutoReload(fakeProps);
+        component.setState = jest.fn();
+        component.componentWillUnmount();
+        expect(component.setState).toBeCalledWith({ isMounted: false });
+    });
 });
 
-test('callback when countdown = 0 and restart countdown', () => {
+test('onTick(): when mounted and countdown = 0: do callback and restart countdown', () => {
     const component = new AutoReload(fakeProps);
     component.setState = jest.fn();
     component.state.currentCountdown = 0;
     component.state.countdown = 123;
+    component.state.isMounted = true;
 
     component._onTick();
 
     expect(fakeProps.reloadCallback).toBeCalled();
     expect(component.setState).toBeCalledWith({ currentCountdown: 123 });
+});
+
+test('onTick(): component is umounted : do nothing', () => {
+    const component = new AutoReload(fakeProps);
+    component.setState = jest.fn();
+    component.state.isMounted = false;
+
+    component._onTick();
+
+    expect(component.setState).not.toBeCalled();
 });
 
 
@@ -202,10 +233,19 @@ describe('_onSelectCounterValue', () => {
         LocalStorageHelper.getWidgetReloadCountdown = jest.fn(() => ({}));
     });
 
-    test('update countdown and hide dropdown', () => {
+    test('component is unmounted: do nothing', () => {
         const component = new AutoReload(fakeProps);
         component.setState = jest.fn();
+        component.state.isMounted = false;
+        component._onSelectCounterValue(4444);
 
+        expect(component.setState).not.toBeCalled();
+    });
+
+    test('component mounted: update countdown and hide dropdown', () => {
+        const component = new AutoReload(fakeProps);
+        component.setState = jest.fn();
+        component.state.isMounted = true;
         component._onSelectCounterValue(4444);
 
         expect(component.setState).toBeCalledWith({
@@ -215,10 +255,10 @@ describe('_onSelectCounterValue', () => {
         });
     });
 
-    test('save new value', () => {
+    test('component mounted: save new value', () => {
         const component = new AutoReload(fakeProps);
         component.setState = jest.fn();
-
+        component.state.isMounted = true;
         component._onSelectCounterValue(4444);
 
         expect(LocalStorageHelper.saveWidgetReloadCountdown).toBeCalledWith({

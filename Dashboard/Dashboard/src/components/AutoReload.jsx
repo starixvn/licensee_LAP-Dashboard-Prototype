@@ -16,28 +16,27 @@ export default class AutoReload extends React.Component {
             countdown: countdown,
             currentCountdown: countdown,
             isShowSelection: false,
-            isMounted:false
+            isMounted: false
         };
 
     }
 
     componentDidMount() {
-        this.setState({ isMounted: true },()=>{
+        this.setState({ isMounted: true }, () => {
             if (this.state.countdown > 0) {
-            this._startTimer();
-        }
+                this._startTimer();
+            }
         });
 
     }
 
     componentWillUnmount() {
-         this.setState({ isMounted: false });
-         this._stopTimer();
+        this.setState({ isMounted: false });
+        this._stopTimer();
     }
- 
+
     _onTick() {
-        if(this.state.isMounted)
-        {
+        if (this.state.isMounted) {
             let countdown = this.state.currentCountdown;
 
             if (countdown === 0) {
@@ -64,24 +63,22 @@ export default class AutoReload extends React.Component {
     }
 
     _onCounterClick() {
-        if(this.state.isMounted)
-        {
-         this.setState({ isShowSelection: !this.state.isShowSelection });
+        if (this.state.isMounted) {
+            this.setState({ isShowSelection: !this.state.isShowSelection });
         }
     }
 
     _onSelectCounterValue(value) {
-        if(this.state.isMounted)
-        {
-        this.setState({
-            isShowSelection: false,
-            countdown: value,
-            currentCountdown: value
-        });
+        if (this.state.isMounted) {
+            this.setState({
+                isShowSelection: false,
+                countdown: value,
+                currentCountdown: value
+            });
 
-        const countdowns = LocalStorageHelper.getWidgetReloadCountdown();
-        countdowns[this.props.dataKey] = value;
-        LocalStorageHelper.saveWidgetReloadCountdown(countdowns);
+            const countdowns = LocalStorageHelper.getWidgetReloadCountdown();
+            countdowns[this.props.dataKey] = value;
+            LocalStorageHelper.saveWidgetReloadCountdown(countdowns);
         }
     }
 
