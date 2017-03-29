@@ -40,8 +40,10 @@ export default class DashboardApp extends React.Component {
       selectedFilter: {
         currency: 0,
         baseCurrency: "EUR"
-      }
+      },
+      isMounted: false,
     }, this._getLayoutSettings());
+
     this._responsiveReactGridLayout = WidthProvider(Responsive);
   }
 
@@ -63,10 +65,12 @@ export default class DashboardApp extends React.Component {
       <Widget wgItemFromParent={itemStatus} callbackParent={(newState) => this.onChildChanged(newState)} filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} />
     </div>);
   }
-
   _resetLayout() {
+    if(this.state.isMounted)
+    {
     LocalStorageHelper.clearWidgetCache();
     this.setState(this._getLayoutSettings());
+    }
   }
 
   _getLayoutSettings() {
@@ -84,7 +88,7 @@ export default class DashboardApp extends React.Component {
   }
 
   onChildChanged(newState) {
-    if (newState.action == 'apply') {
+    if (this.state.isMounted && newState.action == 'apply') {
       this.setState(pre => ({
         refresh: pre.refresh + 1,
         selectedFilter: newState.filter
@@ -104,17 +108,24 @@ export default class DashboardApp extends React.Component {
   }
 
   onLayoutChange(layout, layouts) {
-    LocalStorageHelper.saveWidgetLayout(layouts);
-    this.setState({
-      wgStatus: this.state.wgStatus,
-      layouts: layouts
-    });
+    if (this.state.isMounted) {
+      LocalStorageHelper.saveWidgetLayout(layouts);
+      this.setState({
+        wgStatus: this.state.wgStatus,
+        layouts: layouts
+      });
+    }
   }
 
   get isTouchScreen() {
     return 'ontouchstart' in window || navigator.maxTouchPoints
   }
-
+  componentDidMount() {
+    this.setState({ isMounted: true });
+  }
+  componentWillUnmount() {
+    this.setState({ isMounted: false });
+  }
   render() {
     const ResponsiveReactGridLayout = this._responsiveReactGridLayout;
     return (<DefaultLayout langCode={this.state.langCode} initialWgStatus={this.state.wgStatus} callbackParent={(newState) => this.onChildChanged(newState)}>

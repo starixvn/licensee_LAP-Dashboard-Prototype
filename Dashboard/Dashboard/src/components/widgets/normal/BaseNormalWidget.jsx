@@ -12,7 +12,8 @@ export default class BaseNormalWidget extends React.Component {
 
         this.state = {
             data: 0,
-            isLoading: true
+            isLoading: true,
+            isMounted: false,
         };
 
         this.configs = configs;
@@ -46,19 +47,27 @@ export default class BaseNormalWidget extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.refresh > this.props.refresh) {
+        if (this.state.isMounted && nextProps.refresh > this.props.refresh) {
             this.setState({ isLoading: true });
             this.fetchData(nextProps);
         }
     }
 
     componentDidMount() {
-        this.fetchData(this.props)
-    }
+          this.setState({ isMounted: true },()=>{
+             this.fetchData(this.props)
 
+        });
+    }
+     componentWillUnmount() {
+        this.setState({ isMounted: false });
+    }
     _reload() {
-        this.setState({ isLoading: true });
-        this.fetchData(this.props);
+        if(this.state.isMounted)
+        {
+            this.setState({ isLoading: true });
+            this.fetchData(this.props);
+        }
     }
 
     render() {

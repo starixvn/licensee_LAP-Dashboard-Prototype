@@ -15,34 +15,42 @@ export default class AutoReload extends React.Component {
         this.state = {
             countdown: countdown,
             currentCountdown: countdown,
-            isShowSelection: false
+            isShowSelection: false,
+            isMounted:false
         };
 
     }
 
     componentDidMount() {
-        if (this.state.countdown > 0) {
+        this.setState({ isMounted: true },()=>{
+            if (this.state.countdown > 0) {
             this._startTimer();
         }
+        });
+
     }
 
     componentWillUnmount() {
-        this._stopTimer();
+         this.setState({ isMounted: false });
+         this._stopTimer();
     }
-
+ 
     _onTick() {
-        let countdown = this.state.currentCountdown;
+        if(this.state.isMounted)
+        {
+            let countdown = this.state.currentCountdown;
 
-        if (countdown === 0) {
-            this.props.reloadCallback();
-            countdown = this.state.countdown;
-        } else {
-            countdown--;
+            if (countdown === 0) {
+                this.props.reloadCallback();
+                countdown = this.state.countdown;
+            } else {
+                countdown--;
+            }
+
+            this.setState({
+                currentCountdown: countdown
+            });
         }
-
-        this.setState({
-            currentCountdown: countdown
-        });
     }
 
     _startTimer() {
@@ -56,10 +64,15 @@ export default class AutoReload extends React.Component {
     }
 
     _onCounterClick() {
-        this.setState({ isShowSelection: !this.state.isShowSelection });
+        if(this.state.isMounted)
+        {
+         this.setState({ isShowSelection: !this.state.isShowSelection });
+        }
     }
 
     _onSelectCounterValue(value) {
+        if(this.state.isMounted)
+        {
         this.setState({
             isShowSelection: false,
             countdown: value,
@@ -69,6 +82,7 @@ export default class AutoReload extends React.Component {
         const countdowns = LocalStorageHelper.getWidgetReloadCountdown();
         countdowns[this.props.dataKey] = value;
         LocalStorageHelper.saveWidgetReloadCountdown(countdowns);
+        }
     }
 
     render() {

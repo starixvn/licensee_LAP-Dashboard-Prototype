@@ -21,7 +21,8 @@ export default class OnlineCustomer extends React.Component {
                 ],
                 datasets: []
             },
-            isLoading: true
+            isLoading: true,
+            isMounted:false
         };
 
         this.options = {
@@ -97,15 +98,23 @@ export default class OnlineCustomer extends React.Component {
             });
     }
     componentWillReceiveProps(nextProps) {
-        if (nextProps.refresh > this.props.refresh) {
+        if (this.state.isMounted && nextProps.refresh > this.props.refresh) {
             this.setState({ isLoading: true })
             this.fetchData(nextProps)
         }
     }
+    
+   
     componentDidMount() {
-        this.fetchData(this.props)
-    }
+        this.setState({ isMounted: true },()=>{
+             this.fetchData(this.props)
 
+        });
+               
+    }
+      componentWillUnmount() {
+        this.setState({ isMounted: false });
+    }
     render() {
         return <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} widgetKey={WidgetKey.chartlOnlineCustomer} title={LanguageApi.getRes(this.props.langCode, "online_customer")}
             widgetName="online-customer default" isLoading={this.state.isLoading}>
