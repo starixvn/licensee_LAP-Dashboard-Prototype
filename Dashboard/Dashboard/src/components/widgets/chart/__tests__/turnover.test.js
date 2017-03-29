@@ -45,58 +45,27 @@ function fakeDoughnutInstance() {
             },
             width: 12345,
             height: 98765,
-            config: {
-                options: {
-                    circumference: 222
-                }
-            }
+            config: { options: { circumference: 222 } }
         },
         data: {
-            datasets: [{
-                data: [1.2, 2.3]
-            }, {
-                data: [3.4, 4.5]
-            }]
+            datasets: [
+                { data: [1.2, 2.3] },
+                { data: [3.4, 4.5] }
+            ]
         },
         getDatasetMeta: jest.fn(index => index === 0
             ? {
-                data: [{
-                    _model: {
-                        circumference: 999
-                    },
-                    tooltipPosition: () => ({
-                        x: 1,
-                        y: 2
-                    })
-                }, {
-                    _model: {
-                        circumference: 9999
-                    },
-                    tooltipPosition: () => ({
-                        x: 11,
-                        y: 22
-                    })
-                }]
+                data: [
+                    { _model: { circumference: 999 }, tooltipPosition: () => ({ x: 1, y: 2 }) },
+                    { _model: { circumference: 9999 }, tooltipPosition: () => ({ x: 11, y: 22 }) }
+                ]
             }
             : (index === 1
                 ? {
-                    data: [{
-                        _model: {
-                            circumference: 888
-                        },
-                        tooltipPosition: () => ({
-                            x: 111,
-                            y: 222
-                        })
-                    }, {
-                        _model: {
-                            circumference: 8888
-                        },
-                        tooltipPosition: () => ({
-                            x: 1111,
-                            y: 2222
-                        })
-                    }]
+                    data: [
+                        { _model: { circumference: 888 }, tooltipPosition: () => ({ x: 111, y: 222 }) },
+                        { _model: { circumference: 8888 }, tooltipPosition: () => ({ x: 1111, y: 2222 }) }
+                    ]
                 }
                 : null))
     }
@@ -104,19 +73,19 @@ function fakeDoughnutInstance() {
 
 beforeAll(() => {
     WidgetBox.mockImplementation(() => ({
-        render: function() {
+        render: function () {
             return (
                 <div {...this.props} name="WidgetBox">
-                  { this.props.children }
+                    {this.props.children}
                 </div>
             )
         }
     }));
     Doughnut.mockImplementation(() => ({
-        render: function() {
+        render: function () {
             return (
                 <div {...this.props} name="Doughnut">
-                  hello bar
+                    hello bar
                 </div>
             )
         }
@@ -128,7 +97,7 @@ test('render correctly', () => {
     WidgetApi.fetchData = jest.fn(() => promise);
     promise.then = () => promise;
 
-    const component = renderer.create(<Turnover {...fakeProps}/>);
+    const component = renderer.create(<Turnover {...fakeProps} />);
     expect(component.toJSON()).toMatchSnapshot();
 });
 
@@ -136,48 +105,63 @@ test('component did mount then fetch new data', () => {
     const promise = Promise.resolve(fakeResponse);
     WidgetApi.fetchData = jest.fn(() => promise);
 
-    const component = renderer.create(<Turnover {...fakeProps}/>);
+    const component = renderer.create(<Turnover {...fakeProps} />);
     promise.then(() => expect(component.toJSON()).toMatchSnapshot());
+});
+
+test('component did mount: set mount state true', () => {
+    const component = new Turnover(fakeProps);
+    component.setState = jest.fn();
+
+    component.componentDidMount();
+    expect(component.setState.mock.calls[0][0].isMounted).toBeTruthy();
+});
+
+test('component will un-mount: set mount state false', () => {
+    const component = new Turnover(fakeProps);
+    component.setState = jest.fn();
+
+    component.componentWillUnmount();
+    expect(component.setState).toBeCalledWith({ isMounted: false });
 });
 
 describe('componentWillReceiveProps(nextProps)', () => {
     test('refresh greater than old value: fetch data', () => {
         const component = new Turnover(fakeProps);
-        component.props = {
-            refresh: 123
-        };
+        component.props = { refresh: 123 };
+        component.state.isMounted = true;
         component.setState = jest.fn();
         component.fetchData = jest.fn();
-        const nextProps = {
-            refresh: 456,
-            a: 1,
-            b: 2
-        };
+        const nextProps = { refresh: 456, a: 1, b: 2 };
         component.componentWillReceiveProps(nextProps);
 
-        expect(component.setState).toBeCalledWith({
-            isLoading: true
-        });
+        expect(component.setState).toBeCalledWith({ isLoading: true });
         expect(component.fetchData).toBeCalledWith(nextProps);
     });
 
     test('refresh less than or equal old value: do nothing', () => {
         const component = new Turnover(fakeProps);
-        component.props = {
-            refresh: 123
-        };
+        component.props = { refresh: 123 };
+        component.state.isMounted = true;
         component.setState = jest.fn();
         component.fetchData = jest.fn();
 
-        component.componentWillReceiveProps({
-            refresh: 123
-        });
+        component.componentWillReceiveProps({ refresh: 123 });
         expect(component.setState).not.toBeCalled();
         expect(component.fetchData).not.toBeCalled();
 
-        component.componentWillReceiveProps({
-            refresh: 1
-        });
+        component.componentWillReceiveProps({ refresh: 1 });
+        expect(component.setState).not.toBeCalled();
+        expect(component.fetchData).not.toBeCalled();
+    });
+
+    test('component unmouted: do nothing', () => {
+        const component = new Turnover(fakeProps);
+        component.state.isMounted = false;
+        component.setState = jest.fn();
+        component.fetchData = jest.fn();
+
+        component.componentWillReceiveProps({ refresh: 123 });
         expect(component.setState).not.toBeCalled();
         expect(component.fetchData).not.toBeCalled();
     });

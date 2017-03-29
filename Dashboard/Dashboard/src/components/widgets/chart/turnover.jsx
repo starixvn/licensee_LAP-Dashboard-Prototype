@@ -16,7 +16,7 @@ export default class Turnover extends React.Component {
             data: {},
             total: 0,
             isLoading: true,
-            isMounted:false
+            isMounted: false
         };
 
         this.options = {
@@ -129,17 +129,17 @@ export default class Turnover extends React.Component {
             this.fetchData(nextProps)
         }
     }
-    
+
     componentDidMount() {
-
-        this.setState({ isMounted: true },()=>{
-             this.fetchData(this.props)
-
+        this.setState({ isMounted: true }, () => {
+            this.fetchData(this.props)
         });
     }
+
     componentWillUnmount() {
         this.setState({ isMounted: false });
     }
+    
     render() {
         return <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} widgetKey={WidgetKey.chartTurnover} title={LanguageApi.getRes(this.props.langCode, "turnover_byplatform_month_todate")}
             widgetName="turnover default" isLoading={this.state.isLoading}>
