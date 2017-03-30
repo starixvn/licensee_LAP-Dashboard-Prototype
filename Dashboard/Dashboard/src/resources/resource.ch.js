@@ -21,7 +21,7 @@ export const ch = {
     currency: "会员币别",
     Based: "显示币别",
     Widgets: "小工具",
-    total_registered_cus_today: "今日註冊會員",
+    total_registered_cus_today: "總註冊會員",
     deposit: "註冊且存款",
     none_deposit: "註冊未存款",
     Asia: "亞洲版",

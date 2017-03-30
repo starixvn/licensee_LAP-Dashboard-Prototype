@@ -21,7 +21,7 @@ export const zhcn = {
     currency: "會員幣別",
     Based: "顯示幣別",
     Widgets: "小工具",
-    total_registered_cus_today: "今日注册会员",
+    total_registered_cus_today: "总注册会员",
     deposit: "注册且存款",
     none_deposit: "注册未存款",
     Asia: "亚洲版",

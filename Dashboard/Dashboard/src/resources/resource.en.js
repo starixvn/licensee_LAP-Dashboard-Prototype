@@ -21,7 +21,7 @@ export const en = {
     currency: "Currency",
     Based: "Based",
     Widgets: "WIDGETS",
-    total_registered_cus_today: "Total Registered Customers (today)",
+    total_registered_cus_today: "Total Registered Customers (to date)",
     deposit: "Deposit",
     none_deposit: "Non - Deposit",
     Asia: "Asia",
