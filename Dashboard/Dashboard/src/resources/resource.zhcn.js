@@ -34,5 +34,5 @@ export const zhcn = {
     total_turnover: "总交易额",
     total_winloss: "总投注输赢",
     no_widget_permission: "You do not have sufficient permissions to access this page",
-    reset_layout: "Reset layout"
+    reset_layout: "初始设定"
 };
