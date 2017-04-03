@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
-import { Doughnut } from 'react-chartjs-2';
+import { Doughnut, Chart } from 'react-chartjs-2';
 import WidgetBox from '../widgetbox';
 import { WidgetKey } from '../../../config';
 import LanguageApi from '../../../Modules/LanguageApi';
@@ -9,7 +9,6 @@ import WidgetApi from '../../../Modules/WidgetApi';
 import NumberFormat from '../../../Modules/Number';
 
 export default class Turnover extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -20,32 +19,11 @@ export default class Turnover extends React.Component {
         };
 
         this.options = {
-            legend: {
-                display: true,
-                position: 'right',
-                labels: {
-                    boxWidth: 20,
-                    usePointStyle: true,
-                    padding: 20
-                }
-            },
+            legend: { display: false, custom: true, id: 'custom-legend' },
             maintainAspectRatio: false,
-            tooltips: {
-                callbacks: {
-                    label: function (tooltipItem, data) {
-                        var dataset = data.datasets[tooltipItem.datasetIndex];
-                        var label = data.labels[tooltipItem.index];
-                        var currentValue = dataset.data[tooltipItem.index];
-                        return label + ": " + NumberFormat.format(currentValue);
-                    }
-                }
-            },
-            layout: {
-                padding: { top: 10, bottom: 50 }
-            },
-            hover: {
-                animationDuration: 0
-            },
+            tooltips: { enabled: false },
+            layout: { padding: { top: 10, bottom: 50, right: 130 } },
+            hover: { animationDuration: 0 },
             animation: {
                 onComplete: function (e) {
                     var self = this,
@@ -123,6 +101,7 @@ export default class Turnover extends React.Component {
                 console.log("error:", error);
             });
     }
+
     componentWillReceiveProps(nextProps) {
         if (this.state.isMounted && nextProps.refresh > this.props.refresh) {
             this.setState({ isLoading: true })
@@ -139,11 +118,12 @@ export default class Turnover extends React.Component {
     componentWillUnmount() {
         this.setState({ isMounted: false });
     }
-    
+
     render() {
         return <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} widgetKey={WidgetKey.chartTurnover} title={LanguageApi.getRes(this.props.langCode, "turnover_byplatform_month_todate")}
             widgetName="turnover default" isLoading={this.state.isLoading}>
             <Doughnut data={this.state.data} options={this.options} />
+            <div id="custom-legend"></div>
             <div className="footer-total">
                 <span>{LanguageApi.getRes(this.props.langCode, "total_turnover")}: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)} </span>
             </div>
@@ -151,3 +131,48 @@ export default class Turnover extends React.Component {
             ;
     }
 };
+
+Chart.plugins.register({
+    afterUpdate: function (chartInstance) {
+        const options = chartInstance.options;
+        const data = chartInstance.data;
+        if (options.legend && options.legend.custom && data.datasets.length) {
+            const legendOptions = data.labels.map((text, i) => ({
+                text: text,
+                index: i,
+                value: data.datasets[0].data[i],
+                color: data.datasets[0].backgroundColor[i]
+            }));
+
+            const customLegendElement = document.getElementById(options.legend.id);
+            if (!customLegendElement) return;
+
+            const globalDefault = Chart.defaults.global;
+
+            ReactDOM.render((<table style={{
+                position: 'absolute',
+                top: 10,
+                right: 10,
+                border: 0,
+                fontSize: globalDefault.defaultFontSize,
+                fontStyle: globalDefault.defaultFontStyle,
+                fontFamily: globalDefault.defaultFontFamily
+            }}>
+                <tbody>
+                    {legendOptions.map(x => (<tr key={x.index}>
+                        <td style={{ padding: '1px 10px 1px 1px' }}><span style={{
+                            backgroundColor: x.color,
+                            display: 'inline-block',
+                            width: 12,
+                            height: 12,
+                            marginRight: 3,
+                            borderRadius: '50%',
+                            verticalAlign: 'middle'
+                        }}></span><span style={{ verticalAlign: 'middle' }}>{x.text}</span></td>
+                        <td style={{ textAlign: 'right' }}><span style={{ verticalAlign: 'middle' }}>{x.value.toFixed(2)}</span></td>
+                    </tr>))}
+                </tbody>
+            </table>), customLegendElement);
+        }
+    }
+});
