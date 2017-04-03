@@ -1,4 +1,4 @@
-exports[`animation complete fill text each data set when segmentPercent < 1 1`] = `
+exports[`custom legend plugin: no dataset: do not render 1`] = `
 <div
   callbackParent="fake callbackParent"
   isLoading={false}
@@ -43,28 +43,25 @@ exports[`animation complete fill text each data set when segmentPercent < 1 1`] 
         "layout": Object {
           "padding": Object {
             "bottom": 50,
+            "right": 130,
             "top": 10,
           },
         },
         "legend": Object {
-          "display": true,
-          "labels": Object {
-            "boxWidth": 20,
-            "padding": 20,
-            "usePointStyle": true,
-          },
-          "position": "right",
+          "custom": true,
+          "display": false,
+          "id": "custom-legend",
         },
         "maintainAspectRatio": false,
         "tooltips": Object {
-          "callbacks": Object {
-            "label": [Function],
-          },
+          "enabled": false,
         },
       }
     }>
     hello bar
   </div>
+  <div
+    id="custom-legend" />
   <div
     className="footer-total">
     <span>
@@ -74,6 +71,114 @@ exports[`animation complete fill text each data set when segmentPercent < 1 1`] 
        
     </span>
   </div>
+</div>
+`;
+
+exports[`custom legend plugin: render correctly 1`] = `
+<div>
+  <table
+    style={
+      Object {
+        "border": 0,
+        "fontFamily": "\'Helvetica Neue\', \'Helvetica\', \'Arial\', sans-serif",
+        "fontSize": 12,
+        "fontStyle": "normal",
+        "position": "absolute",
+        "right": 10,
+        "top": 10,
+      }
+    }>
+    <tbody>
+      <tr>
+        <td
+          style={
+            Object {
+              "padding": "1px 10px 1px 1px",
+            }
+          }>
+          <span
+            style={
+              Object {
+                "backgroundColor": "red",
+                "borderRadius": "50%",
+                "display": "inline-block",
+                "height": 12,
+                "marginRight": 3,
+                "verticalAlign": "middle",
+                "width": 12,
+              }
+            } />
+          <span
+            style={
+              Object {
+                "verticalAlign": "middle",
+              }
+            }>
+            a
+          </span>
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "right",
+            }
+          }>
+          <span
+            style={
+              Object {
+                "verticalAlign": "middle",
+              }
+            }>
+            11.00
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          style={
+            Object {
+              "padding": "1px 10px 1px 1px",
+            }
+          }>
+          <span
+            style={
+              Object {
+                "backgroundColor": "green",
+                "borderRadius": "50%",
+                "display": "inline-block",
+                "height": 12,
+                "marginRight": 3,
+                "verticalAlign": "middle",
+                "width": 12,
+              }
+            } />
+          <span
+            style={
+              Object {
+                "verticalAlign": "middle",
+              }
+            }>
+            b
+          </span>
+        </td>
+        <td
+          style={
+            Object {
+              "textAlign": "right",
+            }
+          }>
+          <span
+            style={
+              Object {
+                "verticalAlign": "middle",
+              }
+            }>
+            22.00
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 `;
 
@@ -100,28 +205,25 @@ exports[`test render correctly 1`] = `
         "layout": Object {
           "padding": Object {
             "bottom": 50,
+            "right": 130,
             "top": 10,
           },
         },
         "legend": Object {
-          "display": true,
-          "labels": Object {
-            "boxWidth": 20,
-            "padding": 20,
-            "usePointStyle": true,
-          },
-          "position": "right",
+          "custom": true,
+          "display": false,
+          "id": "custom-legend",
         },
         "maintainAspectRatio": false,
         "tooltips": Object {
-          "callbacks": Object {
-            "label": [Function],
-          },
+          "enabled": false,
         },
       }
     }>
     hello bar
   </div>
+  <div
+    id="custom-legend" />
   <div
     className="footer-total">
     <span>

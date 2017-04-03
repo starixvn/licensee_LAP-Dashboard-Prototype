@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
 import WidgetApi from '../../../../Modules/WidgetApi';
 import Turnover from '../turnover.jsx';
@@ -8,6 +9,7 @@ import * as ChartJs from 'react-chartjs-2'
 jest.mock('../../../../Modules/WidgetApi');
 jest.mock('../../widgetbox');
 jest.mock('react-chartjs-2');
+jest.mock('react-dom');
 
 const Doughnut = ChartJs.Doughnut;
 
@@ -214,23 +216,6 @@ test('write log when fetch data fail', () => {
     console.log = _log;
 });
 
-test('format tooltip label', () => {
-    const component = new Turnover(fakeProps);
-    const tooltipItem = {
-        datasetIndex: 1,
-        index: 1
-    };
-    const data = {
-        datasets: [{}, {
-            data: [-1, 789.9]
-        }],
-        labels: ['wrong value', 'should return this']
-    };
-
-    const result = component.options.tooltips.callbacks.label(tooltipItem, data);
-    expect(result).toBe('should return this: 790');
-});
-
 describe('animation complete', () => {
     test('re-format chart', () => {
         const component = new Turnover(fakeProps);
@@ -329,5 +314,107 @@ describe('animation complete', () => {
             ['<1%', 1, 2],
             ['<1%', 11, 22]
         ]);
+    });
+});
+
+describe('custom legend plugin:', () => {
+    const afterUpdate = ChartJs.Chart.plugins.register.mock.calls[0][0].afterUpdate;
+
+    test('without legend: do not render', () => {
+        const chartInstance = { options: {} };
+        ReactDOM.render.mockReset();
+        afterUpdate(chartInstance);
+        expect(ReactDOM.render).not.toBeCalled();
+    });
+
+    test('not enable custom: do not render', () => {
+        const chartInstance = {
+            options: {
+                legend: { custom: false }
+            }
+        };
+        ReactDOM.render.mockReset();
+        afterUpdate(chartInstance);
+        expect(ReactDOM.render).not.toBeCalled();
+    });
+
+    test('no dataset: do not render', () => {
+        const chartInstance = {
+            options: {
+                legend: { custom: true }
+            },
+            data: {
+                datasets: []
+            }
+        };
+        ReactDOM.render.mockReset();
+        afterUpdate(chartInstance);
+        expect(ReactDOM.render).not.toBeCalled();
+    });
+
+    test('legend element id not found: do not render', () => {
+        const chartInstance = {
+            options: {
+                legend: { custom: true, id: 'fake-id' }
+            },
+            data: {
+                datasets: [{
+                    data: [11, 22],
+                    backgroundColor: ['red', 'green']
+                }],
+                labels: ['a', 'b']
+            }
+        };
+
+        ReactDOM.render.mockReset();
+        afterUpdate(chartInstance);
+        expect(ReactDOM.render).not.toBeCalled();
+    });
+
+    test('render correctly', () => {
+        const chartInstance = {
+            options: {
+                legend: { custom: true, id: 'fake-id' }
+            },
+            data: {
+                datasets: [{
+                    data: [11, 22],
+                    backgroundColor: ['red', 'green']
+                }],
+                labels: ['a', 'b']
+            }
+        };
+
+        var fakeElement = document.createElement('div');
+        fakeElement.id = 'fake-id';
+        document.body.appendChild(fakeElement);
+
+        ReactDOM.render.mockReset();
+        afterUpdate(chartInstance);
+        var result = renderer.create(<div>{ReactDOM.render.mock.calls[0][0]}</div>);
+        expect(result.toJSON()).toMatchSnapshot();
+    });
+
+    test('render to given legend element id', () => {
+        const chartInstance = {
+            options: {
+                legend: { custom: true, id: 'fake-id' }
+            },
+            data: {
+                datasets: [{
+                    data: [11, 22],
+                    backgroundColor: ['red', 'green']
+                }],
+                labels: ['a', 'b']
+            }
+        };
+
+        var fakeElement = document.createElement('div');
+        fakeElement.id = 'fake-id';
+        document.body.appendChild(fakeElement);
+
+        ReactDOM.render.mockReset();
+        afterUpdate(chartInstance);
+        expect(ReactDOM.render.mock.calls[0][1]).toEqual(fakeElement);
     });
 });
