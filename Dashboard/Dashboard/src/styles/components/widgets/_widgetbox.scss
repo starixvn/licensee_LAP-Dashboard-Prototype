@@ -1,4 +1,5 @@
 ﻿$white: #fff;
+$orange: #ef5b1f;
 $red-Roman: #d9534f;
 $red-Sunglo: #e27c79;
 $blue-Bermuda: #7687a8;
@@ -248,7 +249,7 @@ $bg-Withdrawal: $blue-Bayoux;
                 backface-visibility: hidden;
                 span {
                     display: block;
-                    color: #ef5b1f;
+                    color: $orange;
                     font-weight: 600;
                     font-size: 15px;
                 }
@@ -257,5 +258,30 @@ $bg-Withdrawal: $blue-Bayoux;
     }
     &.is-closed {
         display: none;
+    }
+    .chart-legend {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border: 0;
+        .cl__point {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 3px;
+            border-radius: 50%;
+            vertical-align: middle
+        }
+        .cl__text {
+            vertical-align: middle;
+        }
+        .cl__label{
+            padding: 1px 10px 1px 1px;
+        }
+        .cl__value{
+            text-align: right;
+            color: $orange;
+            font-weight: 700;
+        }
     }
 }

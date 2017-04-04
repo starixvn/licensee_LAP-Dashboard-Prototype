@@ -19,6 +19,7 @@ exports[`custom legend plugin: no dataset: do not render 1`] = `
               "#D9544F",
               "#4473C5",
             ],
+            "currency": "USD",
             "data": Array [
               1.2,
               3.4,
@@ -77,103 +78,58 @@ exports[`custom legend plugin: no dataset: do not render 1`] = `
 exports[`custom legend plugin: render correctly 1`] = `
 <div>
   <table
+    className="chart-legend"
     style={
       Object {
-        "border": 0,
         "fontFamily": "\'Helvetica Neue\', \'Helvetica\', \'Arial\', sans-serif",
         "fontSize": 12,
         "fontStyle": "normal",
-        "position": "absolute",
-        "right": 10,
-        "top": 10,
       }
     }>
     <tbody>
       <tr>
         <td
-          style={
-            Object {
-              "padding": "1px 10px 1px 1px",
-            }
-          }>
+          className="cl__label">
           <span
+            className="cl__point"
             style={
               Object {
                 "backgroundColor": "red",
-                "borderRadius": "50%",
-                "display": "inline-block",
-                "height": 12,
-                "marginRight": 3,
-                "verticalAlign": "middle",
-                "width": 12,
               }
             } />
           <span
-            style={
-              Object {
-                "verticalAlign": "middle",
-              }
-            }>
+            className="cl__text">
             a
           </span>
         </td>
         <td
-          style={
-            Object {
-              "textAlign": "right",
-            }
-          }>
+          className="cl__value">
           <span
-            style={
-              Object {
-                "verticalAlign": "middle",
-              }
-            }>
-            11.00
+            className="cl__text">
+            €11.00
           </span>
         </td>
       </tr>
       <tr>
         <td
-          style={
-            Object {
-              "padding": "1px 10px 1px 1px",
-            }
-          }>
+          className="cl__label">
           <span
+            className="cl__point"
             style={
               Object {
                 "backgroundColor": "green",
-                "borderRadius": "50%",
-                "display": "inline-block",
-                "height": 12,
-                "marginRight": 3,
-                "verticalAlign": "middle",
-                "width": 12,
               }
             } />
           <span
-            style={
-              Object {
-                "verticalAlign": "middle",
-              }
-            }>
+            className="cl__text">
             b
           </span>
         </td>
         <td
-          style={
-            Object {
-              "textAlign": "right",
-            }
-          }>
+          className="cl__value">
           <span
-            style={
-              Object {
-                "verticalAlign": "middle",
-              }
-            }>
-            22.00
+            className="cl__text">
+            €22.00
           </span>
         </td>
       </tr>

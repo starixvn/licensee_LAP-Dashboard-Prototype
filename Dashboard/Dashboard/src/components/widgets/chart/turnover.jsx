@@ -85,6 +85,7 @@ export default class Turnover extends React.Component {
                         datasets: [
                             {
                                 data: dataList,
+                                currency: nextProps.filter.baseCurrency,
                                 backgroundColor: [
                                     "#35A1FB",
                                     "#4B966B",
@@ -137,11 +138,12 @@ Chart.plugins.register({
         const options = chartInstance.options;
         const data = chartInstance.data;
         if (options.legend && options.legend.custom && data.datasets.length) {
+            const ds = data.datasets[0];
             const legendOptions = data.labels.map((text, i) => ({
                 text: text,
                 index: i,
-                value: data.datasets[0].data[i],
-                color: data.datasets[0].backgroundColor[i]
+                value: NumberFormat.formatCurrency(ds.data[i], ds.currency),
+                color: ds.backgroundColor[i]
             }));
 
             const customLegendElement = document.getElementById(options.legend.id);
@@ -149,27 +151,19 @@ Chart.plugins.register({
 
             const globalDefault = Chart.defaults.global;
 
-            ReactDOM.render((<table style={{
-                position: 'absolute',
-                top: 10,
-                right: 10,
-                border: 0,
+            ReactDOM.render((<table className="chart-legend" style={{
                 fontSize: globalDefault.defaultFontSize,
                 fontStyle: globalDefault.defaultFontStyle,
                 fontFamily: globalDefault.defaultFontFamily
             }}>
                 <tbody>
                     {legendOptions.map(x => (<tr key={x.index}>
-                        <td style={{ padding: '1px 10px 1px 1px' }}><span style={{
-                            backgroundColor: x.color,
-                            display: 'inline-block',
-                            width: 12,
-                            height: 12,
-                            marginRight: 3,
-                            borderRadius: '50%',
-                            verticalAlign: 'middle'
-                        }}></span><span style={{ verticalAlign: 'middle' }}>{x.text}</span></td>
-                        <td style={{ textAlign: 'right' }}><span style={{ verticalAlign: 'middle' }}>{x.value.toFixed(2)}</span></td>
+                        <td className="cl__label">
+                            <span style={{ backgroundColor: x.color }} className="cl__point"></span>
+                            <span className="cl__text">{x.text}</span>
+                        </td>
+                        <td className="cl__value">
+                            <span className="cl__text">{x.value}</span></td>
                     </tr>))}
                 </tbody>
             </table>), customLegendElement);

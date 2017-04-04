@@ -379,7 +379,8 @@ describe('custom legend plugin:', () => {
             data: {
                 datasets: [{
                     data: [11, 22],
-                    backgroundColor: ['red', 'green']
+                    backgroundColor: ['red', 'green'],
+                    currency: 'EUR'
                 }],
                 labels: ['a', 'b']
             }
