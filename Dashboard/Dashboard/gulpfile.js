@@ -251,7 +251,7 @@ gulp.task('copytoLocal2', function(cb) {
 gulp.task('copytoSVN', function(cb) {
     // Remove temp folder
 
-    src.fonts = 'build/font/**';
+    src.fonts = 'build/fonts/**';
     gulp.src(src.fonts)
 
     .pipe(gulp.dest(svnPath + '/css/pages/dashboard/fonts'))

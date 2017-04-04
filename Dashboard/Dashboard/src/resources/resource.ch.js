@@ -21,7 +21,7 @@ export const ch = {
     currency: "会员币别",
     Based: "显示币别",
     Widgets: "小工具",
-    total_registered_cus_today: "今日註冊會員",
+    total_registered_cus_today: "總註冊會員",
     deposit: "註冊且存款",
     none_deposit: "註冊未存款",
     Asia: "亞洲版",
@@ -34,5 +34,5 @@ export const ch = {
     total_turnover: "總交易額",
     total_winloss: "總投注輸贏",
     no_widget_permission: "You do not have sufficient permissions to access this page",
-    reset_layout: "Reset layout"
+    reset_layout: "初始設定"
 };
