@@ -1,4 +1,4 @@
-exports[`animation complete fill text each data set when segmentPercent < 1 1`] = `
+exports[`custom legend plugin: no dataset: do not render 1`] = `
 <div
   callbackParent="fake callbackParent"
   isLoading={false}
@@ -19,6 +19,7 @@ exports[`animation complete fill text each data set when segmentPercent < 1 1`] 
               "#D9544F",
               "#4473C5",
             ],
+            "currency": "USD",
             "data": Array [
               1.2,
               3.4,
@@ -43,28 +44,25 @@ exports[`animation complete fill text each data set when segmentPercent < 1 1`] 
         "layout": Object {
           "padding": Object {
             "bottom": 50,
+            "right": 130,
             "top": 10,
           },
         },
         "legend": Object {
-          "display": true,
-          "labels": Object {
-            "boxWidth": 20,
-            "padding": 20,
-            "usePointStyle": true,
-          },
-          "position": "right",
+          "custom": true,
+          "display": false,
+          "id": "custom-legend",
         },
         "maintainAspectRatio": false,
         "tooltips": Object {
-          "callbacks": Object {
-            "label": [Function],
-          },
+          "enabled": false,
         },
       }
     }>
     hello bar
   </div>
+  <div
+    id="custom-legend" />
   <div
     className="footer-total">
     <span>
@@ -74,6 +72,69 @@ exports[`animation complete fill text each data set when segmentPercent < 1 1`] 
        
     </span>
   </div>
+</div>
+`;
+
+exports[`custom legend plugin: render correctly 1`] = `
+<div>
+  <table
+    className="chart-legend"
+    style={
+      Object {
+        "fontFamily": "\'Helvetica Neue\', \'Helvetica\', \'Arial\', sans-serif",
+        "fontSize": 12,
+        "fontStyle": "normal",
+      }
+    }>
+    <tbody>
+      <tr>
+        <td
+          className="cl__label">
+          <span
+            className="cl__point"
+            style={
+              Object {
+                "backgroundColor": "red",
+              }
+            } />
+          <span
+            className="cl__text">
+            a
+          </span>
+        </td>
+        <td
+          className="cl__value">
+          <span
+            className="cl__text">
+            €11.00
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td
+          className="cl__label">
+          <span
+            className="cl__point"
+            style={
+              Object {
+                "backgroundColor": "green",
+              }
+            } />
+          <span
+            className="cl__text">
+            b
+          </span>
+        </td>
+        <td
+          className="cl__value">
+          <span
+            className="cl__text">
+            €22.00
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 `;
 
@@ -100,28 +161,25 @@ exports[`test render correctly 1`] = `
         "layout": Object {
           "padding": Object {
             "bottom": 50,
+            "right": 130,
             "top": 10,
           },
         },
         "legend": Object {
-          "display": true,
-          "labels": Object {
-            "boxWidth": 20,
-            "padding": 20,
-            "usePointStyle": true,
-          },
-          "position": "right",
+          "custom": true,
+          "display": false,
+          "id": "custom-legend",
         },
         "maintainAspectRatio": false,
         "tooltips": Object {
-          "callbacks": Object {
-            "label": [Function],
-          },
+          "enabled": false,
         },
       }
     }>
     hello bar
   </div>
+  <div
+    id="custom-legend" />
   <div
     className="footer-total">
     <span>

@@ -21,7 +21,7 @@ exports[`test renders correctly 1`] = `
         </p>
         <p
           className="text">
-          今日注册会员
+          总注册会员
         </p>
       </div>
     </div>
@@ -83,7 +83,7 @@ exports[`test write log when fetch data fail 1`] = `
         </p>
         <p
           className="text">
-          今日注册会员
+          总注册会员
         </p>
       </div>
     </div>
