@@ -87,6 +87,7 @@ export default class AutoReload extends React.Component {
     }
 
     render() {
+        var className = "btn-refresh right border-" + (this.props.colorMode || "white")
         const selection = this.state.isShowSelection
             ? (<ul className="dropdown-timer">
                 {(this.countdownValues || []).map(value => (
@@ -95,7 +96,7 @@ export default class AutoReload extends React.Component {
             </ul>)
             : null;
 
-        return (<div className="btn-refresh right border-white" onClick={() => this._onCounterClick()}>
+        return (<div className={className} onClick={() => this._onCounterClick()}>
             <i className="icon-refresh"></i>
             <span className="currentCountdown">{this.state.currentCountdown + 's'}</span>
             <i className="icon-menu-down"></i>
