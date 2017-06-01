@@ -40,15 +40,18 @@ export default class AutoReload extends React.Component {
             let countdown = this.state.currentCountdown;
 
             if (countdown === 0) {
-                this.props.reloadCallback();
-                countdown = this.state.countdown;
+                this._stopTimer();
+                this.props.reloadCallback(() => {
+                    this.setState({
+                        currentCountdown: this.state.countdown
+                    });
+                    this._startTimer();
+                });
             } else {
-                countdown--;
+                this.setState({
+                    currentCountdown: countdown - 1
+                });
             }
-
-            this.setState({
-                currentCountdown: countdown
-            });
         }
     }
 
@@ -59,6 +62,7 @@ export default class AutoReload extends React.Component {
     _stopTimer() {
         if (this.timerId) {
             clearInterval(this.timerId);
+            this.timerId = 0;
         }
     }
 

@@ -213,17 +213,30 @@ describe('componentWillUnmount', () => {
     });
 });
 
-test('onTick(): when mounted and countdown = 0: do callback and restart countdown', () => {
+test('onTick(): when mounted and countdown = 0: stop timer', () => {
+    const component = new AutoReload(fakeProps);
+    component._stopTimer = jest.fn();
+    component.state.isMounted = true;
+    component.state.currentCountdown = 0;
+    component._onTick();
+
+    expect(component._stopTimer).toBeCalled();
+});
+
+test('onTick(): when mounted and countdown = 0: wait for callback then restart countdown', () => {
     const component = new AutoReload(fakeProps);
     component.setState = jest.fn();
+    component._startTimer = jest.fn();
     component.state.currentCountdown = 0;
     component.state.countdown = 123;
     component.state.isMounted = true;
+    fakeProps.reloadCallback.mockReset();
 
     component._onTick();
+    fakeProps.reloadCallback.mock.calls[0][0]();
 
-    expect(fakeProps.reloadCallback).toBeCalled();
     expect(component.setState).toBeCalledWith({ currentCountdown: 123 });
+    expect(component._startTimer).toBeCalled();
 });
 
 test('onTick(): component is umounted : do nothing', () => {

@@ -166,6 +166,24 @@ test('fetch data by criteria', () => {
     })
 });
 
+test('fetch data: return fetch data promise', () => {
+    // assign
+    const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+    const promise = Promise.resolve();
+
+    promise.then = () => promise;
+    promise.catch = () => promise;
+    WidgetApi
+        .fetchData
+        .mockImplementationOnce(() => promise);
+
+    // action
+    let result = component.fetchData(fakeProps);
+
+    // assert
+    expect(result).toBe(promise);
+});
+
 test('write log when fetch data fail', () => {
     // assign
     const component = new FakeConfiguredBaseNormalWidget(fakeProps);
@@ -191,34 +209,53 @@ test('write log when fetch data fail', () => {
     console.log = _log;
 });
 
-test('reloadCallback and component is mounted: fetch data', () => {
-    // assign
-    const component = new FakeConfiguredBaseNormalWidget(fakeProps);
-    component.setState = jest.fn();
-    component.fetchData = jest.fn();
-    component.state.isMounted = true;
+describe('when reloadCallback is called:', () => {
 
-    //  action
-    const rendered = component.render();
-    rendered.props.reloadCallback();
+    test('if component is mounted then fetch data', () => {
+        // assign
+        const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+        component.setState = jest.fn();
+        component.fetchData = jest.fn(() => Promise.resolve());
+        component.state.isMounted = true;
 
-    // assert
-    expect(component.setState).toBeCalledWith({ isLoading: true })
-    expect(component.fetchData).toBeCalledWith(fakeProps);
-});
+        //  action
+        const rendered = component.render();
+        rendered.props.reloadCallback();
 
-test('reloadCallback and component is un-mounted: do nothing', () => {
-    // assign
-    const component = new FakeConfiguredBaseNormalWidget(fakeProps);
-    component.setState = jest.fn();
-    component.fetchData = jest.fn();
-    component.state.isMounted = false
+        // assert
+        expect(component.setState).toBeCalledWith({ isLoading: true })
+        expect(component.fetchData).toBeCalledWith(fakeProps);
+    });
 
-    //  action
-    const rendered = component.render();
-    rendered.props.reloadCallback();
+    test('component is un-mounted: do nothing', () => {
+        // assign
+        const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+        component.setState = jest.fn();
+        component.fetchData = jest.fn();
+        component.state.isMounted = false
 
-    // assert
-    expect(component.setState).not.toBeCalled();
-    expect(component.fetchData).not.toBeCalled();
+        //  action
+        const rendered = component.render();
+        rendered.props.reloadCallback();
+
+        // assert
+        expect(component.setState).not.toBeCalled();
+        expect(component.fetchData).not.toBeCalled();
+    });
+
+    test('after fetch data: restart countdown', () => {
+        // assign
+        const component = new FakeConfiguredBaseNormalWidget(fakeProps);
+        const fetchDataPromise = { then: jest.fn() };
+        component.setState = jest.fn();
+        component.fetchData = jest.fn(() => fetchDataPromise);
+        component.state.isMounted = true;
+
+        //  action
+        const rendered = component.render();
+        rendered.props.reloadCallback('restartCountdown***');
+
+        // assert
+        expect(fetchDataPromise.then).toBeCalledWith('restartCountdown***');
+    });
 });
