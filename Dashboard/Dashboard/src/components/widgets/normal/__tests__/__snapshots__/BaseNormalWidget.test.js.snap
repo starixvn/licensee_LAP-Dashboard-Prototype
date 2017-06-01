@@ -1,16 +1,19 @@
 exports[`test renders correctly 1`] = `
 <div
   callbackParent="fake callbackParent"
-  countdownValues={
-    Array [
-      1,
-      2,
-      3,
-    ]
+  countdownConfigs={
+    Object {
+      "colorMode": "white",
+      "countdownValues": Array [
+        1,
+        2,
+        3,
+      ],
+      "defaultCountdown": 123,
+      "reloadCallback": [Function],
+    }
   }
-  defaultCountdown={123}
   isLoading={true}
-  reloadCallback={[Function]}
   title="Licensee Win Loss (Month to date)"
   wgItem="f**k wgItemFromParent"
   widgetKey="this is a f**k key"
@@ -28,16 +31,19 @@ exports[`test renders correctly 1`] = `
 exports[`when reloadCallback is called: after fetch data: restart countdown 1`] = `
 <div
   callbackParent="fake callbackParent"
-  countdownValues={
-    Array [
-      1,
-      2,
-      3,
-    ]
+  countdownConfigs={
+    Object {
+      "colorMode": "white",
+      "countdownValues": Array [
+        1,
+        2,
+        3,
+      ],
+      "defaultCountdown": 123,
+      "reloadCallback": [Function],
+    }
   }
-  defaultCountdown={123}
   isLoading={false}
-  reloadCallback={[Function]}
   title="Licensee Win Loss (Month to date)"
   wgItem="f**k wgItemFromParent"
   widgetKey="this is a f**k key"

@@ -18,15 +18,11 @@ export default class WidgetBox extends React.Component {
   }
 
   _getAutoReload() {
-    return (<AutoReload
-      dataKey={this.props.widgetKey}
-      countdownValues={this.props.countdownValues}
-      defaultCountdown={this.props.defaultCountdown}
-      reloadCallback={this.props.reloadCallback} />);
+    return (<AutoReload {...this.props.countdownConfigs} dataKey={this.props.widgetKey} />);
   }
 
   _isAutoReloadEnabled() {
-    return this.props.countdownValues && this.props.defaultCountdown && this.props.reloadCallback;
+    return !!this.props.countdownConfigs;
   }
 
   render() {

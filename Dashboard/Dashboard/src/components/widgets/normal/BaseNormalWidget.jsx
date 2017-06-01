@@ -74,13 +74,16 @@ export default class BaseNormalWidget extends React.Component {
     render() {
         return <WidgetBox
             callbackParent={this.props.callbackParent}
-            reloadCallback={restartCountdown => this._reload(restartCountdown)}
-            defaultCountdown={this.configs.defaultCountdown}
-            countdownValues={this.configs.countdownValues}
+            countdownConfigs={{
+                reloadCallback: restartCountdown => this._reload(restartCountdown),
+                defaultCountdown: this.configs.defaultCountdown,
+                countdownValues: this.configs.countdownValues,
+                colorMode: 'white'
+            }}
             wgItem={this.props.wgItemFromParent}
             widgetKey={this.configs.WidgetKey}
             title={LanguageApi.getRes(this.props.langCode, this.configs.TitleKey)}
-            widgetName={this.configs.WidgetName} isLoading={this.state.isLoading}>
+            widgetName={this.configs.WidgetName} isLoading={this.state.isLoading} >
             <div className="center-block">
                 <span className="number-big">{NumberFormat.formatCurrency(this.state.data, this.props.filter.baseCurrency)}</span>
             </div>

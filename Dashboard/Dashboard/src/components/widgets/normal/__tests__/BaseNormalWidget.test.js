@@ -220,7 +220,7 @@ describe('when reloadCallback is called:', () => {
 
         //  action
         const rendered = component.render();
-        rendered.props.reloadCallback();
+        rendered.props.countdownConfigs.reloadCallback();
 
         // assert
         expect(component.setState).toBeCalledWith({ isLoading: true })
@@ -236,7 +236,7 @@ describe('when reloadCallback is called:', () => {
 
         //  action
         const rendered = component.render();
-        rendered.props.reloadCallback();
+        rendered.props.countdownConfigs.reloadCallback();
 
         // assert
         expect(component.setState).not.toBeCalled();
@@ -253,7 +253,7 @@ describe('when reloadCallback is called:', () => {
 
         //  action
         const rendered = component.render();
-        rendered.props.reloadCallback('restartCountdown***');
+        rendered.props.countdownConfigs.reloadCallback('restartCountdown***');
 
         // assert
         expect(fetchDataPromise.then).toBeCalledWith('restartCountdown***');
