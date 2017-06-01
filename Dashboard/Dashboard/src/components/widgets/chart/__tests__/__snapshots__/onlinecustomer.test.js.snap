@@ -1,7 +1,21 @@
-exports[`animation complete fill text each data set 1`] = `
+exports[`test render correctly 1`] = `
 <div
   callbackParent="fake callbackParent"
-  isLoading={false}
+  countdownConfigs={
+    Object {
+      "colorMode": "blue",
+      "countdownValues": Array [
+        15,
+        30,
+        45,
+        60,
+        75,
+      ],
+      "defaultCountdown": 75,
+      "reloadCallback": [Function],
+    }
+  }
+  isLoading={true}
   name="WidgetBox"
   title="在线会员"
   wgItem="fake wgItemFromParent"
@@ -10,20 +24,11 @@ exports[`animation complete fill text each data set 1`] = `
   <div
     data={
       Object {
-        "datasets": Array [
-          Object {
-            "backgroundColor": Array [
-              "rgb(241, 91, 32)",
-              "rgb(75, 150, 107)",
-              "rgb(61, 165, 250)",
-            ],
-            "data": Array [
-              "webwwebwebweb",
-              "wapwapwap",
-              "smsmsmsm",
-            ],
-            "stacked": true,
-          },
+        "datasets": Array [],
+        "labels": Array [
+          "桌機版",
+          "WAP手機",
+          "智慧型手機",
         ],
       }
     }
@@ -80,10 +85,24 @@ exports[`animation complete fill text each data set 1`] = `
 </div>
 `;
 
-exports[`test render correctly 1`] = `
+exports[`when reloadCallback is called: after fetch data: restart countdown 1`] = `
 <div
   callbackParent="fake callbackParent"
-  isLoading={true}
+  countdownConfigs={
+    Object {
+      "colorMode": "blue",
+      "countdownValues": Array [
+        15,
+        30,
+        45,
+        60,
+        75,
+      ],
+      "defaultCountdown": 75,
+      "reloadCallback": [Function],
+    }
+  }
+  isLoading={false}
   name="WidgetBox"
   title="在线会员"
   wgItem="fake wgItemFromParent"
@@ -92,11 +111,20 @@ exports[`test render correctly 1`] = `
   <div
     data={
       Object {
-        "datasets": Array [],
-        "labels": Array [
-          "桌機版",
-          "WAP手機",
-          "智慧型手機",
+        "datasets": Array [
+          Object {
+            "backgroundColor": Array [
+              "rgb(241, 91, 32)",
+              "rgb(75, 150, 107)",
+              "rgb(61, 165, 250)",
+            ],
+            "data": Array [
+              "webwwebwebweb",
+              "wapwapwap",
+              "smsmsmsm",
+            ],
+            "stacked": true,
+          },
         ],
       }
     }

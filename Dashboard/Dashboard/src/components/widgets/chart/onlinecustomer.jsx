@@ -79,7 +79,7 @@ export default class OnlineCustomer extends React.Component {
             Url: WidgetApiUrl.chartlOnlineCustomer,
             IsCrossSite: false
         };
-        WidgetApi.fetchData(param)
+        return WidgetApi.fetchData(param)
             .then((response) => {
                 this.setState({
                     data: {
@@ -114,10 +114,27 @@ export default class OnlineCustomer extends React.Component {
     componentWillUnmount() {
         this.setState({ isMounted: false });
     }
-    
+
+    _reload(restartCountdown) {
+        if (this.state.isMounted) {
+            this.setState({ isLoading: true });
+            this.fetchData(this.props).then(restartCountdown)
+        }
+    }
+
     render() {
-        return <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} widgetKey={WidgetKey.chartlOnlineCustomer} title={LanguageApi.getRes(this.props.langCode, "online_customer")}
-            widgetName="online-customer default" isLoading={this.state.isLoading}>
+        return <WidgetBox callbackParent={this.props.callbackParent}
+            wgItem={this.props.wgItemFromParent}
+            widgetKey={WidgetKey.chartlOnlineCustomer}
+            title={LanguageApi.getRes(this.props.langCode, "online_customer")}
+            widgetName="online-customer default"
+            isLoading={this.state.isLoading}
+            countdownConfigs={{
+                reloadCallback: restartCountdown => this._reload(restartCountdown),
+                defaultCountdown: 75,
+                countdownValues: [15, 30, 45, 60, 75],
+                colorMode: 'blue'
+            }}>
             <HorizontalBar data={this.state.data} options={this.options} />
         </WidgetBox>;
 
