@@ -78,32 +78,6 @@ export default class RightPanel extends React.Component {
         }));
     }
 
-    _getCurrencyDropdownListOptions() {
-        return this.state.CurrencyList.map((item, i) => {
-            return <option key={i} value={item.CurrencyId}>{item.Currency}</option>
-        });
-    }
-
-    _getBaseCurrencyDropdownListOptions() {
-        return this.state.BaseCurrencyList.map((item, i) => {
-            return <option key={i} value={item}>{item}</option>
-        });
-    }
-
-    _getWidgetCheckBoxes() {
-        return this.props.wgs.map(item => (
-            <p key={item.key} className="widget-item">
-                <input
-                    onChange={(e) => this._onCheckWg(item.key)}
-                    checked={this.state.wgs[item.key]}
-                    className="filled-in"
-                    type="checkbox"
-                    id={item.key} />
-                <label htmlFor={item.key}>{LanguageApi.getRes(this.props.langCode, item.key)}</label>
-            </p>
-        ));
-    }
-
     _onChangeCurrencyList(event) {
         this.setState({ SelectedCurrency: event.target.value });
     }
@@ -148,7 +122,9 @@ export default class RightPanel extends React.Component {
                             ref="currencyDropdownList"
                             onChange={(e) => this._onChangeCurrencyList(e)}
                             value={this.state.SelectedCurrency}>
-                            {this._getCurrencyDropdownListOptions()}
+                            {this.state.CurrencyList.map((item, i) => {
+                                return <option key={i} value={item.CurrencyId}>{item.Currency}</option>
+                            })}
                         </select>
                     </div>
                     <div className="currency">
@@ -157,13 +133,25 @@ export default class RightPanel extends React.Component {
                             ref="baseCurrencyDropdownList"
                             onChange={(e) => this._onChangeBaseCurrencyList(e)}
                             value={this.state.SelectedBaseCurrency}>
-                            {this._getBaseCurrencyDropdownListOptions()}
+                            {this.state.BaseCurrencyList.map((item, i) => {
+                                return <option key={i} value={item}>{item}</option>
+                            })}
                         </select>
                     </div>
                     <a className="btn-submit" onClick={(e) => this._applyAction(e)} href="#">{LanguageApi.getRes(this.props.langCode, "apply")}</a>
                     <div className="widgets-config">
                         <div className="widgets-title">{LanguageApi.getRes(this.props.langCode, "Widgets")}</div>
-                        {this._getWidgetCheckBoxes()}
+                        {this.props.wgs.map(item => (
+                            <p key={item.key} className="widget-item">
+                                <input
+                                    onChange={(e) => this._onCheckWg(item.key)}
+                                    checked={this.state.wgs[item.key]}
+                                    className="filled-in"
+                                    type="checkbox"
+                                    id={item.key} />
+                                <label htmlFor={item.key}>{LanguageApi.getRes(this.props.langCode, item.key)}</label>
+                            </p>
+                        ))}
                     </div>
                     <a className="btn-reset" onClick={() => this._onResetLayout()} href="#">{LanguageApi.getRes(this.props.langCode, "reset_layout")}</a>
                 </div>

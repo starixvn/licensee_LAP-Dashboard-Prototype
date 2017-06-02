@@ -137,6 +137,5 @@ export default class OnlineCustomer extends React.Component {
             }}>
             <HorizontalBar data={this.state.data} options={this.options} />
         </WidgetBox>;
-
     }
 };

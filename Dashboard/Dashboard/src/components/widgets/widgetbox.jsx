@@ -17,10 +17,6 @@ export default class WidgetBox extends React.Component {
       .callbackParent({ action: 'wgSyncStatus', items: [item] });
   }
 
-  _getAutoReload() {
-    return (<AutoReload {...this.props.countdownConfigs} dataKey={this.props.widgetKey} />);
-  }
-
   _isAutoReloadEnabled() {
     return !!this.props.countdownConfigs;
   }
@@ -30,10 +26,6 @@ export default class WidgetBox extends React.Component {
       ? ''
       : 'is-closed';
 
-    const autoReload = this._isAutoReloadEnabled()
-      ? this._getAutoReload()
-      : null;
-
     return <div className={`widgetbox ${isClosed}`}>
       <div className={`widgetbox-header ${this.props.widgetName}`}>
         <span className="title">
@@ -42,7 +34,7 @@ export default class WidgetBox extends React.Component {
         <span className="icon-wrapper right">
           <span onClick={() => this.toggleClose()} className="icon icon-close"></span>
         </span>
-        {autoReload}
+        {this._isAutoReloadEnabled() ? (<AutoReload {...this.props.countdownConfigs} dataKey={this.props.widgetKey} />) : null}
       </div>
       <div className={`widgetbox-content ${this.props.widgetName}`}>
         <Loader isLoading={this.props.isLoading} widgetKey={this.props.widgetKey} /> {this.props.children}
