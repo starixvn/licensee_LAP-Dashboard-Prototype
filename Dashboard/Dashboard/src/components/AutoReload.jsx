@@ -40,15 +40,18 @@ export default class AutoReload extends React.Component {
             let countdown = this.state.currentCountdown;
 
             if (countdown === 0) {
-                this.props.reloadCallback();
-                countdown = this.state.countdown;
+                this._stopTimer();
+                this.props.reloadCallback(() => {
+                    this.setState({
+                        currentCountdown: this.state.countdown
+                    });
+                    this._startTimer();
+                });
             } else {
-                countdown--;
+                this.setState({
+                    currentCountdown: countdown - 1
+                });
             }
-
-            this.setState({
-                currentCountdown: countdown
-            });
         }
     }
 
@@ -59,6 +62,7 @@ export default class AutoReload extends React.Component {
     _stopTimer() {
         if (this.timerId) {
             clearInterval(this.timerId);
+            this.timerId = 0;
         }
     }
 
@@ -83,6 +87,7 @@ export default class AutoReload extends React.Component {
     }
 
     render() {
+        var className = "btn-refresh right border-" + (this.props.colorMode || "white")
         const selection = this.state.isShowSelection
             ? (<ul className="dropdown-timer">
                 {(this.countdownValues || []).map(value => (
@@ -91,7 +96,7 @@ export default class AutoReload extends React.Component {
             </ul>)
             : null;
 
-        return (<div className="btn-refresh right border-white" onClick={() => this._onCounterClick()}>
+        return (<div className={className} onClick={() => this._onCounterClick()}>
             <i className="icon-refresh"></i>
             <span className="currentCountdown">{this.state.currentCountdown + 's'}</span>
             <i className="icon-menu-down"></i>

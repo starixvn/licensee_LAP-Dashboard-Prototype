@@ -34,7 +34,8 @@ export default class BaseNormalWidget extends React.Component {
             Url: this.configs.Url,
             IsCrossSite: true
         };
-        WidgetApi.fetchData(param)
+
+        return WidgetApi.fetchData(param)
             .then((response) => {
                 this.setState({
                     data: response.data,
@@ -56,31 +57,33 @@ export default class BaseNormalWidget extends React.Component {
     componentDidMount() {
         this.setState({ isMounted: true }, () => {
             this.fetchData(this.props)
-
         });
     }
-    
+
     componentWillUnmount() {
         this.setState({ isMounted: false });
     }
 
-    _reload() {
+    _reload(restartCountdown) {
         if (this.state.isMounted) {
             this.setState({ isLoading: true });
-            this.fetchData(this.props);
+            this.fetchData(this.props).then(restartCountdown);
         }
     }
 
     render() {
         return <WidgetBox
             callbackParent={this.props.callbackParent}
-            reloadCallback={() => this._reload()}
-            defaultCountdown={this.configs.defaultCountdown}
-            countdownValues={this.configs.countdownValues}
+            countdownConfigs={{
+                reloadCallback: restartCountdown => this._reload(restartCountdown),
+                defaultCountdown: this.configs.defaultCountdown,
+                countdownValues: this.configs.countdownValues,
+                colorMode: 'white'
+            }}
             wgItem={this.props.wgItemFromParent}
             widgetKey={this.configs.WidgetKey}
             title={LanguageApi.getRes(this.props.langCode, this.configs.TitleKey)}
-            widgetName={this.configs.WidgetName} isLoading={this.state.isLoading}>
+            widgetName={this.configs.WidgetName} isLoading={this.state.isLoading} >
             <div className="center-block">
                 <span className="number-big">{NumberFormat.formatCurrency(this.state.data, this.props.filter.baseCurrency)}</span>
             </div>

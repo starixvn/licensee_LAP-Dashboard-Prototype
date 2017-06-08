@@ -59,9 +59,11 @@ describe('render correctly', () => {
             }
         }));
         const props = Object.assign({
-            countdownValues: [1, 2, 3],
-            defaultCountdown: 123,
-            reloadCallback: 'reloadCallback'
+            countdownConfigs: {
+                countdownValues: [1, 2, 3],
+                defaultCountdown: 123,
+                reloadCallback: 'reloadCallback'
+            }
         }, fakeProps());
         const component = renderer.create(<WidgetBox {...props} />);
         expect(component.toJSON()).toMatchSnapshot();

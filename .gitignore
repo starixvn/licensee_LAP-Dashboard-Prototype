@@ -244,3 +244,6 @@ ModelManifest.xml
 Dashboard/Dashboard/wal.bat
 **/coverage/
 **/.vscode
+
+# Jest - snapshot
+**/__snapshots__

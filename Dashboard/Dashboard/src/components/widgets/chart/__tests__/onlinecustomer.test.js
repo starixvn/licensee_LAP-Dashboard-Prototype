@@ -184,6 +184,22 @@ test('fetch data by criteria', () => {
     expect(WidgetApi.fetchData).toBeCalledWith({ Url: 'GetOnlineCustomers', IsCrossSite: false });
 });
 
+test('fetch data: return fetch data promise', () => {
+    // assign
+    const component = new OnlineCustomer(fakeProps);
+    const promise = Promise.resolve();
+
+    promise.then = () => promise;
+    promise.catch = () => promise;
+    WidgetApi.fetchData = jest.fn(() => promise);
+
+    // action
+    let result = component.fetchData(fakeProps);
+
+    // assert
+    expect(result).toBe(promise);
+});
+
 describe('animation complete', () => {
     test('re-format chart', () => {
         const component = new OnlineCustomer(fakeProps);
@@ -224,5 +240,55 @@ describe('animation complete', () => {
             ['3', 123456699, 888],
             ['5', 123456699, 8888],
         ]);
+    });
+});
+
+describe('when reloadCallback is called:', () => {
+    test('if component is mounted then fetch data', () => {
+        // assign
+        const component = new OnlineCustomer(fakeProps);
+        component.setState = jest.fn();
+        component.fetchData = jest.fn(() => Promise.resolve());
+        component.state.isMounted = true;
+
+        //  action
+        const rendered = component.render();
+        rendered.props.countdownConfigs.reloadCallback();
+
+        // assert
+        expect(component.setState).toBeCalledWith({ isLoading: true })
+        expect(component.fetchData).toBeCalledWith(fakeProps);
+    });
+
+    test('component is un-mounted: do nothing', () => {
+        // assign
+        const component = new OnlineCustomer(fakeProps);
+        component.setState = jest.fn();
+        component.fetchData = jest.fn();
+        component.state.isMounted = false
+
+        //  action
+        const rendered = component.render();
+        rendered.props.countdownConfigs.reloadCallback();
+
+        // assert
+        expect(component.setState).not.toBeCalled();
+        expect(component.fetchData).not.toBeCalled();
+    });
+
+    test('after fetch data: restart countdown', () => {
+        // assign
+        const component = new OnlineCustomer(fakeProps);
+        const fetchDataPromise = { then: jest.fn() };
+        component.setState = jest.fn();
+        component.fetchData = jest.fn(() => fetchDataPromise);
+        component.state.isMounted = true;
+
+        //  action
+        const rendered = component.render();
+        rendered.props.countdownConfigs.reloadCallback('restartCountdown***');
+
+        // assert
+        expect(fetchDataPromise.then).toBeCalledWith('restartCountdown***');
     });
 });

@@ -96,6 +96,10 @@ $bg-Withdrawal: $blue-Bayoux;
             &.border-blue {
                 border: 1px solid #4b96cf;
                 color: #4b96cf;
+
+                .dropdown-timer {
+                    top: 8px;
+                }
             }
 
             .currentCountdown {
