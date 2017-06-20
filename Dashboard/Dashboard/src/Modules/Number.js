@@ -5,7 +5,9 @@ export default class NumberFormat {
             "GBP": "£",
             "USD": "$",
             "CNY": "¥",
-            "MYR": "RM"
+            "MYR": "RM",
+            "THB": "฿",
+            "IDR": "Rp"
         }
         currency = currencies[currency] ? currencies[currency] : ''
 

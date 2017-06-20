@@ -1,19 +1,29 @@
 import NumberFormat from '../Number';
 
 describe('formatCurrency()', () => {
-    test('format without param currency', () => {
-        expect(NumberFormat.formatCurrency(1234.1)).toBe("1,234.10");
+    test('exclude symbol when currency not found', () => {
+        [null, undefined, '', 'WTF'].forEach(currency => {
+            expect(NumberFormat.formatCurrency(1234.1, currency)).toBe("1,234.10");
+        });
     });
 
-    test('format without incorrect currency', () => {
-        expect(NumberFormat.formatCurrency(1234.1, "THB")).toBe("1,234.10");
+    test('add currency symbol', () => {
+         const currencies = {
+            "EUR": "€",
+            "GBP": "£",
+            "USD": "$",
+            "CNY": "¥",
+            "MYR": "RM",
+            "THB": "฿",
+            "IDR": "Rp"
+        }
+
+        Object.keys(currencies).forEach(currency => {
+            expect(NumberFormat.formatCurrency(1234.1, currency)).toBe(`${currencies[currency]}1,234.10`);
+        });
     });
 
-    test('format without correct currency', () => {
-        expect(NumberFormat.formatCurrency(1234.1, "CNY")).toBe("¥1,234.10");
-    });
-
-    test('default zero', () => {
+    test('no parameters: default zero', () => {
         expect(NumberFormat.formatCurrency()).toBe("0.00");
     });
 });
@@ -35,5 +45,5 @@ describe('format()', () => {
 
     test('format an integer number', () => {
         expect(NumberFormat.format(1234.149)).toBe("1,234");
-    });   
+    });
 });
