@@ -165,6 +165,43 @@ describe('_fetchData()', () => {
         expect(console.log).toBeCalledWith('error:', 'should write log when fail');
         console.log = _log;
     });
+
+    test('update state', () => {
+        const response = { data: { Currency: [1, 2, 3], BaseCurrency: 'hello' } };
+        const promise = Promise.resolve(response);
+        WidgetApi.fetchData.mockImplementation(() => promise);
+        const component = new RightPanel(fakeProps);
+        component.setState = jest.fn();
+
+        component._fetchData();
+
+        return promise.then(() => {
+            expect(component.setState).toBeCalledWith({
+                isMounted: true,
+                CurrencyList: response.data.Currency,
+                BaseCurrencyList: response.data.BaseCurrency
+            });
+        });
+    });
+
+    test('insert option "All" at index 0', () => {
+        const response = { data: { Currency: [1, 2, 3], BaseCurrency: 'hello' } };
+        const promise = Promise.resolve(response);
+        WidgetApi.fetchData.mockImplementation(() => promise);
+        const component = new RightPanel(fakeProps);
+        component.setState = jest.fn();
+
+        component._fetchData();
+
+        return promise.then(() => {
+            expect(response.data.Currency).toEqual([
+                { Currency: "All", CurrencyId: "0" },
+                1,
+                2,
+                3
+            ]);
+        });
+    });
 });
 
 describe('_togglePanel()', () => {

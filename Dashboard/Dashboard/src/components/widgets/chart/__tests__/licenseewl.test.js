@@ -128,7 +128,7 @@ test('componentDidMount: fetch data with given props', () => {
     const component = renderer.create(<LicenseeWinLoss { ...fakeProps } />);
 
     // assert
-    promise.then(() => expect(component.toJSON()).toMatchSnapshot());
+    return promise.then(() => expect(component.toJSON()).toMatchSnapshot());
 });
 
 test('componentDidMount: set mount state true', () => {
