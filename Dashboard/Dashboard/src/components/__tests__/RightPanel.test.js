@@ -167,7 +167,7 @@ describe('_fetchData()', () => {
     });
 
     test('update state', () => {
-        const response = { data: { Currency: [1, 2, 3], BaseCurrency: 'hello' } };
+        const response = { data: { Currency: [1, 2, 3] } };
         const promise = Promise.resolve(response);
         WidgetApi.fetchData.mockImplementation(() => promise);
         const component = new RightPanel(fakeProps);
@@ -178,14 +178,13 @@ describe('_fetchData()', () => {
         return promise.then(() => {
             expect(component.setState).toBeCalledWith({
                 isMounted: true,
-                CurrencyList: response.data.Currency,
-                BaseCurrencyList: response.data.BaseCurrency
+                CurrencyList: response.data.Currency
             });
         });
     });
 
     test('insert option "All" at index 0', () => {
-        const response = { data: { Currency: [1, 2, 3], BaseCurrency: 'hello' } };
+        const response = { data: { Currency: [1, 2, 3] } };
         const promise = Promise.resolve(response);
         WidgetApi.fetchData.mockImplementation(() => promise);
         const component = new RightPanel(fakeProps);
