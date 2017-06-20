@@ -13,7 +13,7 @@ export default class RightPanel extends React.Component {
             isHidden: true,
             SelectedBaseCurrency: 'EUR',
             SelectedCurrency: 0,
-            BaseCurrencyList: [],
+            BaseCurrencyList: ["EUR", "USD", "GBP", "MYR", "CNY", "THB", "IDR"],
             CurrencyList: [],
             wgs: this._bindWgCheckBox(props.wgs)
         };
@@ -54,7 +54,7 @@ export default class RightPanel extends React.Component {
                 .data
                 .Currency
                 .unshift({ Currency: "All", CurrencyId: "0" });
-            this.setState({ isMounted: true, CurrencyList: response.data.Currency, BaseCurrencyList: response.data.BaseCurrency })
+            this.setState({ isMounted: true, CurrencyList: response.data.Currency })
         }).catch(function (error) {
             console.log("error:", error);
         });
