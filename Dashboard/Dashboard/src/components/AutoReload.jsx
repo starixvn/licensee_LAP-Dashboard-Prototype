@@ -35,22 +35,26 @@ export default class AutoReload extends React.Component {
         this._stopTimer();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (!nextProps.isLoading && this.props.isLoading) {
+            if (!this.state.currentCountdown) {
+                this.setState({ currentCountdown: this.state.countdown });
+            }
+            if (!this.timerId) {
+                this._startTimer();
+            }
+        }
+    }
+
     _onTick() {
-        if (this.state.isMounted) {
+        if (this.state.isMounted && !this.props.isLoading) {
             let countdown = this.state.currentCountdown;
 
             if (countdown === 0) {
                 this._stopTimer();
-                this.props.reloadCallback(() => {
-                    this.setState({
-                        currentCountdown: this.state.countdown
-                    });
-                    this._startTimer();
-                });
+                this.props.reloadCallback();
             } else {
-                this.setState({
-                    currentCountdown: countdown - 1
-                });
+                this.setState({ currentCountdown: countdown - 1 });
             }
         }
     }
@@ -67,7 +71,7 @@ export default class AutoReload extends React.Component {
     }
 
     _onCounterClick() {
-        if (this.state.isMounted) {
+        if (this.state.isMounted && !this.props.isLoading) {
             this.setState({ isShowSelection: !this.state.isShowSelection });
         }
     }
@@ -87,7 +91,7 @@ export default class AutoReload extends React.Component {
     }
 
     render() {
-        var className = "btn-refresh right border-" + (this.props.colorMode || "white")
+        var className = "btn-refresh right border-" + (this.props.colorMode || "white");
         const selection = this.state.isShowSelection
             ? (<ul className="dropdown-timer">
                 {(this.countdownValues || []).map(value => (
@@ -96,7 +100,7 @@ export default class AutoReload extends React.Component {
             </ul>)
             : null;
 
-        return (<div className={className} onClick={() => this._onCounterClick()}>
+        return (<div className={className} onClick={() => this._onCounterClick()} disabled={!!this.props.isLoading}>
             <i className="icon-refresh"></i>
             <span className="currentCountdown">{this.state.currentCountdown + 's'}</span>
             <i className="icon-menu-down"></i>

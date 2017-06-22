@@ -132,7 +132,7 @@ test('component will un-mount set mount state false', () => {
 describe('componentWillReceiveProps(nextProps)', () => {
     test('component is unmounted: do nothing', () => {
         const component = new OnlineCustomer(fakeProps);
-       component.state.isMounted = false;
+        component.state.isMounted = false;
         component.fetchData = jest.fn();
         component.setState = jest.fn();
 
@@ -274,21 +274,5 @@ describe('when reloadCallback is called:', () => {
         // assert
         expect(component.setState).not.toBeCalled();
         expect(component.fetchData).not.toBeCalled();
-    });
-
-    test('after fetch data: restart countdown', () => {
-        // assign
-        const component = new OnlineCustomer(fakeProps);
-        const fetchDataPromise = { then: jest.fn() };
-        component.setState = jest.fn();
-        component.fetchData = jest.fn(() => fetchDataPromise);
-        component.state.isMounted = true;
-
-        //  action
-        const rendered = component.render();
-        rendered.props.countdownConfigs.reloadCallback('restartCountdown***');
-
-        // assert
-        expect(fetchDataPromise.then).toBeCalledWith('restartCountdown***');
     });
 });

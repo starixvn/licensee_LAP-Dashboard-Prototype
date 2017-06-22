@@ -210,7 +210,6 @@ test('write log when fetch data fail', () => {
 });
 
 describe('when reloadCallback is called:', () => {
-
     test('if component is mounted then fetch data', () => {
         // assign
         const component = new FakeConfiguredBaseNormalWidget(fakeProps);
@@ -241,21 +240,5 @@ describe('when reloadCallback is called:', () => {
         // assert
         expect(component.setState).not.toBeCalled();
         expect(component.fetchData).not.toBeCalled();
-    });
-
-    test('after fetch data: restart countdown', () => {
-        // assign
-        const component = new FakeConfiguredBaseNormalWidget(fakeProps);
-        const fetchDataPromise = { then: jest.fn() };
-        component.setState = jest.fn();
-        component.fetchData = jest.fn(() => fetchDataPromise);
-        component.state.isMounted = true;
-
-        //  action
-        const rendered = component.render();
-        rendered.props.countdownConfigs.reloadCallback('restartCountdown***');
-
-        // assert
-        expect(fetchDataPromise.then).toBeCalledWith('restartCountdown***');
     });
 });

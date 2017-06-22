@@ -67,7 +67,7 @@ export default class BaseNormalWidget extends React.Component {
     _reload(restartCountdown) {
         if (this.state.isMounted) {
             this.setState({ isLoading: true });
-            this.fetchData(this.props).then(restartCountdown);
+            this.fetchData(this.props);
         }
     }
 
@@ -75,7 +75,7 @@ export default class BaseNormalWidget extends React.Component {
         return <WidgetBox
             callbackParent={this.props.callbackParent}
             countdownConfigs={{
-                reloadCallback: restartCountdown => this._reload(restartCountdown),
+                reloadCallback: () => this._reload(),
                 defaultCountdown: this.configs.defaultCountdown,
                 countdownValues: this.configs.countdownValues,
                 colorMode: 'white'
@@ -83,7 +83,8 @@ export default class BaseNormalWidget extends React.Component {
             wgItem={this.props.wgItemFromParent}
             widgetKey={this.configs.WidgetKey}
             title={LanguageApi.getRes(this.props.langCode, this.configs.TitleKey)}
-            widgetName={this.configs.WidgetName} isLoading={this.state.isLoading} >
+            widgetName={this.configs.WidgetName} 
+            isLoading={this.state.isLoading} >
             <div className="center-block">
                 <span className="number-big">{NumberFormat.formatCurrency(this.state.data, this.props.filter.baseCurrency)}</span>
             </div>

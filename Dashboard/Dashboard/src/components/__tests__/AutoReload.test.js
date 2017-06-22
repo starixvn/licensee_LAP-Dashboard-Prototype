@@ -91,7 +91,16 @@ describe('render corectly:', () => {
         });
     });
 
-    test('on counter click: show dropdown', () => {
+    test('component is loading: disable countdown', () => {
+        const props = Object.assign({ isLoading: true }, fakeProps);
+        const component = renderer.create(<AutoReload {...props} />);
+
+        expect(component.toJSON()).toMatchSnapshot();
+    });
+});
+
+describe('_onCounterClick()', () => {
+    test('dropdown is hidden: show dropdown', () => {
         const props = Object.assign({
             countdownValues: [1, 2, 3, 4]
         }, fakeProps);
@@ -104,7 +113,7 @@ describe('render corectly:', () => {
         expect(component.toJSON()).toMatchSnapshot();
     });
 
-    test('on counter click: hide dropdown', () => {
+    test('dropdown is shown: hide dropdown', () => {
         const component = renderer.create(<AutoReload {...fakeProps} />);
         const element = findElement(component, '.btn-refresh');
 
@@ -114,8 +123,18 @@ describe('render corectly:', () => {
         expect(component.toJSON()).toMatchSnapshot();
     });
 
-    test('on counter click: component unmounted: do nothing', () => {
+    test('component unmounted: do nothing', () => {
         const component = new AutoReload(fakeProps);
+        component.setState = jest.fn();
+        component.state.isMounted = false;
+
+        component._onCounterClick();
+        expect(component.setState).not.toBeCalled();
+    });
+
+    test('component is loading: do nothing', () => {
+        const props = Object.assign({ isLoading: true }, fakeProps);
+        const component = new AutoReload(props);
         component.setState = jest.fn();
         component.state.isMounted = false;
 
@@ -213,42 +232,41 @@ describe('componentWillUnmount', () => {
     });
 });
 
-test('onTick(): when mounted and countdown = 0: stop timer', () => {
-    const component = new AutoReload(fakeProps);
-    component._stopTimer = jest.fn();
-    component.state.isMounted = true;
-    component.state.currentCountdown = 0;
-    component._onTick();
+describe('_onTick()', () => {
+    test('when mounted and countdown = 0: stop timer and invoke callback', () => {
+        const component = new AutoReload(fakeProps);
+        component._stopTimer = jest.fn();
+        component.state.currentCountdown = 0;
+        component.state.isMounted = true;
+        fakeProps.reloadCallback = jest.fn();
 
-    expect(component._stopTimer).toBeCalled();
+        component._onTick();
+
+        expect(component._stopTimer).toBeCalled();
+        expect(fakeProps.reloadCallback).toBeCalled();
+    });
+
+    test('when umounted : do nothing', () => {
+        const component = new AutoReload(fakeProps);
+        component.setState = jest.fn();
+        component.state.isMounted = false;
+
+        component._onTick();
+
+        expect(component.setState).not.toBeCalled();
+    });
+
+    test('when loading: do nothing', () => {
+        const props = Object.assign({ isLoading: true }, fakeProps);
+        const component = new AutoReload(props);
+        component.setState = jest.fn();
+        component.state.isMounted = true;
+
+        component._onTick();
+
+        expect(component.setState).not.toBeCalled();
+    });
 });
-
-test('onTick(): when mounted and countdown = 0: wait for callback then restart countdown', () => {
-    const component = new AutoReload(fakeProps);
-    component.setState = jest.fn();
-    component._startTimer = jest.fn();
-    component.state.currentCountdown = 0;
-    component.state.countdown = 123;
-    component.state.isMounted = true;
-    fakeProps.reloadCallback.mockReset();
-
-    component._onTick();
-    fakeProps.reloadCallback.mock.calls[0][0]();
-
-    expect(component.setState).toBeCalledWith({ currentCountdown: 123 });
-    expect(component._startTimer).toBeCalled();
-});
-
-test('onTick(): component is umounted : do nothing', () => {
-    const component = new AutoReload(fakeProps);
-    component.setState = jest.fn();
-    component.state.isMounted = false;
-
-    component._onTick();
-
-    expect(component.setState).not.toBeCalled();
-});
-
 
 describe('_onSelectCounterValue', () => {
     beforeEach(() => {
@@ -304,4 +322,50 @@ test('on counter value click: call _onSelectCounterValue(value)', () => {
 
     element.props.children[3].props.onClick();
     expect(instance._onSelectCounterValue).toBeCalledWith(4);
+});
+
+describe('componentWillReceiveProps', () => {
+    test('still loading: do nothing', () => {
+        const component = new AutoReload(fakeProps);
+        component.setState = jest.fn();
+
+        component.componentWillReceiveProps({ isLoading: true });
+
+        expect(component.setState).not.toBeCalled();
+    });
+
+    test('already stopped loading: do nothing', () => {
+        const component = new AutoReload(Object.assign(fakeProps));
+        component.setState = jest.fn();
+        component.props.isLoading = false;
+
+        component.componentWillReceiveProps({ isLoading: false });
+
+        expect(component.setState).not.toBeCalled();
+    });
+
+    test('stop loading: reset countdown if it is zero', () => {
+        const component = new AutoReload(Object.assign(fakeProps));
+        component.setState = jest.fn();
+        component.props.isLoading = true;
+        component.state.currentCountdown = 0;
+        component.state.countdown = 10001;
+        component.timerId = 100;
+
+        component.componentWillReceiveProps({ isLoading: false });
+
+        expect(component.setState).toBeCalledWith({ currentCountdown: 10001 });
+    });
+
+    test('stop loading: restart timer if it stopped', () => {
+        const component = new AutoReload(Object.assign(fakeProps));
+        component.props.isLoading = true;
+        component.state.currentCountdown = 10;
+        component.timerId = 0;
+        component._startTimer = jest.fn();
+
+        component.componentWillReceiveProps({ isLoading: false });
+
+        expect(component._startTimer).toBeCalled();
+    });
 });

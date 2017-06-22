@@ -122,6 +122,15 @@ $bg-Withdrawal: $blue-Bayoux;
             &:hover, &:focus, &:active {
                 background: rgba(255,255,255,0.2)
             }
+
+            &[disabled] {
+                opacity: .4;
+                cursor: default;
+
+                &:hover, &:focus, &:active {
+                    background: none;
+                }
+            }
         }
 
         .dropdown-timer {

@@ -118,7 +118,7 @@ export default class OnlineCustomer extends React.Component {
     _reload(restartCountdown) {
         if (this.state.isMounted) {
             this.setState({ isLoading: true });
-            this.fetchData(this.props).then(restartCountdown)
+            this.fetchData(this.props);
         }
     }
 
@@ -130,7 +130,7 @@ export default class OnlineCustomer extends React.Component {
             widgetName="online-customer default"
             isLoading={this.state.isLoading}
             countdownConfigs={{
-                reloadCallback: restartCountdown => this._reload(restartCountdown),
+                reloadCallback: () => this._reload(),
                 defaultCountdown: 75,
                 countdownValues: [15, 30, 45, 60, 75],
                 colorMode: 'blue'
