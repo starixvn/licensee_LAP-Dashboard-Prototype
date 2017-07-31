@@ -13,7 +13,7 @@ export default class RightPanel extends React.Component {
             isHidden: true,
             SelectedBaseCurrency: 'EUR',
             SelectedCurrency: 0,
-            BaseCurrencyList: ["EUR", "USD", "GBP", "MYR", "CNY", "THB", "IDR"],
+            BaseCurrencyList: ["EUR", "USD", "GBP", "MYR", "CNY", "THB", "IDR","UUS"],
             CurrencyList: [],
             wgs: this._bindWgCheckBox(props.wgs)
         };
