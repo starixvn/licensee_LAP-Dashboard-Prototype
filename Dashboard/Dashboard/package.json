@@ -65,7 +65,7 @@
   "scripts": {
     "prestart": "npm3 install",
     "start": "gulp build",
-    "test": "jest --coverage",
+    "test": "jest --updateSnapshot --coverage",
     "preupdate-webdriver": "npm3 install",
     "update-webdriver": "webdriver-manager update"
   },
