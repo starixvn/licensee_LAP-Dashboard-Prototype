@@ -63,7 +63,7 @@
     "webpack-dev-server": "^1.6.5"
   },
   "scripts": {
-    "prestart": "npm install",
+    "prestart": "npm3 install",
     "start": "gulp build",
     "test": "jest --coverage",
     "preupdate-webdriver": "npm3 install",
