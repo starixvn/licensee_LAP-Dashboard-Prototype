@@ -8,13 +8,13 @@
   "dependencies": {
     "axios": "^0.15.3",
     "chart.js": "^2.4.0",
+    "core-js": "^2.4.1",
     "react": "^15.4.2",
     "react-chartjs-2": "^2.0.0",
     "react-dom": "^15.4.2",
     "react-grid-layout": "^0.13.9"
   },
   "devDependencies": {
-    "axios": "^0.15.3",
     "babel-core": "^6.22.1",
     "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.10",
@@ -22,8 +22,6 @@
     "babel-preset-es2017": "^6.22.0",
     "babel-preset-react": "^6.23.0",
     "browser-sync": "^1.5.1",
-    "core-js": "^2.4.1",
-    "del": "^0.1.3",
     "enzyme": "^2.7.1",
     "file-loader": "^0.9.0",
     "gulp": "^3.8.8",
@@ -40,6 +38,8 @@
     "gulp-load-plugins": "^0.6.0",
     "gulp-minify-css": "^0.3.10",
     "gulp-plumber": "^0.6.5",
+    "gulp-rimraf": "^0.2.1",
+    "gulp-run-sequence": "^0.3.2",
     "gulp-sass": "^3.1.0",
     "gulp-size": "^1.1.0",
     "gulp-sourcemaps": "^2.4.0",
@@ -55,22 +55,18 @@
     "minimist": "^1.1.0",
     "protractor": "^1.3.0",
     "psi": "^0.1.2",
-    "react": "^15.4.2",
-    "react-chartjs-2": "^2.0.0",
-    "react-dom": "^15.4.2",
-    "react-grid-layout": "^0.13.9",
     "react-test-renderer": "^15.4.2",
     "react-tools": "^0.13.3",
-    "run-sequence": "^0.3.7",
+    "run-sequence": "^2.1.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.4.3",
     "webpack-dev-server": "^1.6.5"
   },
   "scripts": {
     "prestart": "npm install",
-    "start": "gulp onlybuild",
+    "start": "gulp build",
     "test": "jest --coverage",
-    "preupdate-webdriver": "npm install",
+    "preupdate-webdriver": "npm3 install",
     "update-webdriver": "webdriver-manager update"
   },
   "jest": {
