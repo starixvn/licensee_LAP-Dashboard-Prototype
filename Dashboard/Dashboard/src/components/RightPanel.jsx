@@ -13,7 +13,7 @@ export default class RightPanel extends React.Component {
             isHidden: true,
             SelectedBaseCurrency: 'EUR',
             SelectedCurrency: 0,
-            BaseCurrencyList: ["EUR", "USD", "GBP", "MYR", "CNY", "THB", "IDR","UUS"],
+            BaseCurrencyList: ["EUR", "USD", "GBP", "MYR", "CNY", "THB", "IDR"],
             CurrencyList: [],
             wgs: this._bindWgCheckBox(props.wgs)
         };
@@ -49,6 +49,7 @@ export default class RightPanel extends React.Component {
             Url: WidgetApiUrl.CurrenyList,
             IsCrossSite: false
         };
+
         WidgetApi.fetchData(param).then((response) => {
             response
                 .data
@@ -79,7 +80,31 @@ export default class RightPanel extends React.Component {
     }
 
     _onChangeCurrencyList(event) {
-        this.setState({ SelectedCurrency: event.target.value });
+        let selectedCurrency = event.target.value;
+        const defaultSelectedValue = "*";
+        let originalBaseCurrencyList = this.state.BaseCurrencyList;
+        const containDefaultSelectedValue = originalBaseCurrencyList.indexOf(defaultSelectedValue) !== -1;
+
+        let baseCurrencyList = originalBaseCurrencyList;
+        let selectedBaseCurrency = defaultSelectedValue;
+
+        if (selectedCurrency === "0") {
+            if (containDefaultSelectedValue) {
+                baseCurrencyList = originalBaseCurrencyList.filter((base) => base !== defaultSelectedValue);
+            }
+            selectedBaseCurrency = "EUR";
+        }
+        else {
+            if (!containDefaultSelectedValue) {
+                baseCurrencyList = originalBaseCurrencyList.concat(defaultSelectedValue);
+            }
+        }
+
+        this.setState({
+            SelectedCurrency: selectedCurrency,
+            BaseCurrencyList: baseCurrencyList,
+            SelectedBaseCurrency: selectedBaseCurrency
+        });
     }
 
     _onChangeBaseCurrencyList(event) {
