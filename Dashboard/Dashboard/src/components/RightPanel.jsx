@@ -5,19 +5,32 @@ import WidgetApi from '../Modules/WidgetApi';
 import { WidgetApiUrl } from '../config'
 
 export default class RightPanel extends React.Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
             isMounted: false,
             isHidden: true,
-            SelectedBaseCurrency: 'EUR',
+            SelectedBaseCurrency: this.baseCurrencyList[0].CurrencyId,
             SelectedCurrency: 0,
-            BaseCurrencyList: ["EUR", "USD", "GBP", "MYR", "CNY", "THB", "IDR"],
+            BaseCurrencyList: this.baseCurrencyList,
             CurrencyList: [],
             wgs: this._bindWgCheckBox(props.wgs)
         };
 
+    }
+
+    get baseCurrencyList() {
+        return [
+            { CurrencyId: 6, Currency: "EUR" },
+            { CurrencyId: 3, Currency: "USD" },
+            { CurrencyId: 12, Currency: "GBP" },
+            { CurrencyId: 2, Currency: "MYR" },
+            { CurrencyId: 13, Currency: "CNY" },
+            { CurrencyId: 4, Currency: "THB" },
+            { CurrencyId: 15, Currency: "IDR" }
+        ]
     }
 
     componentWillReceiveProps(nextProps) {
@@ -50,6 +63,13 @@ export default class RightPanel extends React.Component {
             IsCrossSite: false
         };
 
+        /* let currencies = [
+            { CurrencyId: 0, Currency: "All" }, { CurrencyId: 9, Currency: "AUD" },
+            { CurrencyId: 20, Currency: "UUS" }, { CurrencyId: 6, Currency: "EUR" },
+            { CurrencyId: 3, Currency: "USD" }, { CurrencyId: 4, Currency: "THB" }
+        ]
+        this.setState({ isMounted: true, CurrencyList: currencies }) */
+
         WidgetApi.fetchData(param).then((response) => {
             response
                 .data
@@ -63,11 +83,14 @@ export default class RightPanel extends React.Component {
 
     _applyAction() {
         if (this.state.isMounted) {
+            const baseCurrency = this.baseCurrencyList.find(baseCurrency =>
+                baseCurrency.CurrencyId === this.state.SelectedBaseCurrency
+            );
             this.props.callbackParent({
                 action: 'apply',
                 filter: {
                     currency: this.state.SelectedCurrency,
-                    baseCurrency: this.state.SelectedBaseCurrency
+                    baseCurrency: baseCurrency ? baseCurrency.Currency : ""
                 }
             });
         }
@@ -80,31 +103,34 @@ export default class RightPanel extends React.Component {
     }
 
     _onChangeCurrencyList(event) {
-        let selectedCurrency = event.target.value;
-        const defaultSelectedValue = "*";
-        let originalBaseCurrencyList = this.state.BaseCurrencyList;
-        const containDefaultSelectedValue = originalBaseCurrencyList.indexOf(defaultSelectedValue) !== -1;
+        const selectedCurrency = parseInt(event.target.value);
+        const selectAll = selectedCurrency === 0;
+        const originalBaseCurrencyList = this.baseCurrencyList;
 
-        let baseCurrencyList = originalBaseCurrencyList;
-        let selectedBaseCurrency = defaultSelectedValue;
+        const baseCurrencyBySelectedId = originalBaseCurrencyList.find(baseCurrency => baseCurrency.CurrencyId === selectedCurrency);
+        const isInBaseCurrencyList = selectAll || !!baseCurrencyBySelectedId;
+        const selectedCurrencyItem = this.state.CurrencyList.find(currency => currency.CurrencyId === selectedCurrency);
 
-        if (selectedCurrency === "0") {
-            if (containDefaultSelectedValue) {
-                baseCurrencyList = originalBaseCurrencyList.filter((base) => base !== defaultSelectedValue);
-            }
-            selectedBaseCurrency = "EUR";
-        }
-        else {
-            if (!containDefaultSelectedValue) {
-                baseCurrencyList = originalBaseCurrencyList.concat(defaultSelectedValue);
-            }
-        }
+        const baseCurrencyList = isInBaseCurrencyList ?
+            this.baseCurrencyList :
+            this.baseCurrencyList.concat(selectedCurrencyItem);
+
+        const selectedBaseCurrency = selectAll ? originalBaseCurrencyList[0].CurrencyId
+            : this._getSelectedBaseCurrency(selectedCurrencyItem.CurrencyId);
 
         this.setState({
             SelectedCurrency: selectedCurrency,
             BaseCurrencyList: baseCurrencyList,
             SelectedBaseCurrency: selectedBaseCurrency
         });
+    }
+
+    _getSelectedBaseCurrency(selectedCurrencyId) {
+        const baseCurrencyList = this.baseCurrencyList;
+        const isPrevInBaseCurrencyList = !!baseCurrencyList.find(p => p.CurrencyId === this.state.SelectedBaseCurrency);
+        const isNextInBaseCurrencyList = !!baseCurrencyList.find(p => p.CurrencyId === selectedCurrencyId);
+
+        return isPrevInBaseCurrencyList && isNextInBaseCurrencyList ? this.state.SelectedBaseCurrency : selectedCurrencyId;
     }
 
     _onChangeBaseCurrencyList(event) {
@@ -159,7 +185,7 @@ export default class RightPanel extends React.Component {
                             onChange={(e) => this._onChangeBaseCurrencyList(e)}
                             value={this.state.SelectedBaseCurrency}>
                             {this.state.BaseCurrencyList.map((item, i) => {
-                                return <option key={i} value={item}>{item}</option>
+                                return <option key={i} value={item.CurrencyId}>{item.Currency}</option>
                             })}
                         </select>
                     </div>
