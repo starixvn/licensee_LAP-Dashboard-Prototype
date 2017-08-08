@@ -91,7 +91,8 @@ export default class Turnover extends React.Component {
                                     "#4B966B",
                                     "#4C6375",
                                     "#D9544F",
-                                    "#4473C5"
+                                    "#4473C5",
+                                    "#7687a8"
                                 ]
                             }]
                     },

@@ -25,7 +25,7 @@ export const ch = {
     deposit: "註冊且存款",
     none_deposit: "註冊未存款",
     Asia: "亞洲版",
-    NewAsia: "大陸版",
+    China: "大陸版",
     Euro: "歐洲版",
     Wap: "WAP手機",
     Mobile: "智慧型手機",
