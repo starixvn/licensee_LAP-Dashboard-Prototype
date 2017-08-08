@@ -21,7 +21,20 @@ export default class Turnover extends React.Component {
         this.options = {
             legend: { display: false, custom: true, id: 'custom-legend' },
             maintainAspectRatio: false,
-            tooltips: { enabled: false },
+            tooltips: { 
+               callbacks: {
+                    label: function(tooltipItem, data) {
+                        console.log(tooltipItem);
+                        console.log(data);
+                        
+                            return data.labels[tooltipItem.index];
+                    },
+                    title: function(tooltipItem, data) {
+                        return '';
+                    }
+                 }
+            },
+           
             layout: { padding: { top: 10, bottom: 50, right: 130 } },
             hover: { animationDuration: 0 },
             animation: {
@@ -87,12 +100,14 @@ export default class Turnover extends React.Component {
                                 data: dataList,
                                 currency: nextProps.filter.baseCurrency,
                                 backgroundColor: [
+                                    
                                     "#35A1FB",
                                     "#4B966B",
                                     "#4C6375",
                                     "#D9544F",
                                     "#4473C5",
-                                    "#7687a8"
+                                    "#AFBF22"
+                                    
                                 ]
                             }]
                     },
