@@ -34,5 +34,6 @@ export const ch = {
     total_turnover: "總交易額",
     total_winloss: "總投注輸贏",
     no_widget_permission: "You do not have sufficient permissions to access this page",
-    reset_layout: "初始設定"
+    reset_layout: "初始設定",
+    Tablet: "Tablet"
 };
