@@ -169,6 +169,57 @@ gulp.task('build', ['clean'], function (cb) {
 });
 
 // Launch a lightweight HTTP Server
+gulp.task('serve2', function (cb) {
+    watch = true;
+
+    runSequence('build', function () {
+        browserSync({
+            notify: false,
+            // Customize the BrowserSync console logging prefix
+            logPrefix: 'RSK',
+            // Run as an https by uncommenting 'https: true'
+            // Note: this uses an unsigned certificate which on first access
+            //       will present a certificate warning in the browser.
+            // https: true,
+            server: DEST
+        });
+
+        gulp.watch(src.assets, ['assets']);
+        gulp.watch(src.images, ['images']);
+        gulp.watch(src.pages, ['pages']);
+        gulp.watch(src.styles, ['styles']);
+        gulp.watch(src.fonts, ['fonts']);
+        gulp.watch(['src/**/*.jsx', 'src/**/*.js', '!src/**/*.test.js'], function (file) {
+            browserSync.reload(path.relative(__dirname, file.path));
+        });
+        gulp.watch('build/js/**', function (obj) {
+            if (obj.type === 'changed') {
+                gulp.src(obj.path)
+                   
+                    .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP2/js/pages/dashboard'))
+                    .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP2/js/pages/dashboard'));
+            }
+        });
+        gulp.watch('build/css/**', function (obj) {
+            if (obj.type === 'changed') {
+                gulp.src(obj.path)
+                  
+                    .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/main'))
+                    .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/main'));
+            }
+        });
+        gulp.watch('build/fonts/**', function (obj) {
+            if (obj.type === 'changed') {
+                gulp.src(obj.path)
+                  
+                    .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/fonts'))
+                    .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/fonts'));
+            }
+        });
+        cb();
+    });
+});
+
 gulp.task('serve', function (cb) {
     watch = true;
 
