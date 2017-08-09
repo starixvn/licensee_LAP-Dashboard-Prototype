@@ -18,7 +18,13 @@ const fakeResponse = {
         Currency: [
             {
                 CurrencyId: 1,
-                Currency: "USD"
+                Currency: "USD",
+
+            },
+            {
+                CurrencyId: 20,
+                Currency: "UUS",
+
             }
         ],
         BaseCurrency: ["A", "B"]
@@ -171,6 +177,7 @@ describe('_fetchData()', () => {
         const promise = Promise.resolve(response);
         WidgetApi.fetchData.mockImplementation(() => promise);
         const component = new RightPanel(fakeProps);
+
         component.setState = jest.fn();
 
         component._fetchData();
@@ -228,7 +235,41 @@ describe('event listeners', () => {
         WidgetApi.fetchData.mockImplementation(() => Promise.resolve(fakeResponse));
     });
 
-    test('on currency list change: update state', () => {
+    test('on currency list change - Select All: update state', () => {
+        const component = renderer.create(<RightPanel {...fakeProps} />);
+        const componentInstance = component.getInstance();
+        const element = findElement(component, 'currencyDropdownList');
+
+
+        componentInstance.setState = jest.fn();
+
+        element.props.onChange({
+            target: {
+                value: '0'
+            }
+        });
+
+        expect(componentInstance.setState).toBeCalledWith({ SelectedCurrency: '0' });
+    });
+
+    test('on currency list change - specific currency: update state', () => {
+        const component = renderer.create(<RightPanel {...fakeProps} />);
+        const componentInstance = component.getInstance();
+        const element = findElement(component, 'currencyDropdownList');
+
+        componentInstance.setState({ CurrencyList: fakeResponse.data.Currency })
+        componentInstance.setState = jest.fn();
+
+        element.props.onChange({
+            target: {
+                value: '20'
+            }
+        });
+
+        expect(componentInstance.setState).toBeCalledWith({ SelectedCurrency: '20' });
+    });
+
+    test('on currency list change - specific base currency: update state', () => {
         const component = renderer.create(<RightPanel {...fakeProps} />);
         const componentInstance = component.getInstance();
         const element = findElement(component, 'currencyDropdownList');
@@ -237,11 +278,11 @@ describe('event listeners', () => {
 
         element.props.onChange({
             target: {
-                value: 'fake currency value'
+                value: '6'
             }
         });
 
-        expect(componentInstance.setState).toBeCalledWith({ SelectedCurrency: 'fake currency value' });
+        expect(componentInstance.setState).toBeCalledWith({ SelectedCurrency: '6' });
     });
 
     test('on base currency list change: update state', () => {
