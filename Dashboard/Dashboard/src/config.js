@@ -21,6 +21,16 @@ export const WidgetApiUrl = {
     CurrenyList: "GetCurrencyInfo"
 };
 
+export const BaseCurrencyList = [
+    { CurrencyId: "6", Currency: "EUR" },
+    { CurrencyId: "3", Currency: "USD" },
+    { CurrencyId: "12", Currency: "GBP" },
+    { CurrencyId: "2", Currency: "MYR" },
+    { CurrencyId: "13", Currency: "CNY" },
+    { CurrencyId: "4", Currency: "THB" },
+    { CurrencyId: "15", Currency: "IDR" }
+];
+
 export const Wglayouts = {
     lg: [{ i: WidgetKey.chartTurnover, x: 0, y: 0, w: 6, h: 11, minW: 3, minH: 9 },
         { i: WidgetKey.chartLicenseeWL, x: 6, y: 0, w: 6, h: 11, minW: 3, minH: 9 },

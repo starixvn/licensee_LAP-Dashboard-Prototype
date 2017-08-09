@@ -2,17 +2,9 @@
 import ReactDOM from 'react-dom';
 import LanguageApi from '../Modules/LanguageApi';
 import WidgetApi from '../Modules/WidgetApi';
-import { WidgetApiUrl } from '../config';
+import { WidgetApiUrl, BaseCurrencyList } from '../config';
 
-const _baseCurrencyList = [
-    { CurrencyId: "6", Currency: "EUR" },
-    { CurrencyId: "3", Currency: "USD" },
-    { CurrencyId: "12", Currency: "GBP" },
-    { CurrencyId: "2", Currency: "MYR" },
-    { CurrencyId: "13", Currency: "CNY" },
-    { CurrencyId: "4", Currency: "THB" },
-    { CurrencyId: "15", Currency: "IDR" }
-];
+const _baseCurrencyList = BaseCurrencyList;
 
 export default class RightPanel extends React.Component {
 

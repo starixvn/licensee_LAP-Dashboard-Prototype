@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import RightPanel from '../RightPanel';
 import WidgetApi from '../../Modules/WidgetApi';
+import { BaseCurrencyList } from '../../config';
 
 jest.mock('../../Modules/WidgetApi');
 
@@ -26,12 +27,12 @@ const fakeResponse = {
 
     },
     {
-      CurrencyId: 20,
+      CurrencyId: "20",
       Currency: "UUS",
 
     }
     ],
-    BaseCurrency: ["A", "B"]
+    BaseCurrency: BaseCurrencyList
   }
 };
 
@@ -264,13 +265,10 @@ describe('event listeners', () => {
   });
 
   test('on currency list change - Select All: update state', () => {
-    const component = renderer.create(< RightPanel { ...fakeProps
-    }
-    />);
+
+    const component = renderer.create(<RightPanel { ...fakeProps } />);
     const componentInstance = component.getInstance();
     const element = findElement(component, 'currencyDropdownList');
-
-
     componentInstance.setState = jest.fn();
 
     element.props.onChange({
@@ -280,11 +278,14 @@ describe('event listeners', () => {
     });
 
     expect(componentInstance.setState).toBeCalledWith({
-      SelectedCurrency: '0'
+      SelectedCurrency: '0',
+      SelectedBaseCurrency: BaseCurrencyList[0].CurrencyId,
+      BaseCurrencyList: BaseCurrencyList
     });
   });
 
   test('on currency list change - specific currency: update state', () => {
+
     const component = renderer.create(< RightPanel { ...fakeProps } />);
     const componentInstance = component.getInstance();
     const element = findElement(component, 'currencyDropdownList');
@@ -301,14 +302,15 @@ describe('event listeners', () => {
     });
 
     expect(componentInstance.setState).toBeCalledWith({
-      SelectedCurrency: '20'
+      SelectedCurrency: '20',
+      SelectedBaseCurrency: '20',
+      BaseCurrencyList: BaseCurrencyList.concat({ Currency: "UUS", CurrencyId: "20" })
     });
   });
 
   test('on currency list change - specific base currency: update state', () => {
-    const component = renderer.create(< RightPanel { ...fakeProps
-    }
-    />);
+
+    const component = renderer.create(<RightPanel { ...fakeProps } />);
     const componentInstance = component.getInstance();
     const element = findElement(component, 'currencyDropdownList');
 
@@ -321,14 +323,13 @@ describe('event listeners', () => {
     });
 
     expect(componentInstance.setState).toBeCalledWith({
-      SelectedCurrency: '6'
+      SelectedCurrency: '6',
+      BaseCurrencyList: BaseCurrencyList
     });
   });
 
   test('on base currency list change: update state', () => {
-    const component = renderer.create(< RightPanel { ...fakeProps
-    }
-    />);
+    const component = renderer.create(< RightPanel { ...fakeProps } />);
     const componentInstance = component.getInstance();
     const element = findElement(component, 'baseCurrencyDropdownList');
 
@@ -345,9 +346,7 @@ describe('event listeners', () => {
 
   describe('on submit button click', () => {
     test('component is unmounted then do nothing', () => {
-      const component = renderer.create(< RightPanel { ...fakeProps
-      }
-      />);
+      const component = renderer.create(< RightPanel { ...fakeProps } />);
       const componentInstance = component.getInstance();
       const element = findElement(component, '.btn-submit');
 
@@ -358,114 +357,135 @@ describe('event listeners', () => {
       expect(fakeProps.callbackParent).not.toBeCalled();
     });
 
-    test('component is mounted then call callbackParent()', () => {
-      const component = renderer.create(< RightPanel { ...fakeProps
-      }
-      />);
+    test('component is mounted - selectedBaseCurrency is in Base CurrencyList - baseCurrency name is passed to callbackParent()', () => {
+      const component = renderer.create(< RightPanel { ...fakeProps } />);
       const componentInstance = component.getInstance();
       const element = findElement(component, '.btn-submit');
 
       componentInstance.setState({
         isMounted: true,
-        SelectedCurrency: 'selected currency',
-        SelectedBaseCurrency: 'selected base currency'
-      }); element.props.onClick();
+        SelectedCurrency: '6',
+        SelectedBaseCurrency: '6'
+      });
+
+      element.props.onClick();
 
       expect(fakeProps.callbackParent).toBeCalledWith({
         action: 'apply',
         filter: {
-          currency: 'selected currency',
-          baseCurrency: 'selected base currency'
+          currency: '6',
+          baseCurrency: 'EUR'
         }
       });
     });
   });
 
-  test('on quickaccess click: toggle panel', () => {
-    const component = renderer.create(< RightPanel { ...fakeProps
-    }
-    />);
+  test('component is mounted - selectedBaseCurrency is not in Base CurrencyList - empty string is passed to callbackParent()', () => {
+    const component = renderer.create(< RightPanel { ...fakeProps } />);
     const componentInstance = component.getInstance();
-    const element = findElement(component, '.icon-quickaccess');
+    const element = findElement(component, '.btn-submit');
 
-    componentInstance._togglePanel = jest.fn(); element.props.onClick('fake event');
+    componentInstance.setState({
+      isMounted: true,
+      SelectedCurrency: '20',
+      SelectedBaseCurrency: '20'
+    });
+    element.props.onClick();
 
-    expect(componentInstance._togglePanel).toBeCalledWith('fake event');
-  });
-
-  test('right panel overlay click: toggle panel', () => {
-    const component = renderer.create(< RightPanel { ...fakeProps
-    }
-    />);
-    const componentInstance = component.getInstance();
-    const element = findElement(component, '.right-panel-overlay');
-
-    componentInstance._togglePanel = jest.fn(); element.props.onClick('fake event');
-
-    expect(componentInstance._togglePanel).toBeCalledWith('fake event');
-  });
-
-  describe('on widget item check status change', () => {
-    test('state is unmounted: do nothing', () => {
-      const component = renderer.create(< RightPanel { ...fakeProps
+    expect(fakeProps.callbackParent).toBeCalledWith({
+      action: 'apply',
+      filter: {
+        currency: '20',
+        baseCurrency: ''
       }
-      />);
-      const componentInstance = component.getInstance();
-      const element = findElement(component, '.filled-in');
-
-      componentInstance.setState({
-        isMounted: false
-      }); element.props.onChange();
-
-      expect(componentInstance.props.callbackParent).not.toBeCalled();
-    }); test('state is mounted: call parent callback and update state', () => {
-      const component = renderer.create(< RightPanel { ...fakeProps
-      }
-      />);
-      const componentInstance = component.getInstance();
-      const element = findElement(component, '.filled-in');
-
-      componentInstance.setState({
-        isMounted: true
-      }); element.props.onChange();
-
-      expect(componentInstance.props.callbackParent).toBeCalledWith({
-        action: 'wgSyncStatus',
-        items: [{
-          key: 'abc',
-          enable: false
-        }]
-      });
     });
   });
+});
 
-  describe('on rết button click', () => {
-    test('state is unmounted: do nothing', () => {
-      const component = renderer.create(< RightPanel { ...fakeProps
-      }
-      />);
-      const componentInstance = component.getInstance();
-      const element = findElement(component, '.btn-reset');
+test('on quickaccess click: toggle panel', () => {
+  const component = renderer.create(< RightPanel { ...fakeProps } />);
+  const componentInstance = component.getInstance();
+  const element = findElement(component, '.icon-quickaccess');
 
-      componentInstance.setState({
-        isMounted: false
-      }); element.props.onClick();
+  componentInstance._togglePanel = jest.fn();
+  element.props.onClick('fake event');
 
-      expect(componentInstance.props.callbackParent).not.toBeCalled();
-    }); test('state is mounted: call parent callback with action reset', () => {
-      const component = renderer.create(< RightPanel { ...fakeProps
-      }
-      />);
-      const componentInstance = component.getInstance();
-      const element = findElement(component, '.btn-reset');
+  expect(componentInstance._togglePanel).toBeCalledWith('fake event');
+});
 
-      componentInstance.setState({
-        isMounted: true
-      }); element.props.onClick();
+test('right panel overlay click: toggle panel', () => {
+  const component = renderer.create(<RightPanel { ...fakeProps } />);
+  const componentInstance = component.getInstance();
+  const element = findElement(component, '.right-panel-overlay');
 
-      expect(componentInstance.props.callbackParent).toBeCalledWith({
-        action: 'reset'
-      });
+  componentInstance._togglePanel = jest.fn();
+  element.props.onClick('fake event');
+
+  expect(componentInstance._togglePanel).toBeCalledWith('fake event');
+});
+
+describe('on widget item check status change', () => {
+  test('state is unmounted: do nothing', () => {
+    const component = renderer.create(<RightPanel { ...fakeProps } />);
+    const componentInstance = component.getInstance();
+    const element = findElement(component, '.filled-in');
+    componentInstance.setState = jest.fn();
+
+    componentInstance.setState({
+      isMounted: false
+    });
+    
+    element.props.onChange();
+    
+    expect(componentInstance.props.callbackParent).not.toBeCalled();
+  });
+
+  test('state is mounted: call parent callback and update state', () => {
+    const component = renderer.create(< RightPanel { ...fakeProps } />);
+    const componentInstance = component.getInstance();
+    const element = findElement(component, '.filled-in');
+
+    componentInstance.setState({
+      isMounted: true
+    });
+    element.props.onChange();
+
+    expect(componentInstance.props.callbackParent).toBeCalledWith({
+      action: 'wgSyncStatus',
+      items: [{
+        key: 'abc',
+        enable: false
+      }]
+    });
+  });
+});
+
+describe('on reset button click', () => {
+  test('state is unmounted: do nothing', () => {
+    const component = renderer.create(< RightPanel { ...fakeProps } />);
+    const componentInstance = component.getInstance();
+    const element = findElement(component, '.btn-reset');
+
+    componentInstance.setState({
+      isMounted: false
+    }, () => { element.props.onClick(); });
+
+    expect(componentInstance.props.callbackParent).not.toBeCalled();
+
+  });
+
+  test('state is mounted: call parent callback with action reset', () => {
+    const component = renderer.create(< RightPanel { ...fakeProps } />);
+    const componentInstance = component.getInstance();
+    const element = findElement(component, '.btn-reset');
+
+    componentInstance.setState({
+      isMounted: true
+    });
+    element.props.onClick();
+
+    expect(componentInstance.props.callbackParent).toBeCalledWith({
+      action: 'reset'
     });
   });
 });
