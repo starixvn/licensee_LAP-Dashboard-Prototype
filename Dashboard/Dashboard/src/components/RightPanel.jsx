@@ -133,7 +133,7 @@ export default class RightPanel extends React.Component {
 
     _onResetLayout() {
         if (this.state.isMounted) {
-            this.props.callbackParent({ action: 'reset' });
+           this.props.callbackParent({ action: 'reset' });
         }
     }
 
