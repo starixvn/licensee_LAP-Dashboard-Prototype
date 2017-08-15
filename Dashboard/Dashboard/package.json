@@ -45,8 +45,8 @@
     "gulp-sourcemaps": "^2.4.0",
     "gulp-uglify": "^1.0.1",
     "gulp-util": "^3.0.1",
-    "jest": "^18.1.0",
-    "jest-cli": "^18.1.0",
+    "jest": "^20.0.4",
+    "jest-cli": "^20.0.4",
     "jshint": "^2.5.6",
     "jshint-loader": "^0.8.0",
     "jshint-stylish": "^1.0.0",
@@ -67,7 +67,8 @@
     "start": "gulp build",
     "test": "jest --updateSnapshot --coverage",
     "preupdate-webdriver": "npm3 install",
-    "update-webdriver": "webdriver-manager update"
+    "update-webdriver": "webdriver-manager update",
+    "jest-install": "npm install jest-cli -g "
   },
   "jest": {
     "verbose": false

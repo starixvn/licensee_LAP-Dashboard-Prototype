@@ -2,18 +2,21 @@
 import ReactDOM from 'react-dom';
 import LanguageApi from '../Modules/LanguageApi';
 import WidgetApi from '../Modules/WidgetApi';
-import { WidgetApiUrl } from '../config'
+import { WidgetApiUrl, BaseCurrencyList } from '../config';
+
+const _baseCurrencyList = BaseCurrencyList;
 
 export default class RightPanel extends React.Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
             isMounted: false,
             isHidden: true,
-            SelectedBaseCurrency: 'EUR',
+            SelectedBaseCurrency: _baseCurrencyList[0].CurrencyId,
             SelectedCurrency: 0,
-            BaseCurrencyList: ["EUR", "USD", "GBP", "MYR", "CNY", "THB", "IDR","UUS"],
+            BaseCurrencyList: _baseCurrencyList,
             CurrencyList: [],
             wgs: this._bindWgCheckBox(props.wgs)
         };
@@ -49,6 +52,7 @@ export default class RightPanel extends React.Component {
             Url: WidgetApiUrl.CurrenyList,
             IsCrossSite: false
         };
+
         WidgetApi.fetchData(param).then((response) => {
             response
                 .data
@@ -62,11 +66,15 @@ export default class RightPanel extends React.Component {
 
     _applyAction() {
         if (this.state.isMounted) {
+            let baseCurrency = _baseCurrencyList.find(x =>
+                x.CurrencyId == this.state.SelectedBaseCurrency
+            );
+           
             this.props.callbackParent({
                 action: 'apply',
                 filter: {
                     currency: this.state.SelectedCurrency,
-                    baseCurrency: this.state.SelectedBaseCurrency
+                    baseCurrency: baseCurrency ? baseCurrency.Currency : ""
                 }
             });
         }
@@ -78,8 +86,33 @@ export default class RightPanel extends React.Component {
         }));
     }
 
+    _getNewStateOnChangeCurrency(selectedCurrency) {
+        let newState = { SelectedCurrency: selectedCurrency };
+
+        if (selectedCurrency == "0") {
+            return Object.assign({}, newState, {
+                SelectedBaseCurrency: _baseCurrencyList[0].CurrencyId,
+                BaseCurrencyList: _baseCurrencyList
+            });
+        }
+        if (_baseCurrencyList.find(baseCurrency => baseCurrency.CurrencyId == selectedCurrency)) {
+            if (!_baseCurrencyList.find(baseCurrency => baseCurrency.CurrencyId == this.state.SelectedBaseCurrency)) {
+                newState.SelectedBaseCurrency = selectedCurrency;
+            }
+            newState.BaseCurrencyList = _baseCurrencyList;
+            return newState;
+        }
+
+        const selectedCurrencyItem = this.state.CurrencyList.find(currency => currency.CurrencyId == selectedCurrency);
+       
+        return Object.assign({}, newState, {
+            SelectedBaseCurrency: selectedCurrency,
+            BaseCurrencyList: _baseCurrencyList.concat(selectedCurrencyItem)
+        });
+    }
     _onChangeCurrencyList(event) {
-        this.setState({ SelectedCurrency: event.target.value });
+        var newState = this._getNewStateOnChangeCurrency(event.target.value);
+        this.setState(newState);
     }
 
     _onChangeBaseCurrencyList(event) {
@@ -100,7 +133,7 @@ export default class RightPanel extends React.Component {
 
     _onResetLayout() {
         if (this.state.isMounted) {
-            this.props.callbackParent({ action: 'reset' });
+           this.props.callbackParent({ action: 'reset' });
         }
     }
 
@@ -134,7 +167,7 @@ export default class RightPanel extends React.Component {
                             onChange={(e) => this._onChangeBaseCurrencyList(e)}
                             value={this.state.SelectedBaseCurrency}>
                             {this.state.BaseCurrencyList.map((item, i) => {
-                                return <option key={i} value={item}>{item}</option>
+                                return <option key={i} value={item.CurrencyId}>{item.Currency}</option>
                             })}
                         </select>
                     </div>
