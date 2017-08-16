@@ -28,12 +28,12 @@ export const cs = {
     China: "大陆版",
     Euro: "欧洲版",
     Wap: "WAP手机",
-    Mobile: "智能手机",
     All: "全部",
     Web: "桌机版",
     total_turnover: "总交易额",
     total_winloss: "总投注输赢",
     no_widget_permission: "You do not have sufficient permissions to access this page",
     reset_layout: "初始设定",
-    Tablet: "Tablet"
+    Tablet: "平板",
+    SmartSite: "行动装置版"
 };
