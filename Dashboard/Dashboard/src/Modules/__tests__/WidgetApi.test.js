@@ -37,6 +37,26 @@ describe('_getAuthToken(action)', () => {
 });
 
 describe('fetchData(param)', () => {
+    describe('Data of param is null', () => {
+        afterEach(() => {
+            axios
+                .get
+                .mockReset();
+        });
+
+        test('axios.get function should be called with correct parameter', () => {
+            // assign
+            window.HostUrl = undefined;
+            const param = { Data: null };
+
+            // action
+            WidgetApi.fetchData(param);
+
+            // assert
+            expect(axios.get).toBeCalledWith('http://ha.nexdev.net:7611/LAP/12bet', { params: {} });
+        });
+    });
+
     describe('Not cross site: ', () => {
         const fakeParams = {
             Data: {
@@ -61,7 +81,7 @@ describe('fetchData(param)', () => {
                 WidgetApi.fetchData(fakeParams);
 
                 // assert
-                expect(axios.get).toBeCalledWith('http://ha.nexdev.net:7611/LAP/12bet', {params: fakeParams.Data});
+                expect(axios.get).toBeCalledWith('http://ha.nexdev.net:7611/LAP/12bet', { params: fakeParams.Data });
             });
         });
 
@@ -73,7 +93,7 @@ describe('fetchData(param)', () => {
             WidgetApi.fetchData(fakeParams);
 
             // assert
-            expect(axios.get).toBeCalledWith(`http://fake-url/${fakeParams.Url}`, {params: fakeParams.Data});
+            expect(axios.get).toBeCalledWith(`http://fake-url/${fakeParams.Url}`, { params: fakeParams.Data });
         });
     });
 
@@ -122,7 +142,7 @@ describe('fetchData(param)', () => {
                     'X-Auth-Token': 'abc xyz'
                 }, fakeParams.Data);
 
-                expect(axios.get).toBeCalledWith('/fake/api/fake/url', {params: params});
+                expect(axios.get).toBeCalledWith('/fake/api/fake/url', { params: params });
             });
         });
     })

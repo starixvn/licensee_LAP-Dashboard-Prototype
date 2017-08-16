@@ -24,10 +24,7 @@ export default class Turnover extends React.Component {
             tooltips: { 
                callbacks: {
                     label: function(tooltipItem, data) {
-                        console.log(tooltipItem);
-                        console.log(data);
-                        
-                            return data.labels[tooltipItem.index];
+                        return data.labels[tooltipItem.index];
                     },
                     title: function(tooltipItem, data) {
                         return '';
