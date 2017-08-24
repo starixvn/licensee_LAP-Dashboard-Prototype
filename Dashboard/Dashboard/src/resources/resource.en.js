@@ -25,14 +25,15 @@ export const en = {
     deposit: "Deposit",
     none_deposit: "Non - Deposit",
     Asia: "Asia",
-    NewAsia: "NewAsia",
+    China: "China",
     Euro: "Euro",
     Wap: "Wap",
-    Mobile: "Mobile",
     All: "All",
     Web: "Web",
     total_turnover: "Total Turnover",
     total_winloss: "Total Win Loss",
     no_widget_permission: "You do not have sufficient permissions to access this page",
-    reset_layout: "Reset layout"
+    reset_layout: "Reset layout",
+    Tablet: "Tablet",
+    SmartSite: "Smart Site"
 };

@@ -25,14 +25,15 @@ export const zhcn = {
     deposit: "注册且存款",
     none_deposit: "注册未存款",
     Asia: "亚洲版",
-    NewAsia: "大陆版",
+    China: "大陆版",
     Euro: "欧洲版",
     Wap: "WAP手机",
-    Mobile: "智能手机",
     All: "全部",
     Web: "桌机版",
     total_turnover: "总交易额",
     total_winloss: "总投注输赢",
     no_widget_permission: "You do not have sufficient permissions to access this page",
-    reset_layout: "初始设定"
+    reset_layout: "初始设定",
+    Tablet: "平板",
+    SmartSite: "行动装置版"
 };

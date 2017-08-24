@@ -25,14 +25,15 @@ export const ch = {
     deposit: "註冊且存款",
     none_deposit: "註冊未存款",
     Asia: "亞洲版",
-    NewAsia: "大陸版",
+    China: "大陸版",
     Euro: "歐洲版",
     Wap: "WAP手機",
-    Mobile: "智慧型手機",
     All: "全部",
     Web: "桌機版",
     total_turnover: "總交易額",
     total_winloss: "總投注輸贏",
     no_widget_permission: "You do not have sufficient permissions to access this page",
-    reset_layout: "初始設定"
+    reset_layout: "初始設定",
+    Tablet: "平板",
+    SmartSite: "行動裝置版"
 };

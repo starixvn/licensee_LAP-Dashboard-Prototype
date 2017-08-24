@@ -17,7 +17,7 @@ export default class OnlineCustomer extends React.Component {
                 labels: [
                     LanguageApi.getRes(this.props.langCode, "Web"),
                     LanguageApi.getRes(this.props.langCode, "Wap"),
-                    LanguageApi.getRes(this.props.langCode, "Mobile")
+                    LanguageApi.getRes(this.props.langCode, "SmartSite")
                 ],
                 datasets: []
             },
