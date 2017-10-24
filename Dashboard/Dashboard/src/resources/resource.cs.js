@@ -35,5 +35,6 @@ export const cs = {
     no_widget_permission: "You do not have sufficient permissions to access this page",
     reset_layout: "初始设定",
     Tablet: "平板",
-    SmartSite: "行动装置版"
+    SmartSite: "行动装置版",
+    NewAsia: "新亚洲版"
 };
