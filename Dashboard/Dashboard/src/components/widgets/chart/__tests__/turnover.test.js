@@ -314,10 +314,10 @@ test('render correctly', () => {
                     component.options.animation.onComplete.call(doughnut);
 
                     expect(doughnut.chart.ctx.fillText.mock.calls).toEqual([
-                        ['450%', 1, 2],
-                        ['4504%', 11, 22],
-                        ['400%', 111, 222],
-                        ['4004%', 1111, 2222]
+                        ['450.00%', 1, 2],
+                        ['4504.05%', 11, 22],
+                        ['400.00%', 111, 222],
+                        ['4003.60%', 1111, 2222]
                     ]);
                 });
 

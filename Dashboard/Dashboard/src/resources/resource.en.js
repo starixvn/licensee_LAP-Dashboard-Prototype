@@ -35,5 +35,6 @@ export const en = {
     no_widget_permission: "You do not have sufficient permissions to access this page",
     reset_layout: "Reset layout",
     Tablet: "Tablet",
-    SmartSite: "Smart Site"
+    SmartSite: "Smart Site",
+    NewAsia: "New Asia"
 };

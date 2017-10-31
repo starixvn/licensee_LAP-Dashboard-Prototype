@@ -58,7 +58,7 @@ export default class Turnover extends React.Component {
                             var segmentPercent = element._model.circumference / chartCircumference * 100;
                             var position = element.tooltipPosition();
                             if (element._model.circumference > 0) {
-                                var label = segmentPercent < 1 ? "<1" : segmentPercent.toFixed(0);
+                                var label = segmentPercent < 1 ? "<1" : segmentPercent.toFixed(2);
                                 ctx.fillText(label + '%', position.x, position.y);
                             }
                         });
