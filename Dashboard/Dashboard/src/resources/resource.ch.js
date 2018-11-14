@@ -36,5 +36,6 @@ export const ch = {
     reset_layout: "初始設定",
     Tablet: "平板",
     SmartSite: "行動裝置版",
-    NewAsia: "新亞洲版"
+    NewAsia: "新亞洲版",
+    MobileApp: "Mobile App"
 };

@@ -96,15 +96,17 @@ export default class Turnover extends React.Component {
                             {
                                 data: dataList,
                                 currency: nextProps.filter.baseCurrency,
-                                backgroundColor: [
-                                    
+                                backgroundColor: [                                
                                     "#35A1FB",
                                     "#4B966B",
                                     "#4C6375",
                                     "#D9544F",
                                     "#4473C5",
-                                    "#AFBF22"
-                                    
+                                    "#AFBF22",
+                                    "#FFEC8B",
+                                    "#BBFFFF",
+                                    "#B8E9D5",
+                                    "#FF66C1"
                                 ]
                             }]
                     },
