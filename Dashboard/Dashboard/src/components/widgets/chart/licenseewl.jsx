@@ -103,7 +103,11 @@ export default class LicenseeWinLoss extends React.Component {
                                     "#4C6375",
                                     "#D9544F",
                                     "#4473C5",
-                                    "#AFBF22"
+                                    "#AFBF22",
+                                    "#FFEC8B",
+                                    "#BBFFFF",
+                                    "#B8E9D5",
+                                    "#FF66C1"
                                 ]
                             }]
                     },
