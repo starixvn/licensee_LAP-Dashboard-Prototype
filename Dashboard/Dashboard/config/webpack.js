@@ -1,82 +1,27 @@
-/*!
- * Facebook React Starter Kit | https://github.com/kriasoft/react-starter-kit
- * Copyright (c) KriaSoft, LLC. All rights reserved. See LICENSE.txt
- */
+const path = require("path");
 
-/*
- * Webpack configuration. For more information visit
- * http://webpack.github.io/docs/configuration
- */
-
-'use strict';
-
-var webpack = require('webpack');
-var path = require('path');
 module.exports = function(release) {
     return {
+        mode: release ? 'production' : 'development',
         output: {
-            path: './build/',
-            filename: '[name].js',
-            publicPatch: './build/'
+            path: path.resolve(__dirname, '../build'),
+            filename: '[name].js'
         },
-
-        cache: !release,
-        debug: !release,
         devtool: release ? false : 'source-map',
         entry: {
             'js/app': './src/App.jsx'
-
         },
-
-        stats: {
-            colors: true,
-            reasons: !release
-        },
-
-        plugins: release ? [
-            new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
-            new webpack.optimize.DedupePlugin(),
-            new webpack.optimize.UglifyJsPlugin(),
-            new webpack.optimize.OccurenceOrderPlugin(),
-            new webpack.optimize.AggressiveMergingPlugin()
-        ] : [],
 
         resolve: {
-            extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx']
+            extensions: ['.js', '.jsx']
         },
 
         module: {
-            preLoaders: [{
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: 'jshint'
-            }],
-
-            loaders: [{
-                    test: /\.css$/,
-                    loader: 'style!css'
-                },
-                {
-                    test: /\.gif/,
-                    loader: 'url-loader?limit=10000&mimetype=image/gif'
-                },
-                {
-                    test: /\.jpg/,
-                    loader: 'url-loader?limit=10000&mimetype=image/jpg'
-                },
-                {
-                    test: /\.png/,
-                    loader: 'url-loader?limit=10000&mimetype=image/png'
-                },
-                {
-                    test: /\.jsx?$/,
-                    loader: 'babel',
-                    exclude: /node_modules/,
-                    query: {
-                        presets: ['es2015', 'react']
-                    }
-                },
-            ]
+            rules: [{
+                test: /\.(js|jsx)$/,
+                use: "babel-loader",
+                exclude: /(node_modules|bower_components)/
+            }]
         }
     };
 };

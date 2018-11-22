@@ -37,9 +37,9 @@ var AUTOPREFIXER_BROWSERS = [ // https://github.com/ai/autoprefixer
 
 var src = {};
 var watch = false;
-var pkgs = (function () {
+var pkgs = (function() {
     var temp = {};
-    var map = function (source) {
+    var map = function(source) {
         for (var key in source) {
             temp[key.replace(/[^a-z0-9]/gi, '')] = source[key].substring(1);
         }
@@ -52,22 +52,22 @@ var pkgs = (function () {
 gulp.task('default', ['serve']);
 
 // Clean up
-gulp.task('clean', function () {
+gulp.task('clean', function() {
     return gulp.src(DEST, { read: false })
         .pipe(clean());
 });
 // 3rd party libraries
-gulp.task('vendor', function () {
+gulp.task('vendor', function() {
     return merge(
         gulp.src('./node_modules/jquery/dist/**')
-            .pipe(gulp.dest(DEST + '/vendor/jquery-' + pkgs.jquery)),
+        .pipe(gulp.dest(DEST + '/vendor/jquery-' + pkgs.jquery)),
         gulp.src('./node_modules/bootstrap/dist/fonts/**')
-            .pipe(gulp.dest(DEST + '/fonts'))
+        .pipe(gulp.dest(DEST + '/fonts'))
     );
 });
 
 // Static files
-gulp.task('assets', function () {
+gulp.task('assets', function() {
     src.assets = 'src/assets/**';
     return gulp.src(src.assets)
         .pipe($.changed(DEST))
@@ -76,7 +76,7 @@ gulp.task('assets', function () {
 });
 
 // Images
-gulp.task('images', function () {
+gulp.task('images', function() {
     src.images = 'src/images/**';
     return gulp.src(src.images)
         .pipe($.changed(DEST + '/images'))
@@ -89,7 +89,7 @@ gulp.task('images', function () {
 });
 
 // HTML pages
-gulp.task('pages', function () {
+gulp.task('pages', function() {
     src.pages = 'src/pages/**/*.html';
     return gulp.src(src.pages)
         .pipe($.changed(DEST))
@@ -103,7 +103,7 @@ gulp.task('pages', function () {
 });
 
 // CSS style sheets
-gulp.task('styles', function () {
+gulp.task('styles', function() {
     src.styles = 'src/styles/**/*.{css,scss}';
 
     var sourcemaps = require('gulp-sourcemaps');
@@ -125,7 +125,7 @@ gulp.task('styles', function () {
         .pipe($.size({ title: 'styles' }));
 });
 
-gulp.task('fonts', function () {
+gulp.task('fonts', function() {
     src.fonts = 'src/styles/font/**';
     return gulp.src(src.fonts)
         .pipe($.changed(DEST + '/fonts'))
@@ -136,7 +136,7 @@ gulp.task('fonts', function () {
 });
 
 // Bundle
-gulp.task('bundle', function (cb) {
+gulp.task('bundle', function(cb) {
     var started = false;
     var config = require('./config/webpack.js')(RELEASE);
     var bundler = webpack(config);
@@ -164,15 +164,15 @@ gulp.task('bundle', function (cb) {
 
 
 // Build the app from source code
-gulp.task('build', ['clean'], function (cb) {
+gulp.task('build', ['clean'], function(cb) {
     runSequence(['vendor', 'assets', 'images', 'pages', 'styles', 'fonts', 'bundle'], cb);
 });
 
 // Launch a lightweight HTTP Server
-gulp.task('serve2', function (cb) {
+gulp.task('serve2', function(cb) {
     watch = true;
 
-    runSequence('build', function () {
+    runSequence('build', function() {
         browserSync({
             notify: false,
             // Customize the BrowserSync console logging prefix
@@ -189,30 +189,30 @@ gulp.task('serve2', function (cb) {
         gulp.watch(src.pages, ['pages']);
         gulp.watch(src.styles, ['styles']);
         gulp.watch(src.fonts, ['fonts']);
-        gulp.watch(['src/**/*.jsx', 'src/**/*.js', '!src/**/*.test.js'], function (file) {
+        gulp.watch(['src/**/*.jsx', 'src/**/*.js', '!src/**/*.test.js'], function(file) {
             browserSync.reload(path.relative(__dirname, file.path));
         });
-        gulp.watch('build/js/**', function (obj) {
+        gulp.watch('build/js/**', function(obj) {
             if (obj.type === 'changed') {
                 gulp.src(obj.path)
-                   
-                    .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP2/js/pages/dashboard'))
+
+                .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP2/js/pages/dashboard'))
                     .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP2/js/pages/dashboard'));
             }
         });
-        gulp.watch('build/css/**', function (obj) {
+        gulp.watch('build/css/**', function(obj) {
             if (obj.type === 'changed') {
                 gulp.src(obj.path)
-                  
-                    .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/main'))
+
+                .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/main'))
                     .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/main'));
             }
         });
-        gulp.watch('build/fonts/**', function (obj) {
+        gulp.watch('build/fonts/**', function(obj) {
             if (obj.type === 'changed') {
                 gulp.src(obj.path)
-                  
-                    .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/fonts'))
+
+                .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/fonts'))
                     .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/fonts'));
             }
         });
@@ -220,10 +220,10 @@ gulp.task('serve2', function (cb) {
     });
 });
 
-gulp.task('serve', function (cb) {
+gulp.task('serve', function(cb) {
     watch = true;
 
-    runSequence('build', function () {
+    runSequence('build', function() {
         browserSync({
             notify: false,
             // Customize the BrowserSync console logging prefix
@@ -240,38 +240,38 @@ gulp.task('serve', function (cb) {
         gulp.watch(src.pages, ['pages']);
         gulp.watch(src.styles, ['styles']);
         gulp.watch(src.fonts, ['fonts']);
-        gulp.watch(['src/**/*.jsx', 'src/**/*.js', '!src/**/*.test.js'], function (file) {
+        gulp.watch(['src/**/*.jsx', 'src/**/*.js', '!src/**/*.test.js'], function(file) {
             browserSync.reload(path.relative(__dirname, file.path));
         });
-        gulp.watch('build/js/**', function (obj) {
+        gulp.watch('build/js/**', function(obj) {
             if (obj.type === 'changed') {
                 gulp.src(obj.path)
                     .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP/js/pages/dashboard'))
                     .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP/js/pages/dashboard'))
-                 
+
             }
         });
-        gulp.watch('build/css/**', function (obj) {
+        gulp.watch('build/css/**', function(obj) {
             if (obj.type === 'changed') {
                 gulp.src(obj.path)
                     .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP/css/pages/dashboard/main'))
                     .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP/css/pages/dashboard/main'))
-                   
+
             }
         });
-        gulp.watch('build/fonts/**', function (obj) {
+        gulp.watch('build/fonts/**', function(obj) {
             if (obj.type === 'changed') {
                 gulp.src(obj.path)
                     .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP/css/pages/dashboard/fonts'))
                     .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP/css/pages/dashboard/fonts'))
-                   
+
             }
         });
         cb();
     });
 });
 
-gulp.task('copytoLocal', function (cb) {
+gulp.task('copytoLocal', function(cb) {
     gulp.src('build/fonts/**')
         .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP/css/pages/dashboard/fonts'))
         .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP/css/pages/dashboard/fonts'));
@@ -283,7 +283,7 @@ gulp.task('copytoLocal', function (cb) {
         .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP/js/pages/dashboard'))
         .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP/js/pages/dashboard'));
 });
-gulp.task('copytoLocal2', function (cb) {
+gulp.task('copytoLocal2', function(cb) {
     gulp.src('build/fonts/**')
         .pipe(gulp.dest('//10.18.200.202/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/fonts'))
         .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP2/css/pages/dashboard/fonts'));
@@ -297,13 +297,13 @@ gulp.task('copytoLocal2', function (cb) {
         .pipe(gulp.dest('//10.18.200.209/www/Sparta/LAP.Site/LAP2/js/pages/dashboard'));
 });
 // Deploy to GitHub Pages
-gulp.task('copytoSVN', function (cb) {
+gulp.task('copytoSVN', function(cb) {
     // Remove temp folder
 
     src.fonts = 'build/fonts/**';
     gulp.src(src.fonts)
 
-        .pipe(gulp.dest(svnPath + '/css/pages/dashboard/fonts'))
+    .pipe(gulp.dest(svnPath + '/css/pages/dashboard/fonts'))
         .pipe($.size({
             title: 'fonts'
         }));
@@ -311,7 +311,7 @@ gulp.task('copytoSVN', function (cb) {
     src.css = 'build/css/**';
     gulp.src(src.css)
 
-        .pipe(gulp.dest(svnPath + '/css/pages/dashboard/main'))
+    .pipe(gulp.dest(svnPath + '/css/pages/dashboard/main'))
         .pipe($.size({
             title: 'css'
         }));
@@ -319,7 +319,7 @@ gulp.task('copytoSVN', function (cb) {
     src.js = 'build/js/**';
     return gulp.src(src.js)
 
-        .pipe(gulp.dest(svnPath + '/js/pages/dashboard'))
+    .pipe(gulp.dest(svnPath + '/js/pages/dashboard'))
         .pipe($.size({
             title: 'js'
         }));
