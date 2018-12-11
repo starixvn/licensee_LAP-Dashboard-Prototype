@@ -36,5 +36,6 @@ export const en = {
     reset_layout: "Reset layout",
     Tablet: "Tablet",
     SmartSite: "Smart Site",
-    NewAsia: "New Asia"
+    NewAsia: "New Asia",
+    MobileApp: "Mobile App"
 };

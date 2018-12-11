@@ -86,7 +86,7 @@ export default class LicenseeWinLoss extends React.Component {
                 var labelList = [], dataList = [];
 
                 for (var item of response.data.Data) {
-                    labelList.push(LanguageApi.getRes(this.props.langCode, item.Key));
+                    labelList.push(LanguageApi.getRes(this.props.langCode, item.Key) || item.Key);
                     dataList.push(item.Value);
                 }
 
@@ -103,7 +103,11 @@ export default class LicenseeWinLoss extends React.Component {
                                     "#4C6375",
                                     "#D9544F",
                                     "#4473C5",
-                                    "#AFBF22"
+                                    "#AFBF22",
+                                    "#FFEC8B",
+                                    "#BBFFFF",
+                                    "#B8E9D5",
+                                    "#FF66C1"
                                 ]
                             }]
                     },
