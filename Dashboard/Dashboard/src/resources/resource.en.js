@@ -38,5 +38,6 @@ export const en = {
     SmartSite: "Smart Site",
     NewAsia: "New Asia",
     MobileApp: "Mobile App",
-    MobileChinaView: "Mobile China View"
+    Mobile: "Mobile",
+    MobileLiteVersion: "Mobile Lite Version"
 };

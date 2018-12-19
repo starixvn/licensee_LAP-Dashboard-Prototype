@@ -37,5 +37,6 @@ export const zhcn = {
     Tablet: "平板",
     SmartSite: "新亚洲版",
     MobileApp: "Mobile App",
-    MobileChinaView: "Mobile China View"
+    Mobile: "Mobile",
+    MobileLiteVersion: "Mobile Lite Version"
 };

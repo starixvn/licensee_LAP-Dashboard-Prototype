@@ -38,5 +38,6 @@ export const cs = {
     SmartSite: "行动装置版",
     NewAsia: "新亚洲版",
     MobileApp: "Mobile App",
-    MobileChinaView: "Mobile China View"
+    Mobile: "手机版",
+    MobileLiteVersion: "手机轻量版"
 };
