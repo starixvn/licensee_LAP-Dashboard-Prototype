@@ -36,5 +36,7 @@ export const zhcn = {
     reset_layout: "初始设定",
     Tablet: "平板",
     SmartSite: "新亚洲版",
-    MobileApp: "Mobile App"
+    MobileApp: "Mobile App",
+    Mobile: "Mobile",
+    MobileLiteVersion: "Mobile Lite Version"
 };

@@ -37,5 +37,7 @@ export const en = {
     Tablet: "Tablet",
     SmartSite: "Smart Site",
     NewAsia: "New Asia",
-    MobileApp: "Mobile App"
+    MobileApp: "Mobile App",
+    Mobile: "Mobile",
+    MobileLiteVersion: "Mobile Lite Version"
 };

@@ -25,9 +25,9 @@ export const cs = {
     deposit: "注册且存款",
     none_deposit: "注册未存款",
     Asia: "亚洲版",
-    China: "大陆版",
+    China: "中国版",
     Euro: "欧洲版",
-    Wap: "WAP手机",
+    Wap: "WAP",
     All: "全部",
     Web: "桌机版",
     total_turnover: "总交易额",
@@ -37,5 +37,7 @@ export const cs = {
     Tablet: "平板",
     SmartSite: "行动装置版",
     NewAsia: "新亚洲版",
-    MobileApp: "Mobile App"
+    MobileApp: "手机 APP",
+    Mobile: "手机版",
+    MobileLiteVersion: "手机轻量版"
 };
