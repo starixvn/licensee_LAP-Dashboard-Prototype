@@ -69,7 +69,7 @@ export default class LocalStorageHelper {
         try {
             window.localStorage.setItem(widgetReloadCountdownCacheKey, JSON.stringify(values))
         } catch (error) {
-            alert("To continue use dashboard. Please turn private browsing off!!");
+          window.alert("To continue use dashboard. Please turn private browsing off!!");
         }
     }
 }
