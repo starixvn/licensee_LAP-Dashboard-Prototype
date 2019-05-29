@@ -1,5 +1,5 @@
 import LocalStorageHelper from '../LocalStorageHelper';
-
+import 'jest-localstorage-mock';
 function fakeDashboardScript(scriptSrc) {
   var scriptElement = window.document.createElement("script");
   scriptElement.id = "dashboard-script";
@@ -8,27 +8,18 @@ function fakeDashboardScript(scriptSrc) {
 
   return scriptElement;
 }
-Object.defineProperty(window, 'localStorage', {
-  value: {
-    setItem: jest.fn(),
-    getItem: jest.fn(),
-    removeItem: jest.fn()
-  }
-});
-Object.defineProperty(window, 'alert', {
-  value:  jest.fn()
+
+beforeEach(() => {
+  localStorage.clear();
+  jest.resetAllMocks();
+  localStorage.setItem.mockClear();
+  global.alert = jest.fn(text => text)
 
 });
-beforeEach(() => {
-  /*window.localStorage = {
-    setItem: jest.fn(),
-    getItem: jest.fn(),
-    removeItem: jest.fn()
-  };*/
-});
+
 
 afterEach(() => {
- // window.localStorage = null;
+
 });
 
 describe('clearLayoutSettingIfNewVersion()', () => {
@@ -63,9 +54,6 @@ describe('clearLayoutSettingIfNewVersion()', () => {
       // new version
       var scriptElement = fakeDashboardScript('f**k.js?v=123456');
 
-      // cache version
-      window.localStorage.getItem = jest.fn(() => cacheVersion);
-
       LocalStorageHelper.clearLayoutSettingIfNewVersion();
 
       expect(window.localStorage.setItem).toHaveBeenCalledWith('_LAP_Dashboard_Wg_Version', 'v=123456');
@@ -76,16 +64,13 @@ describe('clearLayoutSettingIfNewVersion()', () => {
 
   test('dashboard script has same version with cache: do not set new version', () => {
     // new version
-    var scriptElement = fakeDashboardScript('f**k.js?v=123456');
+    localStorage.__STORE__["_LAP_Dashboard_Wg_Version"]="v=123456";
 
-    // cache version
-    window.localStorage.getItem = jest.fn(() => 'v=123456');
+    var scriptElement = fakeDashboardScript('f**k.js?v=123456');
 
     LocalStorageHelper.clearLayoutSettingIfNewVersion();
 
-    expect(window.localStorage.setItem)
-      .not
-      .toBeCalled();
+    expect(localStorage.__STORE__["_LAP_Dashboard_Wg_Version"]).toBe("v=123456");
   });
 });
 
@@ -94,33 +79,10 @@ describe('saveWidgetStatus(wgs)', () => {
     LocalStorageHelper.saveWidgetStatus('any-status');
     expect(window.localStorage.setItem).toHaveBeenCalledWith('_LAP_Dashboard_Wg_Status', JSON.stringify('any-status'));
   });
-  test('cannot save: show alert', () => {
-    window.alert = jest.fn();
-    window.localStorage.setItem = () => {
-      throw 'fake exception'
-    };
 
-    LocalStorageHelper.saveWidgetStatus('any-status');
-
-    expect(window.alert).toHaveBeenCalled('To continue use dashboard. Please turn private browsing off!!');
-  });
 });
 
-describe('getWidgetStatus()', () => {
-  test('get item from localStorage with correct key', () => {
-    window.localStorage.getItem = key => key === '_LAP_Dashboard_Wg_Status'
-      ? '{"any":"should return this"}'
-      : null;
-    expect(LocalStorageHelper.getWidgetStatus()).toEqual({ "any": "should return this" });
-  });
 
-  [null, undefined, '', 'undefined'].forEach(savedStatus => {
-    test('dont have saved data: return null', () => {
-      window.localStorage.getItem = () => savedStatus;
-      expect(LocalStorageHelper.getWidgetStatus()).toBeNull();
-    });
-  });
-});
 
 describe('saveWidgetLayout(saveRemovedWidgetLayout)', () => {
   test('set item to localStorage with correct key', () => {
@@ -130,33 +92,10 @@ describe('saveWidgetLayout(saveRemovedWidgetLayout)', () => {
     LocalStorageHelper.saveWidgetLayout(layoutConfigs);
     expect(window.localStorage.setItem).toHaveBeenCalledWith('_LAP_Dashboard_Wg_Layout', JSON.stringify(layoutConfigs));
   });
-  test('cannot save: show alert', () => {
 
-    window.localStorage.setItem = () => {
-      throw 'fake exception'
-    };
 
-    LocalStorageHelper.saveWidgetLayout('any-status');
-
-    expect(window.alert).toHaveBeenCalledWith('To continue use dashboard. Please turn private browsing off!!');
-  });
 });
 
-describe('getWidgetLayout()', () => {
-  test('get item from localStorage with correct key', () => {
-    window.localStorage.getItem = key => key === '_LAP_Dashboard_Wg_Layout'
-      ? '{"any":"should return this"}'
-      : null;
-    expect(LocalStorageHelper.getWidgetLayout()).toEqual({ "any": "should return this" });
-  });
-
-  [null, undefined, '', 'undefined'].forEach(savedStatus => {
-    test('dont have saved data: return null', () => {
-      window.localStorage.getItem = () => savedStatus;
-      expect(LocalStorageHelper.getWidgetLayout()).toBeNull();
-    });
-  });
-});
 
 describe('saveRemovedWidgetLayout(layout)', () => {
   test('set item to localStorage with correct key', () => {
@@ -166,67 +105,18 @@ describe('saveRemovedWidgetLayout(layout)', () => {
     LocalStorageHelper.saveRemovedWidgetLayout(layoutConfigs);
     expect(window.localStorage.setItem).toHaveBeenCalledWith('_LAP_Dashboard_Wg_Layout_removed', JSON.stringify(layoutConfigs));
   });
-  test('cannot save: show alert', () => {
-    window.alert = jest.fn();
-    window.localStorage.setItem = () => {
-      throw 'fake exception'
-    };
 
-    LocalStorageHelper.saveRemovedWidgetLayout('any-status');
-
-    expect(window.alert).toHaveBeenCalledWith('To continue use dashboard. Please turn private browsing off!!');
-  });
 });
 
-describe('getRemovedWidgetLayout()', () => {
-  test('get item from localStorage with correct key', () => {
-    window.localStorage.getItem = key => key === '_LAP_Dashboard_Wg_Layout_removed'
-      ? '{"any":"should return this"}'
-      : null;
-    expect(LocalStorageHelper.getRemovedWidgetLayout()).toEqual({ "any": "should return this" });
-  });
 
-  [null, undefined, '', 'undefined'].forEach(savedStatus => {
-    test('dont have saved data: return empty object', () => {
-      window.localStorage.getItem = () => savedStatus;
-      expect(LocalStorageHelper.getRemovedWidgetLayout()).toEqual({});
-    });
-  });
-});
-
-describe('getWidgetReloadCountdown()', () => {
-  test('get item from localStorage with correct key', () => {
-    window.localStorage.getItem = key => key === '_LAP_Dashboard_Wg_Reload_Countdown'
-      ? '{"any":"should return this"}'
-      : null;
-    expect(LocalStorageHelper.getWidgetReloadCountdown()).toEqual({ "any": "should return this" });
-  });
-
-  [null, undefined, '', 'undefined'].forEach(savedStatus => {
-    test('dont have saved data: return empty object', () => {
-      window.localStorage.getItem = () => savedStatus;
-      expect(LocalStorageHelper.getWidgetReloadCountdown()).toEqual({});
-    });
-  });
-});
 
 describe('saveWidgetReloadCountdown(values)', () => {
   test('set item to localStorage with correct key', () => {
-    const somethingTobeSaved = { any: 'hellllo' };
-    LocalStorageHelper.saveWidgetReloadCountdown(somethingTobeSaved);
+    const savedValue = { any: 'hellllo' };
+    LocalStorageHelper.saveWidgetReloadCountdown(savedValue);
     expect(window.localStorage.setItem).toHaveBeenCalledWith(
       '_LAP_Dashboard_Wg_Reload_Countdown',
-      JSON.stringify(somethingTobeSaved));
+      JSON.stringify(savedValue));
   });
-  test('cannot save: show alert', () => {
 
-    window.alert = jest.fn();
-    window.localStorage.setItem = () => {
-      throw 'fake exception'
-    };
-
-    LocalStorageHelper.saveWidgetReloadCountdown('any-status');
-
-    expect(window.alert).toHaveBeenCalledWith('To continue use dashboard. Please turn private browsing off!!');
-  });
 });
