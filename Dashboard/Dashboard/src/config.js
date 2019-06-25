@@ -1,3 +1,5 @@
+import CookieService from './Modules/CookieService';
+
 export const WidgetKey = {
     chartTurnover: 'c_turnover',
     chartLicenseeWL: 'c_licWL',
@@ -28,7 +30,8 @@ export const BaseCurrencyList = [
     { CurrencyId: "2", Currency: "MYR" },
     { CurrencyId: "13", Currency: "CNY" },
     { CurrencyId: "4", Currency: "THB" },
-    { CurrencyId: "15", Currency: "IDR" }
+    { CurrencyId: "15", Currency: "IDR" },
+    { CurrencyId: "51", Currency: "INH" }
 ];
 
 export const Wglayouts = {
@@ -80,3 +83,6 @@ export const Wglayouts = {
     ]
 
 }
+
+const DEFAULT_BASECURRENCY_KEY = "DefaultBaseCurrency";
+export const defaultBasedCurrency = CookieService.getCookieValue(DEFAULT_BASECURRENCY_KEY) || "EUR";;
