@@ -11,7 +11,7 @@ export default class RightPanel extends React.Component {
     constructor(props) {
         super(props);
 
-        const basedCurrency = _baseCurrencyList.find(x => x.Currency === defaultBasedCurrency);
+        const basedCurrency = _baseCurrencyList.find(x => x.Currency.toLowerCase() === defaultBasedCurrency.toLowerCase());
         const selectedBasedCurrency = basedCurrency ? basedCurrency.CurrencyId : _baseCurrencyList[0].CurrencyId;
 
         this.state = {
