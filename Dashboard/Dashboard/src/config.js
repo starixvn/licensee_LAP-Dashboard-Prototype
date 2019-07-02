@@ -1,5 +1,3 @@
-import CookieService from './Modules/CookieService';
-
 export const WidgetKey = {
     chartTurnover: 'c_turnover',
     chartLicenseeWL: 'c_licWL',
@@ -84,5 +82,4 @@ export const Wglayouts = {
 
 }
 
-const DEFAULT_BASECURRENCY_KEY = "DefaultBaseCurrency";
-export const defaultBasedCurrency = CookieService.getCookieValue(DEFAULT_BASECURRENCY_KEY) || "EUR";;
+export const defaultBasedCurrency = window.defaultBaseCurrency;

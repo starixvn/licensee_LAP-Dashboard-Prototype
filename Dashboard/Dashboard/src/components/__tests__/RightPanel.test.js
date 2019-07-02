@@ -86,6 +86,19 @@ describe('RightPanel', () => {
 
             Config.defaultBasedCurrency = defaultBasedCurrency;
         })
+
+        it('default based currency value is in based currency list - selectedBasedCurrency should be correct value', () => {
+            const { defaultBasedCurrency } = Config;
+            Config.defaultBasedCurrency = "USD";
+            const instance = new RightPanel({...fakeProps});
+            const expectedResult = Config.BaseCurrencyList.find(x => x.Currency === Config.defaultBasedCurrency).CurrencyId;
+
+            const result = instance.state.SelectedBaseCurrency;
+
+            expect(result).toBe(expectedResult);
+
+            Config.defaultBasedCurrency = defaultBasedCurrency;
+        })
     })
 
     test('renders correctly', () => {
