@@ -19,7 +19,7 @@ export const en = {
     withdrawal_today: "Withdrawal (today)",
     apply: "Apply",
     currency: "Currency",
-    Based: "Based",
+    Based: "Base Currency",
     Widgets: "WIDGETS",
     total_registered_cus_today: "Total Registered Customers (to date)",
     deposit: "Deposit",

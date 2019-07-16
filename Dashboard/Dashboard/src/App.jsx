@@ -7,7 +7,7 @@ import 'core-js/es6/object';
 
 import DefaultLayout from './layouts/Default';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import { WidgetKey, Wglayouts } from './config';
+import { WidgetKey, Wglayouts, defaultBasedCurrency } from './config';
 import LocalStorageHelper from './Modules/LocalStorageHelper';
 import WidgetLayout from './Modules/WidgetLayout';
 import LanguageApi from './Modules/LanguageApi';
@@ -39,7 +39,7 @@ export default class DashboardApp extends React.Component {
       refresh: 0,
       selectedFilter: {
         currency: 0,
-        baseCurrency: "EUR"
+        baseCurrency: defaultBasedCurrency
       },
       isMounted: false,
     }, this._getLayoutSettings());

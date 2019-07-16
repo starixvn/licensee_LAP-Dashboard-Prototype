@@ -19,7 +19,7 @@ export const cs = {
     withdrawal_today: "提款(今日)",
     apply: "设定",
     currency: "会员币别",
-    Based: "显示币别",
+    Based: "基础货币",
     Widgets: "小工具",
     total_registered_cus_today: "总注册会员",
     deposit: "注册且存款",

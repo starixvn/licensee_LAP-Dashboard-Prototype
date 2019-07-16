@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom';
 import LanguageApi from '../Modules/LanguageApi';
 import WidgetApi from '../Modules/WidgetApi';
-import { WidgetApiUrl, BaseCurrencyList } from '../config';
+import { WidgetApiUrl, BaseCurrencyList, defaultBasedCurrency } from '../config';
 
 const _baseCurrencyList = BaseCurrencyList;
 
@@ -11,10 +11,13 @@ export default class RightPanel extends React.Component {
     constructor(props) {
         super(props);
 
+        const basedCurrency = _baseCurrencyList.find(x => x.Currency.toLowerCase() === defaultBasedCurrency.toLowerCase());
+        const selectedBasedCurrency = basedCurrency ? basedCurrency.CurrencyId : _baseCurrencyList[0].CurrencyId;
+
         this.state = {
             isMounted: false,
             isHidden: true,
-            SelectedBaseCurrency: _baseCurrencyList[0].CurrencyId,
+            SelectedBaseCurrency: selectedBasedCurrency,
             SelectedCurrency: 0,
             BaseCurrencyList: _baseCurrencyList,
             CurrencyList: [],
