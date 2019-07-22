@@ -12,12 +12,13 @@ var $ = require('gulp-load-plugins')();
 var clean = require('gulp-rimraf');
 var path = require('path');
 var merge = require('merge-stream');
-var runSequence = require('run-sequence');
+var runSequence = require('gulp4-run-sequence');
 var webpack = require('webpack');
 var browserSync = require('browser-sync');
 var pagespeed = require('psi');
 var argv = require('minimist')(process.argv.slice(2));
 var concat = require('gulp-concat');
+const FwdRef = require('undertaker-forward-reference');
 
 // Settings
 var DEST = './build'; // The build output folder
@@ -48,8 +49,10 @@ var pkgs = (function() {
     return temp;
 }());
 
+gulp.registry(FwdRef());
+
 // The default task
-gulp.task('default', ['serve']);
+gulp.task('default', gulp.series('serve'));
 
 // Clean up
 gulp.task('clean', function() {
@@ -117,7 +120,7 @@ gulp.task('styles', function() {
         .on('error', console.error.bind(console));
     return merge(sassStream, cssStream)
         .pipe(concat("dashboard.css"))
-        .pipe($.autoprefixer({ browsers: AUTOPREFIXER_BROWSERS }))
+        .pipe($.autoprefixer({ overrideBrowserslist: AUTOPREFIXER_BROWSERS }))
         .pipe($.csscomb())
         .pipe($.if(RELEASE, $.minifyCss()))
         .pipe(sourcemaps.write())
@@ -164,8 +167,8 @@ gulp.task('bundle', function(cb) {
 
 
 // Build the app from source code
-gulp.task('build', ['clean'], function(cb) {
-    runSequence(['vendor', 'assets', 'images', 'pages', 'styles', 'fonts', 'bundle'], cb);
+gulp.task('build', function(cb) {
+    runSequence('clean', ['vendor', 'assets', 'images', 'pages', 'styles', 'fonts', 'bundle'], cb);
 });
 
 // Launch a lightweight HTTP Server
@@ -184,11 +187,11 @@ gulp.task('serve2', function(cb) {
             server: DEST
         });
 
-        gulp.watch(src.assets, ['assets']);
-        gulp.watch(src.images, ['images']);
-        gulp.watch(src.pages, ['pages']);
-        gulp.watch(src.styles, ['styles']);
-        gulp.watch(src.fonts, ['fonts']);
+        gulp.watch(src.assets, gulp.series('assets'));
+        gulp.watch(src.images, gulp.series('images'));
+        gulp.watch(src.pages, gulp.series('pages'));
+        gulp.watch(src.styles, gulp.series('styles'));
+        gulp.watch(src.fonts, gulp.series('fonts'));
         gulp.watch(['src/**/*.jsx', 'src/**/*.js', '!src/**/*.test.js'], function(file) {
             browserSync.reload(path.relative(__dirname, file.path));
         });
@@ -235,11 +238,11 @@ gulp.task('serve', function(cb) {
             server: DEST
         });
 
-        gulp.watch(src.assets, ['assets']);
-        gulp.watch(src.images, ['images']);
-        gulp.watch(src.pages, ['pages']);
-        gulp.watch(src.styles, ['styles']);
-        gulp.watch(src.fonts, ['fonts']);
+        gulp.watch(src.assets, gulp.series('assets'));
+        gulp.watch(src.images, gulp.series('images'));
+        gulp.watch(src.pages, gulp.series('pages'));
+        gulp.watch(src.styles, gulp.series('styles'));
+        gulp.watch(src.fonts, gulp.series('fonts'));
         gulp.watch(['src/**/*.jsx', 'src/**/*.js', '!src/**/*.test.js'], function(file) {
             browserSync.reload(path.relative(__dirname, file.path));
         });
@@ -326,14 +329,33 @@ gulp.task('copytoSVN', function(cb) {
 
 });
 
-gulp.task("deploy", ['build', 'copytoSVN']);
+gulp.task("deploy", gulp.series('build', 'copytoSVN'));
+
 // Run PageSpeed Insights
 // Update `url` below to the public URL for your site
-gulp.task('pagespeed', pagespeed.bind(null, {
-    // By default, we use the PageSpeed Insights
-    // free (no API key) tier. You can use a Google
-    // Developer API key if you have one. See
-    // http://goo.gl/RkN0vE for info key: 'YOUR_API_KEY'
-    url: 'https://example.com',
-    strategy: 'mobile'
-}));
+var url = 'http://www.google.com';
+// Please feel free to use the `nokey` option to try out PageSpeed
+// Insights as part of your build process. For more frequent use,
+// you should register for your own API key. For more info:
+// https://developers.google.com/speed/docs/insights/v2/getting-started
+
+gulp.task('pagespeed-mobile', function () {
+    return pagespeed(url, {
+        // key: key
+        nokey: 'true',
+        strategy: 'mobile',
+    }).then(function (data) {
+        console.log('Speed score: ' + data.ruleGroups.SPEED.score);
+        console.log('Usability score: ' + data.ruleGroups.USABILITY.score);
+    });
+});
+
+gulp.task('pagespeed-desktop', function () {
+    return pagespeed(url, {
+        nokey: 'true',
+        // key: key,
+        strategy: 'desktop',
+    }).then(function (data) {
+        console.log('Speed score: ' + data.ruleGroups.SPEED.score);
+    });
+});
