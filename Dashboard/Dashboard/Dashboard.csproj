@@ -45,7 +45,11 @@
     <Content Include="build\robots.txt" />
     <Content Include="build\tile-wide.png" />
     <Content Include="build\tile.png" />
-    <Content Include="config\**\*.*" />
+    <Content Include="config\utils\constant.js" />
+    <Content Include="config\utils\entry.js" />
+    <Content Include="config\utils\htmlEntry.js" />
+    <Content Include="config\webpack.config.js" />
+    <Content Include="config\webpack.js" />
     <Content Include="docs\**\*.*" />
     <Content Include="src\App.jsx" />
     <Content Include="src\assets\apple-touch-icon-precomposed.png" />
