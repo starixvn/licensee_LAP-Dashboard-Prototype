@@ -130,43 +130,46 @@ test('render correctly', () => {
 
             describe('componentWillReceiveProps(nextProps)', () => {
                 test('refresh greater than old value: fetch data', () => {
-                    const component = new Turnover(fakeProps);
-                    component.props = { refresh: 123 };
-                    component.state.isMounted = true;
-                    component.setState = jest.fn();
+                    const prevState = { isMounted: true };
+                    const props = Object.assign({}, fakeProps);
+                    props.refresh += 1000;
+                    props.langCode = 'zhcn';
+
+                    const component = new Turnover(props);
                     component.fetchData = jest.fn();
-                    const nextProps = { refresh: 456, a: 1, b: 2 };
-                    component.componentWillReceiveProps(nextProps);
+                    component.setState = jest.fn();
+
+                    component.componentDidUpdate(fakeProps, prevState);
 
                     expect(component.setState).toBeCalledWith({ isLoading: true });
-                    expect(component.fetchData).toBeCalledWith(nextProps);
+                    expect(component.fetchData).toBeCalledWith(props);
                 });
 
                 test('refresh less than or equal old value: do nothing', () => {
-                    const component = new Turnover(fakeProps);
-                    component.props = { refresh: 123 };
-                    component.state.isMounted = true;
-                    component.setState = jest.fn();
+                    const prevState = { isMounted: true };
+                    const props = Object.assign({}, fakeProps);
+                    props.refresh -= 1000;
+
+                    const component = new Turnover(props);
                     component.fetchData = jest.fn();
+                    component.setState = jest.fn();
 
-                    component.componentWillReceiveProps({ refresh: 123 });
-                    expect(component.setState).not.toBeCalled();
-                    expect(component.fetchData).not.toBeCalled();
+                    component.componentDidUpdate(fakeProps, prevState);
 
-                    component.componentWillReceiveProps({ refresh: 1 });
-                    expect(component.setState).not.toBeCalled();
                     expect(component.fetchData).not.toBeCalled();
+                    expect(component.setState).not.toBeCalled();
                 });
 
                 test('component unmouted: do nothing', () => {
+                    const prevState = { isMounted: false };
                     const component = new Turnover(fakeProps);
-                    component.state.isMounted = false;
-                    component.setState = jest.fn();
                     component.fetchData = jest.fn();
+                    component.setState = jest.fn();
 
-                    component.componentWillReceiveProps({ refresh: 123 });
-                    expect(component.setState).not.toBeCalled();
+                    component.componentDidUpdate(fakeProps, prevState);
+
                     expect(component.fetchData).not.toBeCalled();
+                    expect(component.setState).not.toBeCalled();
                 });
             });
 

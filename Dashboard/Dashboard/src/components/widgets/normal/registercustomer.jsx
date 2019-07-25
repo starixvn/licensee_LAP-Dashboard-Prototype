@@ -18,11 +18,11 @@ export default class RegisteredCustomer extends React.Component {
         }
     }
 
-    fetchData(nextProps) {
+    fetchData(props) {
         var param = {
             Data: {
-                CurrencyId: nextProps.filter.currency,
-                BaseCurrency: nextProps.filter.baseCurrency
+                CurrencyId: props.filter.currency,
+                BaseCurrency: props.filter.baseCurrency
             },
             Url: WidgetApiUrl.normalRegisterCustomer,
             IsCrossSite: false
@@ -40,10 +40,10 @@ export default class RegisteredCustomer extends React.Component {
             });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.state.isMounted && nextProps.refresh > this.props.refresh) {
-            this.setState({ isLoading: true })
-            this.fetchData(nextProps)
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.isMounted && this.props.refresh > prevProps.refresh) {
+            this.setState({ isLoading: true });
+            this.fetchData(this.props);
         }
     }
 

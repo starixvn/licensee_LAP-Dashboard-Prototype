@@ -143,55 +143,57 @@ test('componentDidMount: set mount state true', () => {
     expect(component.setState.mock.calls[0][0].isMounted).toBeTruthy();
 });
 
-describe('componentWillReceiveProps(nextProps):', () => {
+describe('componentDidUpdate(prevProps, prevState):', () => {
     test('next [refresh] > old [refresh], fetch new data', () => {
         // assign
-        const component = new LicenseeWinLoss(fakeProps);
+        const prevState = { isMounted: true };
+        const props = Object.assign({}, fakeProps);
+        props.refresh += 1000;
+        props.langCode = 'zhcn';
 
+        const component = new LicenseeWinLoss(props);
         component.fetchData = jest.fn();
         component.setState = jest.fn();
-        component.state.isMounted = true;
-
-        const nextProps = Object.assign({}, fakeProps);
-        nextProps.refresh += 1000;
-        nextProps.langCode = 'zhcn';
 
         // action
-        component.componentWillReceiveProps(nextProps);
+        component.componentDidUpdate(fakeProps, prevState);
 
         // assert
         expect(component.setState).toBeCalledWith({ isLoading: true });
-        expect(component.fetchData).toBeCalledWith(nextProps);
+        expect(component.fetchData).toBeCalledWith(props);
     });
 
     test('next [refresh] <= old [refresh], do nothing', () => {
         // assign
-        const component = new LicenseeWinLoss(fakeProps);
-        component.fetchData = jest.fn();
-        component.state.isMounted = true;
+        const prevState = { isMounted: true };
+        const props = Object.assign({}, fakeProps);
+        props.refresh -= 1000;
 
-        const nextProps = Object.assign({}, fakeProps);
-        nextProps.refresh -= 1000;
+        const component = new LicenseeWinLoss(props);
+        component.fetchData = jest.fn();
+        component.setState = jest.fn();
 
         // action
-        component.componentWillReceiveProps(fakeProps);
-        component.componentWillReceiveProps(nextProps);
+        component.componentDidUpdate(fakeProps, prevState);
 
         // assert
         expect(component.fetchData).not.toBeCalled();
+        expect(component.setState).not.toBeCalled();
     });
 
     test('component is umounted: do nothing', () => {
         // assign
+        const prevState = { isMounted: false };
         const component = new LicenseeWinLoss(fakeProps);
         component.fetchData = jest.fn();
-        component.state.isMounted = false;
+        component.setState = jest.fn();
 
         // action
-        component.componentWillReceiveProps(fakeProps);
+        component.componentDidUpdate(fakeProps, prevState);
 
         // assert
         expect(component.fetchData).not.toBeCalled();
+        expect(component.setState).not.toBeCalled();
     });
 });
 

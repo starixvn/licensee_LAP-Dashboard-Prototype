@@ -35,10 +35,10 @@ export default class AutoReload extends React.Component {
         this._stopTimer();
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!nextProps.isLoading && this.props.isLoading) {
-            if (!this.state.currentCountdown) {
-                this.setState({ currentCountdown: this.state.countdown });
+    componentDidUpdate(prevProps, prevState) {
+        if(!this.props.isLoading && prevProps.isLoading) {
+            if (!prevState.currentCountdown) {
+                this.setState({ currentCountdown: prevState.countdown });
             }
             if (!this.timerId) {
                 this._startTimer();

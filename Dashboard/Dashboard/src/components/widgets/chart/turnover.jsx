@@ -70,11 +70,11 @@ export default class Turnover extends React.Component {
         };
     }
 
-    fetchData(nextProps) {
+    fetchData(props) {
         var param = {
             Data: {
-                CurrencyId: nextProps.filter.currency,
-                BaseCurrency: nextProps.filter.baseCurrency
+                CurrencyId: props.filter.currency,
+                BaseCurrency: props.filter.baseCurrency
             },
             Url: WidgetApiUrl.chartTurnover,
             IsCrossSite: true
@@ -95,7 +95,7 @@ export default class Turnover extends React.Component {
                         datasets: [
                             {
                                 data: dataList,
-                                currency: nextProps.filter.baseCurrency,
+                                currency: props.filter.baseCurrency,
                                 backgroundColor: [                                
                                     "#35A1FB",
                                     "#4B966B",
@@ -118,10 +118,10 @@ export default class Turnover extends React.Component {
             });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.state.isMounted && nextProps.refresh > this.props.refresh) {
-            this.setState({ isLoading: true })
-            this.fetchData(nextProps)
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.isMounted && this.props.refresh > prevProps.refresh) {
+            this.setState({ isLoading: true });
+            this.fetchData(this.props);
         }
     }
 

@@ -26,17 +26,17 @@ export default class RightPanel extends React.Component {
 
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.state.isMounted) {
+    componentDidUpdate(prevProps, prevState) {
+        if(prevState.isMounted && this.state.wgs !== prevState.wgs) {
             this.setState({
-                wgs: this._bindWgCheckBox(nextProps.wgs)
+                wgs: this._bindWgCheckBox(this.props.wgs)
             });
         }
     }
 
     componentDidMount() {
         this.setState({ isMounted: true }, () => {
-            this._fetchData(this.props)
+            this._fetchData()
         });
     }
 

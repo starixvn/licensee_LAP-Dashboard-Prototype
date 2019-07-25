@@ -129,47 +129,41 @@ test('component will un-mount set mount state false', () => {
     expect(component.setState).toBeCalledWith({ isMounted: false });
 });
 
-describe('componentWillReceiveProps(nextProps)', () => {
+describe('componentDidUpdate(nextProps)', () => {
     test('component is unmounted: do nothing', () => {
+        const prevState = { isMounted: false };
         const component = new OnlineCustomer(fakeProps);
-        component.state.isMounted = false;
         component.fetchData = jest.fn();
         component.setState = jest.fn();
 
-        component.componentWillReceiveProps({ refresh: 123 });
+        component.componentDidUpdate(fakeProps, prevState);
+
         expect(component.fetchData).not.toBeCalled();
         expect(component.setState).not.toBeCalled();
     });
 
     test('refresh greater than old value: fetch data', () => {
         const component = new OnlineCustomer(fakeProps);
-        component.props = { refresh: 123 };
-        component.state.isMounted = true;
         component.setState = jest.fn();
         component.fetchData = jest.fn();
-        const nextProps = {
-            refresh: 456,
-            a: 1,
-            b: 2
-        };
-        component.componentWillReceiveProps(nextProps);
+
+        const prevState = { isMounted: true };
+        const prevProps = Object.assign({}, fakeProps, { refresh: 123 });
+
+        component.componentDidUpdate(prevProps, prevState);
 
         expect(component.setState).toBeCalledWith({ isLoading: true });
         expect(component.fetchData).toBeCalled();
     });
 
     test('refresh less than or equal old value: do nothing', () => {
-        const component = new OnlineCustomer(fakeProps);
-        component.props = { refresh: 123 };
-        component.state.isMounted = true;
+        const prevState = { isMounted: true };
+        const props = Object.assign({}, fakeProps, { refresh: 123 });
+        const component = new OnlineCustomer(props);
         component.setState = jest.fn();
         component.fetchData = jest.fn();
 
-        component.componentWillReceiveProps({ refresh: 123 });
-        expect(component.setState).not.toBeCalled();
-        expect(component.fetchData).not.toBeCalled();
-
-        component.componentWillReceiveProps({ refresh: 1 });
+        component.componentDidUpdate(fakeProps, prevState);
         expect(component.setState).not.toBeCalled();
         expect(component.fetchData).not.toBeCalled();
     });

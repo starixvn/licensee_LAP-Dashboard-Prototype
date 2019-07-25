@@ -13,7 +13,7 @@ export default class BaseNormalWidget extends React.Component {
         this.state = {
             data: 0,
             isLoading: true,
-            isMounted: false,
+            isMounted: false
         };
 
         this.configs = configs;
@@ -25,11 +25,11 @@ export default class BaseNormalWidget extends React.Component {
         // }
     }
 
-    fetchData(nextProps) {
+    fetchData(props) {
         var param = {
             Data: {
-                CurrencyId: nextProps.filter.currency,
-                BaseCurrency: nextProps.filter.baseCurrency
+                CurrencyId: props.filter.currency,
+                BaseCurrency: props.filter.baseCurrency
             },
             Url: this.configs.Url,
             IsCrossSite: true
@@ -47,10 +47,10 @@ export default class BaseNormalWidget extends React.Component {
             });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.state.isMounted && nextProps.refresh > this.props.refresh) {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.isMounted && this.props.refresh > prevProps.refresh) {
             this.setState({ isLoading: true });
-            this.fetchData(nextProps);
+            this.fetchData(this.props);
         }
     }
 

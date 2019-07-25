@@ -324,47 +324,52 @@ test('on counter value click: call _onSelectCounterValue(value)', () => {
     expect(instance._onSelectCounterValue).toBeCalledWith(4);
 });
 
-describe('componentWillReceiveProps', () => {
+describe('componentDidUpdate', () => {
     test('still loading: do nothing', () => {
-        const component = new AutoReload(fakeProps);
+        const props = Object.assign({}, fakeProps, { isLoading: true });
+        const component = new AutoReload(props);
         component.setState = jest.fn();
 
-        component.componentWillReceiveProps({ isLoading: true });
+        component.componentDidUpdate({ isLoading: true });
 
         expect(component.setState).not.toBeCalled();
     });
 
     test('already stopped loading: do nothing', () => {
+        const props = Object.assign({}, fakeProps, { isLoading: false });
         const component = new AutoReload(Object.assign(fakeProps));
         component.setState = jest.fn();
-        component.props.isLoading = false;
 
-        component.componentWillReceiveProps({ isLoading: false });
+        component.componentDidUpdate({ isLoading: false });
 
         expect(component.setState).not.toBeCalled();
     });
 
     test('stop loading: reset countdown if it is zero', () => {
+        const prevState = {
+            currentCountdown: 0,
+            countdown: 10001
+        };
+        const props = Object.assign({}, fakeProps, { isLoading: true });
         const component = new AutoReload(Object.assign(fakeProps));
         component.setState = jest.fn();
-        component.props.isLoading = true;
-        component.state.currentCountdown = 0;
-        component.state.countdown = 10001;
         component.timerId = 100;
 
-        component.componentWillReceiveProps({ isLoading: false });
+        component.componentDidUpdate({ isLoading: true }, prevState);
 
         expect(component.setState).toBeCalledWith({ currentCountdown: 10001 });
     });
 
     test('stop loading: restart timer if it stopped', () => {
+        const prevState = {
+            currentCountdown: 10
+        };
+        const props = Object.assign({}, fakeProps, { isLoading: true });
         const component = new AutoReload(Object.assign(fakeProps));
-        component.props.isLoading = true;
-        component.state.currentCountdown = 10;
         component.timerId = 0;
         component._startTimer = jest.fn();
 
-        component.componentWillReceiveProps({ isLoading: false });
+        component.componentDidUpdate({ isLoading: true }, prevState);
 
         expect(component._startTimer).toBeCalled();
     });

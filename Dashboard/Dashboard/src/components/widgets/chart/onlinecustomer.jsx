@@ -74,7 +74,7 @@ export default class OnlineCustomer extends React.Component {
         };
     }
 
-    fetchData(nextProps) {
+    fetchData() {
         var param = {
             Url: WidgetApiUrl.chartlOnlineCustomer,
             IsCrossSite: false
@@ -98,10 +98,10 @@ export default class OnlineCustomer extends React.Component {
             });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.state.isMounted && nextProps.refresh > this.props.refresh) {
-            this.setState({ isLoading: true })
-            this.fetchData(nextProps)
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.isMounted && this.props.refresh > prevProps.refresh) {
+            this.setState({ isLoading: true });
+            this.fetchData(this.props);
         }
     }
 

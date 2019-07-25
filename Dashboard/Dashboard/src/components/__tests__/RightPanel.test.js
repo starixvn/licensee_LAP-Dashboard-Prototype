@@ -551,31 +551,30 @@ describe('RightPanel', () => {
         });
     });
 
-    describe('componentWillReceiveProps(nextProps)', () => {
+    describe('componentDidUpdate(nextProps)', () => {
         test('component unmounted: do nothing', () => {
             const component = new RightPanel(fakeProps);
-            component.state.isMounted = false;
             component.setState = jest.fn();
-            component.componentWillReceiveProps();
+            component.componentDidUpdate(fakeProps, { isMounted: false });
 
             expect(component.setState).not.toBeCalled();
         });
 
         test('mounted: bind widget status', () => {
-            const component = new RightPanel(fakeProps);
-            component.state.isMounted = true;
-            component.setState = jest.fn();
-            component.componentWillReceiveProps({
-                wgs: [{
-                    key: "abcxxx",
-                    enable: true
-                },
+            const wgs = [{
+                key: "abcxxx",
+                enable: true
+            },
                 {
                     key: "defxxx",
                     enable: false
                 }
-                ]
-            });
+            ];
+            const props = Object.assign({}, fakeProps, { wgs });
+            const component = new RightPanel(props);
+            component.setState = jest.fn();
+
+            component.componentDidUpdate(fakeProps, { isMounted: true, wgs: { 'abc': true }});
 
             expect(component.setState).toBeCalledWith({
                 wgs: {

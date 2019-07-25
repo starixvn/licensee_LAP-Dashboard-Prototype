@@ -79,55 +79,52 @@ test('componentWillUnmount: set isMounted = false', () => {
     expect(component.setState).toBeCalledWith({ isMounted: false });
 });
 
-test('componentWillReceiveProps: next.refresh > old.refresh, fetch new data', () => {
+test('componentDidUpdate: next.refresh > old.refresh, fetch new data', () => {
     // assign
-    const component = new RegisteredCustomer(fakeProps);
+    const prevState = { isMounted: true };
+    const props = Object.assign({}, fakeProps);
+    props.refresh += 1000;
+    props.langCode = 'zhcn';
 
+    const component = new RegisteredCustomer(props);
     component.fetchData = jest.fn();
     component.setState = jest.fn();
-    component.state.isMounted = true;
-
-    const nextProps = Object.assign({}, fakeProps);
-    nextProps.refresh += 1000;
-    nextProps.langCode = 'zhcn';
 
     // action
-    component.componentWillReceiveProps(nextProps);
+    component.componentDidUpdate(fakeProps, prevState);
 
     // assert
     expect(component.setState).toBeCalledWith({ isLoading: true });
-    expect(component.fetchData).toBeCalledWith(nextProps);
+    expect(component.fetchData).toBeCalledWith(props);
 });
 
-test('componentWillReceiveProps: next.refresh <= old.refresh, do nothing', () => {
+test('componentDidUpdate: next.refresh <= old.refresh, do nothing', () => {
     // assign
-    const component = new RegisteredCustomer(fakeProps);
+    const prevState = { isMounted: true };
+    const props = Object.assign({}, fakeProps);
+    props.refresh -= 1000;
+
+    const component = new RegisteredCustomer(props);
     component.fetchData = jest.fn();
-    component.state.isMounted = true;
-    const nextProps = Object.assign({}, fakeProps);
-    nextProps.refresh -= 1000;
-    const propsNotChanged = fakeProps;
+    component.setState = jest.fn();
 
     // action
-    component.componentWillReceiveProps(propsNotChanged);
-    component.componentWillReceiveProps(nextProps);
+    component.componentDidUpdate(fakeProps, prevState);
 
     // assert
-    expect(component.fetchData)
-        .not
-        .toBeCalled();
+    expect(component.fetchData).not.toBeCalled();
+    expect(component.setState).not.toBeCalled();
 });
 
-test('componentWillReceiveProps: not mounted: do nothing', () => {
+test('componentDidUpdate: not mounted: do nothing', () => {
     // assign
+    const prevState = { isMounted: false };
     const component = new RegisteredCustomer(fakeProps);
     component.fetchData = jest.fn();
     component.setState = jest.fn();
-    component.state.isMounted = false;
-    const nextProps = Object.assign({ refresh: 5000 }, fakeProps);
 
     // action
-    component.componentWillReceiveProps(nextProps);
+    component.componentDidUpdate(fakeProps, prevState);
 
     // assert
     expect(component.fetchData).not.toBeCalled();
