@@ -11,6 +11,7 @@ import NumberFormat from '../../../Modules/Number';
 export default class Turnover extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             data: {},
             total: 0,
@@ -21,17 +22,17 @@ export default class Turnover extends React.Component {
         this.options = {
             legend: { display: false, custom: true, id: 'custom-legend' },
             maintainAspectRatio: false,
-            tooltips: { 
-               callbacks: {
-                    label: function(tooltipItem, data) {
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem, data) {
                         return data.labels[tooltipItem.index];
                     },
-                    title: function(tooltipItem, data) {
+                    title: function (tooltipItem, data) {
                         return '';
                     }
-                 }
+                }
             },
-           
+
             layout: { padding: { top: 10, bottom: 50, right: 130 } },
             hover: { animationDuration: 0 },
             animation: {
@@ -79,6 +80,7 @@ export default class Turnover extends React.Component {
             Url: WidgetApiUrl.chartTurnover,
             IsCrossSite: true
         };
+
         WidgetApi.fetchData(param)
             .then((response) => {
                 var labelList = [], dataList = [];
@@ -96,7 +98,7 @@ export default class Turnover extends React.Component {
                             {
                                 data: dataList,
                                 currency: props.filter.baseCurrency,
-                                backgroundColor: [                                
+                                backgroundColor: [
                                     "#35A1FB",
                                     "#4B966B",
                                     "#4C6375",
@@ -126,9 +128,7 @@ export default class Turnover extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ isMounted: true }, () => {
-            this.fetchData(this.props)
-        });
+        this.setState({ isMounted: true }, () => this.fetchData(this.props));
     }
 
     componentWillUnmount() {
@@ -136,15 +136,19 @@ export default class Turnover extends React.Component {
     }
 
     render() {
-        return <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} widgetKey={WidgetKey.chartTurnover} title={LanguageApi.getRes(this.props.langCode, "turnover_byplatform_month_todate")}
-            widgetName="turnover default" isLoading={this.state.isLoading}>
-            <Doughnut data={this.state.data} options={this.options} />
-            <div id="custom-legend"></div>
-            <div className="footer-total">
-                <span>{LanguageApi.getRes(this.props.langCode, "total_turnover")}: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)} </span>
-            </div>
-        </WidgetBox>
-            ;
+        return (
+            <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} widgetKey={WidgetKey.chartTurnover}
+                title={LanguageApi.getRes(this.props.langCode, "turnover_byplatform_month_todate")}
+                widgetName="turnover default" isLoading={this.state.isLoading}>
+                <Doughnut data={this.state.data} options={this.options} />
+                <div id="custom-legend"></div>
+                <div className="footer-total">
+                    <span>
+                        {LanguageApi.getRes(this.props.langCode, "total_turnover")}: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)}
+                    </span>
+                </div>
+            </WidgetBox>
+        );
     }
 };
 
@@ -166,22 +170,32 @@ Chart.plugins.register({
 
             const globalDefault = Chart.defaults.global;
 
-            ReactDOM.render((<table className="chart-legend" style={{
-                fontSize: globalDefault.defaultFontSize,
-                fontStyle: globalDefault.defaultFontStyle,
-                fontFamily: globalDefault.defaultFontFamily
-            }}>
-                <tbody>
-                    {legendOptions.map(x => (<tr key={x.index}>
-                        <td className="cl__label">
-                            <span style={{ backgroundColor: x.color }} className="cl__point"></span>
-                            <span className="cl__text">{x.text}</span>
-                        </td>
-                        <td className="cl__value">
-                            <span className="cl__text">{x.value}</span></td>
-                    </tr>))}
-                </tbody>
-            </table>), customLegendElement);
+            ReactDOM.render(
+                (
+                    <table className="chart-legend" style={{
+                        fontSize: globalDefault.defaultFontSize,
+                        fontStyle: globalDefault.defaultFontStyle,
+                        fontFamily: globalDefault.defaultFontFamily
+                    }}>
+                        <tbody>
+                            {
+                                legendOptions.map(x => (
+                                    <tr key={x.index}>
+                                        <td className="cl__label">
+                                            <span style={{ backgroundColor: x.color }} className="cl__point"></span>
+                                            <span className="cl__text">{x.text}</span>
+                                        </td>
+                                        <td className="cl__value">
+                                            <span className="cl__text">{x.value}</span>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
+                ),
+                customLegendElement
+            );
         }
     }
 });

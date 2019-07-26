@@ -1,5 +1,4 @@
 ﻿import React from 'react';
-import ReactDOM from 'react-dom';
 import { HorizontalBar } from 'react-chartjs-2';
 import WidgetBox from '../widgetbox';
 import { WidgetKey } from '../../../config';
@@ -11,7 +10,9 @@ import NumberFormat from '../../../Modules/Number';
 export default class OnlineCustomer extends React.Component {
     constructor(props) {
         super(props);
+
         const fontColor = "#5162BA";
+        
         this.state = {
             data: {
                 labels: [
@@ -79,6 +80,7 @@ export default class OnlineCustomer extends React.Component {
             Url: WidgetApiUrl.chartlOnlineCustomer,
             IsCrossSite: false
         };
+
         return WidgetApi.fetchData(param)
             .then((response) => {
                 this.setState({
@@ -106,16 +108,14 @@ export default class OnlineCustomer extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ isMounted: true }, () => {
-            this.fetchData(this.props)
-        });
+        this.setState({ isMounted: true }, () => this.fetchData(this.props));
     }
 
     componentWillUnmount() {
         this.setState({ isMounted: false });
     }
 
-    _reload(restartCountdown) {
+    _reload() {
         if (this.state.isMounted) {
             this.setState({ isLoading: true });
             this.fetchData(this.props);
@@ -123,19 +123,21 @@ export default class OnlineCustomer extends React.Component {
     }
 
     render() {
-        return <WidgetBox callbackParent={this.props.callbackParent}
-            wgItem={this.props.wgItemFromParent}
-            widgetKey={WidgetKey.chartlOnlineCustomer}
-            title={LanguageApi.getRes(this.props.langCode, "online_customer")}
-            widgetName="online-customer default"
-            isLoading={this.state.isLoading}
-            countdownConfigs={{
-                reloadCallback: () => this._reload(),
-                defaultCountdown: 75,
-                countdownValues: [15, 30, 45, 60, 75],
-                colorMode: 'blue'
-            }}>
-            <HorizontalBar data={this.state.data} options={this.options} />
-        </WidgetBox>;
+        return (
+            <WidgetBox callbackParent={this.props.callbackParent}
+                wgItem={this.props.wgItemFromParent}
+                widgetKey={WidgetKey.chartlOnlineCustomer}
+                title={LanguageApi.getRes(this.props.langCode, "online_customer")}
+                widgetName="online-customer default"
+                isLoading={this.state.isLoading}
+                countdownConfigs={{
+                    reloadCallback: () => this._reload(),
+                    defaultCountdown: 75,
+                    countdownValues: [15, 30, 45, 60, 75],
+                    colorMode: 'blue'
+                }}>
+                <HorizontalBar data={this.state.data} options={this.options} />
+            </WidgetBox>
+        );
     }
 };

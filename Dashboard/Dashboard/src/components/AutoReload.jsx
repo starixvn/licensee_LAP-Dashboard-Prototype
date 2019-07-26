@@ -4,6 +4,7 @@ import LocalStorageHelper from '../Modules/LocalStorageHelper'
 export default class AutoReload extends React.Component {
     constructor(props) {
         super(props);
+        
         const countdowns = LocalStorageHelper.getWidgetReloadCountdown();
         let countdown = countdowns[this.props.dataKey];
 
@@ -36,7 +37,7 @@ export default class AutoReload extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(!this.props.isLoading && prevProps.isLoading) {
+        if (!this.props.isLoading && prevProps.isLoading) {
             if (!prevState.currentCountdown) {
                 this.setState({ currentCountdown: prevState.countdown });
             }
@@ -93,18 +94,22 @@ export default class AutoReload extends React.Component {
     render() {
         var className = "btn-refresh right border-" + (this.props.colorMode || "white");
         const selection = this.state.isShowSelection
-            ? (<ul className="dropdown-timer">
-                {(this.countdownValues || []).map(value => (
-                    <li key={value} onClick={() => this._onSelectCounterValue(value)}>{value}</li>
-                ))}
-            </ul>)
+            ? (
+                <ul className="dropdown-timer">
+                    {(this.countdownValues || []).map(value => (
+                        <li key={value} onClick={() => this._onSelectCounterValue(value)}>{value}</li>
+                    ))}
+                </ul>
+            )
             : null;
 
-        return (<div className={className} onClick={() => this._onCounterClick()} disabled={!!this.props.isLoading}>
-            <i className="icon-refresh"></i>
-            <span className="currentCountdown">{this.state.currentCountdown + 's'}</span>
-            <i className="icon-menu-down"></i>
-            {selection}
-        </div>);
+        return (
+            <div className={className} onClick={() => this._onCounterClick()} disabled={!!this.props.isLoading}>
+                <i className="icon-refresh"></i>
+                <span className="currentCountdown">{this.state.currentCountdown + 's'}</span>
+                <i className="icon-menu-down"></i>
+                {selection}
+            </div>
+        );
     }
 }

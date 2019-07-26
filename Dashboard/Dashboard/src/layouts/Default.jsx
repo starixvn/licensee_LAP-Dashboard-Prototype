@@ -1,6 +1,5 @@
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import RightPanel from '../components/RightPanel';
 
 export default class DefaultLayout extends React.Component {
@@ -9,9 +8,11 @@ export default class DefaultLayout extends React.Component {
     }
 
     render() {
-        return <div className="dashboard__container">
-            <RightPanel langCode={this.props.langCode} wgs={this.props.initialWgStatus} callbackParent={this.props.callbackParent} />
-             {this.props.children}
-         </div>;
+        return (
+            <div className="dashboard__container">
+                <RightPanel langCode={this.props.langCode} wgs={this.props.initialWgStatus} callbackParent={this.props.callbackParent} />
+                {this.props.children}
+            </div>
+        );
     }
 }

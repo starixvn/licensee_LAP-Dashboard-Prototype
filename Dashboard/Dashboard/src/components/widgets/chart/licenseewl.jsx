@@ -1,5 +1,4 @@
 ﻿import React from 'react';
-import ReactDOM from 'react-dom';
 import { Bar } from 'react-chartjs-2';
 import WidgetBox from '../widgetbox';
 import { WidgetKey } from '../../../config';
@@ -11,6 +10,7 @@ import NumberFormat from '../../../Modules/Number';
 export default class LicenseeWinLoss extends React.Component {
     constructor(props) {
         super(props);
+        
         this.state = {
             data: {},
             total: 0,
@@ -81,6 +81,7 @@ export default class LicenseeWinLoss extends React.Component {
             Url: WidgetApiUrl.chartLicenseeWL,
             IsCrossSite: true
         };
+
         WidgetApi.fetchData(param)
             .then((response) => {
                 var labelList = [], dataList = [];
@@ -127,23 +128,25 @@ export default class LicenseeWinLoss extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ isMounted: true }, () => {
-            this.fetchData(this.props)
-        });
+        this.setState({ isMounted: true }, () => this.fetchData(this.props));
     }
 
     componentWillUnmount() {
         this.setState({ isMounted: false });
     }
-    
+
     render() {
-        return <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent} title={LanguageApi.getRes(this.props.langCode, "licensee_winloss_month_todate")} widgetKey={WidgetKey.chartLicenseeWL}
-            widgetName="licenseewl default" isLoading={this.state.isLoading}>
-            <Bar data={this.state.data} options={this.options} />
-            <div className="footer-total">
-                <span>{LanguageApi.getRes(this.props.langCode, "total_winloss")}: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)}</span>
-            </div>
-        </WidgetBox>
-            ;
+        return (
+            <WidgetBox callbackParent={this.props.callbackParent} wgItem={this.props.wgItemFromParent}
+                title={LanguageApi.getRes(this.props.langCode, "licensee_winloss_month_todate")} widgetKey={WidgetKey.chartLicenseeWL}
+                widgetName="licenseewl default" isLoading={this.state.isLoading}>
+                <Bar data={this.state.data} options={this.options} />
+                <div className="footer-total">
+                    <span>
+                        {LanguageApi.getRes(this.props.langCode, "total_winloss")}: {NumberFormat.formatCurrency(this.state.total, this.props.filter.baseCurrency)}
+                    </span>
+                </div>
+            </WidgetBox>
+        );
     }
 };
