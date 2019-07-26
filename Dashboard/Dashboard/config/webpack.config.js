@@ -103,9 +103,9 @@ module.exports = env => {
                 filename: "[name].css"
             }),
             new CopyPlugin([
-                { from: 'src/styles/font', to: 'build/fonts' },
-                { from: 'src/images', to: 'build/images' },
-                { from: 'src/assets', to: 'build' },
+                { from: 'src/styles/font', to: 'build/styles/fonts' },
+                { from: 'src/styles/images', to: 'build/styles/images' },
+                { from: 'src/styles/assets', to: 'build/styles' },
             ]),
         ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['build'] }),]),
         devtool: isDevBuild ? "source-map" : undefined

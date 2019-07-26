@@ -78,6 +78,7 @@
         "style-loader": "^0.23.1",
         "url-loader": "^2.1.0",
         "webpack": "^4.37.0",
+        "webpack-bundle-analyzer": "^3.3.2",
         "webpack-cli": "^3.3.6",
         "webpack-dev-server": "^3.7.2",
         "webpack-merge": "^4.2.1"
@@ -89,7 +90,6 @@
         "preupdate-webdriver": "npm install",
         "update-webdriver": "webdriver-manager update",
         "jest-install": "npm install jest-cli -g ",
-        "build:webpack": "node node_modules/webpack/bin/webpack.js --config config/webpack.js",
         "build:pro": "gulp build --release",
         "build:app:dev": "node node_modules/webpack/bin/webpack.js --config config/webpack.config.js --watch",
         "build:app:pro": "node node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env=production"
