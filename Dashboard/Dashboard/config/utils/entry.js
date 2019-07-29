@@ -2,7 +2,7 @@
 
 const jsDist = projectPath.relativeOutputPath + "/js";
 const htmlDist = projectPath.relativeOutputPath;
-const styleDist = projectPath.relativeOutputPath + "/styles/css";
+const styleDist = projectPath.relativeOutputPath + "/styles";
 
 const clientRoot = projectPath.clientInputPath;
 

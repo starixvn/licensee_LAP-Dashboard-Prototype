@@ -1,26 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import DefaultLayout from '../../layouts/DefaultLayout';
+import DefaultLayout from './layouts/DefaultLayout';
 
-import 'core-js/es6/promise';
-import 'core-js/es6/array';
-import 'core-js/es6/object';
+export const Turnover = React.lazy(() => import(/* webpackChunkName: "Turnover" */ './components/chart/Turnover'));
+export const OnlineCustomer = React.lazy(() => import(/* webpackChunkName: "OnlineCustomer" */ './components/chart/OnlineCustomer'));
+export const LicenseeWinLoss = React.lazy(() => import(/* webpackChunkName: "LicenseeWinLoss" */ './components/chart/LicenseeWinLoss'));
 
-import Turnover from './chart/turnover/Turnover';
-import OnlineCustomer from './chart/online-customer/OnlineCustomer';
-import LicenseeWinLoss from './chart/licensee-win-loss/LicenseeWinLoss';
+export const Deposit = React.lazy(() => import(/* webpackChunkName: "Withdrawal" */ './components/normal/Deposit'));
+export const Withdrawal = React.lazy(() => import(/* webpackChunkName: "Withdrawal" */ './components/normal/Withdrawal'));
+export const PendingFunds = React.lazy(() => import(/* webpackChunkName: "PendingFunds" */ './components/normal/PendingFunds'));
+export const CustomerBalance = React.lazy(() => import(/* webpackChunkName: "CustomerBalance" */ './components/normal/CustomerBalance'));
+export const RegisteredCustomer = React.lazy(() => import(/* webpackChunkName: "RegisteredCustomer" */ './components/normal/RegisteredCustomer'));
 
-import Deposit from './normal/deposit/Deposit';
-import Withdrawal from './normal/withdrawal/Withdrawal';
-import PendingFunds from './normal/pending-funds/PendingFunds';
-import CustomerBalance from './normal/customer-balance/CustomerBalance';
-import RegisteredCustomer from './normal/registered-customer/RegisteredCustomer';
-
-import widgetLayout from '../../modules/services/widgetLayout';
-import languageApi from '../../modules/services/languageApi';
-import { widgetKey, defaultBasedCurrency } from '../../modules/constants';
-import localStorageHelper from '../../modules/services/localStorageHelper';
+import widgetLayout from './modules/widgetLayout';
+import languageApi from './modules/languageApi';
+import { widgetKey, defaultBasedCurrency } from './modules/constants';
+import localStorageHelper from './modules/localStorageHelper';
 
 export default class DashboardApp extends React.Component {
     constructor(props) {
@@ -63,7 +59,9 @@ export default class DashboardApp extends React.Component {
         var itemStatus = this.state.wgStatus.find(x => x.key === key);
 
         return (<div key={key}>
-            <Widget wgItemFromParent={itemStatus} callbackParent={(newState) => this.onChildChanged(newState)} filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} />
+            <Suspense fallback={<div>Loading...</div>}>
+                <Widget wgItemFromParent={itemStatus} callbackParent={(newState) => this.onChildChanged(newState)} filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} />
+            </Suspense>
         </div>);
     }
 
