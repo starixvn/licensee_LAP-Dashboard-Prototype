@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import DefaultLayout from '../Default';
+import DefaultLayout from '../DefaultLayout';
 import widgetApi from '../../modules/services/widgetApi';
 
 jest.mock('../../modules/services/widgetApi');

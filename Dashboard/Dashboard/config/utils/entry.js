@@ -7,9 +7,9 @@ const styleDist = projectPath.relativeOutputPath + "/styles/css";
 const clientRoot = projectPath.clientInputPath;
 
 module.exports = {
-    [`${jsDist}/app`]: clientRoot + "/js/pages/main/App.jsx",
+    [`${jsDist}/pages/summary/app`]: clientRoot + "/js/pages/summary/App.jsx",
 
-    [`${styleDist}/dashboard`]: clientRoot + "/styles/dashboard.scss",
+    [`${styleDist}/pages/summary/dashboard`]: clientRoot + "/styles/pages/summary/dashboard.scss",
 
     [`${htmlDist}/index`]: clientRoot + "/index.html"
 };

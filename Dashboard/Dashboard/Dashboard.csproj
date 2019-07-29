@@ -31,26 +31,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="build\index.html" />
-    <Content Include="build\js\app.js" />
-    <Content Include="build\styles\apple-touch-icon-precomposed.png" />
-    <Content Include="build\styles\browserconfig.xml" />
-    <Content Include="build\styles\crossdomain.xml" />
-    <Content Include="build\styles\css\dashboard.css" />
-    <Content Include="build\styles\css\dashboard.js" />
-    <Content Include="build\styles\favicon.ico" />
+    <Content Include="build\js\pages\summary\app.js" />
+    <Content Include="build\styles\assets\apple-touch-icon-precomposed.png" />
+    <Content Include="build\styles\assets\browserconfig.xml" />
+    <Content Include="build\styles\assets\crossdomain.xml" />
+    <Content Include="build\styles\assets\favicon.ico" />
+    <Content Include="build\styles\assets\humans.txt" />
+    <Content Include="build\styles\assets\robots.txt" />
+    <Content Include="build\styles\assets\tile-wide.png" />
+    <Content Include="build\styles\assets\tile.png" />
+    <Content Include="build\styles\css\pages\summary\dashboard.css" />
     <Content Include="build\styles\fonts\icomoon.svg" />
     <Content Include="build\styles\fonts\style.css" />
-    <Content Include="build\styles\humans.txt" />
     <Content Include="build\styles\images\logo-small%402x.png" />
     <Content Include="build\styles\images\logo-small.png" />
-    <Content Include="build\styles\robots.txt" />
-    <Content Include="build\styles\tile-wide.png" />
-    <Content Include="build\styles\tile.png" />
     <Content Include="config\utils\constant.js" />
     <Content Include="config\utils\entry.js" />
     <Content Include="config\webpack.config.js" />
     <Content Include="docs\**\*.*" />
-    <Content Include="src\js\pages\main\App.jsx" />
+    <Content Include="src\js\pages\summary\App.jsx" />
     <Content Include="src\js\modules\constants.js" />
     <Content Include="src\js\modules\services\languageApi.js" />
     <Content Include="src\js\modules\services\localStorageHelper.js" />
@@ -70,12 +69,12 @@
     <Content Include="src\styles\assets\tile-wide.png" />
     <Content Include="src\styles\assets\tile.png" />
     <Content Include="src\js\components\RightPanel.jsx" />
-    <Content Include="src\js\pages\chart\licensee-win-loss\LicenseeWinLoss.jsx" />
-    <Content Include="src\js\pages\chart\turnover\Turnover.jsx" />
-    <Content Include="src\js\pages\normal\deposit\Deposit.jsx" />
-    <Content Include="src\js\pages\normal\pending-funds\PendingFunds.jsx" />
-    <Content Include="src\js\pages\normal\customer-balance\CustomerBalance.jsx" />
-    <Content Include="src\js\components\widgets\WidgetBox.jsx" />
+    <Content Include="src\js\pages\summary\chart\licensee-win-loss\LicenseeWinLoss.jsx" />
+    <Content Include="src\js\pages\summary\chart\turnover\Turnover.jsx" />
+    <Content Include="src\js\pages\summary\normal\deposit\Deposit.jsx" />
+    <Content Include="src\js\pages\summary\normal\pending-funds\PendingFunds.jsx" />
+    <Content Include="src\js\pages\summary\normal\customer-balance\CustomerBalance.jsx" />
+    <Content Include="src\js\components\WidgetBox.jsx" />
     <Content Include="src\styles\images\logo-small.png" />
     <Content Include="src\styles\images\logo-small%402x.png" />
     <Content Include="src\js\layouts\DefaultLayout.jsx" />
@@ -88,12 +87,9 @@
     <Content Include="package.json" />
     <Content Include="README.txt" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="src\styles\pages\chart\" />
-    <Folder Include="src\styles\pages\normal\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="src\styles\dashboard.scss" />
+    <Content Include="src\styles\pages\summary\dashboard.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\styles\components\_rightpanel.scss" />
@@ -102,28 +98,28 @@
     <Content Include="src\styles\base\_common.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\js\pages\normal\registered-customer\RegisteredCustomer.jsx" />
+    <Content Include="src\js\pages\summary\normal\registered-customer\RegisteredCustomer.jsx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\styles\font\icomoon.svg" />
-    <Content Include="src\styles\font\style.css" />
+    <Content Include="src\styles\fonts\icomoon.svg" />
+    <Content Include="src\styles\fonts\style.css" />
     <Content Include="src\styles\layout\_default.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\styles\components\widgets\_widgetbox.scss" />
+    <Content Include="src\styles\components\_widgetbox.scss" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".babelrc" />
-    <Content Include="src\styles\font\icomoon.eot" />
-    <Content Include="src\styles\font\icomoon.ttf" />
-    <Content Include="src\styles\font\icomoon.woff" />
+    <Content Include="src\styles\fonts\icomoon.eot" />
+    <Content Include="src\styles\fonts\icomoon.ttf" />
+    <Content Include="src\styles\fonts\icomoon.woff" />
     <Content Include="src\styles\base\_variables.scss" />
     <Content Include="src\styles\components\_checkboxes.scss" />
     <Content Include="src\js\components\AutoReload.jsx" />
     <Content Include="src\js\components\Loader.jsx" />
-    <Content Include="src\js\pages\chart\online-customer\OnlineCustomer.jsx" />
-    <Content Include="src\js\pages\normal\base-normal-widget\BaseNormalWidget.jsx" />
-    <Content Include="src\js\pages\normal\withdrawal\Withdrawal.jsx" />
+    <Content Include="src\js\pages\summary\chart\online-customer\OnlineCustomer.jsx" />
+    <Content Include="src\js\pages\summary\normal\base-normal-widget\BaseNormalWidget.jsx" />
+    <Content Include="src\js\pages\summary\normal\withdrawal\Withdrawal.jsx" />
     <Content Include="build\styles\fonts\icomoon.eot" />
     <Content Include="build\styles\fonts\icomoon.ttf" />
     <Content Include="build\styles\fonts\icomoon.woff" />
