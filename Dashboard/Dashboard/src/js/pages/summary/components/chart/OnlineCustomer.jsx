@@ -1,10 +1,10 @@
 ﻿import React from 'react';
 import { HorizontalBar } from 'react-chartjs-2';
-import WidgetBox from '../WidgetBox';
+import WidgetBox from '../../../../components/WidgetBox';
 
 import { widgetKey, widgetApiUrl } from '../../modules/constants';
-import widgetApi from '../../modules/widgetApi';
-import languageApi from '../../modules/languageApi';
+import widgetApi from '../../../../modules/widgetApi';
+import languageApi from '../../../../modules/languageApi';
 import numberFormat from '../../../../modules/numberFormat';
 
 export default class OnlineCustomer extends React.Component {

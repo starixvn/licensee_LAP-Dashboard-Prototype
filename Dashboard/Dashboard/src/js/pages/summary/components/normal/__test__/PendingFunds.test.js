@@ -1,12 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import PendingFunds from '../PendingFunds';
-import widgetApi from '../../../modules/widgetApi';
+import widgetApi from '../../../../../modules/widgetApi';
 import { widgetApiUrl, widgetKey } from '../../../modules/constants';
-import WidgetBox from '../../WidgetBox';
+import WidgetBox from '../../../../../components/WidgetBox';
 
-jest.mock('../../WidgetBox');
-jest.mock('../../../modules/widgetApi');
+jest.mock('../../../../../components/WidgetBox');
+jest.mock('../../../../../modules/widgetApi');
 
 const fakeProps = {
     filter: {

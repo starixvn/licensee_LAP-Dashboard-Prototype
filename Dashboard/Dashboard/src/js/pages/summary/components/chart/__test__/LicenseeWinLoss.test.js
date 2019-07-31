@@ -3,13 +3,13 @@ import renderer from 'react-test-renderer';
 import * as ChartJs from 'react-chartjs-2';
 
 import LicenseeWinLoss from '../LicenseeWinLoss';
-import WidgetBox from '../../WidgetBox';
+import WidgetBox from '../../../../../components/WidgetBox';
 
-import widgetApi from '../../../modules/widgetApi';
+import widgetApi from '../../../../../modules/widgetApi';
 import numberFormat from '../../../../../modules/numberFormat';
 
-jest.mock('../../../modules/widgetApi');
-jest.mock('../../WidgetBox');
+jest.mock('../../../../../modules/widgetApi');
+jest.mock('../../../../../components/WidgetBox');
 jest.mock('react-chartjs-2');
 
 const Bar = ChartJs.Bar;

@@ -1,12 +1,13 @@
+import { widgetKey as commonWidgetKey, defaultBasedCurrency } from '../../../modules/constants';
+
+export { defaultBasedCurrency };
+
 export const widgetKey = {
+    ...commonWidgetKey,
     ChartTurnover: 'c_turnover',
     ChartLicenseeWL: 'c_licWL',
     NormalRegisterCustomer: 'n_reg_customer',
-    ChartlOnlineCustomer: 'c_online_customer',
-    NormalCustomerBalance: 'n_customer_balance',
-    NormalPendingFund: 'n_pending_funds',
-    NormalDeposit: 'n_deposit',
-    NormalWithdrawal: 'n_withdrawal'
+    ChartlOnlineCustomer: 'c_online_customer'
 };
 
 export const widgetApiUrl = {
@@ -17,20 +18,8 @@ export const widgetApiUrl = {
     NormalCustomerBalance: '/api/CustomerBalance/GetData',
     NormalPendingFund: '/api/PendingFund/GetData',
     NormalDeposit: '/api/TodayDeposit/GetData',
-    NormalWithdrawal: '/api/TodayWithdrawal/GetData',
-    CurrenyList: "GetCurrencyInfo"
+    NormalWithdrawal: '/api/TodayWithdrawal/GetData'
 };
-
-export const baseCurrencyList = [
-    { CurrencyId: "6", Currency: "EUR" },
-    { CurrencyId: "3", Currency: "USD" },
-    { CurrencyId: "12", Currency: "GBP" },
-    { CurrencyId: "2", Currency: "MYR" },
-    { CurrencyId: "13", Currency: "CNY" },
-    { CurrencyId: "4", Currency: "THB" },
-    { CurrencyId: "15", Currency: "IDR" },
-    { CurrencyId: "51", Currency: "INH" }
-];
 
 export const wgLayouts = {
     lg: [{ i: widgetKey.ChartTurnover, x: 0, y: 0, w: 6, h: 11, minW: 3, minH: 9 },
@@ -80,6 +69,4 @@ export const wgLayouts = {
         { i: widgetKey.NormalWithdrawal, x: 0, y: 35, w: 4, h: 3, isResizable: false }
     ]
 
-}
-
-export const defaultBasedCurrency = window.defaultBaseCurrency;
+};

@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import languageApi from '../modules/languageApi';
 import widgetApi from '../modules/widgetApi';
-import { widgetApiUrl, baseCurrencyList, defaultBasedCurrency } from '../modules/constants';
+import { CurrenyListApiUrl, baseCurrencyList, defaultBasedCurrency } from '../modules/constants';
 
 export default class RightPanel extends React.Component {
     constructor(props) {
@@ -47,7 +47,7 @@ export default class RightPanel extends React.Component {
 
     _fetchData() {
         var param = {
-            Url: widgetApiUrl.CurrenyList,
+            Url: CurrenyListApiUrl,
             IsCrossSite: false
         };
 

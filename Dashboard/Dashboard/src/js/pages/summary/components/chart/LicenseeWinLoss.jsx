@@ -1,11 +1,11 @@
 ﻿import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import WidgetBox from '../WidgetBox';
+import WidgetBox from '../../../../components/WidgetBox';
 
 import { widgetKey, widgetApiUrl } from '../../modules/constants';
-import widgetApi from '../../modules/widgetApi';
+import widgetApi from '../../../../modules/widgetApi';
 import numberFormat from '../../../../modules/numberFormat';
-import languageApi from '../../modules/languageApi';
+import languageApi from '../../../../modules/languageApi';
 
 export default class LicenseeWinLoss extends React.Component {
     constructor(props) {

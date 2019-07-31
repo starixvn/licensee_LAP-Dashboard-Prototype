@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
 import * as ChartJs from 'react-chartjs-2';
 import Turnover from '../Turnover';
-import widgetApi from '../../../modules/widgetApi';
-import WidgetBox from '../../WidgetBox';
+import widgetApi from '../../../../../modules/widgetApi';
+import WidgetBox from '../../../../../components/WidgetBox';
 
-jest.mock('../../../modules/widgetApi');
-jest.mock('../../WidgetBox');
+jest.mock('../../../../../modules/widgetApi');
+jest.mock('../../../../../components/WidgetBox');
 jest.mock('react-chartjs-2');
 jest.mock('react-dom');
 

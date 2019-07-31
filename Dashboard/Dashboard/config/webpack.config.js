@@ -6,6 +6,7 @@ const merge = require("webpack-merge");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const { environment, projectPath } = require("./utils/constant");
 const entry = require("./utils/entry");
@@ -23,7 +24,23 @@ module.exports = env => {
         output: {
             path: projectPath.rootPath,
             filename: "[name].js",
-            chunkFilename: relativeOutputPath + '/js/dynamic-chunks/[name].chunk.js'
+            chunkFilename: relativeOutputPath + '/vendors/initalChunk/[name].chunk.js'
+        },
+        optimization: {
+            minimizer: [
+                new UglifyJsPlugin({
+                    sourceMap: true
+                })
+            ],
+            splitChunks: {
+                cacheGroups: {
+                    react: {
+                        name: 'react',
+                        test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+                        chunks: 'initial'
+                    }
+                }
+            }
         },
         module: {
             rules: [{
@@ -67,7 +84,12 @@ module.exports = env => {
         },
         node: {
             fs: 'empty'
-        }
+        },
+        externals: [
+    { './jszip': 'jszip' },
+    { './ods': 'ods' },
+    { './cptable': 'var cptable' }
+        ],
     });
 
     // Configuration for client-side bundle suitable for running in browsers
@@ -100,12 +122,12 @@ module.exports = env => {
                 filename: "[name].css"
             }),
             new CopyPlugin([
-                { from: 'src/styles/pages/summary/fonts', to: 'build/styles/pages/summary/fonts' },
+                { from: 'src/styles/fonts', to: 'build/styles/fonts' },
                 { from: 'src/styles/images', to: 'build/styles/images' },
                 { from: 'src/styles/assets', to: 'build/styles/assets' },
             ]),
             new BundleAnalyzerPlugin()
-        ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['build'] }),]),
+        ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ["build/js/**/*.*", "build/style/**/*.*"] }),]),
         devtool: isDevBuild ? "source-map" : undefined
     });
 

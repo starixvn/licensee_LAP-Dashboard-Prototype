@@ -1,8 +1,7 @@
 import localStorageHelper from './localStorageHelper';
-import { widgetKey, wgLayouts } from './constants';
 
 export default class widgetLayout {
-    static getWidgetStatusSettings(permissions = []) {
+    static getWidgetStatusSettings(permissions = [], widgetKey) {
         const defaultKeys = Object.keys(widgetKey).map(key => widgetKey[key]);
         const wgStatus = [];
 
@@ -26,14 +25,14 @@ export default class widgetLayout {
             : widgetStatus;
     }
 
-    static getWidgetLayoutSettings() {
+    static getWidgetLayoutSettings(wgLayouts) {
         let userWidgetLayouts = localStorageHelper.getWidgetLayout();
 
         if (!userWidgetLayouts) {
-            userWidgetLayouts = widgetLayout._createEmptyLayout();
+            userWidgetLayouts = widgetLayout._createEmptyLayout(wgLayouts);
         }
         const widgetStatus = localStorageHelper.getWidgetStatus();
-        let layouts = widgetLayout._createEmptyLayout();
+        let layouts = widgetLayout._createEmptyLayout(wgLayouts);
 
         widgetStatus.forEach(status => {
             if(status.enable){
@@ -47,7 +46,7 @@ export default class widgetLayout {
         return layouts;
     }
 
-    static syncLayoutWithNewStatus(newStatus, widgetStatus, _widgetLayouts) {
+    static syncLayoutWithNewStatus(newStatus, widgetStatus, _widgetLayouts, wgLayouts) {
         let newWidgetStatus = [...widgetStatus];
         let newLayouts = Object.assign({}, _widgetLayouts);
         let removedLayouts = localStorageHelper.getRemovedWidgetLayout();
@@ -117,7 +116,7 @@ export default class widgetLayout {
         return isValid ? _widgetLayout : null;
     }     
 
-    static _createEmptyLayout(){
+    static _createEmptyLayout(wgLayouts){
         const layouts = {};
         Object.keys(wgLayouts).forEach(breakpoint => layouts[breakpoint] = []);
         return layouts;

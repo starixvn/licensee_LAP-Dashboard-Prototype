@@ -1,8 +1,8 @@
 ﻿import React from 'react';
-import WidgetBox from '../WidgetBox';
+import WidgetBox from '../../../../components/WidgetBox';
 
-import widgetApi from '../../modules/widgetApi';
-import languageApi from '../../modules/languageApi';
+import widgetApi from '../../../../modules/widgetApi';
+import languageApi from '../../../../modules/languageApi';
 import numberFormat from '../../../../modules/numberFormat';
 import { widgetKey, widgetApiUrl } from '../../modules/constants';
 

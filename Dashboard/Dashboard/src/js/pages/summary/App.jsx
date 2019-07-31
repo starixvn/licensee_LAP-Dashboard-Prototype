@@ -3,20 +3,30 @@ import ReactDOM from 'react-dom';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import DefaultLayout from './layouts/DefaultLayout';
 
-export const Turnover = React.lazy(() => import(/* webpackChunkName: "Turnover" */ './components/chart/Turnover'));
-export const OnlineCustomer = React.lazy(() => import(/* webpackChunkName: "OnlineCustomer" */ './components/chart/OnlineCustomer'));
-export const LicenseeWinLoss = React.lazy(() => import(/* webpackChunkName: "LicenseeWinLoss" */ './components/chart/LicenseeWinLoss'));
+//export const Turnover = React.lazy(() => import(/* webpackChunkName: "turnover" */ './components/chart/Turnover'));
+//export const OnlineCustomer = React.lazy(() => import(/* webpackChunkName: "onlineCustomer" */ './components/chart/OnlineCustomer'));
+//export const LicenseeWinLoss = React.lazy(() => import(/* webpackChunkName: "licenseeWinLoss" */ './components/chart/LicenseeWinLoss'));
 
-export const Deposit = React.lazy(() => import(/* webpackChunkName: "Withdrawal" */ './components/normal/Deposit'));
-export const Withdrawal = React.lazy(() => import(/* webpackChunkName: "Withdrawal" */ './components/normal/Withdrawal'));
-export const PendingFunds = React.lazy(() => import(/* webpackChunkName: "PendingFunds" */ './components/normal/PendingFunds'));
-export const CustomerBalance = React.lazy(() => import(/* webpackChunkName: "CustomerBalance" */ './components/normal/CustomerBalance'));
-export const RegisteredCustomer = React.lazy(() => import(/* webpackChunkName: "RegisteredCustomer" */ './components/normal/RegisteredCustomer'));
+//export const Deposit = React.lazy(() => import(/* webpackChunkName: "deposit" */ './components/normal/Deposit'));
+//export const Withdrawal = React.lazy(() => import(/* webpackChunkName: "withdrawal" */ './components/normal/Withdrawal'));
+//export const PendingFunds = React.lazy(() => import(/* webpackChunkName: "pendingFunds" */ './components/normal/PendingFunds'));
+//export const CustomerBalance = React.lazy(() => import(/* webpackChunkName: "customerBalance" */ './components/normal/CustomerBalance'));
+//export const RegisteredCustomer = React.lazy(() => import(/* webpackChunkName: "registeredCustomer" */ './components/normal/RegisteredCustomer'));
 
-import widgetLayout from './modules/widgetLayout';
-import languageApi from './modules/languageApi';
-import { widgetKey, defaultBasedCurrency } from './modules/constants';
-import localStorageHelper from './modules/localStorageHelper';
+import Turnover from './components/chart/Turnover';
+import OnlineCustomer from './components/chart/OnlineCustomer';
+import LicenseeWinLoss from './components/chart/LicenseeWinLoss';
+
+import Deposit from './components/normal/Deposit';
+import Withdrawal from './components/normal/Withdrawal';
+import PendingFunds from './components/normal/PendingFunds';
+import CustomerBalance from './components/normal/CustomerBalance';
+import RegisteredCustomer from './components/normal/RegisteredCustomer';
+
+import widgetLayout from '../../modules/widgetLayout';
+import languageApi from '../../modules/languageApi';
+import { widgetKey, defaultBasedCurrency, wgLayouts } from './modules/constants';
+import localStorageHelper from '../../modules/localStorageHelper';
 
 export default class DashboardApp extends React.Component {
     constructor(props) {
@@ -59,9 +69,7 @@ export default class DashboardApp extends React.Component {
         var itemStatus = this.state.wgStatus.find(x => x.key === key);
 
         return (<div key={key}>
-            <Suspense fallback={<div>Loading...</div>}>
-                <Widget wgItemFromParent={itemStatus} callbackParent={(newState) => this.onChildChanged(newState)} filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} />
-            </Suspense>
+            <Widget wgItemFromParent={itemStatus} callbackParent={(newState) => this.onChildChanged(newState)} filter={this.state.selectedFilter} refresh={this.state.refresh} langCode={this.state.langCode} />
         </div>);
     }
 
@@ -73,11 +81,11 @@ export default class DashboardApp extends React.Component {
     }
 
     _getLayoutSettings() {
-        const wgStatus = widgetLayout.getWidgetStatusSettings(window.widgetPermission);
+        const wgStatus = widgetLayout.getWidgetStatusSettings(window.widgetPermission, widgetKey);
         const userWgStatus = widgetLayout.mergeWidgetStatusSettingsToUserSettings(wgStatus);
         localStorageHelper.saveWidgetStatus(userWgStatus);
 
-        const userWidgetLayouts = widgetLayout.getWidgetLayoutSettings();
+        const userWidgetLayouts = widgetLayout.getWidgetLayoutSettings(wgLayouts);
         localStorageHelper.saveWidgetLayout(userWidgetLayouts);
 
         return {
@@ -95,7 +103,7 @@ export default class DashboardApp extends React.Component {
         } else if (newState.action == 'reset') {
             this._resetLayout();
         } else if (newState.items && newState.items.length) {
-            const syncResult = widgetLayout.syncLayoutWithNewStatus(newState.items, this.state.wgStatus, this.state.layouts);
+            const syncResult = widgetLayout.syncLayoutWithNewStatus(newState.items, this.state.wgStatus, this.state.layouts, wgLayouts);
             this.setState(() => ({
                 wgStatus: syncResult.newWidgetStatus,
                 layouts: syncResult.newLayouts
@@ -130,6 +138,7 @@ export default class DashboardApp extends React.Component {
 
     render() {
         const ResponsiveReactGridLayout = this._responsiveReactGridLayout;
+
         return (
             <DefaultLayout langCode={this.state.langCode} initialWgStatus={this.state.wgStatus} callbackParent={(newState) => this.onChildChanged(newState)}>
                 <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)} breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
