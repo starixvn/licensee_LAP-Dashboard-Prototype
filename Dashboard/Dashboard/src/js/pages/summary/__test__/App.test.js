@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
 import * as ReactGridLayout from 'react-grid-layout';
-import DefaultLayout from '../layouts/DefaultLayout';
+import DefaultLayout from '../../../layouts/DefaultLayout';
 
 import { widgetKey, wgLayouts } from '../modules/constants';
 import widgetLayout from '../../../modules/widgetLayout';
@@ -20,7 +20,7 @@ import RegisteredCustomer from '../components/normal/RegisteredCustomer';
 
 jest.mock('react-dom');
 jest.mock('react-grid-layout');
-jest.mock('../layouts/DefaultLayout');
+jest.mock('../../../layouts/DefaultLayout');
 jest.mock('../../../modules/localStorageHelper');
 
 jest.mock('../components/normal/Deposit');

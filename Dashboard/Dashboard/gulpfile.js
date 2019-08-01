@@ -65,7 +65,7 @@ gulp.task('vendor', function () {
         gulp.src('./node_modules/jquery/dist/**')
         .pipe(gulp.dest(DEST + '/vendor/jquery-' + pkgs.jquery)),
         gulp.src('./node_modules/bootstrap/dist/fonts/**')
-        .pipe(gulp.dest(DEST + 'styles/pages/summary/fonts'))
+        .pipe(gulp.dest(DEST + 'styles/fonts'))
     );
 });
 
@@ -182,7 +182,10 @@ gulp.task('serve', function (cb) {
             // Note: this uses an unsigned certificate which on first access
             //       will present a certificate warning in the browser.
             // https: true,
-            server: DEST
+            proxy: {
+                target: "http://ha.nexdev.net:7611/LAP/12bet",
+            },
+            serveStatic: [DEST]
         });
 
         gulp.watch(src.assets, gulp.series('assets'));

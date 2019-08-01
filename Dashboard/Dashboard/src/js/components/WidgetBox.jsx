@@ -11,7 +11,6 @@ export default class WidgetBox extends React.Component {
     toggleClose() {
         var item = Object.assign({}, this.props.wgItem);
         item.enable = !item.enable;
-
         this.props.callbackParent({ action: 'wgSyncStatus', items: [item] });
     }
 

@@ -6,7 +6,6 @@ const merge = require("webpack-merge");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const { environment, projectPath } = require("./utils/constant");
 const entry = require("./utils/entry");
@@ -24,19 +23,19 @@ module.exports = env => {
         output: {
             path: projectPath.rootPath,
             filename: "[name].js",
-            chunkFilename: relativeOutputPath + '/vendors/initalChunk/[name].chunk.js'
+            chunkFilename: relativeOutputPath + '/vendors/[name].chunk.js'
         },
         optimization: {
-            minimizer: [
-                new UglifyJsPlugin({
-                    sourceMap: true
-                })
-            ],
             splitChunks: {
                 cacheGroups: {
                     react: {
-                        name: 'react',
+                        name: 'initalChunk/react',
                         test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+                        chunks: 'initial'
+                    },
+                    moment: {
+                        name: 'initalChunk/moment',
+                        test: /[\\/]node_modules[\\/](moment)[\\/]/,
                         chunks: 'initial'
                     }
                 }
@@ -55,7 +54,7 @@ module.exports = env => {
                     options: {
                         limit: 4096,
                         name: "[name].[ext]",
-                        outputPath: relativeOutputPath + "/style/assets/",
+                        outputPath: relativeOutputPath + "/styles/assets/",
                         publicPath: "assets/"
                     }
                 }]
@@ -84,12 +83,7 @@ module.exports = env => {
         },
         node: {
             fs: 'empty'
-        },
-        externals: [
-    { './jszip': 'jszip' },
-    { './ods': 'ods' },
-    { './cptable': 'var cptable' }
-        ],
+        }
     });
 
     // Configuration for client-side bundle suitable for running in browsers
@@ -126,8 +120,9 @@ module.exports = env => {
                 { from: 'src/styles/images', to: 'build/styles/images' },
                 { from: 'src/styles/assets', to: 'build/styles/assets' },
             ]),
-            new BundleAnalyzerPlugin()
-        ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ["build/js/**/*.*", "build/style/**/*.*"] }),]),
+            new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+            //new BundleAnalyzerPlugin()
+        ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ["build/js/**/*.*", "build/styles/**/*.*"] }),]),
         devtool: isDevBuild ? "source-map" : undefined
     });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import RightPanel from '../../../components/RightPanel';
+import RightPanel from '../components/RightPanel';
 
 export default class DefaultLayout extends React.Component {
     constructor(props) {

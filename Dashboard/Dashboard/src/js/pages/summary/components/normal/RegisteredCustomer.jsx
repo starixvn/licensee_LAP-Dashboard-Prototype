@@ -44,7 +44,7 @@ export default class RegisteredCustomer extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if (prevState.isMounted && this.props.refresh > prevProps.refresh) {
             this.setState({ isLoading: true });
-            this.fetchData();
+            this.fetchData(this.props);
         }
     }
 

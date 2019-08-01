@@ -1,17 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import DefaultLayout from './layouts/DefaultLayout';
-
-//export const Turnover = React.lazy(() => import(/* webpackChunkName: "turnover" */ './components/chart/Turnover'));
-//export const OnlineCustomer = React.lazy(() => import(/* webpackChunkName: "onlineCustomer" */ './components/chart/OnlineCustomer'));
-//export const LicenseeWinLoss = React.lazy(() => import(/* webpackChunkName: "licenseeWinLoss" */ './components/chart/LicenseeWinLoss'));
-
-//export const Deposit = React.lazy(() => import(/* webpackChunkName: "deposit" */ './components/normal/Deposit'));
-//export const Withdrawal = React.lazy(() => import(/* webpackChunkName: "withdrawal" */ './components/normal/Withdrawal'));
-//export const PendingFunds = React.lazy(() => import(/* webpackChunkName: "pendingFunds" */ './components/normal/PendingFunds'));
-//export const CustomerBalance = React.lazy(() => import(/* webpackChunkName: "customerBalance" */ './components/normal/CustomerBalance'));
-//export const RegisteredCustomer = React.lazy(() => import(/* webpackChunkName: "registeredCustomer" */ './components/normal/RegisteredCustomer'));
+import DefaultLayout from '../../layouts/DefaultLayout';
 
 import Turnover from './components/chart/Turnover';
 import OnlineCustomer from './components/chart/OnlineCustomer';

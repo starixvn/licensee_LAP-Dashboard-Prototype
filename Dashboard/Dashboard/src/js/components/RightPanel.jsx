@@ -23,7 +23,7 @@ export default class RightPanel extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.isMounted && this.state.wgs !== prevState.wgs) {
+        if (prevState.isMounted && this.props.wgs !== prevProps.wgs) {
             this.setState({
                 wgs: this._bindWgCheckBox(this.props.wgs)
             });

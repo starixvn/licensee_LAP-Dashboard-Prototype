@@ -108,7 +108,7 @@ export default class OnlineCustomer extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ isMounted: true }, () => this.fetchData(this.props));
+        this.setState({ isMounted: true }, () => this.fetchData());
     }
 
     componentWillUnmount() {
@@ -118,7 +118,7 @@ export default class OnlineCustomer extends React.Component {
     _reload() {
         if (this.state.isMounted) {
             this.setState({ isLoading: true });
-            this.fetchData(this.props);
+            this.fetchData();
         }
     }
 

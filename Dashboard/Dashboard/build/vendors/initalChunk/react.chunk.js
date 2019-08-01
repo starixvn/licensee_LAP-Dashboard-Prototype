@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["react"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["initalChunk/react"],{
 
 /***/ "./node_modules/react-dom/cjs/react-dom.development.js":
 /*!*************************************************************!*\

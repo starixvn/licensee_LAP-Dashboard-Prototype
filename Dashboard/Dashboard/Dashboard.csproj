@@ -79,7 +79,7 @@
     <Content Include="src\js\components\WidgetBox.jsx" />
     <Content Include="src\styles\images\logo-small.png" />
     <Content Include="src\styles\images\logo-small%402x.png" />
-    <Content Include="src\js\pages\summary\layouts\DefaultLayout.jsx" />
+    <Content Include="src\js\layouts\DefaultLayout.jsx" />
     <Content Include="src\index.html" />
     <Content Include="src\styles\.csscomb.json" />
     <Content Include="src\styles\.csslintrc" />
@@ -94,10 +94,10 @@
     <Content Include="src\styles\pages\summary\dashboard.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\styles\pages\summary\components\_rightpanel.scss" />
+    <Content Include="src\styles\components\_rightpanel.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\styles\pages\summary\base\_common.scss" />
+    <Content Include="src\styles\base\_common.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\js\pages\summary\components\normal\RegisteredCustomer.jsx" />
@@ -105,18 +105,18 @@
   <ItemGroup>
     <Content Include="src\styles\fonts\icomoon.svg" />
     <Content Include="src\styles\fonts\style.css" />
-    <Content Include="src\styles\pages\summary\layout\_default.scss" />
+    <Content Include="src\styles\layout\_default.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\styles\pages\summary\components\_widgetbox.scss" />
+    <Content Include="src\styles\components\_widgetbox.scss" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".babelrc" />
     <Content Include="src\styles\fonts\icomoon.eot" />
     <Content Include="src\styles\fonts\icomoon.ttf" />
     <Content Include="src\styles\fonts\icomoon.woff" />
-    <Content Include="src\styles\pages\summary\base\_variables.scss" />
-    <Content Include="src\styles\pages\summary\components\_checkboxes.scss" />
+    <Content Include="src\styles\base\_variables.scss" />
+    <Content Include="src\styles\components\_checkboxes.scss" />
     <Content Include="src\js\components\AutoReload.jsx" />
     <Content Include="src\js\components\Loader.jsx" />
     <Content Include="src\js\pages\summary\components\chart\OnlineCustomer.jsx" />
