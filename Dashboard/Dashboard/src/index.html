@@ -7,26 +7,18 @@
     <title>Dashboard</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="styles/pages/summary/dashboard.css" rel="stylesheet" />
+    <link href="../build/css/build/dashboard/dashboard.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div id="dashboad-app">
+    <div id="dashboard">
 
     </div>
     <!--[if lt IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <script type="text/javascript">
-        window.TokenUrl = 'http://ha.nexdev.net:7611/LAP/12bet/Verify/ApplyApiToken' + '?actionLink={0}&type=1';
-        window.HostUrl = 'http://ha.nexdev.net:7611/LAP/12bet/ExternalApi/SessionIsAlive';
-        window.dashboardLangCode = 'en';
-        window.widgetPermission = JSON.parse('["c_turnover","c_licWL","n_deposit","c_online_customer","n_reg_customer","n_customer_balance","n_withdrawal","n_pending_funds"]');
-        window.defaultBaseCurrency = 'USD';
-    </script>
-    <script id="dashboard-script-react-chunk" src="vendors/initalChunk/react.chunk.js?v=201702141.3"></script>
-    <script id="dashboard-script-moment-chunk" src="vendors/initalChunk/moment.chunk.js?v=201702141.3"></script>
-    <script id="dashboard-script" src="js/pages/summary/app.js?v=201702141.3"></script>
+    <script id="dashboard-script-react-chunk" src="../build/js/build/vendors/react.chunk.js?v=201702141.3"></script>
+    <script id="dashboard-script" src="../build/js/build/dashboard/app.js?v=201702141.3"></script>
 </body>
 
 </html>

@@ -84,12 +84,10 @@
     },
     "scripts": {
         "prestart": "npm install",
-        "start": "gulp build",
         "test": "jest --updateSnapshot --coverage",
         "preupdate-webdriver": "npm install",
         "update-webdriver": "webdriver-manager update",
         "jest-install": "npm install jest-cli -g ",
-        "build:pro": "gulp build --release",
         "build:app:dev": "node node_modules/webpack/bin/webpack.js --config config/webpack.config.js --watch",
         "build:app:pro": "node node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env=production"
     },

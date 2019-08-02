@@ -18,7 +18,7 @@ import languageApi from '../../modules/languageApi';
 import { widgetKey, defaultBasedCurrency, wgLayouts } from './modules/constants';
 import localStorageHelper from '../../modules/localStorageHelper';
 
-export default class DashboardApp extends React.Component {
+export default class SummaryApp extends React.Component {
     constructor(props) {
         super(props);
 
@@ -140,4 +140,4 @@ export default class DashboardApp extends React.Component {
     };
 }
 
-ReactDOM.render(<DashboardApp />, document.getElementById("dashboad-app"));
+ReactDOM.render(<SummaryApp />, document.getElementById("summary"));

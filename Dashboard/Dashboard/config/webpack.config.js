@@ -23,18 +23,18 @@ module.exports = env => {
         output: {
             path: projectPath.rootPath,
             filename: "[name].js",
-            chunkFilename: relativeOutputPath + '/vendors/[name].chunk.js'
+            chunkFilename: relativeOutputPath + '/[name].chunk.js'
         },
         optimization: {
             splitChunks: {
                 cacheGroups: {
                     react: {
-                        name: 'initalChunk/react',
+                        name: 'js/build/vendors/react',
                         test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
                         chunks: 'initial'
                     },
                     moment: {
-                        name: 'initalChunk/moment',
+                        name: 'js/build/vendors/moment',
                         test: /[\\/]node_modules[\\/](moment)[\\/]/,
                         chunks: 'initial'
                     }
@@ -54,29 +54,8 @@ module.exports = env => {
                     options: {
                         limit: 4096,
                         name: "[name].[ext]",
-                        outputPath: relativeOutputPath + "/styles/assets/",
-                        publicPath: "assets/"
-                    }
-                }]
-            },
-            {
-                test: /\.html$/,
-                use: [{
-                    loader: 'file-loader',
-                    options: {
-                        name: "[name].[ext]",
-                        outputPath: relativeOutputPath
-                    }
-                },
-                {
-                    loader: 'extract-loader'
-                },
-                {
-                    loader: 'html-loader',
-                    options: {
-                        minimize: true,
-                        removeComments: true,
-                        collapseWhitespace: true
+                        outputPath: relativeOutputPath + "/css/build/fonts/",
+                        publicPath: "fonts/"
                     }
                 }]
             }]
@@ -115,14 +94,14 @@ module.exports = env => {
             new MiniCssExtractPlugin({
                 filename: "[name].css"
             }),
-            new CopyPlugin([
-                { from: 'src/styles/fonts', to: 'build/styles/fonts' },
-                { from: 'src/styles/images', to: 'build/styles/images' },
-                { from: 'src/styles/assets', to: 'build/styles/assets' },
-            ]),
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+            //new CopyPlugin([
+            //    { from: 'src/styles/fonts', to: 'build/css/build/fonts' },
+            //    { from: 'src/styles/images', to: 'build/css/build/images' },
+            //    { from: 'src/styles/assets', to: 'build/css/build/assets' },
+            //]),
             //new BundleAnalyzerPlugin()
-        ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ["build/js/**/*.*", "build/styles/**/*.*"] }),]),
+        ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ["build/**/*.*"] }),]),
         devtool: isDevBuild ? "source-map" : undefined
     });
 

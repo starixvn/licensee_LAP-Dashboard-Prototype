@@ -30,22 +30,15 @@
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="build\index.html" />
-    <Content Include="build\js\pages\summary\app.js" />
-    <Content Include="build\styles\assets\apple-touch-icon-precomposed.png" />
-    <Content Include="build\styles\assets\browserconfig.xml" />
-    <Content Include="build\styles\assets\crossdomain.xml" />
-    <Content Include="build\styles\assets\favicon.ico" />
-    <Content Include="build\styles\assets\humans.txt" />
-    <Content Include="build\styles\assets\robots.txt" />
-    <Content Include="build\styles\assets\tile-wide.png" />
-    <Content Include="build\styles\assets\tile.png" />
-    <Content Include="build\styles\fonts\icomoon.svg" />
-    <Content Include="build\styles\fonts\style.css" />
-    <Content Include="build\styles\images\logo-small%402x.png" />
-    <Content Include="build\styles\images\logo-small.png" />
-    <Content Include="build\styles\pages\summary\dashboard.css" />
-    <Content Include="build\vendors\initalChunk\react.chunk.js" />
+    <Content Include="build\css\build\dashboard\dashboard.css" />
+    <Content Include="build\css\build\fonts\icomoon.svg" />
+    <Content Include="build\css\build\performance\performance.css" />
+    <Content Include="build\css\build\summary\summary.css" />
+    <Content Include="build\js\build\dashboard\app.js" />
+    <Content Include="build\js\build\performance\app.js" />
+    <Content Include="build\js\build\summary\app.js" />
+    <Content Include="build\js\build\vendors\moment.chunk.js" />
+    <Content Include="build\js\build\vendors\react.chunk.js" />
     <Content Include="config\utils\constant.js" />
     <Content Include="config\utils\entry.js" />
     <Content Include="config\webpack.config.js" />
@@ -88,10 +81,12 @@
     <Content Include="gulpfile.js" />
     <Content Include="package.json" />
     <Content Include="README.txt" />
+    <Content Include="src\performance.html" />
+    <Content Include="src\summary.html" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="src\styles\pages\summary\dashboard.scss" />
+    <Content Include="src\styles\pages\summary\summary.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\styles\components\_rightpanel.scss" />
@@ -122,9 +117,10 @@
     <Content Include="src\js\pages\summary\components\chart\OnlineCustomer.jsx" />
     <Content Include="src\js\pages\summary\components\normal\BaseNormalWidget.jsx" />
     <Content Include="src\js\pages\summary\components\normal\Withdrawal.jsx" />
-    <Content Include="build\styles\fonts\icomoon.eot" />
-    <Content Include="build\styles\fonts\icomoon.ttf" />
-    <Content Include="build\styles\fonts\icomoon.woff" />
+    <Content Include="src\styles\pages\dashboard\dashboard.scss" />
+    <Content Include="src\styles\pages\performance\performance.scss" />
+    <Content Include="src\js\pages\dashboard\App.jsx" />
+    <Content Include="src\js\pages\performance\App.jsx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
