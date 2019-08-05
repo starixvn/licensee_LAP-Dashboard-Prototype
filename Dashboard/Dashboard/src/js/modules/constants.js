@@ -1,4 +1,8 @@
 ﻿export const CurrenyListApiUrl = "GetCurrencyInfo";
+export const tabDashBoard = {
+    Summary: 'Summary',
+    Performance: 'Performance'
+}
 
 export const widgetKey = {
     NormalCustomerBalance: 'n_customer_balance',

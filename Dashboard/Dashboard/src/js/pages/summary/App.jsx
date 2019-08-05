@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import DefaultLayout from '../../layouts/DefaultLayout';
 
 import Turnover from './components/chart/Turnover';
 import OnlineCustomer from './components/chart/OnlineCustomer';
@@ -18,7 +16,7 @@ import languageApi from '../../modules/languageApi';
 import { widgetKey, defaultBasedCurrency, wgLayouts } from './modules/constants';
 import localStorageHelper from '../../modules/localStorageHelper';
 
-export default class SummaryApp extends React.Component {
+export default class SummaryDashboard extends React.Component {
     constructor(props) {
         super(props);
 
@@ -44,6 +42,12 @@ export default class SummaryApp extends React.Component {
         this._responsiveReactGridLayout = WidthProvider(Responsive);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.isMounted && this.props.newState && this.props.newState !== prevProps.newState) {
+            this.onChildChanged(this.props.newState);
+        }
+    }
+
     _renderWgItem(key) {
         const keyToWidget = {
             [widgetKey.ChartTurnover]: Turnover,
@@ -66,7 +70,10 @@ export default class SummaryApp extends React.Component {
     _resetLayout() {
         if (this.state.isMounted) {
             localStorageHelper.clearWidgetCache();
-            this.setState(this._getLayoutSettings());
+            const state = this._getLayoutSettings();
+
+            this.props.onChildReturnState({ ...this.state, ...state });
+            this.setState(state);
         }
     }
 
@@ -94,10 +101,14 @@ export default class SummaryApp extends React.Component {
             this._resetLayout();
         } else if (newState.items && newState.items.length) {
             const syncResult = widgetLayout.syncLayoutWithNewStatus(newState.items, this.state.wgStatus, this.state.layouts, wgLayouts);
-            this.setState(() => ({
+            const state = {
                 wgStatus: syncResult.newWidgetStatus,
                 layouts: syncResult.newLayouts
-            }));
+            };
+
+            this.props.onChildReturnState({ ...this.state, ...state });
+            this.setState(() => (state));
+
             localStorageHelper.saveWidgetStatus(syncResult.newWidgetStatus);
             localStorageHelper.saveWidgetLayout(syncResult.newLayouts);
             localStorageHelper.saveRemovedWidgetLayout(syncResult.removedLayouts);
@@ -120,6 +131,7 @@ export default class SummaryApp extends React.Component {
 
     componentDidMount() {
         this.setState({ isMounted: true });
+        this.props.onChildReturnState({ ...this.state });
     }
 
     componentWillUnmount() {
@@ -130,14 +142,12 @@ export default class SummaryApp extends React.Component {
         const ResponsiveReactGridLayout = this._responsiveReactGridLayout;
 
         return (
-            <DefaultLayout langCode={this.state.langCode} initialWgStatus={this.state.wgStatus} callbackParent={(newState) => this.onChildChanged(newState)}>
-                <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)} breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-                    cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }} isDraggable={!this.isTouchScreen}>
-                    {this.state.wgStatus.filter(i => i.enable).map((item) => this._renderWgItem(item.key))}
-                </ResponsiveReactGridLayout>
-            </DefaultLayout>
+            <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
+                breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }} cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }} isDraggable={!this.isTouchScreen}>
+                {
+                    this.state.wgStatus.filter(i => i.enable).map((item) => this._renderWgItem(item.key))
+                }
+            </ResponsiveReactGridLayout>
         );
     };
 }
-
-ReactDOM.render(<SummaryApp />, document.getElementById("summary"));

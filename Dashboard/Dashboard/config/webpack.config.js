@@ -23,7 +23,7 @@ module.exports = env => {
         output: {
             path: projectPath.rootPath,
             filename: "[name].js",
-            chunkFilename: relativeOutputPath + '/[name].chunk.js'
+            chunkFilename: 'build/[name].chunk.js'
         },
         optimization: {
             splitChunks: {
@@ -37,6 +37,11 @@ module.exports = env => {
                         name: 'js/build/vendors/moment',
                         test: /[\\/]node_modules[\\/](moment)[\\/]/,
                         chunks: 'initial'
+                    },
+                    default: {
+                        minChunks: 2,
+                        priority: -20,
+                        reuseExistingChunk: true
                     }
                 }
             }
@@ -100,7 +105,7 @@ module.exports = env => {
             //    { from: 'src/styles/images', to: 'build/css/build/images' },
             //    { from: 'src/styles/assets', to: 'build/css/build/assets' },
             //]),
-            //new BundleAnalyzerPlugin()
+            new BundleAnalyzerPlugin()
         ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ["build/**/*.*"] }),]),
         devtool: isDevBuild ? "source-map" : undefined
     });

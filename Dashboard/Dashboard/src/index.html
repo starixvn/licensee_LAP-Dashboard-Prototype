@@ -17,7 +17,15 @@
     <!--[if lt IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <script id="dashboard-script-react-chunk" src="../build/js/build/vendors/react.chunk.js?v=201702141.3"></script>
+    <script type="text/javascript">
+        window.TokenUrl = 'http://localhost:3001/ApplyApiToken' + '?actionLink={0}&type=1';
+        window.HostUrl = 'http://localhost:3001/ExternalApi/SessionIsAlive';
+        window.dashboardLangCode = 'en';
+        window.widgetPermission = JSON.parse('["c_turnover","c_licWL","n_deposit","c_online_customer","n_reg_customer","n_customer_balance","n_withdrawal","n_pending_funds"]');
+        window.defaultBaseCurrency = 'USD';
+    </script>
+    <script id="script-react-chunk" src="../build/js/build/vendors/react.chunk.js?v=201702141.3"></script>
+    <script id="script-moment-chunk" src="../build/js/build/vendors/moment.chunk.js?v=201702141.3"></script>
     <script id="dashboard-script" src="../build/js/build/dashboard/app.js?v=201702141.3"></script>
 </body>
 

@@ -7,9 +7,10 @@ export default class DefaultLayout extends React.Component {
     }
 
     render() {
+        const { selectedMenu, langCode, initialWgStatus, callbackParent } = this.props;
         return (
             <div className="dashboard__container">
-                <RightPanel langCode={this.props.langCode} wgs={this.props.initialWgStatus} callbackParent={this.props.callbackParent} />
+                <RightPanel selectedMenu={selectedMenu} langCode={langCode} initialWgStatus={initialWgStatus} callbackParent={callbackParent} />
                 {this.props.children}
             </div>
         );

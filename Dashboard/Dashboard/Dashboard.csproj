@@ -81,8 +81,6 @@
     <Content Include="gulpfile.js" />
     <Content Include="package.json" />
     <Content Include="README.txt" />
-    <Content Include="src\performance.html" />
-    <Content Include="src\summary.html" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -121,6 +119,8 @@
     <Content Include="src\styles\pages\performance\performance.scss" />
     <Content Include="src\js\pages\dashboard\App.jsx" />
     <Content Include="src\js\pages\performance\App.jsx" />
+    <Content Include="src\js\pages\summary\components\SummaryRightPanel.jsx" />
+    <Content Include="src\js\pages\performance\components\PerformanceRightPanel.jsx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
