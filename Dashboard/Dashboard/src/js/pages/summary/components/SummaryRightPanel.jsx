@@ -16,7 +16,7 @@ export default class SummaryRightPanel extends Component {
             SelectedCurrency: 0,
             BaseCurrencyList: baseCurrencyList,
             CurrencyList: [],
-            wgs: this._bindWgCheckBox(props.wgs)
+            wgs: props.wgs ? this._bindWgCheckBox(props.wgs) : []
         };
 
     }
@@ -132,7 +132,9 @@ export default class SummaryRightPanel extends Component {
     }
 
     render() {
-        return (
+        const { langCode, wgs } = this.props;
+
+        return langCode && wgs && (
             <Fragment>
                 <div className="currency">
                     <label className="currency-label">{languageApi.getRes(this.props.langCode, "currency")}</label>

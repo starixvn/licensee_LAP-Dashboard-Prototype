@@ -6,6 +6,7 @@ const merge = require("webpack-merge");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const { environment, projectPath } = require("./utils/constant");
 const entry = require("./utils/entry");
@@ -23,25 +24,21 @@ module.exports = env => {
         output: {
             path: projectPath.rootPath,
             filename: "[name].js",
-            chunkFilename: 'build/[name].chunk.js'
+            chunkFilename: 'build/js/build/vendors/[name].chunk.js',
+            publicPath: "/"
         },
         optimization: {
             splitChunks: {
                 cacheGroups: {
                     react: {
-                        name: 'js/build/vendors/react',
+                        name: 'react',
                         test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
                         chunks: 'initial'
                     },
                     moment: {
-                        name: 'js/build/vendors/moment',
+                        name: 'moment',
                         test: /[\\/]node_modules[\\/](moment)[\\/]/,
                         chunks: 'initial'
-                    },
-                    default: {
-                        minChunks: 2,
-                        priority: -20,
-                        reuseExistingChunk: true
                     }
                 }
             }

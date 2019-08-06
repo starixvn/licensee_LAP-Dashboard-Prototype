@@ -2,37 +2,33 @@
 import ReactDOM from 'react-dom';
 
 import DefaultLayout from '../../layouts/DefaultLayout';
-import SummaryDashboard from '../summary/App';
-import PerformanceDashboard from '../performance/App';
+import { tabMenuKey } from '../../modules/constants';
+import TabMenu from './components/TabMenu';
+import { tabMenuList } from './modules/constants';
 
-//export const SummaryDashboard = React.lazy(() =>
-//    import(/* webpackChunkName: "summary-dashboard" */ '../summary/App'));
-//export const PerformanceDashboard = React.lazy(() =>
-//    import(/* webpackChunkName: "performance-dashboard" */ '../performance/App'));
-
-
-import { tabDashBoard } from '../../modules/constants';
-
-const summary = tabDashBoard.Summary;
-const performance = tabDashBoard.Performance;
+const summary = tabMenuKey.summary;
+const performance = tabMenuKey.performance;
 export default class DashboardApp extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             newChildState: null,
-            selectedMenu: summary,
-            langCode: null,
-            wgStatus: null
+            selectedTabMenu: summary,
+            childState: {
+                langCode: null,
+                wgStatus: null
+            }
         };
     }
 
-    _handleChangeMenu = (name) => {
-        this.setState({ selectedMenu: name });
+    onClickTabMenu = (name) => {
+        this.setState({ selectedTabMenu: name });
     }
 
     onChildReturnState = (childState) => {
-        this.setState({ ...childState });
+        console.log(childState);
+        this.setState({ childState });
     }
 
     onRightPanelChanged = (newChildState) => {
@@ -40,32 +36,20 @@ export default class DashboardApp extends Component {
     }
 
     render() {
-        const { selectedMenu, newChildState } = this.state;
-        const isSelectedSummary = selectedMenu === summary;
-        const isSelectedPerformance = selectedMenu === performance;
+        const { selectedTabMenu, newChildState, childState } = this.state;
+        const componentIndex = tabMenuList.findIndex(p => p.key === selectedTabMenu);
+        const TabComponent = componentIndex === -1 ? null : tabMenuList[componentIndex].component;
+
         return (
             <div className="dashboard-container">
-                <ul>
-                    <li>
-                        <a className={isSelectedSummary ? "active" : ""} href="javascript:;" onClick={() => this._handleChangeMenu(summary)}>{summary}</a>
-                    </li>
-                    <li>
-                        <a className={isSelectedPerformance ? "active" : ""} href="javascript:;" onClick={() => this._handleChangeMenu(performance)}>{performance}</a>
-                    </li>
-                </ul>
-                <DefaultLayout selectedMenu={selectedMenu} langCode={this.state.langCode} initialWgStatus={this.state.wgStatus}
-                    callbackParent={(newChildState) => this.onRightPanelChanged(newChildState)}>
+                <TabMenu selectedTabMenu={selectedTabMenu} onClickTabMenu={this.onClickTabMenu} tabMenuList={tabMenuList} />
+
+                <DefaultLayout selectedTabMenu={selectedTabMenu} langCode={childState.langCode} initialWgStatus={childState.wgStatus}
+                    callbackParent={this.onRightPanelChanged}>
                     {
-                        isSelectedSummary && (
+                        TabComponent && (
                             <Suspense fallback={<div>Loading...</div>}>
-                                <SummaryDashboard newState={newChildState} onChildReturnState={(childState) => this.onChildReturnState(childState)} />
-                            </Suspense>
-                        )
-                    }
-                    {
-                        isSelectedPerformance && (
-                            <Suspense fallback={<div>Loading...</div>}>
-                                <PerformanceDashboard newState={newChildState} onChildReturnState={(childState) => this.onChildReturnState(childState)} />
+                                <TabComponent newState={newChildState} onChildReturnState={this.onChildReturnState} />
                             </Suspense>
                         )
                     }

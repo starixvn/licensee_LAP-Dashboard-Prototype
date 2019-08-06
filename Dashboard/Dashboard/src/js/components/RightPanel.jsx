@@ -1,13 +1,5 @@
 ﻿import React, { Component, Suspense } from 'react';
-
-import { tabDashBoard } from '../modules/constants';
- import SummaryRightPanel from '../pages/summary/components/SummaryRightPanel';
- import PerformanceRightPanel from '../pages/performance/components/PerformanceRightPanel';
-
-//export const SummaryRightPanel = React.lazy(() =>
-//    import(/* webpackChunkName: "summary-right-panel" */ '../pages/summary/components/SummaryRightPanel'));
-//export const PerformanceRightPanel = React.lazy(() =>
-//    import(/* webpackChunkName: "performance-right-panel" */ '../pages/performance/components/PerformanceRightPanel'));
+import { rightPanelList } from '../modules/constants';
 
 export default class RightPanel extends Component {
     constructor(props) {
@@ -27,9 +19,10 @@ export default class RightPanel extends Component {
     render() {
         const isHidden = this.state.isHidden ? '' : ' is-expanded';
 
-        const { selectedMenu, langCode, initialWgStatus, callbackParent } = this.props;
-        const isSummaryRightPanel = selectedMenu === tabDashBoard.Summary;
-        const isPerformanceRightPanel = selectedMenu === tabDashBoard.Performance;
+        const { selectedTabMenu, langCode, initialWgStatus, callbackParent } = this.props;
+        const componentIndex = rightPanelList.findIndex(p => p.key === selectedTabMenu);
+        const RighPanelComponent = componentIndex === -1 ? null : rightPanelList[componentIndex].component;
+
         return (
             <div className={`dashboard__right-panel${isHidden}`}>
                 <div className="right-panel-wrap">
@@ -40,16 +33,9 @@ export default class RightPanel extends Component {
                     </span>
                     <div className="right-panel-content">
                         {
-                            isSummaryRightPanel && initialWgStatus && langCode && (
+                            RighPanelComponent && (
                                 <Suspense fallback={<div>Loading...</div>}>
-                                    <SummaryRightPanel langCode={langCode} wgs={initialWgStatus} callbackParent={callbackParent} />
-                                </Suspense>
-                            )
-                        }
-                        {
-                            isPerformanceRightPanel && (
-                                <Suspense fallback={<div>Loading...</div>}>
-                                    <PerformanceRightPanel callbackParent={callbackParent} />
+                                    <RighPanelComponent langCode={langCode} wgs={initialWgStatus} callbackParent={callbackParent} />
                                 </Suspense>
                             )
                         }

@@ -1,8 +1,21 @@
-﻿export const CurrenyListApiUrl = "GetCurrencyInfo";
-export const tabDashBoard = {
-    Summary: 'Summary',
-    Performance: 'Performance'
+﻿import React from 'react';
+
+export const SummaryRightPanel = React.lazy(() =>
+    import(/* webpackChunkName: "summary-right-panel" */ '../pages/summary/components/SummaryRightPanel'));
+export const PerformanceRightPanel = React.lazy(() =>
+    import(/* webpackChunkName: "performance-right-panel" */ '../pages/performance/components/PerformanceRightPanel'));
+
+export const tabMenuKey = {
+    summary: 'summary',
+    performance: 'performance',
 }
+
+export const rightPanelList = [
+    { key: tabMenuKey.summary, component: SummaryRightPanel },
+    { key: tabMenuKey.performance, component: PerformanceRightPanel },
+]
+
+export const CurrenyListApiUrl = "GetCurrencyInfo";
 
 export const widgetKey = {
     NormalCustomerBalance: 'n_customer_balance',

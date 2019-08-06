@@ -131,7 +131,7 @@ export default class SummaryDashboard extends React.Component {
 
     componentDidMount() {
         this.setState({ isMounted: true });
-        this.props.onChildReturnState({ ...this.state });
+        this.props.onChildReturnState(this.state);
     }
 
     componentWillUnmount() {

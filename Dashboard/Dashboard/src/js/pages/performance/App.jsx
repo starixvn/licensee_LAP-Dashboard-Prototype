@@ -3,10 +3,15 @@
 export default class PerformanceDashboard extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            langCode: null,
+            wgStatus: null
+        }
     }
 
     componentDidMount() {
-        this.props.onChildReturnState();
+        this.props.onChildReturnState(this.state);
     }
 
     render() {

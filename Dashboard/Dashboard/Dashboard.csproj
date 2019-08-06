@@ -43,7 +43,10 @@
     <Content Include="config\utils\entry.js" />
     <Content Include="config\webpack.config.js" />
     <Content Include="docs\**\*.*" />
+    <Content Include="src\index.html" />
     <Content Include="src\js\modules\constants.js" />
+    <Content Include="src\js\pages\dashboard\modules\constants.js" />
+    <Content Include="src\js\pages\dashboard\modules\service.js" />
     <Content Include="src\js\pages\summary\App.jsx" />
     <Content Include="src\js\pages\summary\modules\constants.js" />
     <Content Include="src\js\modules\languageApi.js" />
@@ -73,7 +76,6 @@
     <Content Include="src\styles\images\logo-small.png" />
     <Content Include="src\styles\images\logo-small%402x.png" />
     <Content Include="src\js\layouts\DefaultLayout.jsx" />
-    <Content Include="src\index.html" />
     <Content Include="src\styles\.csscomb.json" />
     <Content Include="src\styles\.csslintrc" />
     <Content Include=".editorconfig" />
@@ -121,6 +123,8 @@
     <Content Include="src\js\pages\performance\App.jsx" />
     <Content Include="src\js\pages\summary\components\SummaryRightPanel.jsx" />
     <Content Include="src\js\pages\performance\components\PerformanceRightPanel.jsx" />
+    <Content Include="src\js\pages\dashboard\components\TabMenu.jsx" />
+    <Content Include="src\js\pages\dashboard\components\TabMenuItem.jsx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
