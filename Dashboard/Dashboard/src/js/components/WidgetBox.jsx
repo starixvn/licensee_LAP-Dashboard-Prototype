@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import Loader from './Loader';
 import AutoReload from './AutoReload';
-//export const AutoReload = React.lazy(() => import(/* webpackChunkName: "autoReload" */ './AutoReload'));
 
 export default class WidgetBox extends React.Component {
     constructor(props) {

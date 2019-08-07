@@ -7,6 +7,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 
 const { environment, projectPath } = require("./utils/constant");
 const entry = require("./utils/entry");
@@ -22,21 +23,23 @@ module.exports = env => {
         stats: { modules: false },
         resolve: { extensions: [".js", ".jsx"] },
         output: {
-            path: projectPath.rootPath,
+            path: projectPath.rootPath + '/build/',
             filename: "[name].js",
-            chunkFilename: 'build/js/build/vendors/[name].chunk.js',
-            publicPath: "/"
+            chunkFilename: 'js/pages/analytics/[name].chunk.js',
+            publicPath: isDevBuild ? "/build/" : '/LAP/'
         },
         optimization: {
             splitChunks: {
                 cacheGroups: {
+                    default: false,
+                    vendors: false,
                     react: {
-                        name: 'react',
+                        name: 'vendors/react',
                         test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
                         chunks: 'initial'
                     },
                     moment: {
-                        name: 'moment',
+                        name: 'vendors/moment',
                         test: /[\\/]node_modules[\\/](moment)[\\/]/,
                         chunks: 'initial'
                     }
@@ -56,7 +59,7 @@ module.exports = env => {
                     options: {
                         limit: 4096,
                         name: "[name].[ext]",
-                        outputPath: relativeOutputPath + "/css/build/fonts/",
+                        outputPath: "css/pages/analytics/fonts/",
                         publicPath: "fonts/"
                     }
                 }]
@@ -93,6 +96,7 @@ module.exports = env => {
             }]
         },
         plugins: [
+            new FixStyleOnlyEntriesPlugin(),
             new MiniCssExtractPlugin({
                 filename: "[name].css"
             }),
@@ -103,7 +107,7 @@ module.exports = env => {
             //    { from: 'src/styles/assets', to: 'build/css/build/assets' },
             //]),
             new BundleAnalyzerPlugin()
-        ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ["build/**/*.*"] }),]),
+        ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ["js/**/*.*", "css/**/*.*"] }),]),
         devtool: isDevBuild ? "source-map" : undefined
     });
 

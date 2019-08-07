@@ -30,15 +30,16 @@
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="build\css\build\dashboard\dashboard.css" />
-    <Content Include="build\css\build\fonts\icomoon.svg" />
-    <Content Include="build\css\build\performance\performance.css" />
-    <Content Include="build\css\build\summary\summary.css" />
-    <Content Include="build\js\build\dashboard\app.js" />
-    <Content Include="build\js\build\performance\app.js" />
-    <Content Include="build\js\build\summary\app.js" />
-    <Content Include="build\js\build\vendors\moment.chunk.js" />
-    <Content Include="build\js\build\vendors\react.chunk.js" />
+    <Content Include="build\css\pages\analytics\dashboard\dashboard.css" />
+    <Content Include="build\css\pages\analytics\fonts\icomoon.svg" />
+    <Content Include="build\css\pages\analytics\performance\performance.css" />
+    <Content Include="build\css\pages\analytics\summary\summary.css" />
+    <Content Include="build\js\pages\analytics\dashboard\app.js" />
+    <Content Include="build\js\pages\analytics\performance\performanceDashboard.chunk.js" />
+    <Content Include="build\js\pages\analytics\performance\performanceRightPanel.chunk.js" />
+    <Content Include="build\js\pages\analytics\summary\summaryDashboard.chunk.js" />
+    <Content Include="build\js\pages\analytics\summary\summaryRightPanel.chunk.js" />
+    <Content Include="build\js\pages\analytics\vendors\react.chunk.js" />
     <Content Include="config\utils\constant.js" />
     <Content Include="config\utils\entry.js" />
     <Content Include="config\webpack.config.js" />

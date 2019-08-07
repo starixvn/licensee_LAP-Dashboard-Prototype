@@ -1,9 +1,9 @@
 ﻿import React from 'react';
 
-export const SummaryRightPanel = React.lazy(() =>
-    import(/* webpackChunkName: "summary-right-panel" */ '../pages/summary/components/SummaryRightPanel'));
-export const PerformanceRightPanel = React.lazy(() =>
-    import(/* webpackChunkName: "performance-right-panel" */ '../pages/performance/components/PerformanceRightPanel'));
+const SummaryRightPanel = React.lazy(() =>
+    import(/* webpackChunkName: "summary/summaryRightPanel" */ '../pages/summary/components/SummaryRightPanel'));
+const PerformanceRightPanel = React.lazy(() =>
+    import(/* webpackChunkName: "performance/performanceRightPanel" */ '../pages/performance/components/PerformanceRightPanel'));
 
 export const tabMenuKey = {
     summary: 'summary',
@@ -16,6 +16,7 @@ export const rightPanelList = [
 ]
 
 export const CurrenyListApiUrl = "GetCurrencyInfo";
+
 
 export const widgetKey = {
     NormalCustomerBalance: 'n_customer_balance',

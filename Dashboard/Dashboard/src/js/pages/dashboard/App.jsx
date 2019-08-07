@@ -27,7 +27,6 @@ export default class DashboardApp extends Component {
     }
 
     onChildReturnState = (childState) => {
-        console.log(childState);
         this.setState({ childState });
     }
 

@@ -20,6 +20,7 @@ export default class languageApi
                 return zhcn[resKey];
             default:
                 return en[resKey];
+
         }
     }
 }

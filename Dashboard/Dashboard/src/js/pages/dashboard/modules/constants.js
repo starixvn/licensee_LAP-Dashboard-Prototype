@@ -2,9 +2,9 @@
 import { tabMenuKey } from '../../../modules/constants'
 
 const SummaryDashboard = React.lazy(() =>
-    import(/* webpackChunkName: "summary-dashboard" */ '../../summary/App'));
+    import(/* webpackChunkName: "summary/summaryDashboard" */ '../../summary/App'));
 const PerformanceDashboard = React.lazy(() =>
-    import(/* webpackChunkName: "performance-dashboard" */ '../../performance/App'));
+    import(/* webpackChunkName: "performance/performanceDashboard" */ '../../performance/App'));
 
 export const tabMenuList = [
     { key: tabMenuKey.summary, name: 'Summary', component: SummaryDashboard },
