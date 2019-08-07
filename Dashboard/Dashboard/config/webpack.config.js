@@ -31,17 +31,10 @@ module.exports = env => {
         optimization: {
             splitChunks: {
                 cacheGroups: {
-                    default: false,
-                    vendors: false,
-                    react: {
-                        name: 'vendors/react',
-                        test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-                        chunks: 'initial'
-                    },
-                    moment: {
-                        name: 'vendors/moment',
-                        test: /[\\/]node_modules[\\/](moment)[\\/]/,
-                        chunks: 'initial'
+                    common: {
+                        name: 'vendors/common',
+                        test: /node_modules/,
+                        chunks: 'all'
                     }
                 }
             }
