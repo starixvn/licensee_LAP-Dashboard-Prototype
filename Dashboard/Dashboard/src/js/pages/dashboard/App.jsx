@@ -8,6 +8,9 @@ import TabMenu from './components/TabMenu';
 const SummaryDashboard = import(/* webpackChunkName: "summary/summaryDashboard" */ '../summary/App');
 const PerformanceDashboard = import(/* webpackChunkName: "performance/performanceDashboard" */ '../performance/App');
 
+const Summary = React.lazy(() => SummaryDashboard);
+const Performance = React.lazy(() => PerformanceDashboard)
+
 const tabMenuList = [
     { key: summary, name: 'Summary', component: React.lazy(() => SummaryDashboard) },
     { key: performance, name: 'Performance', component: React.lazy(() => PerformanceDashboard) },
@@ -53,7 +56,7 @@ export default class DashboardApp extends Component {
                     {
                         TabComponent && (
                             <Suspense fallback={<div>Loading...</div>}>
-                                <TabComponent newState={newChildState} onChildReturnState={this.onChildReturnState} />
+                                <TabComponent newState={newChildState} onChildReturnState={this.onChildReturnState} isSelected={true} />
                             </Suspense>
                         )
                     }
@@ -61,9 +64,9 @@ export default class DashboardApp extends Component {
                         <div hidden={true}>
                             {
                                 tabMenuList.map(item => {
-                                    const RerenderComponent = item.key === selectedTabMenu ? item.component : null;
+                                    const RerenderComponent = item.key !== selectedTabMenu ? item.component : null;
                                     return RerenderComponent && (
-                                        <RerenderComponent newState={newChildState} onChildReturnState={this.onChildReturnState} />
+                                        <RerenderComponent newState={newChildState} onChildReturnState={this.onChildReturnState} isSelected={false} />
                                     )
                                 })
                             }

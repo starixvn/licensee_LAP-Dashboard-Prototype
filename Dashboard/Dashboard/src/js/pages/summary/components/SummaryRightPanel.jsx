@@ -16,15 +16,17 @@ export default class SummaryRightPanel extends Component {
             SelectedCurrency: 0,
             BaseCurrencyList: baseCurrencyList,
             CurrencyList: [],
-            wgs: props.wgs ? this._bindWgCheckBox(props.wgs) : []
+            wgs: []
         };
 
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.isMounted && this.props.wgs !== prevProps.wgs) {
+        const { wgs } = this.props;
+
+        if (this.state.isMounted && wgs && wgs !== prevProps.wgs) {
             this.setState({
-                wgs: this._bindWgCheckBox(this.props.wgs)
+                wgs: this._bindWgCheckBox(wgs)
             });
         }
     }
@@ -137,7 +139,7 @@ export default class SummaryRightPanel extends Component {
         return langCode && wgs && (
             <Fragment>
                 <div className="currency">
-                    <label className="currency-label">{languageApi.getRes(this.props.langCode, "currency")}</label>
+                    <label className="currency-label">{languageApi.getRes(langCode, "currency")}</label>
                     <select
                         ref="currencyDropdownList"
                         onChange={(e) => this._onChangeCurrencyList(e)}
@@ -148,7 +150,7 @@ export default class SummaryRightPanel extends Component {
                     </select>
                 </div>
                 <div className="currency">
-                    <label className="currency-label">{languageApi.getRes(this.props.langCode, "Based")}</label>
+                    <label className="currency-label">{languageApi.getRes(langCode, "Based")}</label>
                     <select
                         ref="baseCurrencyDropdownList"
                         onChange={(e) => this._onChangeBaseCurrencyList(e)}
@@ -158,10 +160,10 @@ export default class SummaryRightPanel extends Component {
                         })}
                     </select>
                 </div>
-                <a className="btn-submit" onClick={(e) => this._applyAction(e)} href="#">{languageApi.getRes(this.props.langCode, "apply")}</a>
+                <a className="btn-submit" onClick={(e) => this._applyAction(e)} href="#">{languageApi.getRes(langCode, "apply")}</a>
                 <div className="widgets-config">
-                    <div className="widgets-title">{languageApi.getRes(this.props.langCode, "Widgets")}</div>
-                    {this.props.wgs.map(item => (
+                    <div className="widgets-title">{languageApi.getRes(langCode, "Widgets")}</div>
+                    { wgs.map(item => (
                         <p key={item.key} className="widget-item">
                             <input
                                 onChange={(e) => this._onCheckWg(item.key)}
@@ -169,11 +171,11 @@ export default class SummaryRightPanel extends Component {
                                 className="filled-in"
                                 type="checkbox"
                                 id={item.key} />
-                            <label htmlFor={item.key}>{languageApi.getRes(this.props.langCode, item.key)}</label>
+                            <label htmlFor={item.key}>{languageApi.getRes(langCode, item.key)}</label>
                         </p>
                     ))}
                 </div>
-                <a className="btn-reset" onClick={() => this._onResetLayout()} href="#">{languageApi.getRes(this.props.langCode, "reset_layout")}</a>
+                <a className="btn-reset" onClick={() => this._onResetLayout()} href="#">{languageApi.getRes(langCode, "reset_layout")}</a>
             </Fragment>
         );
     }

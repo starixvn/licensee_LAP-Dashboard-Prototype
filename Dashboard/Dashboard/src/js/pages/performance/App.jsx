@@ -11,7 +11,7 @@ export default class PerformanceDashboard extends Component {
     }
 
     componentDidMount() {
-        this.props.onChildReturnState(this.state);
+        this.props.isSelected && this.props.onChildReturnState(this.state);
     }
 
     render() {

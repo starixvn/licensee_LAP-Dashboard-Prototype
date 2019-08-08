@@ -70,10 +70,10 @@ export default class SummaryDashboard extends React.Component {
     _resetLayout() {
         if (this.state.isMounted) {
             localStorageHelper.clearWidgetCache();
-            const state = this._getLayoutSettings();
+            const result = this._getLayoutSettings();
 
-            this.props.onChildReturnState({ ...this.state, ...state });
-            this.setState(state);
+            this.props.onChildReturnState({ langCode: this.state.langCode, wgStatus: result.wgStatus });
+            this.setState(result);
         }
     }
 
@@ -101,13 +101,10 @@ export default class SummaryDashboard extends React.Component {
             this._resetLayout();
         } else if (newState.items && newState.items.length) {
             const syncResult = widgetLayout.syncLayoutWithNewStatus(newState.items, this.state.wgStatus, this.state.layouts, wgLayouts);
-            const state = {
-                wgStatus: syncResult.newWidgetStatus,
-                layouts: syncResult.newLayouts
-            };
+            const wgStatus = syncResult.newWidgetStatus;
 
-            this.props.onChildReturnState({ ...this.state, ...state });
-            this.setState(() => (state));
+            this.props.onChildReturnState({ langCode: this.state.langCode, wgStatus });
+            this.setState({ layouts: syncResult.newLayouts, wgStatus });
 
             localStorageHelper.saveWidgetStatus(syncResult.newWidgetStatus);
             localStorageHelper.saveWidgetLayout(syncResult.newLayouts);
@@ -131,7 +128,9 @@ export default class SummaryDashboard extends React.Component {
 
     componentDidMount() {
         this.setState({ isMounted: true });
-        this.props.onChildReturnState(this.state);
+
+        const { langCode, wgStatus } = this.state;
+        this.props.isSelected && this.props.onChildReturnState({ langCode, wgStatus });
     }
 
     componentWillUnmount() {
