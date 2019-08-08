@@ -1,22 +1,9 @@
-﻿import React from 'react';
-
-const SummaryRightPanel = React.lazy(() =>
-    import(/* webpackChunkName: "summary/summaryRightPanel" */ '../pages/summary/components/SummaryRightPanel'));
-const PerformanceRightPanel = React.lazy(() =>
-    import(/* webpackChunkName: "performance/performanceRightPanel" */ '../pages/performance/components/PerformanceRightPanel'));
-
-export const tabMenuKey = {
+﻿export const tabMenuKey = {
     summary: 'summary',
     performance: 'performance',
 }
 
-export const rightPanelList = [
-    { key: tabMenuKey.summary, component: SummaryRightPanel },
-    { key: tabMenuKey.performance, component: PerformanceRightPanel },
-]
-
 export const CurrenyListApiUrl = "GetCurrencyInfo";
-
 
 export const widgetKey = {
     NormalCustomerBalance: 'n_customer_balance',

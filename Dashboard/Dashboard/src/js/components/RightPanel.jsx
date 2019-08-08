@@ -1,5 +1,13 @@
 ﻿import React, { Component, Suspense } from 'react';
-import { rightPanelList } from '../modules/constants';
+import { tabMenuKey } from '../modules/constants';
+
+const SummaryRightPanel = import(/* webpackChunkName: "summary/summaryRightPanel" */ '../pages/summary/components/SummaryRightPanel');
+const PerformanceRightPanel = import(/* webpackChunkName: "performance/performanceRightPanel" */ '../pages/performance/components/PerformanceRightPanel');
+
+const rightPanelList = [
+    { key: tabMenuKey.summary, component: React.lazy(() => SummaryRightPanel) },
+    { key: tabMenuKey.performance, component: React.lazy(() => PerformanceRightPanel) },
+]
 
 export default class RightPanel extends Component {
     constructor(props) {
@@ -39,6 +47,18 @@ export default class RightPanel extends Component {
                                 </Suspense>
                             )
                         }
+                        <Suspense fallback={null}>
+                            <div hidden={true}>
+                                {
+                                    rightPanelList.map(item => {
+                                        const RerenderComponent = item.key !== selectedTabMenu ? item.component : null;
+                                        return RerenderComponent && (
+                                            <RerenderComponent langCode={langCode} wgs={initialWgStatus} callbackParent={callbackParent} />
+                                        )
+                                    })
+                                }
+                            </div>
+                        </Suspense>
                     </div>
                 </div>
                 <div className="right-panel-overlay" onClick={(e) => this._togglePanel(e)}></div>
