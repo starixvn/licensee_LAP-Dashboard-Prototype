@@ -1,8 +1,8 @@
 ﻿import React from 'react';
 import WidgetBox from '../../../../components/WidgetBox';
-import languageApi from '../../../../modules/languageApi';
-import widgetApi from '../../../../modules/widgetApi';
-import numberFormat from '../../../../modules/numberFormat';
+import languageApi from '../../../../lib/languageApi';
+import widgetApi from '../../../../lib/widgetApi';
+import numberFormat from '../../../../lib/numberFormat';
 
 export default class BaseNormalWidget extends React.Component {
     constructor(props, configs) {

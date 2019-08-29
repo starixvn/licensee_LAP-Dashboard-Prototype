@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import { Doughnut, Chart } from 'react-chartjs-2';
 import WidgetBox from '../../../../components/WidgetBox';
 
-import languageApi from '../../../../modules/languageApi';
-import { widgetKey, widgetApiUrl } from '../../modules/constants';
-import widgetApi from '../../../../modules/widgetApi';
-import numberFormat from '../../../../modules/numberFormat';
+import languageApi from '../../../../lib/languageApi';
+import { widgetKey, widgetApiUrl } from '../../lib/constants';
+import widgetApi from '../../../../lib/widgetApi';
+import numberFormat from '../../../../lib/numberFormat';
 
 export default class Turnover extends React.Component {
     constructor(props) {

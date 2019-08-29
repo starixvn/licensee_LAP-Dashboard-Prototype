@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { isActiveTabMenu } from '../modules/service';
+import { isActiveTabMenu } from '../lib/service';
 import TabMenuItem from './TabMenuItem';
 
 export const TabMenu = (props) => {

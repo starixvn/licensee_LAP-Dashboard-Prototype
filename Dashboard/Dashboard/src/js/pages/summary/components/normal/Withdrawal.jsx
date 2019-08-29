@@ -1,5 +1,5 @@
 ﻿import BaseNormalWidget from './BaseNormalWidget';
-import { widgetApiUrl, widgetKey } from '../../modules/constants';
+import { widgetApiUrl, widgetKey } from '../../lib/constants';
 
 export default class Withdrawal extends BaseNormalWidget {
     constructor(props) {

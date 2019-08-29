@@ -1,5 +1,5 @@
 import React from 'react';
-import { widgetKey } from '../modules/constants';
+import { widgetKey } from '../lib/constants';
 
 const baseNormalWidgets = [widgetKey.NormalCustomerBalance, widgetKey.NormalPendingFund, widgetKey.NormalDeposit, widgetKey.NormalWithdrawal]
 

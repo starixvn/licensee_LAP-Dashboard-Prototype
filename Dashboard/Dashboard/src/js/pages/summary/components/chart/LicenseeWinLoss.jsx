@@ -2,15 +2,15 @@
 import { Bar } from 'react-chartjs-2';
 import WidgetBox from '../../../../components/WidgetBox';
 
-import { widgetKey, widgetApiUrl } from '../../modules/constants';
-import widgetApi from '../../../../modules/widgetApi';
-import numberFormat from '../../../../modules/numberFormat';
-import languageApi from '../../../../modules/languageApi';
+import { widgetKey, widgetApiUrl } from '../../lib/constants';
+import widgetApi from '../../../../lib/widgetApi';
+import numberFormat from '../../../../lib/numberFormat';
+import languageApi from '../../../../lib/languageApi';
 
 export default class LicenseeWinLoss extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             data: {},
             total: 0,

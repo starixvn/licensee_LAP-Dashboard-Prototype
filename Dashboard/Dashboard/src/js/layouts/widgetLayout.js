@@ -1,4 +1,4 @@
-import localStorageHelper from './localStorageHelper';
+import localStorageHelper from '../lib/localStorageHelper';
 
 export default class widgetLayout {
     static getWidgetStatusSettings(permissions = [], widgetKey) {
@@ -36,7 +36,7 @@ export default class widgetLayout {
 
         widgetStatus.forEach(status => {
             if(status.enable){
-                let _widgetLayout = 
+                let _widgetLayout =
                     widgetLayout._getWidgetLayoutByKey(userWidgetLayouts, status.key) ||
                     widgetLayout._getWidgetLayoutByKey(wgLayouts, status.key);
                 layouts = widgetLayout._addWidgetToLayout(layouts, _widgetLayout);
@@ -100,7 +100,7 @@ export default class widgetLayout {
         });
 
         return isValid ? newLayouts : layouts;
-    }    
+    }
 
     static _getWidgetLayoutByKey(layouts, key) {
         const _widgetLayout = {};
@@ -112,9 +112,9 @@ export default class widgetLayout {
                 isValid = false;
             }
         });
-        
+
         return isValid ? _widgetLayout : null;
-    }     
+    }
 
     static _createEmptyLayout(wgLayouts){
         const layouts = {};

@@ -11,10 +11,10 @@ import PendingFunds from './components/normal/PendingFunds';
 import CustomerBalance from './components/normal/CustomerBalance';
 import RegisteredCustomer from './components/normal/RegisteredCustomer';
 
-import widgetLayout from '../../modules/widgetLayout';
-import languageApi from '../../modules/languageApi';
-import { widgetKey, defaultBasedCurrency, wgLayouts } from './modules/constants';
-import localStorageHelper from '../../modules/localStorageHelper';
+import widgetLayout from '../../layouts/widgetLayout';
+import languageApi from '../../lib/languageApi';
+import { widgetKey, defaultBasedCurrency, wgLayouts } from './lib/constants';
+import localStorageHelper from '../../lib/localStorageHelper';
 
 export default class SummaryDashboard extends React.Component {
     constructor(props) {

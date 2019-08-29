@@ -1,5 +1,5 @@
 ﻿import React, { Component, Suspense } from 'react';
-import { tabMenuKey } from '../modules/constants';
+import { tabMenuKey } from '../lib/constants';
 
 const SummaryRightPanel = import(/* webpackChunkName: "summary/summaryRightPanel" */ '../pages/summary/components/SummaryRightPanel');
 const PerformanceRightPanel = import(/* webpackChunkName: "performance/performanceRightPanel" */ '../pages/performance/components/PerformanceRightPanel');

@@ -2,17 +2,17 @@
 import { HorizontalBar } from 'react-chartjs-2';
 import WidgetBox from '../../../../components/WidgetBox';
 
-import { widgetKey, widgetApiUrl } from '../../modules/constants';
-import widgetApi from '../../../../modules/widgetApi';
-import languageApi from '../../../../modules/languageApi';
-import numberFormat from '../../../../modules/numberFormat';
+import { widgetKey, widgetApiUrl } from '../../lib/constants';
+import widgetApi from '../../../../lib/widgetApi';
+import languageApi from '../../../../lib/languageApi';
+import numberFormat from '../../../../lib/numberFormat';
 
 export default class OnlineCustomer extends React.Component {
     constructor(props) {
         super(props);
 
         const fontColor = "#5162BA";
-        
+
         this.state = {
             data: {
                 labels: [

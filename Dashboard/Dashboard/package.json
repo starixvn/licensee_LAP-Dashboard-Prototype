@@ -89,8 +89,8 @@
         "preupdate-webdriver": "npm install",
         "update-webdriver": "webdriver-manager update",
         "jest-install": "npm install jest-cli -g ",
-        "build:app:dev": "node node_modules/webpack/bin/webpack.js --config config/webpack.config.js --watch",
-        "build:app:pro": "node node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env=production"
+        "build_dev": "node node_modules/webpack/bin/webpack.js --config config/webpack.config.js --watch",
+        "build_pro": "node node_modules/webpack/bin/webpack.js --config config/webpack.config.js --env=production"
     },
     "jest": {
         "verbose": false

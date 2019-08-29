@@ -1,5 +1,5 @@
 ﻿import BaseNormalWidget from './BaseNormalWidget';
-import { widgetKey, widgetApiUrl } from '../../modules/constants';
+import { widgetKey, widgetApiUrl } from '../../lib/constants';
 
 export default class Deposit extends BaseNormalWidget {
     constructor(props) {

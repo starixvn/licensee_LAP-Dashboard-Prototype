@@ -1,10 +1,10 @@
 ﻿import React from 'react';
 import WidgetBox from '../../../../components/WidgetBox';
 
-import widgetApi from '../../../../modules/widgetApi';
-import languageApi from '../../../../modules/languageApi';
-import numberFormat from '../../../../modules/numberFormat';
-import { widgetKey, widgetApiUrl } from '../../modules/constants';
+import widgetApi from '../../../../lib/widgetApi';
+import languageApi from '../../../../lib/languageApi';
+import numberFormat from '../../../../lib/numberFormat';
+import { widgetKey, widgetApiUrl } from '../../lib/constants';
 
 export default class RegisteredCustomer extends React.Component {
     constructor(props) {

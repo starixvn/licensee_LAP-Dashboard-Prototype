@@ -1,10 +1,10 @@
 import React from 'react';
-import localStorageHelper from '../modules/localStorageHelper'
+import localStorageHelper from '../lib/localStorageHelper'
 
 export default class AutoReload extends React.Component {
     constructor(props) {
         super(props);
-        
+
         const countdowns = localStorageHelper.getWidgetReloadCountdown();
         let countdown = countdowns[this.props.dataKey];
 

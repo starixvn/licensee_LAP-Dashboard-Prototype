@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom';
 
 import DefaultLayout from '../../layouts/DefaultLayout';
-import { summary, performance } from './modules/constants';
+import { summary, performance } from './lib/constants';
 import TabMenu from './components/TabMenu';
 
 const SummaryDashboard = import(/* webpackChunkName: "summary/summaryDashboard" */ '../summary/App');

@@ -1,7 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
-import languageApi from '../../../modules/languageApi';
-import widgetApi from '../../../modules/widgetApi';
-import { CurrenyListApiUrl, baseCurrencyList, defaultBasedCurrency } from '../../../modules/constants';
+import languageApi from '../../../lib/languageApi';
+import widgetApi from '../../../lib/widgetApi';
+import { CurrenyListApiUrl, baseCurrencyList, defaultBasedCurrency } from '../../../lib/constants';
 
 export default class SummaryRightPanel extends Component {
     constructor(props) {
