@@ -10,6 +10,7 @@ import Withdrawal from './components/normal/Withdrawal';
 import PendingFunds from './components/normal/PendingFunds';
 import CustomerBalance from './components/normal/CustomerBalance';
 import RegisteredCustomer from './components/normal/RegisteredCustomer';
+import RightPanel from './components/RightPanel';
 
 import widgetLayout from '../../layouts/widgetLayout';
 import languageApi from '../../lib/languageApi';
@@ -18,7 +19,7 @@ import localStorageHelper from '../../lib/localStorageHelper';
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../../actions/index'
 import { connect } from 'react-redux';
- class SummaryDashboard extends React.Component {
+class SummaryDashboard extends React.Component {
     constructor(props) {
         super(props);
 
@@ -72,10 +73,8 @@ import { connect } from 'react-redux';
     _resetLayout() {
         if (this.state.isMounted) {
             localStorageHelper.clearWidgetCache();
-            const result = this._getLayoutSettings();
 
-            this.props.onChildReturnState({ langCode: this.state.langCode, wgStatus: result.wgStatus });
-            this.setState(result);
+            this.setState(this._getLayoutSettings());
         }
     }
 
@@ -103,10 +102,8 @@ import { connect } from 'react-redux';
             this._resetLayout();
         } else if (newState.items && newState.items.length) {
             const syncResult = widgetLayout.syncLayoutWithNewStatus(newState.items, this.state.wgStatus, this.state.layouts, wgLayouts);
-            const wgStatus = syncResult.newWidgetStatus;
 
-            this.props.onChildReturnState({ langCode: this.state.langCode, wgStatus });
-            this.setState({ layouts: syncResult.newLayouts, wgStatus });
+            this.setState({ layouts: syncResult.newLayouts, wgStatus: syncResult.newWidgetStatus });
 
             localStorageHelper.saveWidgetStatus(syncResult.newWidgetStatus);
             localStorageHelper.saveWidgetLayout(syncResult.newLayouts);
@@ -130,9 +127,6 @@ import { connect } from 'react-redux';
 
     componentDidMount() {
         this.setState({ isMounted: true });
-
-        const { langCode, wgStatus } = this.state;
-        this.props.isSelected && this.props.onChildReturnState({ langCode, wgStatus });
     }
 
     componentWillUnmount() {
@@ -143,20 +137,23 @@ import { connect } from 'react-redux';
         const ResponsiveReactGridLayout = this._responsiveReactGridLayout;
 
         return (
-            <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
-                breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }} cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }} isDraggable={!this.isTouchScreen}>
-                {
-                    this.state.wgStatus.filter(i => i.enable).map((item) => this._renderWgItem(item.key))
-                }
-            </ResponsiveReactGridLayout>
+            <React.Fragment>
+                <RightPanel langCode={this.state.langCode} wgs={this.state.wgStatus} callbackParent={this.onChildChanged} />
+                <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
+                    breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }} cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }} isDraggable={!this.isTouchScreen}>
+                    {
+                        this.state.wgStatus.filter(i => i.enable).map((item) => this._renderWgItem(item.key))
+                    }
+                </ResponsiveReactGridLayout>
+            </React.Fragment>
         );
     };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ActionCreators, dispatch);
+    return bindActionCreators(ActionCreators, dispatch);
 }
 
 function mapStateToProps(state) {
-  return Object.assign({}, state);
+    return Object.assign({}, state);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SummaryDashboard)

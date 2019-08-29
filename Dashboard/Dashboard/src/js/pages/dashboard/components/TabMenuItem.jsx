@@ -5,7 +5,7 @@ export const TabMenuItem = (props) => {
 
     return (
         <li key={item.key}>
-            <a href="javascript:;" className={isActive ? 'active' : ''} onClick={() => onClickTabMenu(item.key)}>
+            <a href="#!" className={isActive ? 'active' : ''} onClick={() => onClickTabMenu(item.key)}>
                 {item.name}
             </a>
         </li>

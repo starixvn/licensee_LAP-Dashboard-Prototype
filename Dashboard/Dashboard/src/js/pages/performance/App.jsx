@@ -5,15 +5,11 @@ import { connect } from 'react-redux';
 class PerformanceDashboard extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      langCode: null,
-      wgStatus: null
     }
   }
 
   componentDidMount() {
-    this.props.isSelected && this.props.onChildReturnState(this.state);
+   
     this.props.getCurrencyInfo();
   }
 

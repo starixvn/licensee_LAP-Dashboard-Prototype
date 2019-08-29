@@ -18,12 +18,7 @@ export default class DashboardApp extends Component {
         super(props);
 
         this.state = {
-            newChildState: null,
             selectedTabMenu: performance,
-            childState: {
-                langCode: null,
-                wgStatus: null
-            }
         };
     }
 
@@ -31,16 +26,8 @@ export default class DashboardApp extends Component {
         this.setState({ selectedTabMenu: name });
     }
 
-    onChildReturnState = (childState) => {
-        this.setState({ childState });
-    }
-
-    onRightPanelChanged = (newChildState) => {
-        this.setState({ newChildState });
-    }
-
     render() {
-        const { selectedTabMenu, newChildState, childState } = this.state;
+        const { selectedTabMenu } = this.state;
         const componentIndex = tabMenuList.findIndex(p => p.key === selectedTabMenu);
         const TabComponent = componentIndex === -1 ? null : tabMenuList[componentIndex].component;
 
@@ -48,12 +35,11 @@ export default class DashboardApp extends Component {
             <div className="dashboard-container">
                 <TabMenu selectedTabMenu={selectedTabMenu} onClickTabMenu={this.onClickTabMenu} tabMenuList={tabMenuList} />
 
-                <DefaultLayout selectedTabMenu={selectedTabMenu} langCode={childState.langCode} initialWgStatus={childState.wgStatus}
-                    callbackParent={this.onRightPanelChanged}>
+                <DefaultLayout>
                     {
                         TabComponent && (
                             <Suspense fallback={<div>Loading...</div>}>
-                                <TabComponent newState={newChildState} onChildReturnState={this.onChildReturnState} isSelected={true} />
+                                <TabComponent />
                             </Suspense>
                         )
                     }
