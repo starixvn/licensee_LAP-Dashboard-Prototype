@@ -289,18 +289,7 @@ class RightPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       langCode: langCode,
       wgs: initialWgStatus,
       callbackParent: callbackParent
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
-      fallback: null
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      hidden: true
-    }, rightPanelList.map(item => {
-      const RerenderComponent = item.key !== selectedTabMenu ? item.component : null;
-      return RerenderComponent && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RerenderComponent, {
-        langCode: langCode,
-        wgs: initialWgStatus,
-        callbackParent: callbackParent
-      });
-    }))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "right-panel-overlay",
       onClick: e => this._togglePanel(e)
     }));
@@ -431,8 +420,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 const SummaryDashboard = Promise.all(/*! import() | summary/summaryDashboard */[__webpack_require__.e("vendors/common"), __webpack_require__.e("summary/summaryDashboard")]).then(__webpack_require__.bind(null, /*! ../summary/App */ "./src/js/pages/summary/App.jsx"));
 const PerformanceDashboard = __webpack_require__.e(/*! import() | performance/performanceDashboard */ "performance/performanceDashboard").then(__webpack_require__.bind(null, /*! ../performance/App */ "./src/js/pages/performance/App.jsx"));
-const Summary = react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(() => SummaryDashboard);
-const Performance = react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(() => PerformanceDashboard);
 const tabMenuList = [{
   key: _lib_constants__WEBPACK_IMPORTED_MODULE_3__["summary"],
   name: 'Summary',
@@ -499,18 +486,7 @@ class DashboardApp extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       newState: newChildState,
       onChildReturnState: this.onChildReturnState,
       isSelected: true
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Suspense"], {
-      fallback: null
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      hidden: true
-    }, tabMenuList.map(item => {
-      const RerenderComponent = item.key !== selectedTabMenu ? item.component : null;
-      return RerenderComponent && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RerenderComponent, {
-        newState: newChildState,
-        onChildReturnState: this.onChildReturnState,
-        isSelected: false
-      });
-    })))));
+    }))));
   }
 
 }

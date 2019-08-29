@@ -255,7 +255,7 @@ class SummaryRightPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] 
     }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getRes(langCode, "currency")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       ref: "currencyDropdownList",
       onChange: e => this._onChangeCurrencyList(e),
-      value: this.state.SelectedCurrency
+      value: this.state.SelectedCurrency || ''
     }, this.state.CurrencyList.map((item, i) => {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         key: i,
@@ -268,7 +268,7 @@ class SummaryRightPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] 
     }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getRes(langCode, "Based")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       ref: "baseCurrencyDropdownList",
       onChange: e => this._onChangeBaseCurrencyList(e),
-      value: this.state.SelectedBaseCurrency
+      value: this.state.SelectedBaseCurrency || ''
     }, this.state.BaseCurrencyList.map((item, i) => {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         key: i,
