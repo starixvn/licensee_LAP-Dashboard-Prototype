@@ -116,8 +116,8 @@ class SummaryRightPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] 
       SelectedBaseCurrency: selectedBasedCurrency,
       SelectedCurrency: 0,
       BaseCurrencyList: _lib_constants__WEBPACK_IMPORTED_MODULE_3__["baseCurrencyList"],
-      CurrencyList: [],
-      wgs: []
+      CurrencyList: null,
+      wgs: null
     };
   }
 
@@ -248,14 +248,14 @@ class SummaryRightPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] 
       langCode,
       wgs
     } = this.props;
-    return langCode && wgs && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    return langCode && wgs && this.state.CurrencyList && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "currency"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
       className: "currency-label"
     }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getRes(langCode, "currency")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       ref: "currencyDropdownList",
       onChange: e => this._onChangeCurrencyList(e),
-      value: this.state.SelectedCurrency || ''
+      value: this.state.SelectedCurrency
     }, this.state.CurrencyList.map((item, i) => {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         key: i,
@@ -268,7 +268,7 @@ class SummaryRightPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] 
     }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getRes(langCode, "Based")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       ref: "baseCurrencyDropdownList",
       onChange: e => this._onChangeBaseCurrencyList(e),
-      value: this.state.SelectedBaseCurrency || ''
+      value: this.state.SelectedBaseCurrency
     }, this.state.BaseCurrencyList.map((item, i) => {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         key: i,
@@ -287,7 +287,7 @@ class SummaryRightPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] 
       className: "widget-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       onChange: e => this._onCheckWg(item.key),
-      checked: this.state.wgs[item.key],
+      checked: !!this.state.wgs && this.state.wgs[item.key],
       className: "filled-in",
       type: "checkbox",
       id: item.key

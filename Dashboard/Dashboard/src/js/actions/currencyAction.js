@@ -29,3 +29,10 @@ const setCurrencyInfo = (newData) => {
     data: newData,
   }
 };
+
+export const setBaseCurrency =(newData)=>{
+ return {
+  type: types.SET_BASE_CURRENCY,
+  data: newData,
+ }
+}

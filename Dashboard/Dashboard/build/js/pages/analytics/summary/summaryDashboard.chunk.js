@@ -4,12 +4,13 @@
 /*!******************************************!*\
   !*** ./src/js/actions/currencyAction.js ***!
   \******************************************/
-/*! exports provided: getCurrencyInfo */
+/*! exports provided: getCurrencyInfo, setBaseCurrency */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrencyInfo", function() { return getCurrencyInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setBaseCurrency", function() { return setBaseCurrency; });
 /* harmony import */ var _types_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types.js */ "./src/js/actions/types.js");
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
 /* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/widgetApi */ "./src/js/lib/widgetApi.js");
@@ -44,6 +45,13 @@ const setCurrencyInfo = newData => {
   };
 };
 
+const setBaseCurrency = newData => {
+  return {
+    type: _types_js__WEBPACK_IMPORTED_MODULE_0__["SET_BASE_CURRENCY"],
+    data: newData
+  };
+};
+
 /***/ }),
 
 /***/ "./src/js/actions/index.js":
@@ -66,13 +74,17 @@ const ActionCreators = Object.assign({}, _currencyAction__WEBPACK_IMPORTED_MODUL
 /*!*********************************!*\
   !*** ./src/js/actions/types.js ***!
   \*********************************/
-/*! exports provided: SET_CURRENCY_INFO */
+/*! exports provided: SET_CURRENCY_INFO, SET_BASE_CURRENCY, SET_DATE_RANGE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CURRENCY_INFO", function() { return SET_CURRENCY_INFO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_BASE_CURRENCY", function() { return SET_BASE_CURRENCY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_DATE_RANGE", function() { return SET_DATE_RANGE; });
 const SET_CURRENCY_INFO = "SET_CURRENCY_INFO";
+const SET_BASE_CURRENCY = "SET_BASE_CURRENCY";
+const SET_DATE_RANGE = "SET_DATE_RANGE";
 
 /***/ }),
 
@@ -2226,18 +2238,32 @@ const wgLayouts = {
 /*!********************************************!*\
   !*** ./src/js/reducers/currencyReducer.js ***!
   \********************************************/
-/*! exports provided: currencyInfo */
+/*! exports provided: currencyInfo, dateRange, selectedBaseCurrency */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currencyInfo", function() { return currencyInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateRange", function() { return dateRange; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectedBaseCurrency", function() { return selectedBaseCurrency; });
 /* harmony import */ var _lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/createReducer.js */ "./src/js/lib/createReducer.js");
 /* harmony import */ var _actions_types_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/types.js */ "./src/js/actions/types.js");
 
 
 const currencyInfo = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
   [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_CURRENCY_INFO"]](state, action) {
+    return action.data;
+  }
+
+});
+const dateRange = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
+  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_DATE_RANGE"]](state, action) {
+    return action.data;
+  }
+
+});
+const selectedBaseCurrency = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
+  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_BASE_CURRENCY"]](state, action) {
     return action.data;
   }
 

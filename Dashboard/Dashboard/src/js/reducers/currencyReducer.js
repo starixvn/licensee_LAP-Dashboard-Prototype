@@ -5,3 +5,15 @@ export const currencyInfo = createReducer({}, {
     return action.data;
   }
 });
+
+export const dateRange = createReducer({}, {
+  [types.SET_DATE_RANGE](state, action) {
+    return action.data;
+  }
+});
+
+export const selectedBaseCurrency = createReducer({}, {
+  [types.SET_BASE_CURRENCY](state, action) {
+    return action.data;
+  }
+});

@@ -8,12 +8,16 @@ import reducer from './reducers/index'
 
 // middleware that logs actions
 /* global __DEV__ */
-const __DEV__='__DEV__';
+const __DEV__ = '__DEV__';
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
 
 const defaultState =
 {
-  currencyInfo: {}
+  currencyInfo: {
+    Currency: [],
+    BaseCurrency: []
+  }
+
 };
 function configureStore(initialState) {
   const enhancer = compose(

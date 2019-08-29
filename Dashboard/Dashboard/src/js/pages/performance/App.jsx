@@ -3,25 +3,35 @@ import { bindActionCreators } from 'redux'
 import { ActionCreators } from './actions/index'
 import { connect } from 'react-redux';
 class PerformanceDashboard extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            langCode: null,
-            wgStatus: null
-        }
+    this.state = {
+      langCode: null,
+      wgStatus: null
     }
+  }
 
-    componentDidMount() {
-        this.props.isSelected && this.props.onChildReturnState(this.state);
-        this.props.getCurrencyInfo();
-    }
+  componentDidMount() {
+    this.props.isSelected && this.props.onChildReturnState(this.state);
+    this.props.getCurrencyInfo();
+  }
 
-    render() {
-        return (
-            <h1>Performance Dashboard</h1>
-        );
-    };
+  render() {
+    return (
+      <div>
+        <h1>Performance Dashboard</h1>
+        <select
+
+          onChange={(e) => this.props.setBaseCurrency(e.target.value)}
+          value={this.props.selectedBaseCurrency}>
+          {this.props.currencyInfo.BaseCurrency.map((item, i) => {
+            return <option key={"base_c" + i} value={item}>{item}</option>
+          })}
+        </select>
+      </div >
+    );
+  };
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);
