@@ -1,1 +1,2731 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[6],{204:function(e,t,a){"use strict";a.d(t,"a",function(){return o});var s=a(200),n=a.n(s);const i="http://ha.nexdev.net:7611/LAP/12bet";class o{static _getAuthToken(e){var t=window.TokenUrl||i+"/Verify/ApplyApiToken?type=1&actionLink={0}&_="+(new Date).getTime();return t=t.replace("{0}",encodeURIComponent(e)),n.a.get(t,{})}static fetchData(e){var t=e.Data||{};if(e.IsCrossSite)return o._getAuthToken(e.Url).then(a=>{t["X-Auth-Token"]=a.data.Token;const s=a.data.ApiUrl+e.Url;return n.a.get(s,{params:t})});{const a=(window.HostUrl||i).replace("SessionIsAlive",e.Url);return n.a.get(a,{params:t})}}}},205:function(e,t,a){"use strict";a.d(t,"a",function(){return s});const s="SET_CURRENCY_INFO"},206:function(e,t,a){"use strict";a.r(t),a.d(t,"getCurrencyInfo",function(){return o});var s=a(205),n=a(21),i=a(204);const o=()=>e=>{var t={Url:n.a,IsCrossSite:!1};i.a.fetchData(t).then(t=>{t.data.Currency.unshift({Currency:"All",CurrencyId:"0"}),e(r({Currency:t.data.Currency,BaseCurrency:t.data.BaseCurrency}))}).catch(function(e){console.log("error:",e)})},r=e=>({type:s.a,data:e})},207:function(e,t,a){"use strict";a.r(t);var s=a(205);a.d(t,"currencyInfo",function(){return n});const n=(i={},o={[s.a]:(e,t)=>t.data},function(e=i,t){return o.hasOwnProperty(t.type)?o[t.type](e,t):e});var i,o},208:function(e,t,a){"use strict";a.r(t);var s=a(0),n=a.n(s),i=a(203),o=a(6),r=a.n(o),l=a(199),c=a(21);const d=[c.e.NormalCustomerBalance,c.e.NormalPendingFund,c.e.NormalDeposit,c.e.NormalWithdrawal];class u extends n.a.Component{constructor(e){super(e)}render(){return n.a.createElement("div",{className:"loading-process",style:{display:`${this.props.isLoading?"block":"none"}`}},n.a.createElement("div",{className:"icon-loading"},n.a.createElement("div",{className:`loader-inner ball-beat ${d.filter(e=>e===this.props.widgetKey).length>0?"loader-white":""}`},n.a.createElement("div",null),n.a.createElement("div",null),n.a.createElement("div",null))))}}const h="_LAP_Dashboard_Wg_Version",m="_LAP_Dashboard_Wg_Status",g="_LAP_Dashboard_Wg_Layout",p="_LAP_Dashboard_Wg_Layout_removed",y="_LAP_Dashboard_Wg_Reload_Countdown";class C{static clearLayoutSettingIfNewVersion(){var e=document.getElementById("dashboard-script");if(e){var t=e.src.match(/v=\d*/);if(t){var a=t[0];a!==window.localStorage.getItem(h)&&(window.localStorage.setItem(h,a),C.clearWidgetCache())}}}static clearWidgetCache(){window.localStorage.removeItem(m),window.localStorage.removeItem(g),window.localStorage.removeItem(p)}static saveWidgetStatus(e){try{window.localStorage.setItem(m,JSON.stringify(e))}catch(e){alert("To continue use dashboard. Please turn private browsing off!!")}}static getWidgetStatus(){var e=window.localStorage.getItem(m);return e&&"undefined"!==e&&"null"!==e?JSON.parse(e):null}static saveWidgetLayout(e){try{window.localStorage.setItem(g,JSON.stringify(e))}catch(e){alert("To continue use dashboard. Please turn private browsing off!!")}}static getWidgetLayout(){var e=window.localStorage.getItem(g);return e&&"undefined"!==e&&"null"!==e?JSON.parse(e):null}static saveRemovedWidgetLayout(e){try{window.localStorage.setItem(p,JSON.stringify(e))}catch(e){alert("To continue use dashboard. Please turn private browsing off!!")}}static getRemovedWidgetLayout(){var e=window.localStorage.getItem(p);return e&&"undefined"!==e&&"null"!==e?JSON.parse(e):{}}static getWidgetReloadCountdown(){var e=window.localStorage.getItem(y);return e&&"undefined"!==e&&"null"!==e?JSON.parse(e):{}}static saveWidgetReloadCountdown(e){try{window.localStorage.setItem(y,JSON.stringify(e))}catch(e){window.alert("To continue use dashboard. Please turn private browsing off!!")}}}class w extends n.a.Component{constructor(e){super(e);let t=C.getWidgetReloadCountdown()[this.props.dataKey];t||(t=this.props.defaultCountdown),this.countdownValues=this.props.countdownValues,this.state={countdown:t,currentCountdown:t,isShowSelection:!1,isMounted:!1}}componentDidMount(){this.setState({isMounted:!0},()=>{this.state.countdown>0&&this._startTimer()})}componentWillUnmount(){this.setState({isMounted:!1}),this._stopTimer()}componentDidUpdate(e,t){!this.props.isLoading&&e.isLoading&&(t.currentCountdown||this.setState({currentCountdown:t.countdown}),this.timerId||this._startTimer())}_onTick(){if(this.state.isMounted&&!this.props.isLoading){let e=this.state.currentCountdown;0===e?(this._stopTimer(),this.props.reloadCallback()):this.setState({currentCountdown:e-1})}}_startTimer(){this.timerId=setInterval(()=>this._onTick(),1e3)}_stopTimer(){this.timerId&&(clearInterval(this.timerId),this.timerId=0)}_onCounterClick(){this.state.isMounted&&!this.props.isLoading&&this.setState({isShowSelection:!this.state.isShowSelection})}_onSelectCounterValue(e){if(this.state.isMounted){this.setState({isShowSelection:!1,countdown:e,currentCountdown:e});const t=C.getWidgetReloadCountdown();t[this.props.dataKey]=e,C.saveWidgetReloadCountdown(t)}}render(){var e="btn-refresh right border-"+(this.props.colorMode||"white");const t=this.state.isShowSelection?n.a.createElement("ul",{className:"dropdown-timer"},(this.countdownValues||[]).map(e=>n.a.createElement("li",{key:e,onClick:()=>this._onSelectCounterValue(e)},e))):null;return n.a.createElement("div",{className:e,onClick:()=>this._onCounterClick(),disabled:!!this.props.isLoading},n.a.createElement("i",{className:"icon-refresh"}),n.a.createElement("span",{className:"currentCountdown"},this.state.currentCountdown+"s"),n.a.createElement("i",{className:"icon-menu-down"}),t)}}function f(){return(f=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var a=arguments[t];for(var s in a)Object.prototype.hasOwnProperty.call(a,s)&&(e[s]=a[s])}return e}).apply(this,arguments)}class _ extends n.a.Component{constructor(e){super(e)}toggleClose(){var e=Object.assign({},this.props.wgItem);e.enable=!e.enable,this.props.callbackParent({action:"wgSyncStatus",items:[e]})}render(){const e=this.props.wgItem.enable?"":"is-closed";return n.a.createElement("div",{className:`widgetbox ${e}`},n.a.createElement("div",{className:`widgetbox-header ${this.props.widgetName}`},n.a.createElement("span",{className:"title"},this.props.title),n.a.createElement("span",{className:"icon-wrapper right"},n.a.createElement("span",{onClick:()=>this.toggleClose(),className:"icon icon-close"})),this.props.countdownConfigs?n.a.createElement(w,f({},this.props.countdownConfigs,{dataKey:this.props.widgetKey,isLoading:this.props.isLoading})):null),n.a.createElement("div",{className:`widgetbox-content ${this.props.widgetName}`},n.a.createElement(u,{isLoading:this.props.isLoading,widgetKey:this.props.widgetKey})," ",this.props.children))}}const b={n_deposit:"存款(今日)",c_turnover:"交易额",c_licWL:"投注输赢",n_reg_customer:"已注册会员",c_online_customer:"在线会员",n_customer_balance:"会员馀额",n_pending_funds:"未结算金额",n_withdrawal:"提款(今日)",turnover_byplatform_month_todate:"交易額(當月累計)",deposit_today:"存款(今日)",licensee_winloss_month_todate:"投注輸贏(當月累計)",registered_customer:"已注册会员",online_customer:"在线会员",customer_balance:"会员馀额",pending_funds:"未结算金额",withdrawal_today:"提款(今日)",apply:"設定",currency:"会员币别",Based:"显示币别",Widgets:"小工具",total_registered_cus_today:"總註冊會員",deposit:"註冊且存款",none_deposit:"註冊未存款",Asia:"亞洲版",China:"大陸版",Euro:"歐洲版",Wap:"WAP手機",All:"全部",Web:"桌機版",total_turnover:"總交易額",total_winloss:"總投注輸贏",no_widget_permission:"You do not have sufficient permissions to access this page",reset_layout:"初始設定",Tablet:"平板",SmartSite:"行動裝置版",NewAsia:"新亞洲版",MobileApp:"Mobile App",Mobile:"Mobile",MobileLiteVersion:"Mobile Lite Version"},S={n_deposit:"存款(今日)",c_turnover:"交易额",c_licWL:"投注输赢",n_reg_customer:"已注册会员",c_online_customer:"在线会员",n_customer_balance:"会员馀额",n_pending_funds:"未结算金额",n_withdrawal:"提款(今日)",turnover_byplatform_month_todate:"交易额(当月累计)",deposit_today:"存款(今日)",licensee_winloss_month_todate:"投注输赢(当月累计)",registered_customer:"已註冊會員",online_customer:"在線會員",customer_balance:"會員餘額",pending_funds:"未結算金額",withdrawal_today:"提款(今日)",apply:"设定",currency:"会员币别",Based:"基础货币",Widgets:"小工具",total_registered_cus_today:"总注册会员",deposit:"注册且存款",none_deposit:"注册未存款",Asia:"亚洲版",China:"中国版",Euro:"欧洲版",Wap:"WAP",All:"全部",Web:"桌机版",total_turnover:"总交易额",total_winloss:"总投注输赢",no_widget_permission:"You do not have sufficient permissions to access this page",reset_layout:"初始设定",Tablet:"平板",SmartSite:"行动装置版",NewAsia:"新亚洲版",MobileApp:"手机 APP",Mobile:"手机版",MobileLiteVersion:"手机轻量版"},v={n_deposit:"Deposit (Today)",c_turnover:"Turnover by Platform",c_licWL:"Licensee Win Loss",n_reg_customer:"Registered customers",c_online_customer:"Online customers",n_customer_balance:"Customer Balance",n_pending_funds:"Pending Funds",n_withdrawal:"Withdraw (Today)",turnover_byplatform_month_todate:"Turnover by Platform (Month to date)",deposit_today:"Deposit (Today)",licensee_winloss_month_todate:"Licensee Win Loss (Month to date)",registered_customer:"Registered customers",online_customer:"Online customers",customer_balance:"Customer Balance",pending_funds:"Pending Funds",withdrawal_today:"Withdrawal (today)",apply:"Apply",currency:"Currency",Based:"Base Currency",Widgets:"WIDGETS",total_registered_cus_today:"Total Registered Customers (to date)",deposit:"Deposit",none_deposit:"Non - Deposit",Asia:"Asia",China:"China",Euro:"Euro",Wap:"Wap",All:"All",Web:"Web",total_turnover:"Total Turnover",total_winloss:"Total Win Loss",no_widget_permission:"You do not have sufficient permissions to access this page",reset_layout:"Reset layout",Tablet:"Tablet",SmartSite:"Smart Site",NewAsia:"New Asia",MobileApp:"Mobile App",Mobile:"Mobile",MobileLiteVersion:"Mobile Lite Version"},L={n_deposit:"存款(今日)",c_turnover:"交易額",c_licWL:"投注輸贏",n_reg_customer:"已註冊會員",c_online_customer:"在線會員",n_customer_balance:"會員餘額",n_pending_funds:"未結算金額",n_withdrawal:"提款(今日)",turnover_byplatform_month_todate:"交易额(当月累计)",deposit_today:"存款(今日)",licensee_winloss_month_todate:"投注输赢(当月累计)",registered_customer:"已註冊會員",online_customer:"在線會員",customer_balance:"會員餘額",pending_funds:"未結算金額",withdrawal_today:"提款(今日)",apply:"设定",currency:"會員幣別",Based:"顯示幣別",Widgets:"小工具",total_registered_cus_today:"总注册会员",deposit:"注册且存款",none_deposit:"注册未存款",Asia:"亚洲版",China:"大陆版",Euro:"欧洲版",Wap:"WAP手机",All:"全部",Web:"桌机版",total_turnover:"总交易额",total_winloss:"总投注输赢",no_widget_permission:"You do not have sufficient permissions to access this page",reset_layout:"初始设定",Tablet:"平板",SmartSite:"新亚洲版",MobileApp:"Mobile App",Mobile:"Mobile",MobileLiteVersion:"Mobile Lite Version"};class W{static getRes(e,t){switch(e){case"ch":return b[t];case"cs":return S[t];case"en":return v[t];case"zhcn":return L[t];default:return v[t]}}}const N={...c.e,ChartTurnover:"c_turnover",ChartLicenseeWL:"c_licWL",NormalRegisterCustomer:"n_reg_customer",ChartlOnlineCustomer:"c_online_customer"},E={ChartTurnover:"/api/TurnoverByPlatform/GetData",ChartLicenseeWL:"/api/LicenseeWinLossByPlatform/GetData",NormalRegisterCustomer:"GetRegisteredUserOnline",ChartlOnlineCustomer:"GetOnlineCustomers",NormalCustomerBalance:"/api/CustomerBalance/GetData",NormalPendingFund:"/api/PendingFund/GetData",NormalDeposit:"/api/TodayDeposit/GetData",NormalWithdrawal:"/api/TodayWithdrawal/GetData"},x={lg:[{i:N.ChartTurnover,x:0,y:0,w:6,h:11,minW:3,minH:9},{i:N.ChartLicenseeWL,x:6,y:0,w:6,h:11,minW:3,minH:9},{i:N.NormalRegisterCustomer,x:0,y:11,w:6,h:6,minW:4,minH:6},{i:N.ChartlOnlineCustomer,x:6,y:11,w:6,h:6,minW:4,minH:5},{i:N.NormalCustomerBalance,x:0,y:17,w:3,h:6,minW:3,minH:3},{i:N.NormalPendingFund,x:3,y:17,w:3,h:6,minW:3,minH:3},{i:N.NormalDeposit,x:6,y:17,w:3,h:6,minW:3,minH:3},{i:N.NormalWithdrawal,x:9,y:17,w:3,h:6,minW:3,minH:3}],md:[{i:N.ChartTurnover,x:0,y:0,w:5,h:8,minW:3,minH:8},{i:N.ChartLicenseeWL,x:5,y:0,w:5,h:8,minW:3,minH:8},{i:N.NormalRegisterCustomer,x:0,y:8,w:5,h:6,minW:4,minH:6},{i:N.ChartlOnlineCustomer,x:5,y:8,w:5,h:6,minW:4,minH:4},{i:N.NormalCustomerBalance,x:0,y:14,w:5,h:4,minW:3,minH:3},{i:N.NormalPendingFund,x:5,y:14,w:5,h:4,minW:3,minH:3},{i:N.NormalDeposit,x:0,y:18,w:5,h:4,minW:3,minH:3},{i:N.NormalWithdrawal,x:5,y:18,w:5,h:4,minW:3,minH:3}],sm:[{i:N.ChartTurnover,x:0,y:0,w:6,h:9,isResizable:!1},{i:N.ChartLicenseeWL,x:0,y:9,w:6,h:9,isResizable:!1},{i:N.NormalRegisterCustomer,x:0,y:18,w:3,h:6,isResizable:!1},{i:N.ChartlOnlineCustomer,x:3,y:18,w:3,h:6,isResizable:!1},{i:N.NormalCustomerBalance,x:0,y:24,w:3,h:3,isResizable:!1},{i:N.NormalPendingFund,x:3,y:24,w:3,h:3,isResizable:!1},{i:N.NormalDeposit,x:0,y:27,w:3,h:3,isResizable:!1},{i:N.NormalWithdrawal,x:3,y:27,w:3,h:3,isResizable:!1}],xs:[{i:N.ChartTurnover,x:0,y:0,w:4,h:9,isResizable:!1},{i:N.ChartLicenseeWL,x:0,y:9,w:4,h:9,isResizable:!1},{i:N.NormalRegisterCustomer,x:0,y:18,w:4,h:6,isResizable:!1},{i:N.ChartlOnlineCustomer,x:0,y:24,w:4,h:5,isResizable:!1},{i:N.NormalCustomerBalance,x:0,y:29,w:2,h:3,isResizable:!1},{i:N.NormalPendingFund,x:2,y:29,w:2,h:3,isResizable:!1},{i:N.NormalDeposit,x:0,y:32,w:2,h:3,isResizable:!1},{i:N.NormalWithdrawal,x:2,y:32,w:2,h:3,isResizable:!1}],xxs:[{i:N.ChartTurnover,x:0,y:0,w:4,h:8,isResizable:!1},{i:N.ChartLicenseeWL,x:0,y:8,w:4,h:8,isResizable:!1},{i:N.NormalRegisterCustomer,x:0,y:16,w:4,h:6,isResizable:!1},{i:N.ChartlOnlineCustomer,x:0,y:22,w:4,h:4,isResizable:!1},{i:N.NormalCustomerBalance,x:0,y:26,w:4,h:3,isResizable:!1},{i:N.NormalPendingFund,x:0,y:29,w:4,h:3,isResizable:!1},{i:N.NormalDeposit,x:0,y:32,w:4,h:3,isResizable:!1},{i:N.NormalWithdrawal,x:0,y:35,w:4,h:3,isResizable:!1}]};var D=a(204);class k{static formatCurrency(e=0,t){const a={EUR:"€",GBP:"£",USD:"$",CNY:"¥",MYR:"RM",THB:"฿",IDR:"Rp"};return`${t=a[t]?a[t]:""}${this.format(e,2)}`}static formatDecimal(e){return this.format(e,2)}static format(e,t=0){return e.toFixed(t).replace(/(\d)(?=(\d{3})+(\.|$))/g,"$1,")}}class R extends n.a.Component{constructor(e){super(e),this.state={data:{},total:0,isLoading:!0,isMounted:!1},this.options={legend:{display:!1,custom:!0,id:"custom-legend"},maintainAspectRatio:!1,tooltips:{callbacks:{label:function(e,t){return t.labels[e.index]},title:function(e,t){return""}}},layout:{padding:{top:10,bottom:50,right:130}},hover:{animationDuration:0},animation:{onComplete:function(e){var t=this,a=this.chart,s=a.ctx;if(!(Math.min(a.width,a.height)<100)){s.textAlign="center",s.fillStyle="#fff",s.save(),s.shadowColor="black",s.shadowBlur=3;var n=a.config.options.circumference;t.data.datasets.forEach((e,a)=>{t.getDatasetMeta(a).data.forEach((e,t)=>{var a=e._model.circumference/n*100,i=e.tooltipPosition();if(e._model.circumference>0){var o=a<1?"<1":a.toFixed(2);s.fillText(o+"%",i.x,i.y)}})}),s.restore()}}}}}fetchData(e){var t={Data:{CurrencyId:e.filter.currency,BaseCurrency:e.filter.baseCurrency},Url:E.ChartTurnover,IsCrossSite:!0};D.a.fetchData(t).then(t=>{var a=[],s=[];for(var n of t.data.Data)a.push(W.getRes(this.props.langCode,n.Key)||n.Key),s.push(n.Value);this.setState({total:t.data.Total,data:{labels:a,datasets:[{data:s,currency:e.filter.baseCurrency,backgroundColor:["#35A1FB","#4B966B","#4C6375","#D9544F","#4473C5","#AFBF22","#FFEC8B","#BBFFFF","#B8E9D5","#FF66C1"]}]},isLoading:!1})}).catch(function(e){console.log("error:",e)})}componentDidUpdate(e,t){t.isMounted&&this.props.refresh>e.refresh&&(this.setState({isLoading:!0}),this.fetchData(this.props))}componentDidMount(){this.setState({isMounted:!0},()=>this.fetchData(this.props))}componentWillUnmount(){this.setState({isMounted:!1})}render(){return n.a.createElement(_,{callbackParent:this.props.callbackParent,wgItem:this.props.wgItemFromParent,widgetKey:N.ChartTurnover,title:W.getRes(this.props.langCode,"turnover_byplatform_month_todate"),widgetName:"turnover default",isLoading:this.state.isLoading},n.a.createElement(l.c,{data:this.state.data,options:this.options}),n.a.createElement("div",{id:"custom-legend"}),n.a.createElement("div",{className:"footer-total"},n.a.createElement("span",null,W.getRes(this.props.langCode,"total_turnover"),": ",k.formatCurrency(this.state.total,this.props.filter.baseCurrency))))}}l.b.plugins.register({afterUpdate:function(e){const t=e.options,a=e.data;if(t.legend&&t.legend.custom&&a.datasets.length){const e=a.datasets[0],s=a.labels.map((t,a)=>({text:t,index:a,value:k.formatCurrency(e.data[a],e.currency),color:e.backgroundColor[a]})),i=document.getElementById(t.legend.id);if(!i)return;const o=l.b.defaults.global;r.a.render(n.a.createElement("table",{className:"chart-legend",style:{fontSize:o.defaultFontSize,fontStyle:o.defaultFontStyle,fontFamily:o.defaultFontFamily}},n.a.createElement("tbody",null,s.map(e=>n.a.createElement("tr",{key:e.index},n.a.createElement("td",{className:"cl__label"},n.a.createElement("span",{style:{backgroundColor:e.color},className:"cl__point"}),n.a.createElement("span",{className:"cl__text"},e.text)),n.a.createElement("td",{className:"cl__value"},n.a.createElement("span",{className:"cl__text"},e.value)))))),i)}}});class M extends n.a.Component{constructor(e){super(e);this.state={data:{labels:[W.getRes(this.props.langCode,"Web"),W.getRes(this.props.langCode,"Wap"),W.getRes(this.props.langCode,"SmartSite")],datasets:[]},isLoading:!0,isMounted:!1},this.options={beginAtZero:!0,type:"line",maintainAspectRatio:!1,tooltips:{enabled:!1},hover:{animationDuration:0},animation:{onComplete:function(){var e=this,t=this.chart,a=t.ctx;a.textAlign="center",a.fillStyle="#5162BA",a.textAlign="left",a.textBaseline="middle",e.data.datasets.forEach(function(s,n){e.getDatasetMeta(n).data.forEach(function(e,n){a.fillText(k.format(s.data[n]),t.width-90,e._model.y)})})}},layout:{padding:{right:100,bottom:20,left:30}},scales:{xAxes:[{barPercentage:.5,display:!1,ticks:{min:0}}],yAxes:[{ticks:{fontColor:"#5162BA"},gridLines:{display:!1}}]},legend:{display:!1}}}fetchData(){var e={Url:E.ChartlOnlineCustomer,IsCrossSite:!1};return D.a.fetchData(e).then(e=>{this.setState({data:{datasets:[{backgroundColor:["rgb(241, 91, 32)","rgb(75, 150, 107)","rgb(61, 165, 250)"],data:[e.data.Web,e.data.Wap,e.data.SmartSite],stacked:!0}]},isLoading:!1})})}componentDidUpdate(e,t){t.isMounted&&this.props.refresh>e.refresh&&(this.setState({isLoading:!0}),this.fetchData())}componentDidMount(){this.setState({isMounted:!0},()=>this.fetchData())}componentWillUnmount(){this.setState({isMounted:!1})}_reload(){this.state.isMounted&&(this.setState({isLoading:!0}),this.fetchData())}render(){return n.a.createElement(_,{callbackParent:this.props.callbackParent,wgItem:this.props.wgItemFromParent,widgetKey:N.ChartlOnlineCustomer,title:W.getRes(this.props.langCode,"online_customer"),widgetName:"online-customer default",isLoading:this.state.isLoading,countdownConfigs:{reloadCallback:()=>this._reload(),defaultCountdown:75,countdownValues:[15,30,45,60,75],colorMode:"blue"}},n.a.createElement(l.d,{data:this.state.data,options:this.options}))}}class B extends n.a.Component{constructor(e){super(e),this.state={data:{},total:0,isLoading:!0,isMounted:!1},this.options={maintainAspectRatio:!1,tooltips:{enabled:!1},hover:{animationDuration:0},animation:{onComplete:function(){const e=this,t=this.chart.ctx;t.textAlign="center",t.fillStyle="#555",t.textAlign="left",t.textBaseline="middle",e.data.datasets.forEach(function(a,s){e.getDatasetMeta(s).data.forEach(function(e,s){const n=a.data[s],i=k.formatDecimal(n),o=t.measureText(i).width,r=n>0?6:-7;t.fillText(i,e._model.x-o/2,e._model.y-r)})})}},layout:{padding:{top:20,bottom:50}},scales:{xAxes:[{gridLines:{display:!1}}],yAxes:[{ticks:{callback:function(e,t,a){return k.format(e)}}}]},legend:{display:!1}}}fetchData(e){var t={Data:{CurrencyId:e.filter.currency,BaseCurrency:e.filter.baseCurrency},Url:E.ChartLicenseeWL,IsCrossSite:!0};D.a.fetchData(t).then(e=>{var t=[],a=[];for(var s of e.data.Data)t.push(W.getRes(this.props.langCode,s.Key)||s.Key),a.push(s.Value);this.setState({total:e.data.Total,data:{labels:t,datasets:[{data:a,backgroundColor:["#35A1FB","#4B966B","#4C6375","#D9544F","#4473C5","#AFBF22","#FFEC8B","#BBFFFF","#B8E9D5","#FF66C1"]}]},isLoading:!1})}).catch(function(e){console.log("error:",e)})}componentDidUpdate(e,t){t.isMounted&&this.props.refresh>e.refresh&&(this.setState({isLoading:!0}),this.fetchData(this.props))}componentDidMount(){this.setState({isMounted:!0},()=>this.fetchData(this.props))}componentWillUnmount(){this.setState({isMounted:!1})}render(){return n.a.createElement(_,{callbackParent:this.props.callbackParent,wgItem:this.props.wgItemFromParent,title:W.getRes(this.props.langCode,"licensee_winloss_month_todate"),widgetKey:N.ChartLicenseeWL,widgetName:"licenseewl default",isLoading:this.state.isLoading},n.a.createElement(l.a,{data:this.state.data,options:this.options}),n.a.createElement("div",{className:"footer-total"},n.a.createElement("span",null,W.getRes(this.props.langCode,"total_winloss"),": ",k.formatCurrency(this.state.total,this.props.filter.baseCurrency))))}}class I extends n.a.Component{constructor(e,t){super(e),this.state={data:0,isLoading:!0,isMounted:!1},this.configs=t}fetchData(e){var t={Data:{CurrencyId:e.filter.currency,BaseCurrency:e.filter.baseCurrency},Url:this.configs.Url,IsCrossSite:!0};return D.a.fetchData(t).then(e=>{this.setState({data:e.data,isLoading:!1})}).catch(function(e){console.log("error:",e)})}componentDidUpdate(e,t){t.isMounted&&this.props.refresh>e.refresh&&(this.setState({isLoading:!0}),this.fetchData(this.props))}componentDidMount(){this.setState({isMounted:!0},()=>this.fetchData(this.props))}componentWillUnmount(){this.setState({isMounted:!1})}_reload(){this.state.isMounted&&(this.setState({isLoading:!0}),this.fetchData(this.props))}render(){return n.a.createElement(_,{callbackParent:this.props.callbackParent,countdownConfigs:{reloadCallback:()=>this._reload(),defaultCountdown:this.configs.defaultCountdown,countdownValues:this.configs.countdownValues,colorMode:"white"},wgItem:this.props.wgItemFromParent,widgetKey:this.configs.WidgetKey,title:W.getRes(this.props.langCode,this.configs.TitleKey),widgetName:this.configs.WidgetName,isLoading:this.state.isLoading},n.a.createElement("div",{className:"center-block"},n.a.createElement("span",{className:"number-big"},k.formatCurrency(this.state.data,this.props.filter.baseCurrency))))}}class T extends I{constructor(e){super(e,{Url:E.NormalDeposit,TitleKey:"deposit_today",WidgetName:"deposit",WidgetKey:N.NormalDeposit,defaultCountdown:75,countdownValues:[15,30,45,60,75]})}}class P extends I{constructor(e){super(e,{Url:E.NormalWithdrawal,TitleKey:"withdrawal_today",WidgetName:"withdrawal",WidgetKey:N.NormalWithdrawal,defaultCountdown:75,countdownValues:[15,30,45,60,75]})}}class A extends I{constructor(e){super(e,{Url:E.NormalPendingFund,TitleKey:"pending_funds",WidgetName:"pending-fund",WidgetKey:N.NormalPendingFund,defaultCountdown:75,countdownValues:[15,30,45,60,75]})}}class F extends I{constructor(e){super(e,{Url:E.NormalCustomerBalance,TitleKey:"customer_balance",WidgetName:"customer-balance",WidgetKey:N.NormalCustomerBalance,defaultCountdown:75,countdownValues:[15,30,45,60,75]})}}class O extends n.a.Component{constructor(e){super(e),this.state={deposit:0,noneDeposit:0,isLoading:!0,isMounted:!1}}fetchData(e){var t={Data:{CurrencyId:e.filter.currency,BaseCurrency:e.filter.baseCurrency},Url:E.NormalRegisterCustomer,IsCrossSite:!1};D.a.fetchData(t).then(e=>{this.setState({deposit:e.data.Deposit,noneDeposit:e.data.NoneDeposit,isLoading:!1})}).catch(function(e){console.log("error:",e)})}componentDidUpdate(e,t){t.isMounted&&this.props.refresh>e.refresh&&(this.setState({isLoading:!0}),this.fetchData(this.props))}componentDidMount(){this.setState({isMounted:!0},()=>this.fetchData(this.props))}componentWillUnmount(){this.setState({isMounted:!1})}render(){return n.a.createElement(_,{callbackParent:this.props.callbackParent,wgItem:this.props.wgItemFromParent,widgetKey:N.NormalRegisterCustomer,title:W.getRes(this.props.langCode,"registered_customer"),widgetName:"registered-customer default",isLoading:this.state.isLoading},n.a.createElement("div",{className:"clearfix registered-customer-content"},n.a.createElement("span",{className:"icon-group-users left"}),n.a.createElement("div",{className:"right"},n.a.createElement("div",{className:"registered-info"},n.a.createElement("p",{className:"number"},k.format(this.state.deposit+this.state.noneDeposit)),n.a.createElement("p",{className:"text"},W.getRes(this.props.langCode,"total_registered_cus_today"))))),n.a.createElement("div",{className:"clearfix registered-customer-content dark-bg"},n.a.createElement("div",{className:"registered-info"},n.a.createElement("div",{className:"center-block"},n.a.createElement("p",{className:"number"},k.format(this.state.deposit)),n.a.createElement("p",{className:"text"},W.getRes(this.props.langCode,"deposit")))),n.a.createElement("div",{className:"registered-info"},n.a.createElement("div",{className:"center-block"},n.a.createElement("p",{className:"number"},k.format(this.state.noneDeposit)),n.a.createElement("p",{className:"text"},W.getRes(this.props.langCode,"none_deposit"))))))}}class U extends s.Component{constructor(e){super(e);const t=c.b.find(e=>e.Currency.toLowerCase()===c.c.toLowerCase()),a=t?t.CurrencyId:c.b[0].CurrencyId;this.state={isMounted:!1,SelectedBaseCurrency:a,SelectedCurrency:0,BaseCurrencyList:c.b,isHidden:!0,CurrencyList:[],wgs:this._bindWgCheckBox(e.wgs)}}_togglePanel(){this.setState(e=>({isHidden:!e.isHidden}))}componentDidUpdate(e,t){const{wgs:a}=this.props;this.state.isMounted&&a&&a!==e.wgs&&this.setState({wgs:this._bindWgCheckBox(a)})}componentDidMount(){this.setState({isMounted:!0},()=>this._fetchData())}componentWillUnmount(){this.setState({isMounted:!1})}_bindWgCheckBox(e){var t={};return e.forEach(e=>t[e.key]=e.enable),t}_fetchData(){var e={Url:c.a,IsCrossSite:!1};D.a.fetchData(e).then(e=>{e.data.Currency.unshift({Currency:"All",CurrencyId:"0"}),this.setState({isMounted:!0,CurrencyList:e.data.Currency})}).catch(function(e){console.log("error:",e)})}_applyAction(){if(this.state.isMounted){let e=c.b.find(e=>e.CurrencyId==this.state.SelectedBaseCurrency);this.props.callbackParent({action:"apply",filter:{currency:this.state.SelectedCurrency,baseCurrency:e?e.Currency:""}})}}_getNewStateOnChangeCurrency(e){let t={SelectedCurrency:e};if("0"==e)return Object.assign({},t,{SelectedBaseCurrency:c.b[0].CurrencyId,BaseCurrencyList:c.b});if(c.b.find(t=>t.CurrencyId==e))return c.b.find(e=>e.CurrencyId==this.state.SelectedBaseCurrency)||(t.SelectedBaseCurrency=e),t.BaseCurrencyList=c.b,t;const a=this.state.CurrencyList.find(t=>t.CurrencyId==e);return Object.assign({},t,{SelectedBaseCurrency:e,BaseCurrencyList:c.b.concat(a)})}_onChangeCurrencyList(e){var t=this._getNewStateOnChangeCurrency(e.target.value);this.setState(t)}_onChangeBaseCurrencyList(e){this.setState({SelectedBaseCurrency:e.target.value})}_onCheckWg(e){this.state.isMounted&&this.props.callbackParent({action:"wgSyncStatus",items:[{key:e,enable:!this.state.wgs[e]}]})}_onResetLayout(){this.state.isMounted&&this.props.callbackParent({action:"reset"})}render(){const e=this.state.isHidden?"":" is-expanded",{langCode:t,wgs:a}=this.props;return n.a.createElement("div",{className:`dashboard__right-panel${e}`},n.a.createElement("div",{className:"right-panel-wrap"},n.a.createElement("span",{onClick:e=>this._togglePanel(e),className:"icon-quickaccess js-icon-quickaccess"},n.a.createElement("i",{className:"icon-settings"})),n.a.createElement("div",{className:"right-panel-content"},n.a.createElement("div",{className:"currency"},n.a.createElement("label",{className:"currency-label"},W.getRes(t,"currency")),n.a.createElement("select",{ref:"currencyDropdownList",onChange:e=>this._onChangeCurrencyList(e),value:this.state.SelectedCurrency},this.state.CurrencyList.map((e,t)=>n.a.createElement("option",{key:t,value:e.CurrencyId},e.Currency)))),n.a.createElement("div",{className:"currency"},n.a.createElement("label",{className:"currency-label"},W.getRes(t,"Based")),n.a.createElement("select",{ref:"baseCurrencyDropdownList",onChange:e=>this._onChangeBaseCurrencyList(e),value:this.state.SelectedBaseCurrency},this.state.BaseCurrencyList.map((e,t)=>n.a.createElement("option",{key:t,value:e.CurrencyId},e.Currency)))),n.a.createElement("a",{className:"btn-submit",onClick:e=>this._applyAction(e),href:"#"},W.getRes(t,"apply")),n.a.createElement("div",{className:"widgets-config"},n.a.createElement("div",{className:"widgets-title"},W.getRes(t,"Widgets")),a.map(e=>n.a.createElement("p",{key:e.key,className:"widget-item"},n.a.createElement("input",{onChange:t=>this._onCheckWg(e.key),checked:!!this.state.wgs&&this.state.wgs[e.key],className:"filled-in",type:"checkbox",id:e.key}),n.a.createElement("label",{htmlFor:e.key},W.getRes(t,e.key))))),n.a.createElement("a",{className:"btn-reset",onClick:()=>this._onResetLayout(),href:"#"},W.getRes(t,"reset_layout")))),n.a.createElement("div",{className:"right-panel-overlay",onClick:e=>this._togglePanel(e)}))}}class K{static getWidgetStatusSettings(e=[],t){const a=Object.keys(t).map(e=>t[e]),s=[];return e.forEach(e=>{a.indexOf(e)>=0&&s.push({key:e,enable:!0})}),s}static mergeWidgetStatusSettingsToUserSettings(e){const t=C.getWidgetStatus();return t?e.map(e=>Object.assign({},e,t.find(t=>t.key===e.key))):e}static getWidgetLayoutSettings(e){let t=C.getWidgetLayout();t||(t=K._createEmptyLayout(e));const a=C.getWidgetStatus();let s=K._createEmptyLayout(e);return a.forEach(a=>{if(a.enable){let n=K._getWidgetLayoutByKey(t,a.key)||K._getWidgetLayoutByKey(e,a.key);s=K._addWidgetToLayout(s,n)}}),s}static syncLayoutWithNewStatus(e,t,a,s){let n=[...t],i=Object.assign({},a),o=C.getRemovedWidgetLayout();const r=K;return e.forEach(e=>{let t=n.find(t=>t.key===e.key);if(t.enable!==e.enable)if(t.enable=e.enable,t.enable){const t=o[e.key]||r._getWidgetLayoutByKey(s,e.key);i=r._addWidgetToLayout(i,t),o[e.key]=null}else{const t=r._getWidgetLayoutByKey(i,e.key);i=r._removeWidgetFromLayout(i,e.key),o[e.key]=t}}),{newWidgetStatus:n,newLayouts:i,removedLayouts:o}}static _removeWidgetFromLayout(e,t){const a=e=>e.i!==t,s={};return e&&Object.keys(e).forEach(t=>{s[t]=e[t].filter(a)}),s}static _addWidgetToLayout(e,t){const a={},s=Object.keys(e);let n=!0;return s.forEach(s=>{if(!t[s])return n=!1;a[s]=[...e[s]],a[s].push(t[s])}),n?a:e}static _getWidgetLayoutByKey(e,t){const a={};let s=!0;return Object.keys(e).forEach(n=>{a[n]=e[n].find(e=>e.i===t),a[n]||(s=!1)}),s?a:null}static _createEmptyLayout(e){const t={};return Object.keys(e).forEach(e=>t[e]=[]),t}}var z=a(35),V=a(206);const j=Object.assign({},V);var H=a(198);var G=Object(H.b)(function(e){return Object.assign({},e)},function(e){return Object(z.b)(j,e)})(class extends n.a.Component{constructor(e){super(e),C.clearLayoutSettingIfNewVersion();const t=window.dashboardLangCode||"en",a=window.widgetPermission;a&&a.length||alert(W.getRes(t,"no_widget_permission")),this.state=Object.assign({langCode:t,refresh:0,selectedFilter:{currency:0,baseCurrency:c.c},isMounted:!1},this._getLayoutSettings()),this._responsiveReactGridLayout=Object(i.WidthProvider)(i.Responsive)}componentDidUpdate(e,t){this.state.isMounted&&this.props.newState&&this.props.newState!==e.newState&&this.onChildChanged(this.props.newState)}_renderWgItem(e){const t={[N.ChartTurnover]:R,[N.ChartLicenseeWL]:B,[N.NormalDeposit]:T,[N.ChartlOnlineCustomer]:M,[N.NormalPendingFund]:A,[N.NormalRegisterCustomer]:O,[N.NormalCustomerBalance]:F,[N.NormalWithdrawal]:P}[e];var a=this.state.wgStatus.find(t=>t.key===e);return n.a.createElement("div",{key:e},n.a.createElement(t,{wgItemFromParent:a,callbackParent:e=>this.onChildChanged(e),filter:this.state.selectedFilter,refresh:this.state.refresh,langCode:this.state.langCode}))}_resetLayout(){this.state.isMounted&&(C.clearWidgetCache(),this.setState(this._getLayoutSettings()))}_getLayoutSettings(){const e=K.getWidgetStatusSettings(window.widgetPermission,N),t=K.mergeWidgetStatusSettingsToUserSettings(e);C.saveWidgetStatus(t);const a=K.getWidgetLayoutSettings(x);return C.saveWidgetLayout(a),{wgStatus:t,layouts:a}}onChildChanged(e){if(this.state.isMounted&&"apply"==e.action)this.setState(t=>({refresh:t.refresh+1,selectedFilter:e.filter}));else if("reset"==e.action)this._resetLayout();else if(e.items&&e.items.length){const t=K.syncLayoutWithNewStatus(e.items,this.state.wgStatus,this.state.layouts,x);this.setState({layouts:t.newLayouts,wgStatus:t.newWidgetStatus}),C.saveWidgetStatus(t.newWidgetStatus),C.saveWidgetLayout(t.newLayouts),C.saveRemovedWidgetLayout(t.removedLayouts)}}onLayoutChange(e,t){this.state.isMounted&&(C.saveWidgetLayout(t),this.setState({wgStatus:this.state.wgStatus,layouts:t}))}get isTouchScreen(){return"ontouchstart"in window||navigator.maxTouchPoints}componentDidMount(){this.setState({isMounted:!0})}componentWillUnmount(){this.setState({isMounted:!1})}render(){const e=this._responsiveReactGridLayout;return n.a.createElement(n.a.Fragment,null,n.a.createElement(U,{langCode:this.state.langCode,wgs:this.state.wgStatus,callbackParent:this.onChildChanged}),n.a.createElement(e,{className:"layout",layouts:this.state.layouts,rowHeight:25,onLayoutChange:(e,t)=>this.onLayoutChange(e,t),breakpoints:{lg:1200,md:996,sm:768,xs:480,xxs:0},cols:{lg:12,md:10,sm:6,xs:4,xxs:2},isDraggable:!this.isTouchScreen},this.state.wgStatus.filter(e=>e.enable).map(e=>this._renderWgItem(e.key))))}}),$=a(201),J=a(202),Y=a(207),q=Object(z.c)(Object.assign(Y));a.d(t,"default",function(){return Q});const X=Object(J.createLogger)({predicate:(e,t)=>__DEV__});const Z=function(e){const t=Object(z.d)(Object(z.a)($.a,X));return Object(z.e)(q,e,t)}({currencyInfo:{}});class Q extends s.Component{render(){return n.a.createElement(H.a,{store:Z},n.a.createElement(G,null))}}}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["summary/summaryDashboard"],{
+
+/***/ "./src/js/actions/currencyAction.js":
+/*!******************************************!*\
+  !*** ./src/js/actions/currencyAction.js ***!
+  \******************************************/
+/*! exports provided: getCurrencyInfo, setBaseCurrency */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrencyInfo", function() { return getCurrencyInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setBaseCurrency", function() { return setBaseCurrency; });
+/* harmony import */ var _types_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types.js */ "./src/js/actions/types.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
+/* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/widgetApi */ "./src/js/lib/widgetApi.js");
+
+
+
+const getCurrencyInfo = () => {
+  return dispatch => {
+    var param = {
+      Url: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["CurrenyListApiUrl"],
+      IsCrossSite: false
+    };
+    _lib_widgetApi__WEBPACK_IMPORTED_MODULE_2__["default"].fetchData(param).then(response => {
+      response.data.Currency.unshift({
+        Currency: "All",
+        CurrencyId: "0"
+      });
+      dispatch(setCurrencyInfo({
+        Currency: response.data.Currency,
+        BaseCurrency: response.data.BaseCurrency
+      }));
+    }).catch(function (error) {
+      console.log("error:", error);
+    });
+  };
+};
+
+const setCurrencyInfo = newData => {
+  return {
+    type: _types_js__WEBPACK_IMPORTED_MODULE_0__["SET_CURRENCY_INFO"],
+    data: newData
+  };
+};
+
+const setBaseCurrency = newData => {
+  return {
+    type: _types_js__WEBPACK_IMPORTED_MODULE_0__["SET_BASE_CURRENCY"],
+    data: newData
+  };
+};
+
+/***/ }),
+
+/***/ "./src/js/actions/index.js":
+/*!*********************************!*\
+  !*** ./src/js/actions/index.js ***!
+  \*********************************/
+/*! exports provided: ActionCreators */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ActionCreators", function() { return ActionCreators; });
+/* harmony import */ var _currencyAction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./currencyAction */ "./src/js/actions/currencyAction.js");
+
+const ActionCreators = Object.assign({}, _currencyAction__WEBPACK_IMPORTED_MODULE_0__);
+
+/***/ }),
+
+/***/ "./src/js/actions/types.js":
+/*!*********************************!*\
+  !*** ./src/js/actions/types.js ***!
+  \*********************************/
+/*! exports provided: SET_CURRENCY_INFO, SET_BASE_CURRENCY, SET_DATE_RANGE */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CURRENCY_INFO", function() { return SET_CURRENCY_INFO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_BASE_CURRENCY", function() { return SET_BASE_CURRENCY; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_DATE_RANGE", function() { return SET_DATE_RANGE; });
+const SET_CURRENCY_INFO = "SET_CURRENCY_INFO";
+const SET_BASE_CURRENCY = "SET_BASE_CURRENCY";
+const SET_DATE_RANGE = "SET_DATE_RANGE";
+
+/***/ }),
+
+/***/ "./src/js/components/AutoReload.jsx":
+/*!******************************************!*\
+  !*** ./src/js/components/AutoReload.jsx ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AutoReload; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/localStorageHelper */ "./src/js/lib/localStorageHelper.js");
+
+
+class AutoReload extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+    const countdowns = _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_1__["default"].getWidgetReloadCountdown();
+    let countdown = countdowns[this.props.dataKey];
+
+    if (!countdown) {
+      countdown = this.props.defaultCountdown;
+    }
+
+    this.countdownValues = this.props.countdownValues;
+    this.state = {
+      countdown: countdown,
+      currentCountdown: countdown,
+      isShowSelection: false,
+      isMounted: false
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      isMounted: true
+    }, () => {
+      if (this.state.countdown > 0) {
+        this._startTimer();
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    });
+
+    this._stopTimer();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.props.isLoading && prevProps.isLoading) {
+      if (!prevState.currentCountdown) {
+        this.setState({
+          currentCountdown: prevState.countdown
+        });
+      }
+
+      if (!this.timerId) {
+        this._startTimer();
+      }
+    }
+  }
+
+  _onTick() {
+    if (this.state.isMounted && !this.props.isLoading) {
+      let countdown = this.state.currentCountdown;
+
+      if (countdown === 0) {
+        this._stopTimer();
+
+        this.props.reloadCallback();
+      } else {
+        this.setState({
+          currentCountdown: countdown - 1
+        });
+      }
+    }
+  }
+
+  _startTimer() {
+    this.timerId = setInterval(() => this._onTick(), 1000);
+  }
+
+  _stopTimer() {
+    if (this.timerId) {
+      clearInterval(this.timerId);
+      this.timerId = 0;
+    }
+  }
+
+  _onCounterClick() {
+    if (this.state.isMounted && !this.props.isLoading) {
+      this.setState({
+        isShowSelection: !this.state.isShowSelection
+      });
+    }
+  }
+
+  _onSelectCounterValue(value) {
+    if (this.state.isMounted) {
+      this.setState({
+        isShowSelection: false,
+        countdown: value,
+        currentCountdown: value
+      });
+      const countdowns = _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_1__["default"].getWidgetReloadCountdown();
+      countdowns[this.props.dataKey] = value;
+      _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_1__["default"].saveWidgetReloadCountdown(countdowns);
+    }
+  }
+
+  render() {
+    var className = "btn-refresh right border-" + (this.props.colorMode || "white");
+    const selection = this.state.isShowSelection ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      className: "dropdown-timer"
+    }, (this.countdownValues || []).map(value => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      key: value,
+      onClick: () => this._onSelectCounterValue(value)
+    }, value))) : null;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: className,
+      onClick: () => this._onCounterClick(),
+      disabled: !!this.props.isLoading
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "icon-refresh"
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "currentCountdown"
+    }, this.state.currentCountdown + 's'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "icon-menu-down"
+    }), selection);
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/components/Loader.jsx":
+/*!**************************************!*\
+  !*** ./src/js/components/Loader.jsx ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Loader; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
+
+
+const baseNormalWidgets = [_lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalCustomerBalance, _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalPendingFund, _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalDeposit, _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalWithdrawal];
+class Loader extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "loading-process",
+      style: {
+        display: `${this.props.isLoading ? 'block' : 'none'}`
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "icon-loading"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: `loader-inner ball-beat ${baseNormalWidgets.filter(x => x === this.props.widgetKey).length > 0 ? 'loader-white' : ''}`
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null))));
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/components/WidgetBox.jsx":
+/*!*****************************************!*\
+  !*** ./src/js/components/WidgetBox.jsx ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WidgetBox; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Loader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Loader */ "./src/js/components/Loader.jsx");
+/* harmony import */ var _AutoReload__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AutoReload */ "./src/js/components/AutoReload.jsx");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+class WidgetBox extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  toggleClose() {
+    var item = Object.assign({}, this.props.wgItem);
+    item.enable = !item.enable;
+    this.props.callbackParent({
+      action: 'wgSyncStatus',
+      items: [item]
+    });
+  }
+
+  render() {
+    const isClosed = this.props.wgItem.enable ? '' : 'is-closed';
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: `widgetbox ${isClosed}`
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: `widgetbox-header ${this.props.widgetName}`
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "title"
+    }, this.props.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "icon-wrapper right"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      onClick: () => this.toggleClose(),
+      className: "icon icon-close"
+    })), !!this.props.countdownConfigs ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AutoReload__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({}, this.props.countdownConfigs, {
+      dataKey: this.props.widgetKey,
+      isLoading: this.props.isLoading
+    })) : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: `widgetbox-content ${this.props.widgetName}`
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Loader__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      isLoading: this.props.isLoading,
+      widgetKey: this.props.widgetKey
+    }), " ", this.props.children));
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/layouts/widgetLayout.js":
+/*!****************************************!*\
+  !*** ./src/js/layouts/widgetLayout.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return widgetLayout; });
+/* harmony import */ var _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/localStorageHelper */ "./src/js/lib/localStorageHelper.js");
+
+class widgetLayout {
+  static getWidgetStatusSettings(permissions = [], widgetKey) {
+    const defaultKeys = Object.keys(widgetKey).map(key => widgetKey[key]);
+    const wgStatus = [];
+    permissions.forEach(key => {
+      if (defaultKeys.indexOf(key) >= 0) {
+        wgStatus.push({
+          key: key,
+          enable: true
+        });
+      }
+    });
+    return wgStatus;
+  }
+
+  static mergeWidgetStatusSettingsToUserSettings(widgetStatus) {
+    const userWgStatus = _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_0__["default"].getWidgetStatus();
+    return userWgStatus ? widgetStatus.map(widget => Object.assign({}, widget, userWgStatus.find(w => w.key === widget.key))) : widgetStatus;
+  }
+
+  static getWidgetLayoutSettings(wgLayouts) {
+    let userWidgetLayouts = _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_0__["default"].getWidgetLayout();
+
+    if (!userWidgetLayouts) {
+      userWidgetLayouts = widgetLayout._createEmptyLayout(wgLayouts);
+    }
+
+    const widgetStatus = _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_0__["default"].getWidgetStatus();
+
+    let layouts = widgetLayout._createEmptyLayout(wgLayouts);
+
+    widgetStatus.forEach(status => {
+      if (status.enable) {
+        let _widgetLayout = widgetLayout._getWidgetLayoutByKey(userWidgetLayouts, status.key) || widgetLayout._getWidgetLayoutByKey(wgLayouts, status.key);
+
+        layouts = widgetLayout._addWidgetToLayout(layouts, _widgetLayout);
+      }
+    });
+    return layouts;
+  }
+
+  static syncLayoutWithNewStatus(newStatus, widgetStatus, _widgetLayouts, wgLayouts) {
+    let newWidgetStatus = [...widgetStatus];
+    let newLayouts = Object.assign({}, _widgetLayouts);
+    let removedLayouts = _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_0__["default"].getRemovedWidgetLayout();
+    const me = widgetLayout;
+    newStatus.forEach(widgetItem => {
+      let status = newWidgetStatus.find(w => w.key === widgetItem.key);
+
+      if (status.enable === widgetItem.enable) {
+        return;
+      }
+
+      status.enable = widgetItem.enable;
+
+      if (status.enable) {
+        const addedItem = removedLayouts[widgetItem.key] || me._getWidgetLayoutByKey(wgLayouts, widgetItem.key);
+
+        newLayouts = me._addWidgetToLayout(newLayouts, addedItem);
+        removedLayouts[widgetItem.key] = null;
+      } else {
+        const remmovedItem = me._getWidgetLayoutByKey(newLayouts, widgetItem.key);
+
+        newLayouts = me._removeWidgetFromLayout(newLayouts, widgetItem.key);
+        removedLayouts[widgetItem.key] = remmovedItem;
+      }
+    });
+    return {
+      newWidgetStatus,
+      newLayouts,
+      removedLayouts
+    };
+  }
+
+  static _removeWidgetFromLayout(layouts, key) {
+    const filter = w => w.i !== key;
+
+    const newLayout = {};
+
+    if (layouts) {
+      Object.keys(layouts).forEach(breakpoint => {
+        newLayout[breakpoint] = layouts[breakpoint].filter(filter);
+      });
+    }
+
+    return newLayout;
+  }
+
+  static _addWidgetToLayout(layouts, _widgetLayout) {
+    const newLayouts = {};
+    const breakpoints = Object.keys(layouts);
+    let isValid = true;
+    breakpoints.forEach(breakpoint => {
+      if (!_widgetLayout[breakpoint]) {
+        return isValid = false;
+      }
+
+      newLayouts[breakpoint] = [...layouts[breakpoint]];
+      newLayouts[breakpoint].push(_widgetLayout[breakpoint]);
+    });
+    return isValid ? newLayouts : layouts;
+  }
+
+  static _getWidgetLayoutByKey(layouts, key) {
+    const _widgetLayout = {};
+    let isValid = true;
+    Object.keys(layouts).forEach(breakpoint => {
+      _widgetLayout[breakpoint] = layouts[breakpoint].find(w => w.i === key);
+
+      if (!_widgetLayout[breakpoint]) {
+        isValid = false;
+      }
+    });
+    return isValid ? _widgetLayout : null;
+  }
+
+  static _createEmptyLayout(wgLayouts) {
+    const layouts = {};
+    Object.keys(wgLayouts).forEach(breakpoint => layouts[breakpoint] = []);
+    return layouts;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/lib/createReducer.js":
+/*!*************************************!*\
+  !*** ./src/js/lib/createReducer.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createReducer; });
+function createReducer(initialState, handlers) {
+  return function reducer(state = initialState, action) {
+    if (handlers.hasOwnProperty(action.type)) {
+      return handlers[action.type](state, action);
+    } else {
+      return state;
+    }
+  };
+}
+
+/***/ }),
+
+/***/ "./src/js/lib/languageApi.js":
+/*!***********************************!*\
+  !*** ./src/js/lib/languageApi.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return languageApi; });
+/* harmony import */ var _resources_resource_ch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../resources/resource.ch */ "./src/js/resources/resource.ch.js");
+/* harmony import */ var _resources_resource_cs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../resources/resource.cs */ "./src/js/resources/resource.cs.js");
+/* harmony import */ var _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../resources/resource.en */ "./src/js/resources/resource.en.js");
+/* harmony import */ var _resources_resource_zhcn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../resources/resource.zhcn */ "./src/js/resources/resource.zhcn.js");
+
+
+
+
+class languageApi {
+  static getRes(langcode, resKey) {
+    switch (langcode) {
+      case "ch":
+        return _resources_resource_ch__WEBPACK_IMPORTED_MODULE_0__["ch"][resKey];
+
+      case "cs":
+        return _resources_resource_cs__WEBPACK_IMPORTED_MODULE_1__["cs"][resKey];
+
+      case "en":
+        return _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__["en"][resKey];
+
+      case "zhcn":
+        return _resources_resource_zhcn__WEBPACK_IMPORTED_MODULE_3__["zhcn"][resKey];
+
+      default:
+        return _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__["en"][resKey];
+    }
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/lib/localStorageHelper.js":
+/*!******************************************!*\
+  !*** ./src/js/lib/localStorageHelper.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return localStorageHelper; });
+const widgetVersionCacheKey = "_LAP_Dashboard_Wg_Version";
+const widgetStatusCacheKey = "_LAP_Dashboard_Wg_Status";
+const widgetLayoutCacheKey = "_LAP_Dashboard_Wg_Layout";
+const widgetLayoutRemovedCacheKey = "_LAP_Dashboard_Wg_Layout_removed";
+const widgetReloadCountdownCacheKey = "_LAP_Dashboard_Wg_Reload_Countdown";
+class localStorageHelper {
+  static clearLayoutSettingIfNewVersion() {
+    var scriptElement = document.getElementById("dashboard-script");
+
+    if (!scriptElement) {
+      return;
+    }
+
+    var jsVersions = scriptElement.src.match(/v=\d*/);
+
+    if (!jsVersions) {
+      return;
+    }
+
+    var newVersion = jsVersions[0];
+    var cacheVersion = window.localStorage.getItem(widgetVersionCacheKey);
+
+    if (newVersion !== cacheVersion) {
+      window.localStorage.setItem(widgetVersionCacheKey, newVersion);
+      localStorageHelper.clearWidgetCache();
+    }
+  }
+
+  static clearWidgetCache() {
+    window.localStorage.removeItem(widgetStatusCacheKey);
+    window.localStorage.removeItem(widgetLayoutCacheKey);
+    window.localStorage.removeItem(widgetLayoutRemovedCacheKey);
+  }
+
+  static saveWidgetStatus(wgs) {
+    try {
+      window.localStorage.setItem(widgetStatusCacheKey, JSON.stringify(wgs));
+    } catch (error) {
+      alert("To continue use dashboard. Please turn private browsing off!!");
+    }
+  }
+
+  static getWidgetStatus() {
+    var item = window.localStorage.getItem(widgetStatusCacheKey);
+    return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : null;
+  }
+
+  static saveWidgetLayout(layout) {
+    try {
+      window.localStorage.setItem(widgetLayoutCacheKey, JSON.stringify(layout));
+    } catch (error) {
+      alert("To continue use dashboard. Please turn private browsing off!!");
+    }
+  }
+
+  static getWidgetLayout() {
+    var item = window.localStorage.getItem(widgetLayoutCacheKey);
+    return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : null;
+  }
+
+  static saveRemovedWidgetLayout(layout) {
+    try {
+      window.localStorage.setItem(widgetLayoutRemovedCacheKey, JSON.stringify(layout));
+    } catch (error) {
+      alert("To continue use dashboard. Please turn private browsing off!!");
+    }
+  }
+
+  static getRemovedWidgetLayout() {
+    var item = window.localStorage.getItem(widgetLayoutRemovedCacheKey);
+    return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : {};
+  }
+
+  static getWidgetReloadCountdown() {
+    var item = window.localStorage.getItem(widgetReloadCountdownCacheKey);
+    return item && item !== "undefined" && item !== "null" ? JSON.parse(item) : {};
+  }
+
+  static saveWidgetReloadCountdown(values) {
+    try {
+      window.localStorage.setItem(widgetReloadCountdownCacheKey, JSON.stringify(values));
+    } catch (error) {
+      window.alert("To continue use dashboard. Please turn private browsing off!!");
+    }
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/lib/numberFormat.js":
+/*!************************************!*\
+  !*** ./src/js/lib/numberFormat.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return numberFormat; });
+class numberFormat {
+  static formatCurrency(value = 0, currency) {
+    const currencies = {
+      "EUR": "€",
+      "GBP": "£",
+      "USD": "$",
+      "CNY": "¥",
+      "MYR": "RM",
+      "THB": "฿",
+      "IDR": "Rp"
+    };
+    currency = currencies[currency] ? currencies[currency] : '';
+    return `${currency}${this.format(value, 2)}`;
+  }
+
+  static formatDecimal(value) {
+    return this.format(value, 2);
+  }
+
+  static format(value, digits = 0) {
+    return value.toFixed(digits).replace(/(\d)(?=(\d{3})+(\.|$))/g, "$1,");
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/lib/widgetApi.js":
+/*!*********************************!*\
+  !*** ./src/js/lib/widgetApi.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return widgetApi; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+const defaultHostUrl = "http://ha.nexdev.net:7611/LAP/12bet";
+class widgetApi {
+  static _getAuthToken(action) {
+    var tokenUrl = window.TokenUrl || defaultHostUrl + "/Verify/ApplyApiToken?type=1&actionLink={0}&_=" + new Date().getTime();
+    tokenUrl = tokenUrl.replace("{0}", encodeURIComponent(action));
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(tokenUrl, {});
+  }
+
+  static fetchData(param) {
+    var data = param.Data || {};
+
+    if (param.IsCrossSite) {
+      return widgetApi._getAuthToken(param.Url).then(response => {
+        data['X-Auth-Token'] = response.data.Token;
+        const dataUrl = response.data.ApiUrl + param.Url;
+        return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(dataUrl, {
+          params: data
+        });
+      });
+    } else {
+      var lapRootUrl = window.HostUrl || defaultHostUrl;
+      const lapApi = lapRootUrl.replace("SessionIsAlive", param.Url);
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(lapApi, {
+        params: data
+      });
+    }
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/App.jsx":
+/*!**************************************!*\
+  !*** ./src/js/pages/summary/App.jsx ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_grid_layout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-grid-layout */ "./node_modules/react-grid-layout/index.js");
+/* harmony import */ var react_grid_layout__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_grid_layout__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_chart_Turnover__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/chart/Turnover */ "./src/js/pages/summary/components/chart/Turnover.jsx");
+/* harmony import */ var _components_chart_OnlineCustomer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/chart/OnlineCustomer */ "./src/js/pages/summary/components/chart/OnlineCustomer.jsx");
+/* harmony import */ var _components_chart_LicenseeWinLoss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/chart/LicenseeWinLoss */ "./src/js/pages/summary/components/chart/LicenseeWinLoss.jsx");
+/* harmony import */ var _components_normal_Deposit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/normal/Deposit */ "./src/js/pages/summary/components/normal/Deposit.jsx");
+/* harmony import */ var _components_normal_Withdrawal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/normal/Withdrawal */ "./src/js/pages/summary/components/normal/Withdrawal.jsx");
+/* harmony import */ var _components_normal_PendingFunds__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/normal/PendingFunds */ "./src/js/pages/summary/components/normal/PendingFunds.jsx");
+/* harmony import */ var _components_normal_CustomerBalance__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/normal/CustomerBalance */ "./src/js/pages/summary/components/normal/CustomerBalance.jsx");
+/* harmony import */ var _components_normal_RegisteredCustomer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/normal/RegisteredCustomer */ "./src/js/pages/summary/components/normal/RegisteredCustomer.jsx");
+/* harmony import */ var _components_RightPanel__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/RightPanel */ "./src/js/pages/summary/components/RightPanel.jsx");
+/* harmony import */ var _layouts_widgetLayout__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../layouts/widgetLayout */ "./src/js/layouts/widgetLayout.js");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../lib/languageApi */ "./src/js/lib/languageApi.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./lib/constants */ "./src/js/pages/summary/lib/constants.js");
+/* harmony import */ var _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../lib/localStorageHelper */ "./src/js/lib/localStorageHelper.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions_index__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../actions/index */ "./src/js/actions/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class SummaryDashboard extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+
+    _defineProperty(this, "_me", this);
+
+    _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_14__["default"].clearLayoutSettingIfNewVersion();
+    const langCode = window.dashboardLangCode || 'en';
+    const permission = window.widgetPermission;
+
+    if (!permission || !permission.length) {
+      alert(_lib_languageApi__WEBPACK_IMPORTED_MODULE_12__["default"].getRes(langCode, 'no_widget_permission'));
+    }
+
+    this.state = Object.assign({
+      langCode: langCode,
+      refresh: 0,
+      selectedFilter: {
+        currency: 0,
+        baseCurrency: window.defaultBaseCurrency
+      },
+      isMounted: false
+    }, this._getLayoutSettings());
+    ;
+    this._responsiveReactGridLayout = Object(react_grid_layout__WEBPACK_IMPORTED_MODULE_1__["WidthProvider"])(react_grid_layout__WEBPACK_IMPORTED_MODULE_1__["Responsive"]);
+    this.props.getCurrencyInfo();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.isMounted && this.props.newState && this.props.newState !== prevProps.newState) {
+      this.onChildChanged(this.props.newState);
+    }
+  }
+
+  _renderWgItem(key) {
+    const keyToWidget = {
+      [_lib_constants__WEBPACK_IMPORTED_MODULE_13__["widgetKey"].ChartTurnover]: _components_chart_Turnover__WEBPACK_IMPORTED_MODULE_2__["default"],
+      [_lib_constants__WEBPACK_IMPORTED_MODULE_13__["widgetKey"].ChartLicenseeWL]: _components_chart_LicenseeWinLoss__WEBPACK_IMPORTED_MODULE_4__["default"],
+      [_lib_constants__WEBPACK_IMPORTED_MODULE_13__["widgetKey"].NormalDeposit]: _components_normal_Deposit__WEBPACK_IMPORTED_MODULE_5__["default"],
+      [_lib_constants__WEBPACK_IMPORTED_MODULE_13__["widgetKey"].ChartlOnlineCustomer]: _components_chart_OnlineCustomer__WEBPACK_IMPORTED_MODULE_3__["default"],
+      [_lib_constants__WEBPACK_IMPORTED_MODULE_13__["widgetKey"].NormalPendingFund]: _components_normal_PendingFunds__WEBPACK_IMPORTED_MODULE_7__["default"],
+      [_lib_constants__WEBPACK_IMPORTED_MODULE_13__["widgetKey"].NormalRegisterCustomer]: _components_normal_RegisteredCustomer__WEBPACK_IMPORTED_MODULE_9__["default"],
+      [_lib_constants__WEBPACK_IMPORTED_MODULE_13__["widgetKey"].NormalCustomerBalance]: _components_normal_CustomerBalance__WEBPACK_IMPORTED_MODULE_8__["default"],
+      [_lib_constants__WEBPACK_IMPORTED_MODULE_13__["widgetKey"].NormalWithdrawal]: _components_normal_Withdrawal__WEBPACK_IMPORTED_MODULE_6__["default"]
+    };
+    const Widget = keyToWidget[key];
+    var itemStatus = this.state.wgStatus.find(x => x.key === key);
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      key: key
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Widget, {
+      wgItemFromParent: itemStatus,
+      callbackParent: newState => this.onChildChanged(newState),
+      filter: this.state.selectedFilter,
+      refresh: this.state.refresh,
+      langCode: this.state.langCode
+    }));
+  }
+
+  _resetLayout() {
+    if (this.state.isMounted) {
+      _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_14__["default"].clearWidgetCache();
+      this.setState(this._getLayoutSettings());
+    }
+  }
+
+  _getLayoutSettings() {
+    const wgStatus = _layouts_widgetLayout__WEBPACK_IMPORTED_MODULE_11__["default"].getWidgetStatusSettings(window.widgetPermission, _lib_constants__WEBPACK_IMPORTED_MODULE_13__["widgetKey"]);
+    const userWgStatus = _layouts_widgetLayout__WEBPACK_IMPORTED_MODULE_11__["default"].mergeWidgetStatusSettingsToUserSettings(wgStatus);
+    _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_14__["default"].saveWidgetStatus(userWgStatus);
+    const userWidgetLayouts = _layouts_widgetLayout__WEBPACK_IMPORTED_MODULE_11__["default"].getWidgetLayoutSettings(_lib_constants__WEBPACK_IMPORTED_MODULE_13__["wgLayouts"]);
+    _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_14__["default"].saveWidgetLayout(userWidgetLayouts);
+    return {
+      wgStatus: userWgStatus,
+      layouts: userWidgetLayouts
+    };
+  }
+
+  onChildChanged(newState) {
+    if (this.state.isMounted && newState.action == 'apply') {
+      this.setState(pre => ({
+        refresh: pre.refresh + 1,
+        selectedFilter: newState.filter
+      }));
+    } else if (newState.action == 'reset') {
+      this._resetLayout();
+    } else if (newState.items && newState.items.length) {
+      const syncResult = _layouts_widgetLayout__WEBPACK_IMPORTED_MODULE_11__["default"].syncLayoutWithNewStatus(newState.items, this.state.wgStatus, this.state.layouts, _lib_constants__WEBPACK_IMPORTED_MODULE_13__["wgLayouts"]);
+      this.setState({
+        layouts: syncResult.newLayouts,
+        wgStatus: syncResult.newWidgetStatus
+      });
+      _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_14__["default"].saveWidgetStatus(syncResult.newWidgetStatus);
+      _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_14__["default"].saveWidgetLayout(syncResult.newLayouts);
+      _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_14__["default"].saveRemovedWidgetLayout(syncResult.removedLayouts);
+    }
+  }
+
+  onLayoutChange(layout, layouts) {
+    if (this.state.isMounted) {
+      _lib_localStorageHelper__WEBPACK_IMPORTED_MODULE_14__["default"].saveWidgetLayout(layouts);
+      this.setState({
+        wgStatus: this.state.wgStatus,
+        layouts: layouts
+      });
+    }
+  }
+
+  get isTouchScreen() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints;
+  }
+
+  componentDidMount() {
+    this.setState({
+      isMounted: true
+    });
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    });
+  }
+
+  render() {
+    const ResponsiveReactGridLayout = this._responsiveReactGridLayout;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_RightPanel__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      langCode: this.state.langCode,
+      wgs: this.state.wgStatus,
+      callbackParent: x => this.onChildChanged(x)
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ResponsiveReactGridLayout, {
+      className: "layout",
+      layouts: this.state.layouts,
+      rowHeight: 25,
+      onLayoutChange: (layout, layouts) => this.onLayoutChange(layout, layouts),
+      breakpoints: {
+        lg: 1200,
+        md: 996,
+        sm: 768,
+        xs: 480,
+        xxs: 0
+      },
+      cols: {
+        lg: 12,
+        md: 10,
+        sm: 6,
+        xs: 4,
+        xxs: 2
+      },
+      isDraggable: !this.isTouchScreen
+    }, this.state.wgStatus.filter(i => i.enable).map(item => this._renderWgItem(item.key))));
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  return Object(redux__WEBPACK_IMPORTED_MODULE_15__["bindActionCreators"])(_actions_index__WEBPACK_IMPORTED_MODULE_16__["ActionCreators"], dispatch);
+}
+
+function mapStateToProps(state) {
+  return Object.assign({}, state);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_17__["connect"])(mapStateToProps, mapDispatchToProps)(SummaryDashboard));
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/components/RightPanel.jsx":
+/*!********************************************************!*\
+  !*** ./src/js/pages/summary/components/RightPanel.jsx ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/index */ "./src/js/actions/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+
+
+
+
+
+class RightPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isMounted: false,
+      SelectedBaseCurrency: window.defaultBaseCurrency,
+      SelectedCurrency: 0,
+      isHidden: true,
+      BaseCurrencyList: this.props.currencyInfo.BaseCurrency,
+      wgs: this._bindWgCheckBox(props.wgs)
+    };
+  }
+
+  _togglePanel() {
+    this.setState(prevState => ({
+      isHidden: !prevState.isHidden
+    }));
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      wgs
+    } = this.props;
+
+    if (this.state.isMounted && wgs && wgs !== prevProps.wgs) {
+      this.setState({
+        wgs: this._bindWgCheckBox(wgs)
+      });
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      isMounted: true
+    });
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    });
+  }
+
+  _bindWgCheckBox(wgs) {
+    var arrayToDictionary = {};
+    wgs.forEach(x => arrayToDictionary[x.key] = x.enable);
+    return arrayToDictionary;
+  }
+
+  _applyAction() {
+    if (this.state.isMounted) {
+      let baseCurrency = this.props.currencyInfo.BaseCurrency.find(x => x == this.state.SelectedBaseCurrency);
+      this.props.callbackParent({
+        action: 'apply',
+        filter: {
+          currency: this.state.SelectedCurrency,
+          baseCurrency: baseCurrency ? baseCurrency : ""
+        }
+      });
+    }
+  }
+
+  _getNewStateOnChangeCurrency(selectedCurrency) {
+    let newState = {
+      SelectedCurrency: selectedCurrency
+    };
+
+    if (selectedCurrency == "0") {
+      return Object.assign({}, newState, {
+        SelectedBaseCurrency: this.props.currencyInfo.BaseCurrency[0]
+      });
+    }
+
+    var selectedCurrencyName = this.props.currencyInfo.Currency.find(x => x.CurrencyId == selectedCurrency).Currency;
+
+    if (this.props.currencyInfo.BaseCurrency.find(baseCurrency => baseCurrency == selectedCurrencyName)) {
+      if (!this.props.currencyInfo.BaseCurrency.find(baseCurrency => baseCurrency == this.state.SelectedBaseCurrency)) {
+        newState.SelectedBaseCurrency = selectedCurrencyName;
+        newState.BaseCurrencyList = this.props.currencyInfo.BaseCurrency;
+      }
+
+      return newState;
+    }
+
+    return Object.assign({}, newState, {
+      SelectedBaseCurrency: selectedCurrencyName,
+      BaseCurrencyList: this.props.currencyInfo.BaseCurrency.concat(selectedCurrencyName)
+    });
+  }
+
+  _onChangeCurrencyList(event) {
+    var newState = this._getNewStateOnChangeCurrency(event.target.value);
+
+    this.setState(newState);
+  }
+
+  _onChangeBaseCurrencyList(event) {
+    this.setState({
+      SelectedBaseCurrency: event.target.value
+    });
+  }
+
+  _onCheckWg(key) {
+    if (this.state.isMounted) {
+      this.props.callbackParent({
+        action: 'wgSyncStatus',
+        items: [{
+          key: key,
+          enable: !this.state.wgs[key]
+        }]
+      });
+    }
+  }
+
+  _onResetLayout() {
+    if (this.state.isMounted) {
+      this.props.callbackParent({
+        action: 'reset'
+      });
+    }
+  }
+
+  render() {
+    const isHidden = this.state.isHidden ? '' : ' is-expanded';
+    const {
+      langCode,
+      wgs
+    } = this.props;
+    var realBaseCurrency = this.state.BaseCurrencyList.length > 0 ? this.state.BaseCurrencyList : this.props.currencyInfo.BaseCurrency;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: `dashboard__right-panel${isHidden}`
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "right-panel-wrap"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      onClick: e => this._togglePanel(e),
+      className: "icon-quickaccess js-icon-quickaccess"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "icon-settings"
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "right-panel-content"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "currency"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      className: "currency-label"
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getRes(langCode, "currency")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      ref: "currencyDropdownList",
+      onChange: e => this._onChangeCurrencyList(e),
+      value: this.state.SelectedCurrency
+    }, this.props.currencyInfo.Currency.map((item, i) => {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        key: i,
+        value: item.CurrencyId
+      }, item.Currency);
+    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "currency"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      className: "currency-label"
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getRes(langCode, "Based")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      ref: "baseCurrencyDropdownList",
+      onChange: e => this._onChangeBaseCurrencyList(e),
+      value: this.state.SelectedBaseCurrency
+    }, realBaseCurrency.map((item, i) => {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        key: i,
+        value: item
+      }, item);
+    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      className: "btn-submit",
+      onClick: e => this._applyAction(e),
+      href: "#"
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getRes(langCode, "apply")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "widgets-config"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "widgets-title"
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getRes(langCode, "Widgets")), wgs.map(item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      key: item.key,
+      className: "widget-item"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      onChange: e => this._onCheckWg(item.key),
+      checked: !!this.state.wgs && this.state.wgs[item.key],
+      className: "filled-in",
+      type: "checkbox",
+      id: item.key
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: item.key
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getRes(langCode, item.key))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      className: "btn-reset",
+      onClick: () => this._onResetLayout(),
+      href: "#"
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getRes(langCode, "reset_layout")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "right-panel-overlay",
+      onClick: e => this._togglePanel(e)
+    }));
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  return Object(redux__WEBPACK_IMPORTED_MODULE_2__["bindActionCreators"])(_actions_index__WEBPACK_IMPORTED_MODULE_3__["ActionCreators"], dispatch);
+}
+
+function mapStateToProps(state) {
+  return Object.assign({}, state);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapStateToProps, mapDispatchToProps)(RightPanel));
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/components/chart/LicenseeWinLoss.jsx":
+/*!*******************************************************************!*\
+  !*** ./src/js/pages/summary/components/chart/LicenseeWinLoss.jsx ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return LicenseeWinLoss; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_chartjs_2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-chartjs-2 */ "./node_modules/react-chartjs-2/es/index.js");
+/* harmony import */ var _components_WidgetBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../components/WidgetBox */ "./src/js/components/WidgetBox.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/summary/lib/constants.js");
+/* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../lib/widgetApi */ "./src/js/lib/widgetApi.js");
+/* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+
+
+
+
+
+
+
+class LicenseeWinLoss extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {},
+      total: 0,
+      isLoading: true,
+      isMounted: false
+    };
+    this.options = {
+      maintainAspectRatio: false,
+      tooltips: {
+        enabled: false
+      },
+      hover: {
+        animationDuration: 0
+      },
+      animation: {
+        onComplete: function () {
+          const self = this,
+                chart = this.chart,
+                ctx = chart.ctx;
+          ctx.textAlign = "center";
+          ctx.fillStyle = "#555";
+          ctx.textAlign = "left";
+          ctx.textBaseline = "middle";
+          self.data.datasets.forEach(function (dataset, datasetIndex) {
+            const meta = self.getDatasetMeta(datasetIndex);
+            meta.data.forEach(function (element, elementIndex) {
+              const value = dataset.data[elementIndex];
+              const text = _lib_numberFormat__WEBPACK_IMPORTED_MODULE_5__["default"].formatDecimal(value);
+              const textWidth = ctx.measureText(text).width;
+              const yOffset = value > 0 ? 6 : -7;
+              ctx.fillText(text, element._model.x - textWidth / 2, element._model.y - yOffset);
+            });
+          });
+        }
+      },
+      layout: {
+        padding: {
+          top: 20,
+          bottom: 50
+        }
+      },
+      scales: {
+        xAxes: [{
+          gridLines: {
+            display: false
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            callback: function (value, index, values) {
+              return _lib_numberFormat__WEBPACK_IMPORTED_MODULE_5__["default"].format(value);
+            }
+          }
+        }]
+      },
+      legend: {
+        display: false
+      }
+    };
+  }
+
+  fetchData(props) {
+    var param = {
+      Data: {
+        CurrencyId: props.filter.currency,
+        BaseCurrency: props.filter.baseCurrency
+      },
+      Url: _lib_constants__WEBPACK_IMPORTED_MODULE_3__["widgetApiUrl"].ChartLicenseeWL,
+      IsCrossSite: true
+    };
+    _lib_widgetApi__WEBPACK_IMPORTED_MODULE_4__["default"].fetchData(param).then(response => {
+      var labelList = [],
+          dataList = [];
+
+      for (var item of response.data.Data) {
+        labelList.push(_lib_languageApi__WEBPACK_IMPORTED_MODULE_6__["default"].getRes(this.props.langCode, item.Key) || item.Key);
+        dataList.push(item.Value);
+      }
+
+      this.setState({
+        total: response.data.Total,
+        data: {
+          labels: labelList,
+          datasets: [{
+            data: dataList,
+            backgroundColor: ["#35A1FB", "#4B966B", "#4C6375", "#D9544F", "#4473C5", "#AFBF22", "#FFEC8B", "#BBFFFF", "#B8E9D5", "#FF66C1"]
+          }]
+        },
+        isLoading: false
+      });
+    }).catch(function (error) {
+      console.log("error:", error);
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.isMounted && this.props.refresh > prevProps.refresh) {
+      this.setState({
+        isLoading: true
+      });
+      this.fetchData(this.props);
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      isMounted: true
+    }, () => this.fetchData(this.props));
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    });
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_WidgetBox__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      callbackParent: this.props.callbackParent,
+      wgItem: this.props.wgItemFromParent,
+      title: _lib_languageApi__WEBPACK_IMPORTED_MODULE_6__["default"].getRes(this.props.langCode, "licensee_winloss_month_todate"),
+      widgetKey: _lib_constants__WEBPACK_IMPORTED_MODULE_3__["widgetKey"].ChartLicenseeWL,
+      widgetName: "licenseewl default",
+      isLoading: this.state.isLoading
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_1__["Bar"], {
+      data: this.state.data,
+      options: this.options
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "footer-total"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, _lib_languageApi__WEBPACK_IMPORTED_MODULE_6__["default"].getRes(this.props.langCode, "total_winloss"), ": ", _lib_numberFormat__WEBPACK_IMPORTED_MODULE_5__["default"].formatCurrency(this.state.total, this.props.filter.baseCurrency))));
+  }
+
+}
+;
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/components/chart/OnlineCustomer.jsx":
+/*!******************************************************************!*\
+  !*** ./src/js/pages/summary/components/chart/OnlineCustomer.jsx ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return OnlineCustomer; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_chartjs_2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-chartjs-2 */ "./node_modules/react-chartjs-2/es/index.js");
+/* harmony import */ var _components_WidgetBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../components/WidgetBox */ "./src/js/components/WidgetBox.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/summary/lib/constants.js");
+/* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../lib/widgetApi */ "./src/js/lib/widgetApi.js");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+/* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
+
+
+
+
+
+
+
+class OnlineCustomer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+    const fontColor = "#5162BA";
+    this.state = {
+      data: {
+        labels: [_lib_languageApi__WEBPACK_IMPORTED_MODULE_5__["default"].getRes(this.props.langCode, "Web"), _lib_languageApi__WEBPACK_IMPORTED_MODULE_5__["default"].getRes(this.props.langCode, "Wap"), _lib_languageApi__WEBPACK_IMPORTED_MODULE_5__["default"].getRes(this.props.langCode, "SmartSite")],
+        datasets: []
+      },
+      isLoading: true,
+      isMounted: false
+    };
+    this.options = {
+      beginAtZero: true,
+      type: 'line',
+      maintainAspectRatio: false,
+      tooltips: {
+        enabled: false
+      },
+      hover: {
+        animationDuration: 0
+      },
+      animation: {
+        onComplete: function () {
+          var self = this,
+              chart = this.chart,
+              ctx = chart.ctx;
+          ctx.textAlign = "center";
+          ctx.fillStyle = fontColor;
+          ctx.textAlign = "left";
+          ctx.textBaseline = "middle";
+          self.data.datasets.forEach(function (dataset, datasetIndex) {
+            var meta = self.getDatasetMeta(datasetIndex);
+            meta.data.forEach(function (element, elementIndex) {
+              ctx.fillText(_lib_numberFormat__WEBPACK_IMPORTED_MODULE_6__["default"].format(dataset.data[elementIndex]), chart.width - 90, element._model.y);
+            });
+          });
+        }
+      },
+      layout: {
+        padding: {
+          right: 100,
+          bottom: 20,
+          left: 30
+        }
+      },
+      scales: {
+        xAxes: [{
+          barPercentage: 0.5,
+          display: false,
+          ticks: {
+            min: 0
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            fontColor: fontColor
+          },
+          gridLines: {
+            display: false
+          }
+        }]
+      },
+      legend: {
+        display: false
+      }
+    };
+  }
+
+  fetchData() {
+    var param = {
+      Url: _lib_constants__WEBPACK_IMPORTED_MODULE_3__["widgetApiUrl"].ChartlOnlineCustomer,
+      IsCrossSite: false
+    };
+    return _lib_widgetApi__WEBPACK_IMPORTED_MODULE_4__["default"].fetchData(param).then(response => {
+      this.setState({
+        data: {
+          datasets: [{
+            backgroundColor: ['rgb(241, 91, 32)', 'rgb(75, 150, 107)', 'rgb(61, 165, 250)'],
+            data: [response.data.Web, response.data.Wap, response.data.SmartSite],
+            stacked: true
+          }]
+        },
+        isLoading: false
+      });
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.isMounted && this.props.refresh > prevProps.refresh) {
+      this.setState({
+        isLoading: true
+      });
+      this.fetchData();
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      isMounted: true
+    }, () => this.fetchData());
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    });
+  }
+
+  _reload() {
+    if (this.state.isMounted) {
+      this.setState({
+        isLoading: true
+      });
+      this.fetchData();
+    }
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_WidgetBox__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      callbackParent: this.props.callbackParent,
+      wgItem: this.props.wgItemFromParent,
+      widgetKey: _lib_constants__WEBPACK_IMPORTED_MODULE_3__["widgetKey"].ChartlOnlineCustomer,
+      title: _lib_languageApi__WEBPACK_IMPORTED_MODULE_5__["default"].getRes(this.props.langCode, "online_customer"),
+      widgetName: "online-customer default",
+      isLoading: this.state.isLoading,
+      countdownConfigs: {
+        reloadCallback: () => this._reload(),
+        defaultCountdown: 75,
+        countdownValues: [15, 30, 45, 60, 75],
+        colorMode: 'blue'
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_1__["HorizontalBar"], {
+      data: this.state.data,
+      options: this.options
+    }));
+  }
+
+}
+;
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/components/chart/Turnover.jsx":
+/*!************************************************************!*\
+  !*** ./src/js/pages/summary/components/chart/Turnover.jsx ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Turnover; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-chartjs-2 */ "./node_modules/react-chartjs-2/es/index.js");
+/* harmony import */ var _components_WidgetBox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../components/WidgetBox */ "./src/js/components/WidgetBox.jsx");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/summary/lib/constants.js");
+/* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../lib/widgetApi */ "./src/js/lib/widgetApi.js");
+/* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
+
+
+
+
+
+
+
+
+class Turnover extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {},
+      total: 0,
+      isLoading: true,
+      isMounted: false
+    };
+    this.options = {
+      legend: {
+        display: false,
+        custom: true,
+        id: 'custom-legend'
+      },
+      maintainAspectRatio: false,
+      tooltips: {
+        callbacks: {
+          label: function (tooltipItem, data) {
+            return data.labels[tooltipItem.index];
+          },
+          title: function (tooltipItem, data) {
+            return '';
+          }
+        }
+      },
+      layout: {
+        padding: {
+          top: 10,
+          bottom: 50,
+          right: 130
+        }
+      },
+      hover: {
+        animationDuration: 0
+      },
+      animation: {
+        onComplete: function (e) {
+          var self = this,
+              chart = this.chart,
+              ctx = chart.ctx;
+          var chartSize = Math.min(chart.width, chart.height);
+
+          if (chartSize < 100) {
+            return;
+          }
+
+          ctx.textAlign = "center";
+          ctx.fillStyle = "#fff";
+          ctx.save();
+          ctx.shadowColor = "black";
+          ctx.shadowBlur = 3;
+          var chartCircumference = chart.config.options.circumference;
+          self.data.datasets.forEach((dataset, datasetIndex) => {
+            var meta = self.getDatasetMeta(datasetIndex);
+            meta.data.forEach((element, index) => {
+              var segmentPercent = element._model.circumference / chartCircumference * 100;
+              var position = element.tooltipPosition();
+
+              if (element._model.circumference > 0) {
+                var label = segmentPercent < 1 ? "<1" : segmentPercent.toFixed(2);
+                ctx.fillText(label + '%', position.x, position.y);
+              }
+            });
+          });
+          ctx.restore();
+        }
+      }
+    };
+  }
+
+  fetchData(props) {
+    var param = {
+      Data: {
+        CurrencyId: props.filter.currency,
+        BaseCurrency: props.filter.baseCurrency
+      },
+      Url: _lib_constants__WEBPACK_IMPORTED_MODULE_5__["widgetApiUrl"].ChartTurnover,
+      IsCrossSite: true
+    };
+    _lib_widgetApi__WEBPACK_IMPORTED_MODULE_6__["default"].fetchData(param).then(response => {
+      var labelList = [],
+          dataList = [];
+
+      for (var item of response.data.Data) {
+        labelList.push(_lib_languageApi__WEBPACK_IMPORTED_MODULE_4__["default"].getRes(this.props.langCode, item.Key) || item.Key);
+        dataList.push(item.Value);
+      }
+
+      this.setState({
+        total: response.data.Total,
+        data: {
+          labels: labelList,
+          datasets: [{
+            data: dataList,
+            currency: props.filter.baseCurrency,
+            backgroundColor: ["#35A1FB", "#4B966B", "#4C6375", "#D9544F", "#4473C5", "#AFBF22", "#FFEC8B", "#BBFFFF", "#B8E9D5", "#FF66C1"]
+          }]
+        },
+        isLoading: false
+      });
+    }).catch(function (error) {
+      console.log("error:", error);
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.isMounted && this.props.refresh > prevProps.refresh) {
+      this.setState({
+        isLoading: true
+      });
+      this.fetchData(this.props);
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      isMounted: true
+    }, () => this.fetchData(this.props));
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    });
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_WidgetBox__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      callbackParent: this.props.callbackParent,
+      wgItem: this.props.wgItemFromParent,
+      widgetKey: _lib_constants__WEBPACK_IMPORTED_MODULE_5__["widgetKey"].ChartTurnover,
+      title: _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__["default"].getRes(this.props.langCode, "turnover_byplatform_month_todate"),
+      widgetName: "turnover default",
+      isLoading: this.state.isLoading
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__["Doughnut"], {
+      data: this.state.data,
+      options: this.options
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      id: "custom-legend"
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "footer-total"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__["default"].getRes(this.props.langCode, "total_turnover"), ": ", _lib_numberFormat__WEBPACK_IMPORTED_MODULE_7__["default"].formatCurrency(this.state.total, this.props.filter.baseCurrency))));
+  }
+
+}
+;
+react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__["Chart"].plugins.register({
+  afterUpdate: function (chartInstance) {
+    const options = chartInstance.options;
+    const data = chartInstance.data;
+
+    if (options.legend && options.legend.custom && data.datasets.length) {
+      const ds = data.datasets[0];
+      const legendOptions = data.labels.map((text, i) => ({
+        text: text,
+        index: i,
+        value: _lib_numberFormat__WEBPACK_IMPORTED_MODULE_7__["default"].formatCurrency(ds.data[i], ds.currency),
+        color: ds.backgroundColor[i]
+      }));
+      const customLegendElement = document.getElementById(options.legend.id);
+      if (!customLegendElement) return;
+      const globalDefault = react_chartjs_2__WEBPACK_IMPORTED_MODULE_2__["Chart"].defaults.global;
+      react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "chart-legend",
+        style: {
+          fontSize: globalDefault.defaultFontSize,
+          fontStyle: globalDefault.defaultFontStyle,
+          fontFamily: globalDefault.defaultFontFamily
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, legendOptions.map(x => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: x.index
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "cl__label"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        style: {
+          backgroundColor: x.color
+        },
+        className: "cl__point"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "cl__text"
+      }, x.text)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+        className: "cl__value"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "cl__text"
+      }, x.value)))))), customLegendElement);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/components/normal/BaseNormalWidget.jsx":
+/*!*********************************************************************!*\
+  !*** ./src/js/pages/summary/components/normal/BaseNormalWidget.jsx ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return BaseNormalWidget; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_WidgetBox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../components/WidgetBox */ "./src/js/components/WidgetBox.jsx");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+/* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../lib/widgetApi */ "./src/js/lib/widgetApi.js");
+/* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
+
+
+
+
+
+class BaseNormalWidget extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props, configs) {
+    super(props);
+    this.state = {
+      data: 0,
+      isLoading: true,
+      isMounted: false
+    };
+    this.configs = configs; // configs = {
+    //  Url: "",
+    //  TitleKey: "",
+    //  WidgetName: "",
+    //  WidgetKey: ""
+    // }
+  }
+
+  fetchData(props) {
+    var param = {
+      Data: {
+        CurrencyId: props.filter.currency,
+        BaseCurrency: props.filter.baseCurrency
+      },
+      Url: this.configs.Url,
+      IsCrossSite: true
+    };
+    return _lib_widgetApi__WEBPACK_IMPORTED_MODULE_3__["default"].fetchData(param).then(response => {
+      this.setState({
+        data: response.data,
+        isLoading: false
+      });
+    }).catch(function (error) {
+      console.log("error:", error);
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.isMounted && this.props.refresh > prevProps.refresh) {
+      this.setState({
+        isLoading: true
+      });
+      this.fetchData(this.props);
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      isMounted: true
+    }, () => this.fetchData(this.props));
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    });
+  }
+
+  _reload() {
+    if (this.state.isMounted) {
+      this.setState({
+        isLoading: true
+      });
+      this.fetchData(this.props);
+    }
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_WidgetBox__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      callbackParent: this.props.callbackParent,
+      countdownConfigs: {
+        reloadCallback: () => this._reload(),
+        defaultCountdown: this.configs.defaultCountdown,
+        countdownValues: this.configs.countdownValues,
+        colorMode: 'white'
+      },
+      wgItem: this.props.wgItemFromParent,
+      widgetKey: this.configs.WidgetKey,
+      title: _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getRes(this.props.langCode, this.configs.TitleKey),
+      widgetName: this.configs.WidgetName,
+      isLoading: this.state.isLoading
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "center-block"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "number-big"
+    }, _lib_numberFormat__WEBPACK_IMPORTED_MODULE_4__["default"].formatCurrency(this.state.data, this.props.filter.baseCurrency))));
+  }
+
+}
+;
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/components/normal/CustomerBalance.jsx":
+/*!********************************************************************!*\
+  !*** ./src/js/pages/summary/components/normal/CustomerBalance.jsx ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CustomerBalance; });
+/* harmony import */ var _BaseNormalWidget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseNormalWidget */ "./src/js/pages/summary/components/normal/BaseNormalWidget.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/summary/lib/constants.js");
+
+
+class CustomerBalance extends _BaseNormalWidget__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(props) {
+    super(props, {
+      Url: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetApiUrl"].NormalCustomerBalance,
+      TitleKey: "customer_balance",
+      WidgetName: "customer-balance",
+      WidgetKey: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalCustomerBalance,
+      defaultCountdown: 75,
+      countdownValues: [15, 30, 45, 60, 75]
+    });
+  }
+
+}
+;
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/components/normal/Deposit.jsx":
+/*!************************************************************!*\
+  !*** ./src/js/pages/summary/components/normal/Deposit.jsx ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Deposit; });
+/* harmony import */ var _BaseNormalWidget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseNormalWidget */ "./src/js/pages/summary/components/normal/BaseNormalWidget.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/summary/lib/constants.js");
+
+
+class Deposit extends _BaseNormalWidget__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(props) {
+    super(props, {
+      Url: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetApiUrl"].NormalDeposit,
+      TitleKey: "deposit_today",
+      WidgetName: "deposit",
+      WidgetKey: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalDeposit,
+      defaultCountdown: 75,
+      countdownValues: [15, 30, 45, 60, 75]
+    });
+  }
+
+}
+;
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/components/normal/PendingFunds.jsx":
+/*!*****************************************************************!*\
+  !*** ./src/js/pages/summary/components/normal/PendingFunds.jsx ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PendingFunds; });
+/* harmony import */ var _BaseNormalWidget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseNormalWidget */ "./src/js/pages/summary/components/normal/BaseNormalWidget.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/summary/lib/constants.js");
+
+
+class PendingFunds extends _BaseNormalWidget__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(props) {
+    super(props, {
+      Url: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetApiUrl"].NormalPendingFund,
+      TitleKey: "pending_funds",
+      WidgetName: "pending-fund",
+      WidgetKey: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalPendingFund,
+      defaultCountdown: 75,
+      countdownValues: [15, 30, 45, 60, 75]
+    });
+  }
+
+}
+;
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/components/normal/RegisteredCustomer.jsx":
+/*!***********************************************************************!*\
+  !*** ./src/js/pages/summary/components/normal/RegisteredCustomer.jsx ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RegisteredCustomer; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_WidgetBox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../components/WidgetBox */ "./src/js/components/WidgetBox.jsx");
+/* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../lib/widgetApi */ "./src/js/lib/widgetApi.js");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+/* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/summary/lib/constants.js");
+
+
+
+
+
+
+class RegisteredCustomer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      deposit: 0,
+      noneDeposit: 0,
+      isLoading: true,
+      isMounted: false
+    };
+  }
+
+  fetchData(props) {
+    var param = {
+      Data: {
+        CurrencyId: props.filter.currency,
+        BaseCurrency: props.filter.baseCurrency
+      },
+      Url: _lib_constants__WEBPACK_IMPORTED_MODULE_5__["widgetApiUrl"].NormalRegisterCustomer,
+      IsCrossSite: false
+    };
+    _lib_widgetApi__WEBPACK_IMPORTED_MODULE_2__["default"].fetchData(param).then(response => {
+      this.setState({
+        deposit: response.data.Deposit,
+        noneDeposit: response.data.NoneDeposit,
+        isLoading: false
+      });
+    }).catch(function (error) {
+      console.log("error:", error);
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.isMounted && this.props.refresh > prevProps.refresh) {
+      this.setState({
+        isLoading: true
+      });
+      this.fetchData(this.props);
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      isMounted: true
+    }, () => this.fetchData(this.props));
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    });
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_WidgetBox__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      callbackParent: this.props.callbackParent,
+      wgItem: this.props.wgItemFromParent,
+      widgetKey: _lib_constants__WEBPACK_IMPORTED_MODULE_5__["widgetKey"].NormalRegisterCustomer,
+      title: _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(this.props.langCode, "registered_customer"),
+      widgetName: "registered-customer default",
+      isLoading: this.state.isLoading
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "clearfix registered-customer-content"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "icon-group-users left"
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "right"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "registered-info"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "number"
+    }, _lib_numberFormat__WEBPACK_IMPORTED_MODULE_4__["default"].format(this.state.deposit + this.state.noneDeposit)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "text"
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(this.props.langCode, "total_registered_cus_today"))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "clearfix registered-customer-content dark-bg"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "registered-info"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "center-block"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "number"
+    }, _lib_numberFormat__WEBPACK_IMPORTED_MODULE_4__["default"].format(this.state.deposit)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "text"
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(this.props.langCode, "deposit")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "registered-info"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "center-block"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "number"
+    }, _lib_numberFormat__WEBPACK_IMPORTED_MODULE_4__["default"].format(this.state.noneDeposit)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      className: "text"
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(this.props.langCode, "none_deposit"))))));
+  }
+
+}
+;
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/components/normal/Withdrawal.jsx":
+/*!***************************************************************!*\
+  !*** ./src/js/pages/summary/components/normal/Withdrawal.jsx ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Withdrawal; });
+/* harmony import */ var _BaseNormalWidget__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseNormalWidget */ "./src/js/pages/summary/components/normal/BaseNormalWidget.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/summary/lib/constants.js");
+
+
+class Withdrawal extends _BaseNormalWidget__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor(props) {
+    super(props, {
+      Url: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetApiUrl"].NormalWithdrawal,
+      TitleKey: "withdrawal_today",
+      WidgetName: "withdrawal",
+      WidgetKey: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalWithdrawal,
+      defaultCountdown: 75,
+      countdownValues: [15, 30, 45, 60, 75]
+    });
+  }
+
+}
+;
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/index.js":
+/*!***************************************!*\
+  !*** ./src/js/pages/summary/index.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return App; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App */ "./src/js/pages/summary/App.jsx");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
+/* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
+/* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _reducers_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../reducers/index */ "./src/js/reducers/index.js");
+
+
+
+
+
+
+ // middleware that logs actions
+
+const __DEV__ = '__DEV__';
+const loggerMiddleware = Object(redux_logger__WEBPACK_IMPORTED_MODULE_5__["createLogger"])({
+  predicate: (getState, action) => __DEV__
+});
+const defaultState = {
+  currencyInfo: {
+    Currency: [],
+    BaseCurrency: []
+  }
+};
+
+function configureStore(initialState) {
+  const enhancer = Object(redux__WEBPACK_IMPORTED_MODULE_3__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_3__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_4__["default"], // lets us dispatch() functions
+  loggerMiddleware));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(_reducers_index__WEBPACK_IMPORTED_MODULE_6__["default"], initialState, enhancer);
+}
+
+const store = configureStore(defaultState);
+class App extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_2__["Provider"], {
+      store: store
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/pages/summary/lib/constants.js":
+/*!***********************************************!*\
+  !*** ./src/js/pages/summary/lib/constants.js ***!
+  \***********************************************/
+/*! exports provided: widgetKey, widgetApiUrl, wgLayouts */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "widgetKey", function() { return widgetKey; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "widgetApiUrl", function() { return widgetApiUrl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wgLayouts", function() { return wgLayouts; });
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/constants */ "./src/js/lib/constants.js");
+
+const widgetKey = { ..._lib_constants__WEBPACK_IMPORTED_MODULE_0__["widgetKey"],
+  ChartTurnover: 'c_turnover',
+  ChartLicenseeWL: 'c_licWL',
+  NormalRegisterCustomer: 'n_reg_customer',
+  ChartlOnlineCustomer: 'c_online_customer'
+};
+const widgetApiUrl = {
+  ChartTurnover: '/api/TurnoverByPlatform/GetData',
+  ChartLicenseeWL: '/api/LicenseeWinLossByPlatform/GetData',
+  NormalRegisterCustomer: 'GetRegisteredUserOnline',
+  ChartlOnlineCustomer: 'GetOnlineCustomers',
+  NormalCustomerBalance: '/api/CustomerBalance/GetData',
+  NormalPendingFund: '/api/PendingFund/GetData',
+  NormalDeposit: '/api/TodayDeposit/GetData',
+  NormalWithdrawal: '/api/TodayWithdrawal/GetData'
+};
+const wgLayouts = {
+  lg: [{
+    i: widgetKey.ChartTurnover,
+    x: 0,
+    y: 0,
+    w: 6,
+    h: 11,
+    minW: 3,
+    minH: 9
+  }, {
+    i: widgetKey.ChartLicenseeWL,
+    x: 6,
+    y: 0,
+    w: 6,
+    h: 11,
+    minW: 3,
+    minH: 9
+  }, {
+    i: widgetKey.NormalRegisterCustomer,
+    x: 0,
+    y: 11,
+    w: 6,
+    h: 6,
+    minW: 4,
+    minH: 6
+  }, {
+    i: widgetKey.ChartlOnlineCustomer,
+    x: 6,
+    y: 11,
+    w: 6,
+    h: 6,
+    minW: 4,
+    minH: 5
+  }, {
+    i: widgetKey.NormalCustomerBalance,
+    x: 0,
+    y: 17,
+    w: 3,
+    h: 6,
+    minW: 3,
+    minH: 3
+  }, {
+    i: widgetKey.NormalPendingFund,
+    x: 3,
+    y: 17,
+    w: 3,
+    h: 6,
+    minW: 3,
+    minH: 3
+  }, {
+    i: widgetKey.NormalDeposit,
+    x: 6,
+    y: 17,
+    w: 3,
+    h: 6,
+    minW: 3,
+    minH: 3
+  }, {
+    i: widgetKey.NormalWithdrawal,
+    x: 9,
+    y: 17,
+    w: 3,
+    h: 6,
+    minW: 3,
+    minH: 3
+  }],
+  md: [{
+    i: widgetKey.ChartTurnover,
+    x: 0,
+    y: 0,
+    w: 5,
+    h: 8,
+    minW: 3,
+    minH: 8
+  }, {
+    i: widgetKey.ChartLicenseeWL,
+    x: 5,
+    y: 0,
+    w: 5,
+    h: 8,
+    minW: 3,
+    minH: 8
+  }, {
+    i: widgetKey.NormalRegisterCustomer,
+    x: 0,
+    y: 8,
+    w: 5,
+    h: 6,
+    minW: 4,
+    minH: 6
+  }, {
+    i: widgetKey.ChartlOnlineCustomer,
+    x: 5,
+    y: 8,
+    w: 5,
+    h: 6,
+    minW: 4,
+    minH: 4
+  }, {
+    i: widgetKey.NormalCustomerBalance,
+    x: 0,
+    y: 14,
+    w: 5,
+    h: 4,
+    minW: 3,
+    minH: 3
+  }, {
+    i: widgetKey.NormalPendingFund,
+    x: 5,
+    y: 14,
+    w: 5,
+    h: 4,
+    minW: 3,
+    minH: 3
+  }, {
+    i: widgetKey.NormalDeposit,
+    x: 0,
+    y: 18,
+    w: 5,
+    h: 4,
+    minW: 3,
+    minH: 3
+  }, {
+    i: widgetKey.NormalWithdrawal,
+    x: 5,
+    y: 18,
+    w: 5,
+    h: 4,
+    minW: 3,
+    minH: 3
+  }],
+  sm: [{
+    i: widgetKey.ChartTurnover,
+    x: 0,
+    y: 0,
+    w: 6,
+    h: 9,
+    isResizable: false
+  }, {
+    i: widgetKey.ChartLicenseeWL,
+    x: 0,
+    y: 9,
+    w: 6,
+    h: 9,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalRegisterCustomer,
+    x: 0,
+    y: 18,
+    w: 3,
+    h: 6,
+    isResizable: false
+  }, {
+    i: widgetKey.ChartlOnlineCustomer,
+    x: 3,
+    y: 18,
+    w: 3,
+    h: 6,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalCustomerBalance,
+    x: 0,
+    y: 24,
+    w: 3,
+    h: 3,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalPendingFund,
+    x: 3,
+    y: 24,
+    w: 3,
+    h: 3,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalDeposit,
+    x: 0,
+    y: 27,
+    w: 3,
+    h: 3,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalWithdrawal,
+    x: 3,
+    y: 27,
+    w: 3,
+    h: 3,
+    isResizable: false
+  }],
+  xs: [{
+    i: widgetKey.ChartTurnover,
+    x: 0,
+    y: 0,
+    w: 4,
+    h: 9,
+    isResizable: false
+  }, {
+    i: widgetKey.ChartLicenseeWL,
+    x: 0,
+    y: 9,
+    w: 4,
+    h: 9,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalRegisterCustomer,
+    x: 0,
+    y: 18,
+    w: 4,
+    h: 6,
+    isResizable: false
+  }, {
+    i: widgetKey.ChartlOnlineCustomer,
+    x: 0,
+    y: 24,
+    w: 4,
+    h: 5,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalCustomerBalance,
+    x: 0,
+    y: 29,
+    w: 2,
+    h: 3,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalPendingFund,
+    x: 2,
+    y: 29,
+    w: 2,
+    h: 3,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalDeposit,
+    x: 0,
+    y: 32,
+    w: 2,
+    h: 3,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalWithdrawal,
+    x: 2,
+    y: 32,
+    w: 2,
+    h: 3,
+    isResizable: false
+  }],
+  xxs: [{
+    i: widgetKey.ChartTurnover,
+    x: 0,
+    y: 0,
+    w: 4,
+    h: 8,
+    isResizable: false
+  }, {
+    i: widgetKey.ChartLicenseeWL,
+    x: 0,
+    y: 8,
+    w: 4,
+    h: 8,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalRegisterCustomer,
+    x: 0,
+    y: 16,
+    w: 4,
+    h: 6,
+    isResizable: false
+  }, {
+    i: widgetKey.ChartlOnlineCustomer,
+    x: 0,
+    y: 22,
+    w: 4,
+    h: 4,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalCustomerBalance,
+    x: 0,
+    y: 26,
+    w: 4,
+    h: 3,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalPendingFund,
+    x: 0,
+    y: 29,
+    w: 4,
+    h: 3,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalDeposit,
+    x: 0,
+    y: 32,
+    w: 4,
+    h: 3,
+    isResizable: false
+  }, {
+    i: widgetKey.NormalWithdrawal,
+    x: 0,
+    y: 35,
+    w: 4,
+    h: 3,
+    isResizable: false
+  }]
+};
+
+/***/ }),
+
+/***/ "./src/js/reducers/currencyReducer.js":
+/*!********************************************!*\
+  !*** ./src/js/reducers/currencyReducer.js ***!
+  \********************************************/
+/*! exports provided: currencyInfo, dateRange, selectedBaseCurrency */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currencyInfo", function() { return currencyInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateRange", function() { return dateRange; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectedBaseCurrency", function() { return selectedBaseCurrency; });
+/* harmony import */ var _lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/createReducer.js */ "./src/js/lib/createReducer.js");
+/* harmony import */ var _actions_types_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/types.js */ "./src/js/actions/types.js");
+
+
+const currencyInfo = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
+  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_CURRENCY_INFO"]](state, action) {
+    return action.data;
+  }
+
+});
+const dateRange = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
+  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_DATE_RANGE"]](state, action) {
+    return action.data;
+  }
+
+});
+const selectedBaseCurrency = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
+  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_BASE_CURRENCY"]](state, action) {
+    return action.data;
+  }
+
+});
+
+/***/ }),
+
+/***/ "./src/js/reducers/index.js":
+/*!**********************************!*\
+  !*** ./src/js/reducers/index.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _currencyReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./currencyReducer */ "./src/js/reducers/currencyReducer.js");
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(Object.assign(_currencyReducer__WEBPACK_IMPORTED_MODULE_1__)));
+
+/***/ }),
+
+/***/ "./src/js/resources/resource.ch.js":
+/*!*****************************************!*\
+  !*** ./src/js/resources/resource.ch.js ***!
+  \*****************************************/
+/*! exports provided: ch */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ch", function() { return ch; });
+const ch = {
+  n_deposit: "存款(今日)",
+  c_turnover: "交易额",
+  c_licWL: "投注输赢",
+  n_reg_customer: "已注册会员",
+  c_online_customer: "在线会员",
+  n_customer_balance: "会员馀额",
+  n_pending_funds: "未结算金额",
+  n_withdrawal: "提款(今日)",
+  turnover_byplatform_month_todate: '交易額(當月累計)',
+  deposit_today: "存款(今日)",
+  licensee_winloss_month_todate: "投注輸贏(當月累計)",
+  registered_customer: "已注册会员",
+  online_customer: "在线会员",
+  customer_balance: "会员馀额",
+  pending_funds: "未结算金额",
+  withdrawal_today: "提款(今日)",
+  apply: "設定",
+  currency: "会员币别",
+  Based: "显示币别",
+  Widgets: "小工具",
+  total_registered_cus_today: "總註冊會員",
+  deposit: "註冊且存款",
+  none_deposit: "註冊未存款",
+  Asia: "亞洲版",
+  China: "大陸版",
+  Euro: "歐洲版",
+  Wap: "WAP手機",
+  All: "全部",
+  Web: "桌機版",
+  total_turnover: "總交易額",
+  total_winloss: "總投注輸贏",
+  no_widget_permission: "You do not have sufficient permissions to access this page",
+  reset_layout: "初始設定",
+  Tablet: "平板",
+  SmartSite: "行動裝置版",
+  NewAsia: "新亞洲版",
+  MobileApp: "Mobile App",
+  Mobile: "Mobile",
+  MobileLiteVersion: "Mobile Lite Version"
+};
+
+/***/ }),
+
+/***/ "./src/js/resources/resource.cs.js":
+/*!*****************************************!*\
+  !*** ./src/js/resources/resource.cs.js ***!
+  \*****************************************/
+/*! exports provided: cs */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cs", function() { return cs; });
+const cs = {
+  n_deposit: "存款(今日)",
+  c_turnover: "交易额",
+  c_licWL: "投注输赢",
+  n_reg_customer: "已注册会员",
+  c_online_customer: "在线会员",
+  n_customer_balance: "会员馀额",
+  n_pending_funds: "未结算金额",
+  n_withdrawal: "提款(今日)",
+  turnover_byplatform_month_todate: '交易额(当月累计)',
+  deposit_today: "存款(今日)",
+  licensee_winloss_month_todate: "投注输赢(当月累计)",
+  registered_customer: "已註冊會員",
+  online_customer: "在線會員",
+  customer_balance: "會員餘額",
+  pending_funds: "未結算金額",
+  withdrawal_today: "提款(今日)",
+  apply: "设定",
+  currency: "会员币别",
+  Based: "基础货币",
+  Widgets: "小工具",
+  total_registered_cus_today: "总注册会员",
+  deposit: "注册且存款",
+  none_deposit: "注册未存款",
+  Asia: "亚洲版",
+  China: "中国版",
+  Euro: "欧洲版",
+  Wap: "WAP",
+  All: "全部",
+  Web: "桌机版",
+  total_turnover: "总交易额",
+  total_winloss: "总投注输赢",
+  no_widget_permission: "You do not have sufficient permissions to access this page",
+  reset_layout: "初始设定",
+  Tablet: "平板",
+  SmartSite: "行动装置版",
+  NewAsia: "新亚洲版",
+  MobileApp: "手机 APP",
+  Mobile: "手机版",
+  MobileLiteVersion: "手机轻量版"
+};
+
+/***/ }),
+
+/***/ "./src/js/resources/resource.en.js":
+/*!*****************************************!*\
+  !*** ./src/js/resources/resource.en.js ***!
+  \*****************************************/
+/*! exports provided: en */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "en", function() { return en; });
+const en = {
+  n_deposit: "Deposit (Today)",
+  c_turnover: "Turnover by Platform",
+  c_licWL: "Licensee Win Loss",
+  n_reg_customer: "Registered customers",
+  c_online_customer: "Online customers",
+  n_customer_balance: "Customer Balance",
+  n_pending_funds: "Pending Funds",
+  n_withdrawal: "Withdraw (Today)",
+  turnover_byplatform_month_todate: 'Turnover by Platform (Month to date)',
+  deposit_today: "Deposit (Today)",
+  licensee_winloss_month_todate: "Licensee Win Loss (Month to date)",
+  registered_customer: "Registered customers",
+  online_customer: "Online customers",
+  customer_balance: "Customer Balance",
+  pending_funds: "Pending Funds",
+  withdrawal_today: "Withdrawal (today)",
+  apply: "Apply",
+  currency: "Currency",
+  Based: "Base Currency",
+  Widgets: "WIDGETS",
+  total_registered_cus_today: "Total Registered Customers (to date)",
+  deposit: "Deposit",
+  none_deposit: "Non - Deposit",
+  Asia: "Asia",
+  China: "China",
+  Euro: "Euro",
+  Wap: "Wap",
+  All: "All",
+  Web: "Web",
+  total_turnover: "Total Turnover",
+  total_winloss: "Total Win Loss",
+  no_widget_permission: "You do not have sufficient permissions to access this page",
+  reset_layout: "Reset layout",
+  Tablet: "Tablet",
+  SmartSite: "Smart Site",
+  NewAsia: "New Asia",
+  MobileApp: "Mobile App",
+  Mobile: "Mobile",
+  MobileLiteVersion: "Mobile Lite Version"
+};
+
+/***/ }),
+
+/***/ "./src/js/resources/resource.zhcn.js":
+/*!*******************************************!*\
+  !*** ./src/js/resources/resource.zhcn.js ***!
+  \*******************************************/
+/*! exports provided: zhcn */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zhcn", function() { return zhcn; });
+const zhcn = {
+  n_deposit: "存款(今日)",
+  c_turnover: "交易額",
+  c_licWL: "投注輸贏",
+  n_reg_customer: "已註冊會員",
+  c_online_customer: "在線會員",
+  n_customer_balance: "會員餘額",
+  n_pending_funds: "未結算金額",
+  n_withdrawal: "提款(今日)",
+  turnover_byplatform_month_todate: '交易额(当月累计)',
+  deposit_today: "存款(今日)",
+  licensee_winloss_month_todate: "投注输赢(当月累计)",
+  registered_customer: "已註冊會員",
+  online_customer: "在線會員",
+  customer_balance: "會員餘額",
+  pending_funds: "未結算金額",
+  withdrawal_today: "提款(今日)",
+  apply: "设定",
+  currency: "會員幣別",
+  Based: "顯示幣別",
+  Widgets: "小工具",
+  total_registered_cus_today: "总注册会员",
+  deposit: "注册且存款",
+  none_deposit: "注册未存款",
+  Asia: "亚洲版",
+  China: "大陆版",
+  Euro: "欧洲版",
+  Wap: "WAP手机",
+  All: "全部",
+  Web: "桌机版",
+  total_turnover: "总交易额",
+  total_winloss: "总投注输赢",
+  no_widget_permission: "You do not have sufficient permissions to access this page",
+  reset_layout: "初始设定",
+  Tablet: "平板",
+  SmartSite: "新亚洲版",
+  MobileApp: "Mobile App",
+  Mobile: "Mobile",
+  MobileLiteVersion: "Mobile Lite Version"
+};
+
+/***/ })
+
+}]);
+//# sourceMappingURL=summaryDashboard.chunk.js.map

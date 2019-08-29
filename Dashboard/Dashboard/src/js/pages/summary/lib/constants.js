@@ -1,6 +1,4 @@
-import { widgetKey as commonWidgetKey, defaultBasedCurrency } from '../../../lib/constants';
-
-export { defaultBasedCurrency };
+import { widgetKey as commonWidgetKey } from '../../../lib/constants';
 
 export const widgetKey = {
     ...commonWidgetKey,

@@ -6,10 +6,8 @@ class PerformanceDashboard extends Component {
   constructor(props) {
     super(props);
     }
-  }
 
   componentDidMount() {
-   
     this.props.getCurrencyInfo();
   }
 
@@ -27,7 +25,7 @@ class PerformanceDashboard extends Component {
         </select>
       </div >
     );
-  };
+  }
 }
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);

@@ -7,11 +7,13 @@ import { createLogger } from 'redux-logger'
 import reducer from '../../reducers/index'
 
 // middleware that logs actions
+const __DEV__ = '__DEV__';
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
 
 const defaultState =
 {
-  currencyInfo: {}
+  currencyInfo: { Currency: [],
+    BaseCurrency: []}
 };
 function configureStore(initialState) {
   const enhancer = compose(
