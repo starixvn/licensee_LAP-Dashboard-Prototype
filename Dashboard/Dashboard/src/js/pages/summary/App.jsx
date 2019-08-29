@@ -15,8 +15,10 @@ import widgetLayout from '../../layouts/widgetLayout';
 import languageApi from '../../lib/languageApi';
 import { widgetKey, defaultBasedCurrency, wgLayouts } from './lib/constants';
 import localStorageHelper from '../../lib/localStorageHelper';
-
-export default class SummaryDashboard extends React.Component {
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../../actions/index'
+import { connect } from 'react-redux';
+ class SummaryDashboard extends React.Component {
     constructor(props) {
         super(props);
 
@@ -150,3 +152,11 @@ export default class SummaryDashboard extends React.Component {
         );
     };
 }
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+function mapStateToProps(state) {
+  return Object.assign({}, state);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SummaryDashboard)

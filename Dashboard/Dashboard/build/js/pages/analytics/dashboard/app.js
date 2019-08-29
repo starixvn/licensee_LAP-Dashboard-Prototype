@@ -418,7 +418,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-const SummaryDashboard = Promise.all(/*! import() | summary/summaryDashboard */[__webpack_require__.e("vendors/common"), __webpack_require__.e("summary/summaryDashboard")]).then(__webpack_require__.bind(null, /*! ../summary/App */ "./src/js/pages/summary/App.jsx"));
+const SummaryDashboard = Promise.all(/*! import() | summary/summaryDashboard */[__webpack_require__.e("vendors/common"), __webpack_require__.e("summary/summaryDashboard")]).then(__webpack_require__.bind(null, /*! ../summary/index */ "./src/js/pages/summary/index.js"));
 const PerformanceDashboard = __webpack_require__.e(/*! import() | performance/performanceDashboard */ "performance/performanceDashboard").then(__webpack_require__.bind(null, /*! ../performance/App */ "./src/js/pages/performance/App.jsx"));
 const tabMenuList = [{
   key: _lib_constants__WEBPACK_IMPORTED_MODULE_3__["summary"],

@@ -5,7 +5,7 @@ import DefaultLayout from '../../layouts/DefaultLayout';
 import { summary, performance } from './lib/constants';
 import TabMenu from './components/TabMenu';
 
-const SummaryDashboard = import(/* webpackChunkName: "summary/summaryDashboard" */ '../summary/App');
+const SummaryDashboard = import(/* webpackChunkName: "summary/summaryDashboard" */ '../summary/index');
 const PerformanceDashboard = import(/* webpackChunkName: "performance/performanceDashboard" */ '../performance/App');
 
 const tabMenuList = [
