@@ -4,19 +4,19 @@
 /*!******************************************!*\
   !*** ./src/js/actions/currencyAction.js ***!
   \******************************************/
-/*! exports provided: getCurrencyList */
+/*! exports provided: getCurrencyInfo */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrencyList", function() { return getCurrencyList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrencyInfo", function() { return getCurrencyInfo; });
 /* harmony import */ var _types_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types.js */ "./src/js/actions/types.js");
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
 /* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/widgetApi */ "./src/js/lib/widgetApi.js");
 
 
 
-const getCurrencyList = () => {
+const getCurrencyInfo = () => {
   return dispatch => {
     var param = {
       Url: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["CurrenyListApiUrl"],
@@ -27,16 +27,19 @@ const getCurrencyList = () => {
         Currency: "All",
         CurrencyId: "0"
       });
-      dispatch(setCurrencyList(response.data.Currency));
+      dispatch(setCurrencyInfo({
+        Currency: response.data.Currency,
+        BaseCurrency: response.data.BaseCurrency
+      }));
     }).catch(function (error) {
       console.log("error:", error);
     });
   };
 };
 
-const setLiveMatchs = newData => {
+const setCurrencyInfo = newData => {
   return {
-    type: _types_js__WEBPACK_IMPORTED_MODULE_0__["SET_CURRENCY_LIST"],
+    type: _types_js__WEBPACK_IMPORTED_MODULE_0__["SET_CURRENCY_INFO"],
     data: newData
   };
 };
@@ -63,13 +66,13 @@ const ActionCreators = Object.assign({}, _currencyAction__WEBPACK_IMPORTED_MODUL
 /*!*********************************!*\
   !*** ./src/js/actions/types.js ***!
   \*********************************/
-/*! exports provided: SET_CURRENCY_LIST */
+/*! exports provided: SET_CURRENCY_INFO */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CURRENCY_LIST", function() { return SET_CURRENCY_LIST; });
-const SET_CURRENCY_LIST = "SET_CURRENCY_LIST";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CURRENCY_INFO", function() { return SET_CURRENCY_INFO; });
+const SET_CURRENCY_INFO = "SET_CURRENCY_INFO";
 
 /***/ }),
 
@@ -1859,7 +1862,7 @@ const loggerMiddleware = Object(redux_logger__WEBPACK_IMPORTED_MODULE_5__["creat
   predicate: (getState, action) => __DEV__
 });
 const defaultState = {
-  currencyList: []
+  currencyInfo: {}
 };
 
 function configureStore(initialState) {
@@ -2223,19 +2226,19 @@ const wgLayouts = {
 /*!********************************************!*\
   !*** ./src/js/reducers/currencyReducer.js ***!
   \********************************************/
-/*! exports provided: currencyList */
+/*! exports provided: currencyInfo */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currencyList", function() { return currencyList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currencyInfo", function() { return currencyInfo; });
 /* harmony import */ var _lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/createReducer.js */ "./src/js/lib/createReducer.js");
 /* harmony import */ var _actions_types_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/types.js */ "./src/js/actions/types.js");
 
 
-const currencyList = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
-  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_CURRENCY_LIST"]](state, action) {
-    return [...action.data];
+const currencyInfo = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
+  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_CURRENCY_INFO"]](state, action) {
+    return action.data;
   }
 
 });

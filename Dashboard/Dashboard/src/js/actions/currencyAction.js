@@ -1,8 +1,8 @@
 import * as types from './types.js'
 import { CurrenyListApiUrl } from '../lib/constants'
-import widgetApi  from '../lib/widgetApi'
+import widgetApi from '../lib/widgetApi'
 
-export const getCurrencyList = () => {
+export const getCurrencyInfo = () => {
   return (dispatch) => {
     var param = {
       Url: CurrenyListApiUrl,
@@ -14,7 +14,7 @@ export const getCurrencyList = () => {
           .data
           .Currency
           .unshift({ Currency: "All", CurrencyId: "0" });
-          dispatch(setCurrencyList(response.data.Currency));
+        dispatch(setCurrencyInfo({ Currency: response.data.Currency, BaseCurrency: response.data.BaseCurrency }));
       })
       .catch(function (error) {
         console.log("error:", error);
@@ -23,9 +23,9 @@ export const getCurrencyList = () => {
 
 }
 
-const setLiveMatchs = (newData) => {
+const setCurrencyInfo = (newData) => {
   return {
-      type: types.SET_CURRENCY_LIST,
-      data: newData,
+    type: types.SET_CURRENCY_INFO,
+    data: newData,
   }
 };

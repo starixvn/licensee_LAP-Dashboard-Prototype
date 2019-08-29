@@ -6,7 +6,7 @@ import { summary, performance } from './lib/constants';
 import TabMenu from './components/TabMenu';
 
 const SummaryDashboard = import(/* webpackChunkName: "summary/summaryDashboard" */ '../summary/index');
-const PerformanceDashboard = import(/* webpackChunkName: "performance/performanceDashboard" */ '../performance/App');
+const PerformanceDashboard = import(/* webpackChunkName: "performance/performanceDashboard" */ '../performance/index');
 
 const tabMenuList = [
     { key: summary, name: 'Summary', component: React.lazy(() => SummaryDashboard) },

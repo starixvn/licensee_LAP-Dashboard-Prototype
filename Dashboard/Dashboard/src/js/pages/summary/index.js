@@ -10,9 +10,9 @@ import reducer from '../../reducers/index'
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
 
 const defaultState =
-  {
-    currencyList:[]
-  };
+{
+  currencyInfo: {}
+};
 function configureStore(initialState) {
   const enhancer = compose(
     applyMiddleware(

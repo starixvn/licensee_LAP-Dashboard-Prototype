@@ -64,7 +64,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/pages/analytics/" + ({"performance/performanceDashboard":"performance/performanceDashboard","performance/performanceRightPanel":"performance/performanceRightPanel","summary/summaryDashboard":"summary/summaryDashboard","summary/summaryRightPanel":"summary/summaryRightPanel"}[chunkId]||chunkId) + ".chunk.js"
+/******/ 		return __webpack_require__.p + "js/pages/analytics/" + ({"performance/performanceRightPanel":"performance/performanceRightPanel","performance/performanceDashboard":"performance/performanceDashboard","summary/summaryDashboard":"summary/summaryDashboard","summary/summaryRightPanel":"summary/summaryRightPanel"}[chunkId]||chunkId) + ".chunk.js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -419,7 +419,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 const SummaryDashboard = Promise.all(/*! import() | summary/summaryDashboard */[__webpack_require__.e("vendors/common"), __webpack_require__.e("summary/summaryDashboard")]).then(__webpack_require__.bind(null, /*! ../summary/index */ "./src/js/pages/summary/index.js"));
-const PerformanceDashboard = __webpack_require__.e(/*! import() | performance/performanceDashboard */ "performance/performanceDashboard").then(__webpack_require__.bind(null, /*! ../performance/App */ "./src/js/pages/performance/App.jsx"));
+const PerformanceDashboard = Promise.all(/*! import() | performance/performanceDashboard */[__webpack_require__.e("vendors/common"), __webpack_require__.e("performance/performanceDashboard")]).then(__webpack_require__.bind(null, /*! ../performance/index */ "./src/js/pages/performance/index.js"));
 const tabMenuList = [{
   key: _lib_constants__WEBPACK_IMPORTED_MODULE_3__["summary"],
   name: 'Summary',
