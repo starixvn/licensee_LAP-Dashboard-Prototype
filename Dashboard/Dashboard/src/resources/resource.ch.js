@@ -39,5 +39,6 @@ export const ch = {
     NewAsia: "新亞洲版",
     MobileApp: "Mobile App",
     Mobile: "Mobile",
-    MobileLiteVersion: "Mobile Lite Version"
+    MobileLiteVersion: "Mobile Lite Version",
+    DeepLink: "Deep Link"
 };

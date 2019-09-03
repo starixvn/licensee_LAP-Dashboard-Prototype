@@ -38,5 +38,6 @@ export const zhcn = {
     SmartSite: "新亚洲版",
     MobileApp: "Mobile App",
     Mobile: "Mobile",
-    MobileLiteVersion: "Mobile Lite Version"
+    MobileLiteVersion: "Mobile Lite Version",
+    DeepLink: "Deep Link"
 };
