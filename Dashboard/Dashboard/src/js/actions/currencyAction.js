@@ -20,7 +20,6 @@ export const getCurrencyInfo = () => {
         console.log("error:", error);
       });
   }
-
 }
 
 const setCurrencyInfo = (newData) => {
@@ -30,7 +29,7 @@ const setCurrencyInfo = (newData) => {
   }
 };
 
-export const setBaseCurrency =(newData)=>{
+export const setBaseCurrency = (newData) =>{
  return {
   type: types.SET_BASE_CURRENCY,
   data: newData,

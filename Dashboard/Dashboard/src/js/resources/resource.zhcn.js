@@ -39,7 +39,7 @@ export const zhcn = {
     MobileApp: "Mobile App",
     Mobile: "Mobile",
     MobileLiteVersion: "Mobile Lite Version",
-    DeepLink: "Deep Link",
-    BetfromOthers: "Others",
-    NativeApp: "Native App"
+	DeepLink: "Deep Link",
+    date: "",
+    measurement: ""
 };

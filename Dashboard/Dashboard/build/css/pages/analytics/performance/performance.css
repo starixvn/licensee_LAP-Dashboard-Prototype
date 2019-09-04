@@ -1,3 +1,19 @@
+.filter-top-panel {
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #dcdcdc; }
+  .filter-top-panel .filter-item {
+    display: inline-block;
+    margin-left: 15px; }
+    .filter-top-panel .filter-item select {
+      width: 150px;
+      height: 30px;
+      margin-left: 10px;
+      border: none;
+      border-bottom: 1px solid #dcdcdc; }
+    .filter-top-panel .filter-item .label {
+      font-size: 16px;
+      font-weight: 400; }
 
 
 /*# sourceMappingURL=performance.css.map*/

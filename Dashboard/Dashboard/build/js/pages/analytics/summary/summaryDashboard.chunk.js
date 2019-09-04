@@ -2561,7 +2561,9 @@ const ch = {
   NewAsia: "新亞洲版",
   MobileApp: "Mobile App",
   Mobile: "Mobile",
-  MobileLiteVersion: "Mobile Lite Version"
+  MobileLiteVersion: "Mobile Lite Version",
+  date: "",
+  measurement: ""
 };
 
 /***/ }),
@@ -2615,7 +2617,9 @@ const cs = {
   NewAsia: "新亚洲版",
   MobileApp: "手机 APP",
   Mobile: "手机版",
-  MobileLiteVersion: "手机轻量版"
+  MobileLiteVersion: "手机轻量版",
+  date: "",
+  measurement: ""
 };
 
 /***/ }),
@@ -2669,7 +2673,9 @@ const en = {
   NewAsia: "New Asia",
   MobileApp: "Mobile App",
   Mobile: "Mobile",
-  MobileLiteVersion: "Mobile Lite Version"
+  MobileLiteVersion: "Mobile Lite Version",
+  date: "Date",
+  measurement: "Measurement"
 };
 
 /***/ }),
@@ -2722,7 +2728,9 @@ const zhcn = {
   SmartSite: "新亚洲版",
   MobileApp: "Mobile App",
   Mobile: "Mobile",
-  MobileLiteVersion: "Mobile Lite Version"
+  MobileLiteVersion: "Mobile Lite Version",
+  date: "",
+  measurement: ""
 };
 
 /***/ })

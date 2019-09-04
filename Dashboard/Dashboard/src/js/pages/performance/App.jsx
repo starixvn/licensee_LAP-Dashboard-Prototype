@@ -1,37 +1,40 @@
 ﻿import React, { Component } from 'react';
 import { bindActionCreators } from 'redux'
-import { ActionCreators } from './actions/index'
+import { ActionCreators } from './actions'
 import { connect } from 'react-redux';
+import FilterTopPanel from './components/FilterTopPanel'
+
 class PerformanceDashboard extends Component {
   constructor(props) {
     super(props);
     }
 
   componentDidMount() {
-    this.props.getCurrencyInfo();
+    //this.props.getCurrencyInfo();
   }
 
   render() {
     return (
       <div>
-        <h1>Performance Dashboard</h1>
-        <select
 
-          onChange={(e) => this.props.setBaseCurrency(e.target.value)}
-          value={this.props.selectedBaseCurrency}>
-          {this.props.currencyInfo.BaseCurrency.map((item, i) => {
-            return <option key={"base_c" + i} value={item}>{item}</option>
-          })}
-        </select>
+        <h1>Performance Dashboard</h1>
+        <FilterTopPanel  />
       </div >
     );
   }
 }
+
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ActionCreators, dispatch);
+  return bindActionCreators({
+    getCurrencyInfo: ActionCreators.getCurrencyInfo,
+    setBaseCurrency: ActionCreators.setBaseCurrency
+  }, dispatch);
 }
 
 function mapStateToProps(state) {
-  return Object.assign({}, state);
+  return {
+    selectedBaseCurrency: state.selectedBaseCurrency,
+    currencyInfo: state.currencyInfo
+  }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PerformanceDashboard)

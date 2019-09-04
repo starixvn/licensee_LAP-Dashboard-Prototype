@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PerformanceDashboard from './App'
+import { defaultData } from './lib/constants'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
@@ -17,8 +18,8 @@ const defaultState =
     Currency: [],
     BaseCurrency: []
   }
-
 };
+
 function configureStore(initialState) {
   const enhancer = compose(
     applyMiddleware(
@@ -33,11 +34,7 @@ function configureStore(initialState) {
 const store = configureStore(defaultState);
 
 export default class App extends Component {
-
-
-
   render() {
-
     return (
       <Provider store={store}>
         <PerformanceDashboard />

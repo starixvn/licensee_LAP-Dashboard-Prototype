@@ -113,6 +113,48 @@ function createReducer(initialState, handlers) {
 
 /***/ }),
 
+/***/ "./src/js/lib/languageApi.js":
+/*!***********************************!*\
+  !*** ./src/js/lib/languageApi.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return languageApi; });
+/* harmony import */ var _resources_resource_ch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../resources/resource.ch */ "./src/js/resources/resource.ch.js");
+/* harmony import */ var _resources_resource_cs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../resources/resource.cs */ "./src/js/resources/resource.cs.js");
+/* harmony import */ var _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../resources/resource.en */ "./src/js/resources/resource.en.js");
+/* harmony import */ var _resources_resource_zhcn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../resources/resource.zhcn */ "./src/js/resources/resource.zhcn.js");
+
+
+
+
+class languageApi {
+  static getRes(langcode, resKey) {
+    switch (langcode) {
+      case "ch":
+        return _resources_resource_ch__WEBPACK_IMPORTED_MODULE_0__["ch"][resKey];
+
+      case "cs":
+        return _resources_resource_cs__WEBPACK_IMPORTED_MODULE_1__["cs"][resKey];
+
+      case "en":
+        return _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__["en"][resKey];
+
+      case "zhcn":
+        return _resources_resource_zhcn__WEBPACK_IMPORTED_MODULE_3__["zhcn"][resKey];
+
+      default:
+        return _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__["en"][resKey];
+    }
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/lib/widgetApi.js":
 /*!*********************************!*\
   !*** ./src/js/lib/widgetApi.js ***!
@@ -170,8 +212,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _actions_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./actions/index */ "./src/js/pages/performance/actions/index.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./actions */ "./src/js/pages/performance/actions/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _components_FilterTopPanel__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/FilterTopPanel */ "./src/js/pages/performance/components/FilterTopPanel.jsx");
+
 
 
 
@@ -182,30 +226,27 @@ class PerformanceDashboard extends react__WEBPACK_IMPORTED_MODULE_0__["Component
     super(props);
   }
 
-  componentDidMount() {
-    this.props.getCurrencyInfo();
+  componentDidMount() {//this.props.getCurrencyInfo();
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Performance Dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-      onChange: e => this.props.setBaseCurrency(e.target.value),
-      value: this.props.selectedBaseCurrency
-    }, this.props.currencyInfo.BaseCurrency.map((item, i) => {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        key: "base_c" + i,
-        value: item
-      }, item);
-    })));
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Performance Dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_FilterTopPanel__WEBPACK_IMPORTED_MODULE_4__["default"], null));
   }
 
 }
 
 function mapDispatchToProps(dispatch) {
-  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(_actions_index__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"], dispatch);
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
+    getCurrencyInfo: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].getCurrencyInfo,
+    setBaseCurrency: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setBaseCurrency
+  }, dispatch);
 }
 
 function mapStateToProps(state) {
-  return Object.assign({}, state);
+  return {
+    selectedBaseCurrency: state.selectedBaseCurrency,
+    currencyInfo: state.currencyInfo
+  };
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(PerformanceDashboard));
@@ -247,7 +288,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const ActionCreators = Object.assign({}, _actions_currencyAction__WEBPACK_IMPORTED_MODULE_0__, _filterAction__WEBPACK_IMPORTED_MODULE_1__, _actions_dateAction__WEBPACK_IMPORTED_MODULE_2__);
+const ActionCreators = { ..._actions_currencyAction__WEBPACK_IMPORTED_MODULE_0__,
+  filter: _filterAction__WEBPACK_IMPORTED_MODULE_1__,
+  date: _actions_dateAction__WEBPACK_IMPORTED_MODULE_2__
+};
 
 /***/ }),
 
@@ -265,6 +309,108 @@ const SET_MEASUREMENT = "SET_MEASUREMENT";
 
 /***/ }),
 
+/***/ "./src/js/pages/performance/components/FilterTopPanel.jsx":
+/*!****************************************************************!*\
+  !*** ./src/js/pages/performance/components/FilterTopPanel.jsx ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./src/js/pages/performance/actions/index.js");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+
+    _defineProperty(this, "onChangeBaseCurrency", value => {
+      this.props.setBaseCurrency(value);
+    });
+
+    _defineProperty(this, "onChangeMeasurement", e => {
+      this.props.setMeasurement(e);
+    });
+  }
+
+  componentDidMount() {
+    this.props.getCurrencyInfo();
+  }
+
+  render() {
+    const {
+      langCode
+    } = this.props;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "filter-top-panel"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "filter-item"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      className: "label"
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "date"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "filter-item"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      className: "label"
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "Based")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      onChange: this.onChangeBaseCurrency,
+      value: this.props.selectedBaseCurrency.id
+    }, this.props.currencyInfo.BaseCurrency.map((item, i) => {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        key: i,
+        value: item
+      }, item);
+    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "filter-item"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      className: "label"
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "measurement")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      onChange: this.onChangeMeasurement,
+      value: this.props.selectedMeasurement.id
+    }, _lib_constants__WEBPACK_IMPORTED_MODULE_5__["defaultData"].measurements.map((item, i) => {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        key: item.id,
+        value: item.id
+      }, item.name);
+    }))));
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
+    getCurrencyInfo: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].getCurrencyInfo,
+    setBaseCurrency: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setBaseCurrency,
+    setMeasurement: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setMeasurement
+  }, dispatch);
+}
+
+function mapStateToProps(state) {
+  return {
+    selectedBaseCurrency: state.selectedBaseCurrency,
+    selectedMeasurement: state.selectedMeasurement,
+    currencyInfo: state.currencyInfo,
+    measurements: state.measurements
+  };
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapStateToProps, mapDispatchToProps)(FilterTopPanel));
+
+/***/ }),
+
 /***/ "./src/js/pages/performance/index.js":
 /*!*******************************************!*\
   !*** ./src/js/pages/performance/index.js ***!
@@ -278,12 +424,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App */ "./src/js/pages/performance/App.jsx");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
-/* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
-/* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _reducers_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./reducers/index */ "./src/js/pages/performance/reducers/index.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/constants */ "./src/js/pages/performance/lib/constants.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
+/* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
+/* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _reducers_index__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./reducers/index */ "./src/js/pages/performance/reducers/index.js");
+
 
 
 
@@ -295,7 +443,7 @@ __webpack_require__.r(__webpack_exports__);
 /* global __DEV__ */
 
 const __DEV__ = '__DEV__';
-const loggerMiddleware = Object(redux_logger__WEBPACK_IMPORTED_MODULE_5__["createLogger"])({
+const loggerMiddleware = Object(redux_logger__WEBPACK_IMPORTED_MODULE_6__["createLogger"])({
   predicate: (getState, action) => __DEV__
 });
 const defaultState = {
@@ -306,20 +454,51 @@ const defaultState = {
 };
 
 function configureStore(initialState) {
-  const enhancer = Object(redux__WEBPACK_IMPORTED_MODULE_3__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_3__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_4__["default"], // lets us dispatch() functions
+  const enhancer = Object(redux__WEBPACK_IMPORTED_MODULE_4__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_4__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_5__["default"], // lets us dispatch() functions
   loggerMiddleware));
-  return Object(redux__WEBPACK_IMPORTED_MODULE_3__["createStore"])(_reducers_index__WEBPACK_IMPORTED_MODULE_6__["default"], initialState, enhancer);
+  return Object(redux__WEBPACK_IMPORTED_MODULE_4__["createStore"])(_reducers_index__WEBPACK_IMPORTED_MODULE_7__["default"], initialState, enhancer);
 }
 
 const store = configureStore(defaultState);
 class App extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_2__["Provider"], {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], {
       store: store
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_App__WEBPACK_IMPORTED_MODULE_1__["default"], null));
   }
 
 }
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/lib/constants.js":
+/*!***************************************************!*\
+  !*** ./src/js/pages/performance/lib/constants.js ***!
+  \***************************************************/
+/*! exports provided: defaultData, Labels */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultData", function() { return defaultData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Labels", function() { return Labels; });
+const defaultData = {
+  measurements: [{
+    id: 1,
+    name: 'Turnover'
+  }, {
+    id: 2,
+    name: 'Gross Profit'
+  }, {
+    id: 3,
+    name: 'Margin'
+  }]
+};
+const Labels = {
+  date: 'Date',
+  baseCurrency: 'Base Currency',
+  measurement: 'Measurement'
+};
 
 /***/ }),
 
@@ -424,6 +603,229 @@ const selectedDateRange = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_
   }
 
 });
+
+/***/ }),
+
+/***/ "./src/js/resources/resource.ch.js":
+/*!*****************************************!*\
+  !*** ./src/js/resources/resource.ch.js ***!
+  \*****************************************/
+/*! exports provided: ch */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ch", function() { return ch; });
+const ch = {
+  n_deposit: "存款(今日)",
+  c_turnover: "交易额",
+  c_licWL: "投注输赢",
+  n_reg_customer: "已注册会员",
+  c_online_customer: "在线会员",
+  n_customer_balance: "会员馀额",
+  n_pending_funds: "未结算金额",
+  n_withdrawal: "提款(今日)",
+  turnover_byplatform_month_todate: '交易額(當月累計)',
+  deposit_today: "存款(今日)",
+  licensee_winloss_month_todate: "投注輸贏(當月累計)",
+  registered_customer: "已注册会员",
+  online_customer: "在线会员",
+  customer_balance: "会员馀额",
+  pending_funds: "未结算金额",
+  withdrawal_today: "提款(今日)",
+  apply: "設定",
+  currency: "会员币别",
+  Based: "显示币别",
+  Widgets: "小工具",
+  total_registered_cus_today: "總註冊會員",
+  deposit: "註冊且存款",
+  none_deposit: "註冊未存款",
+  Asia: "亞洲版",
+  China: "大陸版",
+  Euro: "歐洲版",
+  Wap: "WAP手機",
+  All: "全部",
+  Web: "桌機版",
+  total_turnover: "總交易額",
+  total_winloss: "總投注輸贏",
+  no_widget_permission: "You do not have sufficient permissions to access this page",
+  reset_layout: "初始設定",
+  Tablet: "平板",
+  SmartSite: "行動裝置版",
+  NewAsia: "新亞洲版",
+  MobileApp: "Mobile App",
+  Mobile: "Mobile",
+  MobileLiteVersion: "Mobile Lite Version",
+  date: "",
+  measurement: ""
+};
+
+/***/ }),
+
+/***/ "./src/js/resources/resource.cs.js":
+/*!*****************************************!*\
+  !*** ./src/js/resources/resource.cs.js ***!
+  \*****************************************/
+/*! exports provided: cs */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cs", function() { return cs; });
+const cs = {
+  n_deposit: "存款(今日)",
+  c_turnover: "交易额",
+  c_licWL: "投注输赢",
+  n_reg_customer: "已注册会员",
+  c_online_customer: "在线会员",
+  n_customer_balance: "会员馀额",
+  n_pending_funds: "未结算金额",
+  n_withdrawal: "提款(今日)",
+  turnover_byplatform_month_todate: '交易额(当月累计)',
+  deposit_today: "存款(今日)",
+  licensee_winloss_month_todate: "投注输赢(当月累计)",
+  registered_customer: "已註冊會員",
+  online_customer: "在線會員",
+  customer_balance: "會員餘額",
+  pending_funds: "未結算金額",
+  withdrawal_today: "提款(今日)",
+  apply: "设定",
+  currency: "会员币别",
+  Based: "基础货币",
+  Widgets: "小工具",
+  total_registered_cus_today: "总注册会员",
+  deposit: "注册且存款",
+  none_deposit: "注册未存款",
+  Asia: "亚洲版",
+  China: "中国版",
+  Euro: "欧洲版",
+  Wap: "WAP",
+  All: "全部",
+  Web: "桌机版",
+  total_turnover: "总交易额",
+  total_winloss: "总投注输赢",
+  no_widget_permission: "You do not have sufficient permissions to access this page",
+  reset_layout: "初始设定",
+  Tablet: "平板",
+  SmartSite: "行动装置版",
+  NewAsia: "新亚洲版",
+  MobileApp: "手机 APP",
+  Mobile: "手机版",
+  MobileLiteVersion: "手机轻量版",
+  date: "",
+  measurement: ""
+};
+
+/***/ }),
+
+/***/ "./src/js/resources/resource.en.js":
+/*!*****************************************!*\
+  !*** ./src/js/resources/resource.en.js ***!
+  \*****************************************/
+/*! exports provided: en */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "en", function() { return en; });
+const en = {
+  n_deposit: "Deposit (Today)",
+  c_turnover: "Turnover by Platform",
+  c_licWL: "Licensee Win Loss",
+  n_reg_customer: "Registered customers",
+  c_online_customer: "Online customers",
+  n_customer_balance: "Customer Balance",
+  n_pending_funds: "Pending Funds",
+  n_withdrawal: "Withdraw (Today)",
+  turnover_byplatform_month_todate: 'Turnover by Platform (Month to date)',
+  deposit_today: "Deposit (Today)",
+  licensee_winloss_month_todate: "Licensee Win Loss (Month to date)",
+  registered_customer: "Registered customers",
+  online_customer: "Online customers",
+  customer_balance: "Customer Balance",
+  pending_funds: "Pending Funds",
+  withdrawal_today: "Withdrawal (today)",
+  apply: "Apply",
+  currency: "Currency",
+  Based: "Base Currency",
+  Widgets: "WIDGETS",
+  total_registered_cus_today: "Total Registered Customers (to date)",
+  deposit: "Deposit",
+  none_deposit: "Non - Deposit",
+  Asia: "Asia",
+  China: "China",
+  Euro: "Euro",
+  Wap: "Wap",
+  All: "All",
+  Web: "Web",
+  total_turnover: "Total Turnover",
+  total_winloss: "Total Win Loss",
+  no_widget_permission: "You do not have sufficient permissions to access this page",
+  reset_layout: "Reset layout",
+  Tablet: "Tablet",
+  SmartSite: "Smart Site",
+  NewAsia: "New Asia",
+  MobileApp: "Mobile App",
+  Mobile: "Mobile",
+  MobileLiteVersion: "Mobile Lite Version",
+  date: "Date",
+  measurement: "Measurement"
+};
+
+/***/ }),
+
+/***/ "./src/js/resources/resource.zhcn.js":
+/*!*******************************************!*\
+  !*** ./src/js/resources/resource.zhcn.js ***!
+  \*******************************************/
+/*! exports provided: zhcn */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zhcn", function() { return zhcn; });
+const zhcn = {
+  n_deposit: "存款(今日)",
+  c_turnover: "交易額",
+  c_licWL: "投注輸贏",
+  n_reg_customer: "已註冊會員",
+  c_online_customer: "在線會員",
+  n_customer_balance: "會員餘額",
+  n_pending_funds: "未結算金額",
+  n_withdrawal: "提款(今日)",
+  turnover_byplatform_month_todate: '交易额(当月累计)',
+  deposit_today: "存款(今日)",
+  licensee_winloss_month_todate: "投注输赢(当月累计)",
+  registered_customer: "已註冊會員",
+  online_customer: "在線會員",
+  customer_balance: "會員餘額",
+  pending_funds: "未結算金額",
+  withdrawal_today: "提款(今日)",
+  apply: "设定",
+  currency: "會員幣別",
+  Based: "顯示幣別",
+  Widgets: "小工具",
+  total_registered_cus_today: "总注册会员",
+  deposit: "注册且存款",
+  none_deposit: "注册未存款",
+  Asia: "亚洲版",
+  China: "大陆版",
+  Euro: "欧洲版",
+  Wap: "WAP手机",
+  All: "全部",
+  Web: "桌机版",
+  total_turnover: "总交易额",
+  total_winloss: "总投注输赢",
+  no_widget_permission: "You do not have sufficient permissions to access this page",
+  reset_layout: "初始设定",
+  Tablet: "平板",
+  SmartSite: "新亚洲版",
+  MobileApp: "Mobile App",
+  Mobile: "Mobile",
+  MobileLiteVersion: "Mobile Lite Version",
+  date: "",
+  measurement: ""
+};
 
 /***/ })
 

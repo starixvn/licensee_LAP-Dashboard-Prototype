@@ -40,7 +40,7 @@ export const en = {
     MobileApp: "Mobile App",
     Mobile: "Mobile",
     MobileLiteVersion: "Mobile Lite Version",
-    DeepLink: "Deep Link",
-    BetfromOthers: "Others",
-    NativeApp: "Native App"
+	DeepLink: "Deep Link",
+    date: "Date",
+    measurement: "Measurement"
 };

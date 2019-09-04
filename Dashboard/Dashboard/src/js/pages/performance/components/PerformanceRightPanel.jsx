@@ -1,6 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 
-export default class SummaryRightPanel extends Component {
+export default class PerformanceRightPanel extends Component {
     constructor(props) {
         super(props);
     }
