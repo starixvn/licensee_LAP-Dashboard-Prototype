@@ -14,12 +14,17 @@ class FilterTopPanel extends Component {
     this.props.getCurrencyInfo();
   }
 
-  onChangeBaseCurrency = value => {
-    this.props.setBaseCurrency(value);
+  onChangeBaseCurrency = e => {
+    this.props.setBaseCurrency(e.target.value);
   }
 
   onChangeMeasurement = e => {
-    this.props.setMeasurement(e);
+    const value = defaultData.measurements.find(_ => _.id == e.target.value);
+    this.props.setMeasurement(value);
+  }
+
+  onSubmit = () => {
+    alert('submit')
   }
 
   render() {
@@ -28,20 +33,21 @@ class FilterTopPanel extends Component {
     return (
       <div className="filter-top-panel">
         <div className="filter-item">
-          <label className="label">{languageApi.getRes(langCode, "date")}</label>
+          <div className="label">{languageApi.getRes(langCode, "date")}</div>
+          <input type="date"></input>
         </div>
         <div className="filter-item">
-          <label className="label">{languageApi.getRes(langCode, "Based")}</label>
+          <div className="label">{languageApi.getRes(langCode, "Based")}</div>
           <select
             onChange={this.onChangeBaseCurrency}
-            value={this.props.selectedBaseCurrency.id}>
+            value={this.props.selectedBaseCurrency}>
             {this.props.currencyInfo.BaseCurrency.map((item, i) => {
               return <option key={i} value={item}>{item}</option>
             })}
           </select>
         </div>
         <div className="filter-item">
-          <label className="label">{languageApi.getRes(langCode, "measurement")}</label>
+          <div className="label">{languageApi.getRes(langCode, "measurement")}</div>
           <select
             onChange={this.onChangeMeasurement}
             value={this.props.selectedMeasurement.id}>
@@ -50,6 +56,7 @@ class FilterTopPanel extends Component {
             })}
           </select>
         </div>
+        <a className="btn-submit" href="#" onClick={this.onSubmit}>{languageApi.getRes(langCode, "submit")}</a>
       </div>
     );
   }

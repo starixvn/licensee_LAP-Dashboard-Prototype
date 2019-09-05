@@ -374,7 +374,9 @@ const TabMenu = props => {
     tabMenuList
   } = props;
   const selectedTabMenuItem = tabMenuList.find(p => p.key === selectedTabMenu);
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, tabMenuList.map(item => {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "tab-menu"
+  }, tabMenuList.map(item => {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TabMenuItem__WEBPACK_IMPORTED_MODULE_2__["default"], {
       key: item.key,
       item: item,

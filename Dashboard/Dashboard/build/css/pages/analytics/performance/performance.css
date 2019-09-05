@@ -1,19 +1,37 @@
-.filter-top-panel {
-  padding: 20px;
+.box-info-measure {
+  max-width: 150px;
+  height: 120px;
+  padding: 10px;
+  box-sizing: border-box;
+  position: relative;
+  border: 2px solid #E5E5E5; }
+  .box-info-measure .box-info-value-total {
+    margin-top: 15px;
+    font-weight: 700;
+    font-size: 16px; }
+  .box-info-measure .box-info-value-change {
+    position: absolute;
+    bottom: 15px;
+    font-size: 16px; }
+
+.box-info-measure-list .box-info-measure {
+  margin-bottom: 15px; }
+
+.performance-container .btn-submit {
+  cursor: pointer;
+  margin-left: 40px;
+  padding-left: 15px;
+  padding-right: 15px; }
+
+.performance-container .overview-tab {
   background-color: #fff;
-  border: 1px solid #dcdcdc; }
-  .filter-top-panel .filter-item {
+  padding: 10px 20px;
+  overflow: auto; }
+  .performance-container .overview-tab .arrow-down, .performance-container .overview-tab .arrow-up {
     display: inline-block;
-    margin-left: 15px; }
-    .filter-top-panel .filter-item select {
-      width: 150px;
-      height: 30px;
-      margin-left: 10px;
-      border: none;
-      border-bottom: 1px solid #dcdcdc; }
-    .filter-top-panel .filter-item .label {
-      font-size: 16px;
-      font-weight: 400; }
+    margin-right: 5px; }
+  .performance-container .overview-tab .box-info-measure-list {
+    float: left; }
 
 
 /*# sourceMappingURL=performance.css.map*/

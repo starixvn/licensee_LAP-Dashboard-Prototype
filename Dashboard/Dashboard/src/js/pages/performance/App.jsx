@@ -2,7 +2,8 @@
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from './actions'
 import { connect } from 'react-redux';
-import FilterTopPanel from './components/FilterTopPanel'
+import FilterTopPanel from './components/FilterTopPanel';
+import TabContainer from "./components/TabContainer";
 
 class PerformanceDashboard extends Component {
   constructor(props) {
@@ -15,10 +16,9 @@ class PerformanceDashboard extends Component {
 
   render() {
     return (
-      <div>
-
-        <h1>Performance Dashboard</h1>
-        <FilterTopPanel  />
+      <div className="performance-container">
+          <FilterTopPanel  />
+          <TabContainer/>
       </div >
     );
   }

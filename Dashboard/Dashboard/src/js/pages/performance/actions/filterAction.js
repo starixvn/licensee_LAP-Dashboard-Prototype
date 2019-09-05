@@ -1,3 +1,5 @@
+import * as types from './types';
+
 export const setMeasurement = (newData) =>
 {
   return {

@@ -42,5 +42,6 @@ export const en = {
     MobileLiteVersion: "Mobile Lite Version",
 	DeepLink: "Deep Link",
     date: "Date",
-    measurement: "Measurement"
+    measurement: "Measurement",
+    submit: "Submit"
 };

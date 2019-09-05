@@ -3,7 +3,6 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #E5E5E5;
   border: 2px solid #E5E5E5 !important; }
 
 #dashboard li {
@@ -13,14 +12,14 @@
   display: block;
   color: black;
   text-align: center;
-  padding: 14px 16px;
+  padding: 14px 30px;
   text-decoration: none; }
 
 #dashboard li a:hover:not(.active) {
   background-color: #E5E5E5; }
 
 #dashboard .active {
-  background-color: #FFFFFF; }
+  background-color: #E5E5E5; }
 
 
 /*# sourceMappingURL=dashboard.css.map*/

@@ -2675,7 +2675,8 @@ const en = {
   Mobile: "Mobile",
   MobileLiteVersion: "Mobile Lite Version",
   date: "Date",
-  measurement: "Measurement"
+  measurement: "Measurement",
+  submit: "Submit"
 };
 
 /***/ }),

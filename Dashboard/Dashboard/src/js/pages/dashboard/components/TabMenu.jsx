@@ -7,7 +7,7 @@ export const TabMenu = (props) => {
     const selectedTabMenuItem = tabMenuList.find(p => p.key === selectedTabMenu);
 
     return (
-        <ul>
+        <ul className="tab-menu">
             {
                 tabMenuList.map(item => {
                     return (

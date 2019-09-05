@@ -1,23 +1,25 @@
-﻿.filter-top-panel {
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #dcdcdc;
-  .filter-item {
-    display: inline-block;
-    margin-left: 15px;
-    select {
-      width: 150px;
-      height: 30px;
-      margin-left: 10px;
-      border: none;
-      border-bottom: 1px solid #dcdcdc;
+﻿@import '../../components/boxinfomeasure';
+
+.performance-container {
+  .btn-submit {
+    cursor: pointer;
+    margin-left: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .overview-tab {
+    background-color: #fff;
+    padding: 10px 20px;
+    overflow: auto;
+
+    .arrow-down, .arrow-up {
+      display: inline-block;
+      margin-right: 5px;
     }
 
-    .label {
-      font-size: 16px;
-      font-weight: 400;
+    .box-info-measure-list {
+      float: left;
     }
   }
 }
-
-

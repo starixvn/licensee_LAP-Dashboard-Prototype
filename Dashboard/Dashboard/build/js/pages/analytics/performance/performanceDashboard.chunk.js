@@ -215,6 +215,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./actions */ "./src/js/pages/performance/actions/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _components_FilterTopPanel__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/FilterTopPanel */ "./src/js/pages/performance/components/FilterTopPanel.jsx");
+/* harmony import */ var _components_TabContainer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/TabContainer */ "./src/js/pages/performance/components/TabContainer.jsx");
+
 
 
 
@@ -230,7 +232,9 @@ class PerformanceDashboard extends react__WEBPACK_IMPORTED_MODULE_0__["Component
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Performance Dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_FilterTopPanel__WEBPACK_IMPORTED_MODULE_4__["default"], null));
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "performance-container"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_FilterTopPanel__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_TabContainer__WEBPACK_IMPORTED_MODULE_5__["default"], null));
   }
 
 }
@@ -263,9 +267,11 @@ function mapStateToProps(state) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setMeasurement", function() { return setMeasurement; });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./src/js/pages/performance/actions/types.js");
+
 const setMeasurement = newData => {
   return {
-    type: types.SET_MEASUREMENT,
+    type: _types__WEBPACK_IMPORTED_MODULE_0__["SET_MEASUREMENT"],
     data: newData
   };
 };
@@ -288,10 +294,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const ActionCreators = { ..._actions_currencyAction__WEBPACK_IMPORTED_MODULE_0__,
-  filter: _filterAction__WEBPACK_IMPORTED_MODULE_1__,
-  date: _actions_dateAction__WEBPACK_IMPORTED_MODULE_2__
-};
+const ActionCreators = Object.assign(_actions_currencyAction__WEBPACK_IMPORTED_MODULE_0__, _filterAction__WEBPACK_IMPORTED_MODULE_1__, _actions_dateAction__WEBPACK_IMPORTED_MODULE_2__);
 
 /***/ }),
 
@@ -338,12 +341,17 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor(props) {
     super(props);
 
-    _defineProperty(this, "onChangeBaseCurrency", value => {
-      this.props.setBaseCurrency(value);
+    _defineProperty(this, "onChangeBaseCurrency", e => {
+      this.props.setBaseCurrency(e.target.value);
     });
 
     _defineProperty(this, "onChangeMeasurement", e => {
-      this.props.setMeasurement(e);
+      const value = _lib_constants__WEBPACK_IMPORTED_MODULE_5__["defaultData"].measurements.find(_ => _.id == e.target.value);
+      this.props.setMeasurement(value);
+    });
+
+    _defineProperty(this, "onSubmit", () => {
+      alert('submit');
     });
   }
 
@@ -359,15 +367,17 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       className: "filter-top-panel"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "filter-item"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "date"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "date")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "date"
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "filter-item"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
     }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "Based")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       onChange: this.onChangeBaseCurrency,
-      value: this.props.selectedBaseCurrency.id
+      value: this.props.selectedBaseCurrency
     }, this.props.currencyInfo.BaseCurrency.map((item, i) => {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         key: i,
@@ -375,7 +385,7 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       }, item);
     }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "filter-item"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
     }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "measurement")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       onChange: this.onChangeMeasurement,
@@ -385,7 +395,11 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
         key: item.id,
         value: item.id
       }, item.name);
-    }))));
+    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      className: "btn-submit",
+      href: "#",
+      onClick: this.onSubmit
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "submit")));
   }
 
 }
@@ -408,6 +422,279 @@ function mapStateToProps(state) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapStateToProps, mapDispatchToProps)(FilterTopPanel));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/components/TabContainer.jsx":
+/*!**************************************************************!*\
+  !*** ./src/js/pages/performance/components/TabContainer.jsx ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./src/js/pages/performance/actions/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+/* harmony import */ var _dashboard_components_TabMenu__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../dashboard/components/TabMenu */ "./src/js/pages/dashboard/components/TabMenu.jsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+class TabContainer extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+
+    _defineProperty(this, "onClickTabMenu", tabKey => {
+      this.setState({
+        selectedTabKey: tabKey
+      });
+    });
+
+    this.state = {
+      selectedTabKey: _lib_constants__WEBPACK_IMPORTED_MODULE_4__["tabMenuList"][0].key
+    };
+  }
+
+  componentDidMount() {}
+
+  getCurrentTab() {
+    const item = _lib_constants__WEBPACK_IMPORTED_MODULE_4__["tabMenuList"].find(_ => _.key === this.state.selectedTabKey);
+    return item ? item.component : null;
+  }
+
+  render() {
+    const CurrentTab = this.getCurrentTab();
+    const {
+      selectedTabKey
+    } = this.state;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "tab-container"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dashboard_components_TabMenu__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      selectedTabMenu: selectedTabKey,
+      onClickTabMenu: this.onClickTabMenu,
+      tabMenuList: _lib_constants__WEBPACK_IMPORTED_MODULE_4__["tabMenuList"]
+    }), CurrentTab && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CurrentTab, null));
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
+    getCurrencyInfo: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].getCurrencyInfo,
+    setBaseCurrency: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setBaseCurrency,
+    setMeasurement: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setMeasurement
+  }, dispatch);
+}
+
+function mapStateToProps(state) {
+  return {
+    selectedBaseCurrency: state.selectedBaseCurrency,
+    selectedMeasurement: state.selectedMeasurement,
+    currencyInfo: state.currencyInfo,
+    measurements: state.measurements
+  };
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(TabContainer));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/components/normal/BoxInfoMeasureItem.jsx":
+/*!***************************************************************************!*\
+  !*** ./src/js/pages/performance/components/normal/BoxInfoMeasureItem.jsx ***!
+  \***************************************************************************/
+/*! exports provided: BoxInfoMeasureItem, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BoxInfoMeasureItem", function() { return BoxInfoMeasureItem; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+const BoxInfoMeasureItem = props => {
+  const {
+    measurement,
+    totalValue,
+    changeValue
+  } = props;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "box-info-measure"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "box-info-mesure-name"
+  }, measurement), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "box-info-value-total"
+  }, totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "box-info-value-change"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: changeValue < 0 ? "arrow-down" : "arrow-up"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, changeValue, "%")));
+};
+/* harmony default export */ __webpack_exports__["default"] = (react__WEBPACK_IMPORTED_MODULE_0___default.a.memo(BoxInfoMeasureItem));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/components/normal/BoxInfoMeasureList.jsx":
+/*!***************************************************************************!*\
+  !*** ./src/js/pages/performance/components/normal/BoxInfoMeasureList.jsx ***!
+  \***************************************************************************/
+/*! exports provided: BoxInfoMeasureList, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BoxInfoMeasureList", function() { return BoxInfoMeasureList; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _BoxInfoMeasureItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BoxInfoMeasureItem */ "./src/js/pages/performance/components/normal/BoxInfoMeasureItem.jsx");
+
+
+const BoxInfoMeasureList = props => {
+  const {
+    items
+  } = props;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "box-info-measure-list"
+  }, items && items.map(_ => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BoxInfoMeasureItem__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    key: 'box_info_measure_' + _.measurementName,
+    measurement: _.measurementName,
+    totalValue: _.totalValue,
+    changeValue: _.changeValue
+  })));
+};
+/* harmony default export */ __webpack_exports__["default"] = (react__WEBPACK_IMPORTED_MODULE_0___default.a.memo(BoxInfoMeasureList));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/components/tabs/CurrencyTab.jsx":
+/*!******************************************************************!*\
+  !*** ./src/js/pages/performance/components/tabs/CurrencyTab.jsx ***!
+  \******************************************************************/
+/*! exports provided: CurrencyTab, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CurrencyTab", function() { return CurrencyTab; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions */ "./src/js/pages/performance/actions/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+
+
+
+class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Currency Tab");
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
+    getCurrencyInfo: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].getCurrencyInfo,
+    setBaseCurrency: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setBaseCurrency,
+    setMeasurement: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setMeasurement
+  }, dispatch);
+}
+
+function mapStateToProps(state) {
+  return {
+    selectedBaseCurrency: state.selectedBaseCurrency,
+    selectedMeasurement: state.selectedMeasurement,
+    currencyInfo: state.currencyInfo,
+    measurements: state.measurements
+  };
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(CurrencyTab));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/components/tabs/OverviewTab.jsx":
+/*!******************************************************************!*\
+  !*** ./src/js/pages/performance/components/tabs/OverviewTab.jsx ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions */ "./src/js/pages/performance/actions/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../normal/BoxInfoMeasureList */ "./src/js/pages/performance/components/normal/BoxInfoMeasureList.jsx");
+
+
+
+
+
+
+class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {}
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "overview-tab"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      items: [{
+        measurementName: 'Turnover',
+        totalValue: 'EUR 123,59k',
+        changeValue: -5
+      }, {
+        measurementName: 'Win Loss',
+        totalValue: 'EUR 123,59k',
+        changeValue: 5
+      }, {
+        measurementName: 'Margin',
+        totalValue: '3%',
+        changeValue: 23
+      }]
+    }));
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
+    getCurrencyInfo: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].getCurrencyInfo,
+    setBaseCurrency: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setBaseCurrency,
+    setMeasurement: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setMeasurement
+  }, dispatch);
+}
+
+function mapStateToProps(state) {
+  return {
+    selectedBaseCurrency: state.selectedBaseCurrency,
+    selectedMeasurement: state.selectedMeasurement,
+    currencyInfo: state.currencyInfo,
+    measurements: state.measurements
+  };
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(OverviewTab));
 
 /***/ }),
 
@@ -475,13 +762,17 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 /*!***************************************************!*\
   !*** ./src/js/pages/performance/lib/constants.js ***!
   \***************************************************/
-/*! exports provided: defaultData, Labels */
+/*! exports provided: defaultData, tabMenuList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultData", function() { return defaultData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Labels", function() { return Labels; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tabMenuList", function() { return tabMenuList; });
+/* harmony import */ var _components_tabs_OverviewTab__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/tabs/OverviewTab */ "./src/js/pages/performance/components/tabs/OverviewTab.jsx");
+/* harmony import */ var _components_tabs_CurrencyTab__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/tabs/CurrencyTab */ "./src/js/pages/performance/components/tabs/CurrencyTab.jsx");
+
+
 const defaultData = {
   measurements: [{
     id: 1,
@@ -494,11 +785,15 @@ const defaultData = {
     name: 'Margin'
   }]
 };
-const Labels = {
-  date: 'Date',
-  baseCurrency: 'Base Currency',
-  measurement: 'Measurement'
-};
+const tabMenuList = [{
+  key: 'overview',
+  name: 'Overview',
+  component: _components_tabs_OverviewTab__WEBPACK_IMPORTED_MODULE_0__["default"]
+}, {
+  key: 'currency',
+  name: 'Currency',
+  component: _components_tabs_CurrencyTab__WEBPACK_IMPORTED_MODULE_1__["default"]
+}];
 
 /***/ }),
 
@@ -769,7 +1064,8 @@ const en = {
   Mobile: "Mobile",
   MobileLiteVersion: "Mobile Lite Version",
   date: "Date",
-  measurement: "Measurement"
+  measurement: "Measurement",
+  submit: "Submit"
 };
 
 /***/ }),
