@@ -155,6 +155,43 @@ class languageApi {
 
 /***/ }),
 
+/***/ "./src/js/lib/numberFormat.js":
+/*!************************************!*\
+  !*** ./src/js/lib/numberFormat.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return numberFormat; });
+class numberFormat {
+  static formatCurrency(value = 0, currency) {
+    const currencies = {
+      "EUR": "€",
+      "GBP": "£",
+      "USD": "$",
+      "CNY": "¥",
+      "MYR": "RM",
+      "THB": "฿",
+      "IDR": "Rp"
+    };
+    currency = currencies[currency] ? currencies[currency] : '';
+    return `${currency}${this.format(value, 2)}`;
+  }
+
+  static formatDecimal(value) {
+    return this.format(value, 2);
+  }
+
+  static format(value, digits = 0) {
+    return value.toFixed(digits).replace(/(\d)(?=(\d{3})+(\.|$))/g, "$1,");
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/lib/widgetApi.js":
 /*!*********************************!*\
   !*** ./src/js/lib/widgetApi.js ***!
@@ -416,8 +453,7 @@ function mapStateToProps(state) {
   return {
     selectedBaseCurrency: state.selectedBaseCurrency,
     selectedMeasurement: state.selectedMeasurement,
-    currencyInfo: state.currencyInfo,
-    measurements: state.measurements
+    currencyInfo: state.currencyInfo
   };
 }
 
@@ -506,6 +542,194 @@ function mapStateToProps(state) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(TabContainer));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/components/charts/GrowthChart.jsx":
+/*!********************************************************************!*\
+  !*** ./src/js/pages/performance/components/charts/GrowthChart.jsx ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _base_MixBarLineChart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base/MixBarLineChart */ "./src/js/pages/performance/components/charts/base/MixBarLineChart.jsx");
+
+
+
+
+
+class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false
+    };
+  }
+
+  componentDidMount() {}
+
+  render() {
+    const {
+      currentMeasuremnent
+    } = this.props;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_base_MixBarLineChart__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      title: `${currentMeasuremnent || ''} Growth`
+    }));
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  return Object(redux__WEBPACK_IMPORTED_MODULE_2__["bindActionCreators"])({}, dispatch);
+}
+
+function mapStateToProps(state) {
+  return {};
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(GrowthChart));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/components/charts/base/MixBarLineChart.jsx":
+/*!*****************************************************************************!*\
+  !*** ./src/js/pages/performance/components/charts/base/MixBarLineChart.jsx ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_chartjs_2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-chartjs-2 */ "./node_modules/react-chartjs-2/es/index.js");
+/* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
+
+
+ //
+
+const data = {
+  //labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  datasets: [{
+    label: 'Sales',
+    type: 'line',
+    lineTension: 0,
+    data: [51, -20, 40, -35, 60, 37, 105],
+    fill: false,
+    borderColor: 'rgba(192, 80, 77, 1)',
+    backgroundColor: 'rgba(192, 80, 77, 1)',
+    pointBorderColor: 'rgba(192, 80, 77, 1)',
+    pointBackgroundColor: 'rgba(192, 80, 77, 1)',
+    pointHoverBackgroundColor: 'rgba(192, 80, 77, 1)',
+    pointHoverBorderColor: 'rgba(192, 80, 77, 1)',
+    yAxisID: 'y-axis-2'
+  }, {
+    type: 'bar',
+    label: 'Visitor',
+    data: [200, 185, 590, 621, 250, 400, 95],
+    fill: false,
+    backgroundColor: 'rgba(79,129,189,1)',
+    borderColor: '#71B37C',
+    hoverBackgroundColor: 'rgba(79,129,189,1)',
+    hoverBorderColor: '#71B37C',
+    yAxisID: 'y-axis-1'
+  }]
+};
+const options = {
+  responsive: true,
+  elements: {
+    line: {
+      fill: false
+    }
+  },
+  hover: {
+    animationDuration: 0
+  },
+  legend: {
+    display: false
+  },
+  animation: {
+    onComplete: function () {
+      const self = this,
+            chart = this.chart,
+            ctx = chart.ctx;
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#555";
+      ctx.textAlign = "left";
+      ctx.textBaseline = "middle";
+      self.data.datasets.forEach(function (dataset, datasetIndex) {
+        const meta = self.getDatasetMeta(datasetIndex);
+        meta.data.forEach(function (element, elementIndex) {
+          const value = dataset.data[elementIndex];
+          const text = _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__["default"].formatDecimal(value);
+          const textWidth = ctx.measureText(text).width;
+          const yOffset = value > 0 ? 6 : -7;
+          ctx.fillText(text, element._model.x - textWidth / 2, element._model.y - yOffset);
+        });
+      });
+    }
+  },
+  scales: {
+    xAxes: [{
+      display: true,
+      gridLines: {
+        display: false
+      },
+      labels: {
+        show: true
+      },
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July']
+    }],
+    yAxes: [{
+      type: 'linear',
+      display: true,
+      position: 'left',
+      id: 'y-axis-1',
+      gridLines: {
+        display: false
+      }
+    }, {
+      type: 'linear',
+      display: true,
+      position: 'right',
+      id: 'y-axis-2'
+    }]
+  }
+};
+const plugins = [{
+  afterDraw: (chartInstance, easing) => {
+    const ctx = chartInstance.chart.ctx;
+  }
+}];
+
+class MixBarLineChart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "chart-container"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "chart-title"
+    }, this.props.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_1__["Bar"], {
+      data: data,
+      options: options,
+      plugins: plugins
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "chart-footer"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "ABC")));
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (MixBarLineChart);
 
 /***/ }),
 
@@ -617,6 +841,46 @@ const TableMajorItem = props => {
 
 /***/ }),
 
+/***/ "./src/js/pages/performance/components/normal/TimeComparisonSelect.jsx":
+/*!*****************************************************************************!*\
+  !*** ./src/js/pages/performance/components/normal/TimeComparisonSelect.jsx ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TimeComparisonSelect; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+class TimeComparisonSelect extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false
+    };
+  }
+
+  render() {
+    const {
+      years
+    } = this.props;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "time-comparison"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, 'Compared with'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      className: "btn-submit",
+      href: "#"
+    }, 'Previous Period'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, 'Same period of'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", null, years && years.map(_ => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: `period_${_}`,
+      value: _
+    }, _))));
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/pages/performance/components/tabs/CurrencyTab.jsx":
 /*!******************************************************************!*\
   !*** ./src/js/pages/performance/components/tabs/CurrencyTab.jsx ***!
@@ -680,11 +944,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions */ "./src/js/pages/performance/actions/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../normal/BoxInfoMeasureList */ "./src/js/pages/performance/components/normal/BoxInfoMeasureList.jsx");
-/* harmony import */ var _normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../normal/TableMajorItem */ "./src/js/pages/performance/components/normal/TableMajorItem.jsx");
-/* harmony import */ var react_chartjs_2__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-chartjs-2 */ "./node_modules/react-chartjs-2/es/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../normal/BoxInfoMeasureList */ "./src/js/pages/performance/components/normal/BoxInfoMeasureList.jsx");
+/* harmony import */ var _normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../normal/TableMajorItem */ "./src/js/pages/performance/components/normal/TableMajorItem.jsx");
+/* harmony import */ var _charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../charts/GrowthChart */ "./src/js/pages/performance/components/charts/GrowthChart.jsx");
+/* harmony import */ var _normal_TimeComparisonSelect__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../normal/TimeComparisonSelect */ "./src/js/pages/performance/components/normal/TimeComparisonSelect.jsx");
 
 
 
@@ -705,7 +969,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   }
 
   renderBoxInfoMeasureList() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_3__["default"], {
       items: [{
         measurementName: 'Turnover',
         totalValue: 'EUR 123,59k',
@@ -725,66 +989,100 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   render() {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "overview-tab"
-    }, this.renderBoxInfoMeasureList(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      class: "table-major-list"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TimeComparisonSelect__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      years: ['2017', '2018', '2019']
+    }), this.renderBoxInfoMeasureList(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "table-major-list"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
       header: ['Currency', this.props.selectedMeasurement.name, '%CHG'],
       title: 'MAJOR CHANGES - By Currency',
       data: [{
         name: 'MYR',
         totalValue: 1235,
-        changeValue: '5%'
+        changeValue: 5
       }, {
         name: 'THB',
         totalValue: 1235,
-        changeValue: '5%'
+        changeValue: 5
       }, {
         name: 'USD',
         totalValue: 91231239,
-        changeValue: '-5%'
+        changeValue: -5
+      }, {
+        name: 'CNY',
+        totalValue: 91231239,
+        changeValue: -5
+      }, {
+        name: 'INH',
+        totalValue: 91231239,
+        changeValue: 5
       }],
       renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         key: item.name
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue))
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: item.changeValue >= 0 ? "arrow-up" : "arrow-down"
+      }), item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue + '%'))
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
       header: ['Bettype', this.props.selectedMeasurement.name, '%CHG'],
       title: 'MAJOR CHANGES - By Bettyes',
       data: [{
         name: 'MYR',
         totalValue: 1235,
-        changeValue: '5%'
+        changeValue: -7
       }, {
         name: 'THB',
         totalValue: 1235,
-        changeValue: '5%'
+        changeValue: 5
       }, {
         name: 'USD',
         totalValue: 91231239,
-        changeValue: '-5%'
+        changeValue: -5
+      }, {
+        name: 'CNY',
+        totalValue: 91231239,
+        changeValue: -12
+      }, {
+        name: 'INH',
+        totalValue: 91231239,
+        changeValue: 5
       }],
       renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         key: item.name
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue))
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: item.changeValue >= 0 ? "arrow-up" : "arrow-down"
+      }), item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue + '%'))
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
       header: ['Platform', this.props.selectedMeasurement.name, '%CHG'],
       title: 'MAJOR CHANGES - By Platforms',
       data: [{
         name: 'MYR',
         totalValue: 1235,
-        changeValue: '5%'
+        changeValue: 5
       }, {
         name: 'THB',
         totalValue: 1235,
-        changeValue: '5%'
+        changeValue: 5
       }, {
         name: 'USD',
         totalValue: 91231239,
-        changeValue: '-5%'
+        changeValue: 12
+      }, {
+        name: 'CNY',
+        totalValue: 91231239,
+        changeValue: -5
+      }, {
+        name: 'INH',
+        totalValue: 91231239,
+        changeValue: 5
       }],
       renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         key: item.name
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue))
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: item.changeValue >= 0 ? "arrow-up" : "arrow-down"
+      }), item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue + '%'))
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      currentMeasuremnent: this.props.selectedMeasurement.name
+    }));
   }
 
 }
@@ -800,7 +1098,7 @@ function mapStateToProps(state) {
   };
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(OverviewTab));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps)(OverviewTab));
 
 /***/ }),
 

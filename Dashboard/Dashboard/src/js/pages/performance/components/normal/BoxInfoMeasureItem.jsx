@@ -17,4 +17,4 @@ export const BoxInfoMeasureItem = props => {
   );
 }
 
-export default React.memo(BoxInfoMeasureItem);
+export default React.memo(BoxInfoMeasureItem)

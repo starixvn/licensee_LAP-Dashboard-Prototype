@@ -1,16 +1,22 @@
 ﻿@import '../../components/boxinfomeasure';
 
 .performance-container {
-  .btn-submit {
-    cursor: pointer;
-    margin-left: 40px;
-    padding-left: 15px;
-    padding-right: 15px;
+
+  .filter-top-panel {
+    .btn-submit {
+      cursor: pointer;
+      margin-left: 40px;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
   }
 
   .overview-tab {
     background-color: #fff;
-    padding: 10px 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 50px;
     overflow: auto;
 
     .arrow-down, .arrow-up {
@@ -20,7 +26,7 @@
 
     .table-major-list {
       float: left;
-      margin-left: 30px;
+      margin-left: 60px;
     }
     .box-info-measure-list {
       float: left;
@@ -30,5 +36,11 @@
   table {
     border-spacing: 0 !important;
     width: 100%;
+  }
+
+  .chart-container {
+    float: left;
+    width: 60%;
+    margin-left: 30px;
   }
 }

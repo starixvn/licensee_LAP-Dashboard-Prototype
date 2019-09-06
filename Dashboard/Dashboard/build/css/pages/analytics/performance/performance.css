@@ -1,7 +1,7 @@
 .box-info-measure {
   max-width: 150px;
   height: 120px;
-  padding: 10px;
+  padding: 10px 15px;
   box-sizing: border-box;
   position: relative;
   border: 2px solid #E5E5E5; }
@@ -17,7 +17,7 @@
 .box-info-measure-list .box-info-measure {
   margin-bottom: 15px; }
 
-.performance-container .btn-submit {
+.performance-container .filter-top-panel .btn-submit {
   cursor: pointer;
   margin-left: 40px;
   padding-left: 15px;
@@ -25,20 +25,28 @@
 
 .performance-container .overview-tab {
   background-color: #fff;
-  padding: 10px 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 50px;
   overflow: auto; }
   .performance-container .overview-tab .arrow-down, .performance-container .overview-tab .arrow-up {
     display: inline-block;
     margin-right: 5px; }
   .performance-container .overview-tab .table-major-list {
     float: left;
-    margin-left: 30px; }
+    margin-left: 60px; }
   .performance-container .overview-tab .box-info-measure-list {
     float: left; }
 
 .performance-container table {
   border-spacing: 0 !important;
   width: 100%; }
+
+.performance-container .chart-container {
+  float: left;
+  width: 60%;
+  margin-left: 30px; }
 
 
 /*# sourceMappingURL=performance.css.map*/

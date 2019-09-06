@@ -24,7 +24,7 @@ class FilterTopPanel extends Component {
   }
 
   onSubmit = () => {
-    alert('submit')
+    alert('submit');
   }
 
   render() {
@@ -74,8 +74,7 @@ function mapStateToProps(state) {
   return {
     selectedBaseCurrency: state.selectedBaseCurrency,
     selectedMeasurement: state.selectedMeasurement,
-    currencyInfo: state.currencyInfo,
-    measurements: state.measurements
+    currencyInfo: state.currencyInfo
   }
 }
 

@@ -108,12 +108,17 @@
   border-top: 12px solid #f00; }
 
 .table-major thead tr th {
-  padding: 10px 20px;
+  padding: 10px 30px;
   background-color: #b8cce4; }
 
 .table-major tbody tr td {
-  padding: 8px 20px;
+  padding: 8px 30px;
   border-bottom: 1.5px solid #E5E5E5; }
+  .table-major tbody tr td:first-child {
+    position: relative; }
+  .table-major tbody tr td .arrow-down, .table-major tbody tr td .arrow-up {
+    position: absolute;
+    left: -25px; }
 
 .table-major .table-major-title {
   padding: 0.7rem 0;
@@ -121,8 +126,38 @@
   color: #fff;
   background-color: #4d6274; }
 
-.table-major-list .table-major {
-  margin-bottom: 30px; }
+.box-info-measure-list {
+  width: 150px; }
+
+.table-major-list {
+  width: 350px; }
+  .table-major-list .table-major {
+    margin-bottom: 30px; }
+
+.chart-container {
+  position: relative;
+  border: 2px solid #E5E5E5; }
+  .chart-container .chart-title {
+    text-align: center;
+    padding: 15px 0;
+    font-size: 1.7rem; }
+  .chart-container .chart-footer {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center; }
+
+.time-comparison {
+  margin-left: 15px;
+  padding-bottom: 15px; }
+  .time-comparison span {
+    font-size: 1.3rem;
+    font-weight: 600; }
+  .time-comparison .btn-submit {
+    margin-left: 10px;
+    margin-right: 10px;
+    text-transform: none; }
+  .time-comparison select {
+    margin-left: 5px; }
 
 #dashboard ul {
   list-style-type: none;
