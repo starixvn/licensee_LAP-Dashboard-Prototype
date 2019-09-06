@@ -140,3 +140,36 @@
 
   border-top: 12px solid #f00;
 }
+
+.table-major {
+  thead {
+      tr {
+          th {
+              padding: 10px 20px;
+              background-color: rgb(184,204,228);
+          }
+      }
+  }
+
+  tbody {
+      tr {
+          td {
+              padding: 8px 20px;
+              border-bottom: 1.5px solid #E5E5E5
+          }
+      }
+  }
+
+  .table-major-title {
+      padding: 0.7rem 0;
+      text-align: center;
+      color: #fff;
+      background-color: rgb(77, 98, 116);
+  }
+}
+
+.table-major-list {
+  .table-major {
+      margin-bottom: 30px;
+  }
+}

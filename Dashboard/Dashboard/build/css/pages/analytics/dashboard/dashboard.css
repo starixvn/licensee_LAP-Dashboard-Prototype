@@ -1,3 +1,129 @@
+.left {
+  float: left; }
+
+.right {
+  float: right; }
+
+.clearfix {
+  overflow: hidden; }
+
+.dashboard__container {
+  position: relative; }
+
+.center-block {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+  text-align: center; }
+
+.loading-process {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  z-index: 1000; }
+  .loading-process .icon-loading {
+    position: absolute;
+    top: 50%;
+    right: calc(50% - 28px); }
+
+.default .loading-process {
+  background: rgba(255, 255, 255, 0.7) no-repeat; }
+
+@-webkit-keyframes ball-beat {
+  50% {
+    opacity: 0.2;
+    -webkit-transform: scale(0.75);
+    transform: scale(0.75); }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+@keyframes ball-beat {
+  50% {
+    opacity: 0.2;
+    -webkit-transform: scale(0.75);
+    transform: scale(0.75); }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+.ball-beat > div {
+  background-color: #4C6375;
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  margin: 2px;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  display: inline-block;
+  -webkit-animation: ball-beat 1s 0s infinite linear;
+  animation: ball-beat 1s 0s infinite linear; }
+
+.ball-beat.loader-white > div {
+  background-color: #fff; }
+
+.ball-beat > div:nth-child(2n-1) {
+  -webkit-animation-delay: -0.5s !important;
+  animation-delay: -0.5s !important; }
+
+.filter-top-panel {
+  margin-top: 10px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #dcdcdc; }
+  .filter-top-panel .filter-item {
+    display: inline-block;
+    margin-left: 40px; }
+    .filter-top-panel .filter-item select {
+      width: 150px;
+      height: 25px;
+      border: none;
+      border-bottom: 1px solid #dcdcdc; }
+    .filter-top-panel .filter-item .label {
+      margin-left: 3px;
+      font-weight: 400; }
+
+.tab-menu {
+  background-color: #fff; }
+
+.tab-container {
+  margin-top: 5px; }
+
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 12px solid green; }
+
+.arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 12px solid #f00; }
+
+.table-major thead tr th {
+  padding: 10px 20px;
+  background-color: #b8cce4; }
+
+.table-major tbody tr td {
+  padding: 8px 20px;
+  border-bottom: 1.5px solid #E5E5E5; }
+
+.table-major .table-major-title {
+  padding: 0.7rem 0;
+  text-align: center;
+  color: #fff;
+  background-color: #4d6274; }
+
+.table-major-list .table-major {
+  margin-bottom: 30px; }
+
 #dashboard ul {
   list-style-type: none;
   margin: 0;

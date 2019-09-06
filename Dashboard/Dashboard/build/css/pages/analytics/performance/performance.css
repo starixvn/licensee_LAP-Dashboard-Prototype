@@ -30,8 +30,15 @@
   .performance-container .overview-tab .arrow-down, .performance-container .overview-tab .arrow-up {
     display: inline-block;
     margin-right: 5px; }
+  .performance-container .overview-tab .table-major-list {
+    float: left;
+    margin-left: 30px; }
   .performance-container .overview-tab .box-info-measure-list {
     float: left; }
+
+.performance-container table {
+  border-spacing: 0 !important;
+  width: 100%; }
 
 
 /*# sourceMappingURL=performance.css.map*/

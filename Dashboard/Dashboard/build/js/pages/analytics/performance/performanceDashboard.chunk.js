@@ -576,6 +576,47 @@ const BoxInfoMeasureList = props => {
 
 /***/ }),
 
+/***/ "./src/js/pages/performance/components/normal/TableMajorItem.jsx":
+/*!***********************************************************************!*\
+  !*** ./src/js/pages/performance/components/normal/TableMajorItem.jsx ***!
+  \***********************************************************************/
+/*! exports provided: TableMajorItem, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TableMajorItem", function() { return TableMajorItem; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const renderHeader = header => {
+  return header.map(_ => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, _ + ''));
+};
+
+const renderRows = (data, renderRow) => {
+  return data.map(rowData => renderRow(rowData));
+};
+
+const TableMajorItem = props => {
+  const {
+    header,
+    data,
+    title,
+    renderRow
+  } = props;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "table-major"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    class: "table-major-title"
+  }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+    className: "table-major-body"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, header && renderHeader(header))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, data && renderRow && renderRows(data, renderRow))));
+};
+/* harmony default export */ __webpack_exports__["default"] = (react__WEBPACK_IMPORTED_MODULE_0___default.a.memo(TableMajorItem));
+
+/***/ }),
+
 /***/ "./src/js/pages/performance/components/tabs/CurrencyTab.jsx":
 /*!******************************************************************!*\
   !*** ./src/js/pages/performance/components/tabs/CurrencyTab.jsx ***!
@@ -642,6 +683,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions */ "./src/js/pages/performance/actions/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../normal/BoxInfoMeasureList */ "./src/js/pages/performance/components/normal/BoxInfoMeasureList.jsx");
+/* harmony import */ var _normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../normal/TableMajorItem */ "./src/js/pages/performance/components/normal/TableMajorItem.jsx");
+/* harmony import */ var react_chartjs_2__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-chartjs-2 */ "./node_modules/react-chartjs-2/es/index.js");
+
+
 
 
 
@@ -655,10 +700,12 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
   componentDidMount() {}
 
-  render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "overview-tab"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  renderMajorTableList() {
+    return null;
+  }
+
+  renderBoxInfoMeasureList() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_4__["default"], {
       items: [{
         measurementName: 'Turnover',
         totalValue: 'EUR 123,59k',
@@ -672,25 +719,84 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
         totalValue: '3%',
         changeValue: 23
       }]
-    }));
+    });
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "overview-tab"
+    }, this.renderBoxInfoMeasureList(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      class: "table-major-list"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      header: ['Currency', this.props.selectedMeasurement.name, '%CHG'],
+      title: 'MAJOR CHANGES - By Currency',
+      data: [{
+        name: 'MYR',
+        totalValue: 1235,
+        changeValue: '5%'
+      }, {
+        name: 'THB',
+        totalValue: 1235,
+        changeValue: '5%'
+      }, {
+        name: 'USD',
+        totalValue: 91231239,
+        changeValue: '-5%'
+      }],
+      renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: item.name
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue))
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      header: ['Bettype', this.props.selectedMeasurement.name, '%CHG'],
+      title: 'MAJOR CHANGES - By Bettyes',
+      data: [{
+        name: 'MYR',
+        totalValue: 1235,
+        changeValue: '5%'
+      }, {
+        name: 'THB',
+        totalValue: 1235,
+        changeValue: '5%'
+      }, {
+        name: 'USD',
+        totalValue: 91231239,
+        changeValue: '-5%'
+      }],
+      renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: item.name
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue))
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      header: ['Platform', this.props.selectedMeasurement.name, '%CHG'],
+      title: 'MAJOR CHANGES - By Platforms',
+      data: [{
+        name: 'MYR',
+        totalValue: 1235,
+        changeValue: '5%'
+      }, {
+        name: 'THB',
+        totalValue: 1235,
+        changeValue: '5%'
+      }, {
+        name: 'USD',
+        totalValue: 91231239,
+        changeValue: '-5%'
+      }],
+      renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: item.name
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue))
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null));
   }
 
 }
 
 function mapDispatchToProps(dispatch) {
-  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
-    getCurrencyInfo: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].getCurrencyInfo,
-    setBaseCurrency: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setBaseCurrency,
-    setMeasurement: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setMeasurement
-  }, dispatch);
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({}, dispatch);
 }
 
 function mapStateToProps(state) {
   return {
     selectedBaseCurrency: state.selectedBaseCurrency,
-    selectedMeasurement: state.selectedMeasurement,
-    currencyInfo: state.currencyInfo,
-    measurements: state.measurements
+    selectedMeasurement: state.selectedMeasurement
   };
 }
 

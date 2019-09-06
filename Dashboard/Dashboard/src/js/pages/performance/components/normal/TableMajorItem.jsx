@@ -1,21 +1,29 @@
 import React from 'react';
 
 const renderHeader = header => {
-  return header.map(_ => <th>{_}</th>)
+  return header.map(_ => <th>{_ + ''}</th>)
 }
 
 const renderRows = (data, renderRow) => {
-  return rows.map(_ => <tr>{renderRow(_)}</tr>);
+  return data.map(rowData => renderRow(rowData));
 }
 
 export const TableMajorItem = props => {
   const { header, data, title, renderRow } = props;
-
   return (
-    <table class->
-      <tr>{renderHeader(header)}</tr>
-      {renderRows(data, renderRow)}
-</table>
+    <div className='table-major'>
+      <div class="table-major-title">
+        {title}
+      </div>
+      <table className="table-major-body">
+        <thead>
+          <tr>{header && renderHeader(header)}</tr>
+        </thead>
+        <tbody>
+          {data && renderRow && renderRows(data, renderRow)}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
