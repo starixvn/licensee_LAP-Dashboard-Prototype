@@ -19,7 +19,6 @@
 
 .performance-container .filter-top-panel .btn-submit {
   cursor: pointer;
-  margin-left: 40px;
   padding-left: 15px;
   padding-right: 15px; }
 
@@ -33,6 +32,10 @@
   .performance-container .overview-tab .arrow-down, .performance-container .overview-tab .arrow-up {
     display: inline-block;
     margin-right: 5px; }
+  .performance-container .overview-tab .rec-equal {
+    position: absolute;
+    left: -27px;
+    top: 12px; }
   .performance-container .overview-tab .table-major-list {
     float: left;
     margin-left: 60px; }

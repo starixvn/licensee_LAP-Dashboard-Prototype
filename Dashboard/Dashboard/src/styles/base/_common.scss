@@ -94,17 +94,17 @@
 
 .filter-top-panel {
   margin-top: 10px;
-  padding: 20px;
+  padding: 20px 30px;
   background-color: #fff;
   border: 1px solid #dcdcdc;
 
   .filter-item {
     display: inline-block;
-    margin-left: 40px;
+    margin-right: 40px;
 
     select {
       width: 150px;
-      height: 25px;
+      height: 30px;
       border: none;
       border-bottom: 1px solid #dcdcdc;
     }
@@ -137,8 +137,13 @@
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-
   border-top: 12px solid #f00;
+}
+
+.rec-equal {
+  width: 18px;
+  height: 7px;
+  background-color: rgba(255, 204, 0, 1);
 }
 
 .table-major {
@@ -221,5 +226,6 @@
 
   select {
     margin-left: 5px;
+    height: 25px;
   }
 }

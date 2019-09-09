@@ -1,4 +1,6 @@
-﻿export const tabMenuKey = {
+﻿export const langCode = window.dashboardLangCode || 'en';
+
+export const tabMenuKey = {
     summary: 'summary',
     performance: 'performance',
 }

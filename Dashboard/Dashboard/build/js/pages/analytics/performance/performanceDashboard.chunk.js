@@ -91,6 +91,121 @@ const SET_DATE_RANGE = "SET_DATE_RANGE";
 
 /***/ }),
 
+/***/ "./src/js/components/DateTimePicker.jsx":
+/*!**********************************************!*\
+  !*** ./src/js/components/DateTimePicker.jsx ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DateTimePicker; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _9softstudio_react_datepicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @9softstudio/react-datepicker */ "./node_modules/@9softstudio/react-datepicker/dist/index.js");
+/* harmony import */ var _9softstudio_react_datepicker__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_9softstudio_react_datepicker__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+const iconElement = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  className: "oi oi-calendar"
+});
+class DateTimePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+
+    _defineProperty(this, "handleChangeDateRange", (date, isValidMonthRange = true) => {
+      console.log(date, isValidMonthRange);
+      this.setState({
+        fromDate: date.startDate,
+        toDate: date.endDate
+      });
+    });
+
+    _defineProperty(this, "handleChangeDate", date => {
+      this.setState({
+        singleDateValue: date
+      });
+      console.log(date);
+    });
+
+    _defineProperty(this, "handleClickChangeDate", () => {
+      this.setState({
+        singleDateValue: this.inputDateRef.current.value
+      });
+    });
+
+    _defineProperty(this, "handleToggle", () => {
+      this.setState(prevState => {
+        return {
+          isEnableSingleDate: !prevState.isEnableSingleDate
+        };
+      });
+    });
+
+    this.inputDateRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    this.now = new Date();
+    this.dateInfo = {
+      fromDate: '03/15/2019',
+      toDate: '05/15/2019',
+      minDate: '03/15/2000',
+      maxDate: '12/30/2030',
+      limitedMonthRange: 3
+    };
+    this.state = {
+      fromDate: this.dateInfo.fromDate,
+      toDate: this.dateInfo.toDate,
+      singleDateValue: `${this.now.getMonth() + 1}/${this.now.getDate()}/${this.now.getFullYear()}`,
+      isEnableSingleDate: true
+    };
+  }
+
+  render() {
+    const now = moment__WEBPACK_IMPORTED_MODULE_2___default()();
+    const myRanges = {
+      ["Today"]: {
+        startDate: now.clone(),
+        endDate: now.clone()
+      },
+      ["Yesterday"]: {
+        startDate: now.clone().add(-1, 'days'),
+        endDate: now.clone().add(-1, 'days')
+      },
+      ["Current Week"]: {
+        startDate: now.clone().startOf('week'),
+        endDate: now.clone()
+      },
+      ["Current Month"]: {
+        startDate: now.clone().startOf('month'),
+        endDate: now.clone()
+      }
+    };
+    const dateInfo = this.dateInfo;
+    const {
+      fromDate,
+      toDate
+    } = this.state;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_datepicker__WEBPACK_IMPORTED_MODULE_1__["DateRange"], {
+      startDate: fromDate,
+      endDate: toDate,
+      minDate: dateInfo.minDate,
+      maxDate: dateInfo.maxDate,
+      today: dateInfo.toDate,
+      limitedMonthRange: dateInfo.limitedMonthRange,
+      onChange: this.handleChangeDateRange,
+      iconElement: iconElement
+    }));
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/lib/createReducer.js":
 /*!*************************************!*\
   !*** ./src/js/lib/createReducer.js ***!
@@ -365,7 +480,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../lib/languageApi */ "./src/js/lib/languageApi.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+/* harmony import */ var _components_DateTimePicker__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/DateTimePicker */ "./src/js/components/DateTimePicker.jsx");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -406,9 +523,7 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       className: "filter-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "date")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-      type: "date"
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "date")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_DateTimePicker__WEBPACK_IMPORTED_MODULE_6__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "filter-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
@@ -800,16 +915,16 @@ const BoxInfoMeasureList = props => {
 
 /***/ }),
 
-/***/ "./src/js/pages/performance/components/normal/TableMajorItem.jsx":
-/*!***********************************************************************!*\
-  !*** ./src/js/pages/performance/components/normal/TableMajorItem.jsx ***!
-  \***********************************************************************/
-/*! exports provided: TableMajorItem, default */
+/***/ "./src/js/pages/performance/components/normal/TableMajorChangeItem.jsx":
+/*!*****************************************************************************!*\
+  !*** ./src/js/pages/performance/components/normal/TableMajorChangeItem.jsx ***!
+  \*****************************************************************************/
+/*! exports provided: TableMajorChangeItem, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TableMajorItem", function() { return TableMajorItem; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TableMajorChangeItem", function() { return TableMajorChangeItem; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -822,7 +937,7 @@ const renderRows = (data, renderRow) => {
   return data.map(rowData => renderRow(rowData));
 };
 
-const TableMajorItem = props => {
+const TableMajorChangeItem = props => {
   const {
     header,
     data,
@@ -832,12 +947,12 @@ const TableMajorItem = props => {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "table-major"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    class: "table-major-title"
+    className: "table-major-title"
   }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table-major-body"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, header && renderHeader(header))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, data && renderRow && renderRows(data, renderRow))));
 };
-/* harmony default export */ __webpack_exports__["default"] = (react__WEBPACK_IMPORTED_MODULE_0___default.a.memo(TableMajorItem));
+/* harmony default export */ __webpack_exports__["default"] = (react__WEBPACK_IMPORTED_MODULE_0___default.a.memo(TableMajorChangeItem));
 
 /***/ }),
 
@@ -853,6 +968,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TimeComparisonSelect; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../lib/constants */ "./src/js/lib/constants.js");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+
+
 
 class TimeComparisonSelect extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor(props) {
@@ -868,16 +987,47 @@ class TimeComparisonSelect extends react__WEBPACK_IMPORTED_MODULE_0__["Component
     } = this.props;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "time-comparison"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, 'Compared with'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_1__["langCode"], "comparedWith")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       className: "btn-submit",
       href: "#"
-    }, 'Previous Period'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, 'Same period of'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", null, years && years.map(_ => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_1__["langCode"], "previousPeriod")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_1__["langCode"], "samePeriod")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", null, years && years.map(_ => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: `period_${_}`,
       value: _
     }, _))));
   }
 
 }
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/components/normal/ValueChangeIcon.jsx":
+/*!************************************************************************!*\
+  !*** ./src/js/pages/performance/components/normal/ValueChangeIcon.jsx ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const ValueChangeIcon = props => {
+  function getClassName(value) {
+    if (value > 0) return 'arrow-up';
+    if (value < 0) return 'arrow-down';
+    return 'rec-equal';
+  }
+
+  ;
+  const className = getClassName(props.value);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: className
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (react__WEBPACK_IMPORTED_MODULE_0___default.a.memo(ValueChangeIcon));
 
 /***/ }),
 
@@ -946,9 +1096,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../normal/BoxInfoMeasureList */ "./src/js/pages/performance/components/normal/BoxInfoMeasureList.jsx");
-/* harmony import */ var _normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../normal/TableMajorItem */ "./src/js/pages/performance/components/normal/TableMajorItem.jsx");
+/* harmony import */ var _normal_TableMajorChangeItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../normal/TableMajorChangeItem */ "./src/js/pages/performance/components/normal/TableMajorChangeItem.jsx");
 /* harmony import */ var _charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../charts/GrowthChart */ "./src/js/pages/performance/components/charts/GrowthChart.jsx");
 /* harmony import */ var _normal_TimeComparisonSelect__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../normal/TimeComparisonSelect */ "./src/js/pages/performance/components/normal/TimeComparisonSelect.jsx");
+/* harmony import */ var _normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../normal/ValueChangeIcon */ "./src/js/pages/performance/components/normal/ValueChangeIcon.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
 
@@ -956,6 +1109,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+const majorChangeData = {
+  data: [{
+    name: 'MYR',
+    totalValue: 1235,
+    changeValue: 5
+  }, {
+    name: 'THB',
+    totalValue: 1235,
+    changeValue: 5
+  }, {
+    name: 'USD',
+    totalValue: 91231239,
+    changeValue: 0
+  }, {
+    name: 'CNY',
+    totalValue: 91231239,
+    changeValue: -5
+  }, {
+    name: 'INH',
+    totalValue: 91231239,
+    changeValue: 5
+  }]
+};
 
 class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor(props) {
@@ -964,8 +1143,16 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
   componentDidMount() {}
 
-  renderMajorTableList() {
-    return null;
+  renderMajorChangeTableList() {
+    return _lib_constants__WEBPACK_IMPORTED_MODULE_8__["majorChangeList"].map(_ => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorChangeItem__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({ ..._,
+      ...majorChangeData
+    }, {
+      renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: item.name
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        value: item.changeValue
+      }), item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue + '%'))
+    })));
   }
 
   renderBoxInfoMeasureList() {
@@ -993,94 +1180,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       years: ['2017', '2018', '2019']
     }), this.renderBoxInfoMeasureList(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "table-major-list"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      header: ['Currency', this.props.selectedMeasurement.name, '%CHG'],
-      title: 'MAJOR CHANGES - By Currency',
-      data: [{
-        name: 'MYR',
-        totalValue: 1235,
-        changeValue: 5
-      }, {
-        name: 'THB',
-        totalValue: 1235,
-        changeValue: 5
-      }, {
-        name: 'USD',
-        totalValue: 91231239,
-        changeValue: -5
-      }, {
-        name: 'CNY',
-        totalValue: 91231239,
-        changeValue: -5
-      }, {
-        name: 'INH',
-        totalValue: 91231239,
-        changeValue: 5
-      }],
-      renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-        key: item.name
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: item.changeValue >= 0 ? "arrow-up" : "arrow-down"
-      }), item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue + '%'))
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      header: ['Bettype', this.props.selectedMeasurement.name, '%CHG'],
-      title: 'MAJOR CHANGES - By Bettyes',
-      data: [{
-        name: 'MYR',
-        totalValue: 1235,
-        changeValue: -7
-      }, {
-        name: 'THB',
-        totalValue: 1235,
-        changeValue: 5
-      }, {
-        name: 'USD',
-        totalValue: 91231239,
-        changeValue: -5
-      }, {
-        name: 'CNY',
-        totalValue: 91231239,
-        changeValue: -12
-      }, {
-        name: 'INH',
-        totalValue: 91231239,
-        changeValue: 5
-      }],
-      renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-        key: item.name
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: item.changeValue >= 0 ? "arrow-up" : "arrow-down"
-      }), item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue + '%'))
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      header: ['Platform', this.props.selectedMeasurement.name, '%CHG'],
-      title: 'MAJOR CHANGES - By Platforms',
-      data: [{
-        name: 'MYR',
-        totalValue: 1235,
-        changeValue: 5
-      }, {
-        name: 'THB',
-        totalValue: 1235,
-        changeValue: 5
-      }, {
-        name: 'USD',
-        totalValue: 91231239,
-        changeValue: 12
-      }, {
-        name: 'CNY',
-        totalValue: 91231239,
-        changeValue: -5
-      }, {
-        name: 'INH',
-        totalValue: 91231239,
-        changeValue: 5
-      }],
-      renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-        key: item.name
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: item.changeValue >= 0 ? "arrow-up" : "arrow-down"
-      }), item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue + '%'))
-    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }, this.renderMajorChangeTableList()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
       currentMeasuremnent: this.props.selectedMeasurement.name
     }));
   }
@@ -1166,13 +1266,14 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 /*!***************************************************!*\
   !*** ./src/js/pages/performance/lib/constants.js ***!
   \***************************************************/
-/*! exports provided: defaultData, tabMenuList */
+/*! exports provided: defaultData, tabMenuList, majorChangeList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultData", function() { return defaultData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tabMenuList", function() { return tabMenuList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "majorChangeList", function() { return majorChangeList; });
 /* harmony import */ var _components_tabs_OverviewTab__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/tabs/OverviewTab */ "./src/js/pages/performance/components/tabs/OverviewTab.jsx");
 /* harmony import */ var _components_tabs_CurrencyTab__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/tabs/CurrencyTab */ "./src/js/pages/performance/components/tabs/CurrencyTab.jsx");
 
@@ -1197,6 +1298,19 @@ const tabMenuList = [{
   key: 'currency',
   name: 'Currency',
   component: _components_tabs_CurrencyTab__WEBPACK_IMPORTED_MODULE_1__["default"]
+}];
+const majorChangeList = [{
+  title: 'MAJOR CHANGES - By CURRENCY',
+  header: ['Currency', 'Turnover', '%CHG'],
+  data: []
+}, {
+  title: 'MAJOR CHANGES - By BETTYPES',
+  header: ['Bettype', 'Turnover', '%CHG'],
+  data: []
+}, {
+  title: 'MAJOR CHANGES - By PLATFORM',
+  header: ['Platform', 'Turnover', '%CHG'],
+  data: []
 }];
 
 /***/ }),
@@ -1469,7 +1583,10 @@ const en = {
   MobileLiteVersion: "Mobile Lite Version",
   date: "Date",
   measurement: "Measurement",
-  submit: "Submit"
+  submit: "Submit",
+  comparedWith: "Compared With",
+  previousPeriod: "Previous Period",
+  samePeriod: "Same period of"
 };
 
 /***/ }),

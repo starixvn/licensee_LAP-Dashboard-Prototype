@@ -3,9 +3,23 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import BoxInfoMeasureList from '../normal/BoxInfoMeasureList';
-import TableMajorItem from '../normal/TableMajorItem';
+import TableMajorChangeItem from '../normal/TableMajorChangeItem';
 import GrowthChart from '../charts/GrowthChart';
 import TimeComparisonSelect from '../normal/TimeComparisonSelect';
+import ValueChangeIcon from '../normal/ValueChangeIcon';
+
+import { majorChangeList } from '../../lib/constants';
+
+
+const majorChangeData = {
+  data: [{ name: 'MYR', totalValue: 1235, changeValue: 5 },
+  { name: 'THB', totalValue: 1235, changeValue: 5 },
+  { name: 'USD', totalValue: 91231239, changeValue: 0 },
+  { name: 'CNY', totalValue: 91231239, changeValue: -5 },
+  { name: 'INH', totalValue: 91231239, changeValue: 5 }
+  ]
+}
+
 
 class OverviewTab extends Component {
   constructor(props) {
@@ -15,8 +29,15 @@ class OverviewTab extends Component {
   componentDidMount() {
   }
 
-  renderMajorTableList() {
-    return null;
+  renderMajorChangeTableList() {
+    return majorChangeList.map(_ => <TableMajorChangeItem
+      {...{..._, ...majorChangeData}}
+      renderRow={item => <tr key={item.name}>
+        <td><ValueChangeIcon value={item.changeValue} />{item.name}</td>
+        <td>{item.totalValue}</td>
+        <td>{item.changeValue + '%'}</td>
+      </tr>}
+    />)
   }
 
   renderBoxInfoMeasureList() {
@@ -24,7 +45,7 @@ class OverviewTab extends Component {
       { measurementName: 'Turnover', totalValue: 'EUR 123,59k', changeValue: -5 },
       { measurementName: 'Win Loss', totalValue: 'EUR 123,59k', changeValue: 5 },
       { measurementName: 'Margin', totalValue: '3%', changeValue: 23 },
-    ]}/>
+    ]} />
   }
 
   render() {
@@ -33,48 +54,7 @@ class OverviewTab extends Component {
         {<TimeComparisonSelect years={['2017', '2018', '2019']} />}
         {this.renderBoxInfoMeasureList()}
         <div className="table-major-list">
-          <TableMajorItem header={['Currency', this.props.selectedMeasurement.name, '%CHG']}
-            title={'MAJOR CHANGES - By Currency'}
-            data={[{ name: 'MYR', totalValue: 1235, changeValue: 5 },
-            { name: 'THB', totalValue: 1235, changeValue: 5 },
-            { name: 'USD', totalValue: 91231239, changeValue: -5 },
-            { name: 'CNY', totalValue: 91231239, changeValue: -5 },
-            { name: 'INH', totalValue: 91231239, changeValue: 5 }
-            ]}
-            renderRow={item => <tr key={item.name}>
-              <td><div className={item.changeValue >= 0 ? "arrow-up" : "arrow-down"}></div>{item.name}</td>
-              <td>{item.totalValue}</td>
-              <td>{item.changeValue + '%'}</td>
-            </tr>}
-          />
-          <TableMajorItem header={['Bettype', this.props.selectedMeasurement.name, '%CHG']}
-            title={'MAJOR CHANGES - By Bettyes'}
-            data={[{ name: 'MYR', totalValue: 1235, changeValue: -7 },
-            { name: 'THB', totalValue: 1235, changeValue: 5 },
-            { name: 'USD', totalValue: 91231239, changeValue: -5 },
-            { name: 'CNY', totalValue: 91231239, changeValue: -12 },
-            { name: 'INH', totalValue: 91231239, changeValue: 5 }
-            ]}
-            renderRow={item => <tr key={item.name}>
-              <td><div className={item.changeValue >= 0 ? "arrow-up" : "arrow-down"}></div>{item.name}</td>
-              <td>{item.totalValue}</td>
-              <td>{item.changeValue + '%'}</td>
-            </tr>}
-          />
-          <TableMajorItem header={['Platform', this.props.selectedMeasurement.name, '%CHG']}
-            title={'MAJOR CHANGES - By Platforms'}
-            data={[{ name: 'MYR', totalValue: 1235, changeValue: 5 },
-            { name: 'THB', totalValue: 1235, changeValue: 5 },
-            { name: 'USD', totalValue: 91231239, changeValue: 12 },
-            { name: 'CNY', totalValue: 91231239, changeValue: -5 },
-            { name: 'INH', totalValue: 91231239, changeValue: 5 }
-            ]}
-            renderRow={item => <tr key={item.name}>
-              <td><div className={item.changeValue >= 0 ? "arrow-up" : "arrow-down"}></div>{item.name}</td>
-              <td>{item.totalValue}</td>
-              <td>{item.changeValue + '%'}</td>
-            </tr>}
-          />
+          {this.renderMajorChangeTableList()}
         </div>
         <GrowthChart currentMeasuremnent={this.props.selectedMeasurement.name} />
       </div>
@@ -84,7 +64,6 @@ class OverviewTab extends Component {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-
   }, dispatch);
 }
 

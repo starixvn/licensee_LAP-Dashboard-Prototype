@@ -72,15 +72,15 @@
 
 .filter-top-panel {
   margin-top: 10px;
-  padding: 20px;
+  padding: 20px 30px;
   background-color: #fff;
   border: 1px solid #dcdcdc; }
   .filter-top-panel .filter-item {
     display: inline-block;
-    margin-left: 40px; }
+    margin-right: 40px; }
     .filter-top-panel .filter-item select {
       width: 150px;
-      height: 25px;
+      height: 30px;
       border: none;
       border-bottom: 1px solid #dcdcdc; }
     .filter-top-panel .filter-item .label {
@@ -106,6 +106,11 @@
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-top: 12px solid #f00; }
+
+.rec-equal {
+  width: 18px;
+  height: 7px;
+  background-color: #ffcc00; }
 
 .table-major thead tr th {
   padding: 10px 30px;
@@ -157,7 +162,8 @@
     margin-right: 10px;
     text-transform: none; }
   .time-comparison select {
-    margin-left: 5px; }
+    margin-left: 5px;
+    height: 25px; }
 
 #dashboard ul {
   list-style-type: none;

@@ -4,6 +4,7 @@ import { ActionCreators } from '../actions';
 import languageApi from '../../../lib/languageApi';
 import { connect } from 'react-redux';
 import { defaultData } from '../lib/constants'
+import DateTimePicker from '../../../components/DateTimePicker';
 
 class FilterTopPanel extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class FilterTopPanel extends Component {
       <div className="filter-top-panel">
         <div className="filter-item">
           <div className="label">{languageApi.getRes(langCode, "date")}</div>
-          <input type="date"></input>
+          <DateTimePicker />
         </div>
         <div className="filter-item">
           <div className="label">{languageApi.getRes(langCode, "Based")}</div>

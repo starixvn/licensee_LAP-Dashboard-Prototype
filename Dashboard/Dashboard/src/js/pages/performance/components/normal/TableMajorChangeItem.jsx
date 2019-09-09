@@ -8,11 +8,11 @@ const renderRows = (data, renderRow) => {
   return data.map(rowData => renderRow(rowData));
 }
 
-export const TableMajorItem = props => {
+export const TableMajorChangeItem = props => {
   const { header, data, title, renderRow } = props;
   return (
     <div className='table-major'>
-      <div class="table-major-title">
+      <div className="table-major-title">
         {title}
       </div>
       <table className="table-major-body">
@@ -27,4 +27,4 @@ export const TableMajorItem = props => {
   );
 }
 
-export default React.memo(TableMajorItem);
+export default React.memo(TableMajorChangeItem)

@@ -256,14 +256,16 @@ class DefaultLayout extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compone
 /*!*********************************!*\
   !*** ./src/js/lib/constants.js ***!
   \*********************************/
-/*! exports provided: tabMenuKey, CurrenyListApiUrl, widgetKey */
+/*! exports provided: langCode, tabMenuKey, CurrenyListApiUrl, widgetKey */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "langCode", function() { return langCode; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tabMenuKey", function() { return tabMenuKey; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CurrenyListApiUrl", function() { return CurrenyListApiUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "widgetKey", function() { return widgetKey; });
+const langCode = window.dashboardLangCode || 'en';
 const tabMenuKey = {
   summary: 'summary',
   performance: 'performance'

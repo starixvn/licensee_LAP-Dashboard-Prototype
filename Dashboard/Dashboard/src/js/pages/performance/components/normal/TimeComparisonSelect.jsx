@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { langCode } from '../../../../lib/constants';
+import languageApi from '../../../../lib/languageApi';
 
 export default class TimeComparisonSelect extends Component {
   constructor(props) {
@@ -14,9 +16,9 @@ export default class TimeComparisonSelect extends Component {
 
     return (
       <div className="time-comparison">
-        <span>{'Compared with'}</span>
-        <a className="btn-submit" href="#">{'Previous Period'}</a>
-        <span>{'Same period of'}</span>
+        <span>{languageApi.getRes(langCode, "comparedWith")}</span>
+        <a className="btn-submit" href="#">{languageApi.getRes(langCode, "previousPeriod")}</a>
+        <span>{languageApi.getRes(langCode, "samePeriod")}</span>
         <select
         >
           {years && years.map(_ => <option key={`period_${_}`} value={_}>{_}</option>)}

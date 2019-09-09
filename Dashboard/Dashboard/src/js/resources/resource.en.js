@@ -43,5 +43,8 @@ export const en = {
 	DeepLink: "Deep Link",
     date: "Date",
     measurement: "Measurement",
-    submit: "Submit"
+    submit: "Submit",
+    comparedWith: "Compared With",
+    previousPeriod: "Previous Period",
+    samePeriod: "Same period of"
 };
