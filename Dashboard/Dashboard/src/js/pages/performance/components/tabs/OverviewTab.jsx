@@ -10,7 +10,6 @@ import ValueChangeIcon from '../normal/ValueChangeIcon';
 
 import { majorChangeList } from '../../lib/constants';
 
-
 const majorChangeData = {
   data: [{ name: 'MYR', totalValue: 1235, changeValue: 5 },
   { name: 'THB', totalValue: 1235, changeValue: 5 },
@@ -19,7 +18,6 @@ const majorChangeData = {
   { name: 'INH', totalValue: 91231239, changeValue: 5 }
   ]
 }
-
 
 class OverviewTab extends Component {
   constructor(props) {
@@ -43,7 +41,7 @@ class OverviewTab extends Component {
   renderBoxInfoMeasureList() {
     return <BoxInfoMeasureList items={[
       { measurementName: 'Turnover', totalValue: 'EUR 123,59k', changeValue: -5 },
-      { measurementName: 'Win Loss', totalValue: 'EUR 123,59k', changeValue: 5 },
+      { measurementName: 'Gross Profit', totalValue: 'EUR 123,59k', changeValue: 5 },
       { measurementName: 'Margin', totalValue: '3%', changeValue: 23 },
     ]} />
   }

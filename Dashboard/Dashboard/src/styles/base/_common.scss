@@ -92,6 +92,7 @@
     animation-delay: -0.5s !important;
 }
 
+
 .filter-top-panel {
   margin-top: 10px;
   padding: 20px 30px;
@@ -107,6 +108,13 @@
       height: 30px;
       border: none;
       border-bottom: 1px solid #dcdcdc;
+    }
+
+    .input {
+      border: none;
+      border-bottom: 1px solid #dcdcdc;
+      position: relative;
+      bottom: -5px;
     }
 
     .label {

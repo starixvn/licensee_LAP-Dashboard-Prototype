@@ -12,8 +12,8 @@ export default class DateTimePicker extends React.Component {
     this.now = new Date();
 
     this.dateInfo = {
-      fromDate: '03/15/2019',
-      toDate: '05/15/2019',
+      fromDate: moment().clone(),
+      toDate: moment().clone(),
       minDate: '03/15/2000',
       maxDate: '12/30/2030',
       limitedMonthRange: 3
@@ -28,13 +28,12 @@ export default class DateTimePicker extends React.Component {
   }
 
   handleChangeDateRange = (date, isValidMonthRange = true) => {
-    console.log(date, isValidMonthRange);
     this.setState({ fromDate: date.startDate, toDate: date.endDate });
+
   }
 
   handleChangeDate = (date) => {
     this.setState({ singleDateValue: date });
-    console.log(date)
   }
 
   handleClickChangeDate = () => {
@@ -50,25 +49,6 @@ export default class DateTimePicker extends React.Component {
   }
 
   render() {
-    const now = moment();
-    const myRanges = {
-      ["Today"]: {
-        startDate: now.clone(),
-        endDate: now.clone()
-      },
-      ["Yesterday"]: {
-        startDate: now.clone().add(-1, 'days'),
-        endDate: now.clone().add(-1, 'days')
-      },
-      ["Current Week"]: {
-        startDate: now.clone().startOf('week'),
-        endDate: now.clone()
-      },
-      ["Current Month"]: {
-        startDate: now.clone().startOf('month'),
-        endDate: now.clone()
-      }
-    };
     const dateInfo = this.dateInfo;
     const { fromDate, toDate } = this.state;
 

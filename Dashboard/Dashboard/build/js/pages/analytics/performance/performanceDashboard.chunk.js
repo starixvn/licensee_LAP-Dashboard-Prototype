@@ -120,7 +120,6 @@ class DateTimePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
     super(props);
 
     _defineProperty(this, "handleChangeDateRange", (date, isValidMonthRange = true) => {
-      console.log(date, isValidMonthRange);
       this.setState({
         fromDate: date.startDate,
         toDate: date.endDate
@@ -131,7 +130,6 @@ class DateTimePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
       this.setState({
         singleDateValue: date
       });
-      console.log(date);
     });
 
     _defineProperty(this, "handleClickChangeDate", () => {
@@ -151,8 +149,8 @@ class DateTimePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
     this.inputDateRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     this.now = new Date();
     this.dateInfo = {
-      fromDate: '03/15/2019',
-      toDate: '05/15/2019',
+      fromDate: moment__WEBPACK_IMPORTED_MODULE_2___default()().clone(),
+      toDate: moment__WEBPACK_IMPORTED_MODULE_2___default()().clone(),
       minDate: '03/15/2000',
       maxDate: '12/30/2030',
       limitedMonthRange: 3
@@ -166,25 +164,6 @@ class DateTimePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compon
   }
 
   render() {
-    const now = moment__WEBPACK_IMPORTED_MODULE_2___default()();
-    const myRanges = {
-      ["Today"]: {
-        startDate: now.clone(),
-        endDate: now.clone()
-      },
-      ["Yesterday"]: {
-        startDate: now.clone().add(-1, 'days'),
-        endDate: now.clone().add(-1, 'days')
-      },
-      ["Current Week"]: {
-        startDate: now.clone().startOf('week'),
-        endDate: now.clone()
-      },
-      ["Current Month"]: {
-        startDate: now.clone().startOf('month'),
-        endDate: now.clone()
-      }
-    };
     const dateInfo = this.dateInfo;
     const {
       fromDate,
@@ -1162,7 +1141,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
         totalValue: 'EUR 123,59k',
         changeValue: -5
       }, {
-        measurementName: 'Win Loss',
+        measurementName: 'Gross Profit',
         totalValue: 'EUR 123,59k',
         changeValue: 5
       }, {

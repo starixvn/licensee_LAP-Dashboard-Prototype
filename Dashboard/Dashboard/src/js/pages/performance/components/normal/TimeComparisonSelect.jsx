@@ -19,8 +19,7 @@ export default class TimeComparisonSelect extends Component {
         <span>{languageApi.getRes(langCode, "comparedWith")}</span>
         <a className="btn-submit" href="#">{languageApi.getRes(langCode, "previousPeriod")}</a>
         <span>{languageApi.getRes(langCode, "samePeriod")}</span>
-        <select
-        >
+        <select>
           {years && years.map(_ => <option key={`period_${_}`} value={_}>{_}</option>)}
         </select>
       </div>
