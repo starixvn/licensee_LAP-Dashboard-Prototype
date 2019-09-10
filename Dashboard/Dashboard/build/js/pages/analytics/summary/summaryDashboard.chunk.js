@@ -2562,6 +2562,7 @@ const ch = {
   MobileApp: "Mobile App",
   Mobile: "Mobile",
   MobileLiteVersion: "Mobile Lite Version",
+  DeepLink: "Deep Link",
   date: "",
   measurement: ""
 };
@@ -2618,6 +2619,7 @@ const cs = {
   MobileApp: "手机 APP",
   Mobile: "手机版",
   MobileLiteVersion: "手机轻量版",
+  DeepLink: "Deep Link",
   date: "",
   measurement: ""
 };
@@ -2674,6 +2676,7 @@ const en = {
   MobileApp: "Mobile App",
   Mobile: "Mobile",
   MobileLiteVersion: "Mobile Lite Version",
+  DeepLink: "Deep Link",
   date: "Date",
   measurement: "Measurement",
   submit: "Submit",
@@ -2733,6 +2736,7 @@ const zhcn = {
   MobileApp: "Mobile App",
   Mobile: "Mobile",
   MobileLiteVersion: "Mobile Lite Version",
+  DeepLink: "Deep Link",
   date: "",
   measurement: ""
 };

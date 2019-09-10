@@ -83,6 +83,11 @@
       height: 30px;
       border: none;
       border-bottom: 1px solid #dcdcdc; }
+    .filter-top-panel .filter-item .input {
+      border: none;
+      border-bottom: 1px solid #dcdcdc;
+      position: relative;
+      bottom: -5px; }
     .filter-top-panel .filter-item .label {
       margin-left: 3px;
       font-weight: 400; }
