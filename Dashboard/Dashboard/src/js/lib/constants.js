@@ -1,4 +1,9 @@
-﻿export const langCode = window.dashboardLangCode || 'en';
+﻿export const datetimeDefaultData = {
+  dateFormat: 'MM/DD/YYYY',
+  limitedMonthRange: 12*5
+}
+
+export const langCode = window.dashboardLangCode || 'en';
 
 export const tabMenuKey = {
     summary: 'summary',

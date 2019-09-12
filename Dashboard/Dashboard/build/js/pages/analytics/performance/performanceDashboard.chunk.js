@@ -64,9 +64,11 @@ const setBaseCurrency = newData => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDateRange", function() { return setDateRange; });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./src/js/actions/types.js");
+
 const setDateRange = newData => {
   return {
-    type: types.SET_DATE_RANGE,
+    type: _types__WEBPACK_IMPORTED_MODULE_0__["SET_DATE_RANGE"],
     data: newData
   };
 };
@@ -107,7 +109,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _9softstudio_react_datepicker__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_9softstudio_react_datepicker__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
+/* harmony import */ var _lib_datetimeFormat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/datetimeFormat */ "./src/js/lib/datetimeFormat.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -115,51 +121,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 const iconElement = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
   className: "oi oi-calendar"
 });
-class DateTimePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+class DateTimePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
   constructor(props) {
     super(props);
 
-    _defineProperty(this, "handleChangeDateRange", (date, isValidMonthRange = true) => {
-      this.setState({
-        fromDate: date.startDate,
-        toDate: date.endDate
-      });
-    });
-
-    _defineProperty(this, "handleChangeDate", date => {
-      this.setState({
-        singleDateValue: date
-      });
-    });
-
-    _defineProperty(this, "handleClickChangeDate", () => {
-      this.setState({
-        singleDateValue: this.inputDateRef.current.value
-      });
-    });
-
-    _defineProperty(this, "handleToggle", () => {
-      this.setState(prevState => {
-        return {
-          isEnableSingleDate: !prevState.isEnableSingleDate
-        };
-      });
+    _defineProperty(this, "handleChangeDateRange", value => {
+      const dateRange = {
+        fromDate: value.startDate,
+        toDate: value.endDate
+      };
+      this.setState(dateRange, this.props.onChangeDateRange(_lib_datetimeFormat__WEBPACK_IMPORTED_MODULE_4__["default"].formatDateRange(dateRange, this.dateInfo.format)));
     });
 
     this.inputDateRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
-    this.now = new Date();
     this.dateInfo = {
-      fromDate: moment__WEBPACK_IMPORTED_MODULE_2___default()().clone(),
-      toDate: moment__WEBPACK_IMPORTED_MODULE_2___default()().clone(),
-      minDate: '03/15/2000',
-      maxDate: '12/30/2030',
-      limitedMonthRange: 3
+      fromDate: props.fromDate || moment__WEBPACK_IMPORTED_MODULE_2___default()().clone(),
+      toDate: props.toDate || moment__WEBPACK_IMPORTED_MODULE_2___default()().clone(),
+      limitedMonthRange: this.props.limitedMonthRange || _lib_constants__WEBPACK_IMPORTED_MODULE_3__["datetimeDefaultData"].limitedMonthRange,
+      format: props.format || _lib_constants__WEBPACK_IMPORTED_MODULE_3__["datetimeDefaultData"].dateFormat
     };
     this.state = {
       fromDate: this.dateInfo.fromDate,
-      toDate: this.dateInfo.toDate,
-      singleDateValue: `${this.now.getMonth() + 1}/${this.now.getDate()}/${this.now.getFullYear()}`,
-      isEnableSingleDate: true
+      toDate: this.dateInfo.toDate
     };
   }
 
@@ -203,6 +186,39 @@ function createReducer(initialState, handlers) {
       return state;
     }
   };
+}
+
+/***/ }),
+
+/***/ "./src/js/lib/datetimeFormat.js":
+/*!**************************************!*\
+  !*** ./src/js/lib/datetimeFormat.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return datetimeFormat; });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/js/lib/constants.js");
+
+class datetimeFormat {
+  static formatDateDefault(momentObj) {
+    return formatDate(momentObj, _constants__WEBPACK_IMPORTED_MODULE_0__["datetimeDefaultData"].dateFormat);
+  }
+
+  static formatDate(momentObj, format) {
+    return momentObj.format(format);
+  }
+
+  static formatDateRange(dateRange, format) {
+    format = format || _constants__WEBPACK_IMPORTED_MODULE_0__["datetimeDefaultData"].dateFormat;
+    return {
+      fromDate: datetimeFormat.formatDate(dateRange.fromDate, format),
+      toDate: datetimeFormat.formatDate(dateRange.toDate, format)
+    };
+  }
+
 }
 
 /***/ }),
@@ -447,7 +463,7 @@ const SET_MEASUREMENT = "SET_MEASUREMENT";
 /*!****************************************************************!*\
   !*** ./src/js/pages/performance/components/FilterTopPanel.jsx ***!
   \****************************************************************/
-/*! exports provided: default */
+/*! exports provided: overviewService, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -460,7 +476,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
 /* harmony import */ var _components_DateTimePicker__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/DateTimePicker */ "./src/js/components/DateTimePicker.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../lib/constants */ "./src/js/lib/constants.js");
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../lib/service */ "./src/js/pages/performance/lib/service.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "overviewService", function() { return _lib_service__WEBPACK_IMPORTED_MODULE_8__["overviewService"]; });
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -483,8 +505,11 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       this.props.setMeasurement(value);
     });
 
-    _defineProperty(this, "onSubmit", () => {
-      alert('submit');
+    _defineProperty(this, "onChangeDateRange", dateRange => {
+      this.props.setDateRange(dateRange);
+    });
+
+    _defineProperty(this, "onSubmit", () => {//this.props.getPerformanceOverview(overviewService.getFilterData());
     });
   }
 
@@ -493,20 +518,19 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   }
 
   render() {
-    const {
-      langCode
-    } = this.props;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "filter-top-panel"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "filter-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "date")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_DateTimePicker__WEBPACK_IMPORTED_MODULE_6__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["langCode"], "date")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_DateTimePicker__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      onChangeDateRange: this.onChangeDateRange
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "filter-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "Based")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["langCode"], "Based")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       onChange: this.onChangeBaseCurrency,
       value: this.props.selectedBaseCurrency
     }, this.props.currencyInfo.BaseCurrency.map((item, i) => {
@@ -518,7 +542,7 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       className: "filter-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "measurement")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["langCode"], "measurement")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       onChange: this.onChangeMeasurement,
       value: this.props.selectedMeasurement.id
     }, _lib_constants__WEBPACK_IMPORTED_MODULE_5__["defaultData"].measurements.map((item, i) => {
@@ -530,7 +554,7 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       className: "btn-submit",
       href: "#",
       onClick: this.onSubmit
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(langCode, "submit")));
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["langCode"], "submit")));
   }
 
 }
@@ -538,6 +562,7 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 function mapDispatchToProps(dispatch) {
   return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
     getCurrencyInfo: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].getCurrencyInfo,
+    setDateRange: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setDateRange,
     setBaseCurrency: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setBaseCurrency,
     setMeasurement: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setMeasurement
   }, dispatch);
@@ -1291,6 +1316,29 @@ const majorChangeList = [{
   header: ['Platform', 'Turnover', '%CHG'],
   data: []
 }];
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/lib/service.js":
+/*!*************************************************!*\
+  !*** ./src/js/pages/performance/lib/service.js ***!
+  \*************************************************/
+/*! exports provided: overviewService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overviewService", function() { return overviewService; });
+const overviewService = {
+  getFilterData: data => {
+    return {
+      baseCurrency: data.selectedBaseCurrency,
+      measurement: data.selectedMeasurement,
+      dateRange: data.props.dateRange,
+      compareWith: data.compareWith
+    };
+  }
+};
 
 /***/ }),
 
