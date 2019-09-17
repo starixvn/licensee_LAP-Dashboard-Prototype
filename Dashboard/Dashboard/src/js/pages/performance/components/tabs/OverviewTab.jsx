@@ -66,10 +66,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return {
-    selectedBaseCurrency: state.selectedBaseCurrency,
-    selectedMeasurement: state.selectedMeasurement
-  }
+  const { selectedBaseCurrency, selectedMeasurement } = state;
+  return Object.assign({}, { selectedBaseCurrency, selectedMeasurement  });
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OverviewTab);

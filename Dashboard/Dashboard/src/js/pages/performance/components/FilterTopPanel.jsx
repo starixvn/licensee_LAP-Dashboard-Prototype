@@ -21,16 +21,16 @@ class FilterTopPanel extends Component {
     this.props.setBaseCurrency(e.target.value);
   }
 
-  onChangeMeasurement = e => {
+  _onChangeMeasurement = e => {
     const value = defaultData.measurements.find(_ => _.id == e.target.value);
     this.props.setMeasurement(value);
   }
 
-  onChangeDateRange = dateRange => {
+  _onChangeDateRange = dateRange => {
     this.props.setDateRange(dateRange);
   }
 
-  onSubmit = () => {
+  _onSubmit = () => {
     //this.props.getPerformanceOverview(overviewService.getFilterData());
   }
 
@@ -40,13 +40,13 @@ class FilterTopPanel extends Component {
       <div className="filter-top-panel">
         <div className="filter-item">
           <div className="label">{languageApi.getRes(langCode, "date")}</div>
-          <DateTimePicker onChangeDateRange={this.onChangeDateRange}/>
+          <DateTimePicker onChangeDateRange={() => this._onChangeDateRange} />
         </div>
         <div className="filter-item">
           <div className="label">{languageApi.getRes(langCode, "Based")}</div>
           <select
-            onChange={this.onChangeBaseCurrency}
-            value={this.props.selectedBaseCurrency}>
+            onChange={(e) => this._onChangeBaseCurrency(e)}
+            value={() => this.props.selectedBaseCurrency}>
             {this.props.currencyInfo.BaseCurrency.map((item, i) => {
               return <option key={i} value={item}>{item}</option>
             })}
@@ -55,7 +55,7 @@ class FilterTopPanel extends Component {
         <div className="filter-item">
           <div className="label">{languageApi.getRes(langCode, "measurement")}</div>
           <select
-            onChange={this.onChangeMeasurement}
+            onChange={(e) => this._onChangeMeasurement(e)}
             value={this.props.selectedMeasurement.id}>
             {defaultData.measurements.map((item, i) => {
               return <option key={item.id} value={item.id}>{item.name}</option>
@@ -69,20 +69,13 @@ class FilterTopPanel extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    getCurrencyInfo: ActionCreators.getCurrencyInfo,
-    setDateRange: ActionCreators.setDateRange,
-    setBaseCurrency: ActionCreators.setBaseCurrency,
-    setMeasurement: ActionCreators.setMeasurement
-  }, dispatch);
+  return bindActionCreators(
+    ActionCreators, dispatch);
 }
 
 function mapStateToProps(state) {
-  return {
-    selectedBaseCurrency: state.selectedBaseCurrency,
-    selectedMeasurement: state.selectedMeasurement,
-    currencyInfo: state.currencyInfo
-  }
+  const { selectedBaseCurrency, selectedMeasurement, currencyInfo } = state;
+  return Object.assign({}, selectedBaseCurrency, selectedMeasurement, currencyInfo);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilterTopPanel)
