@@ -14,26 +14,23 @@ class TabContainer extends Component {
     };
   }
 
-  componentDidMount() {
-  }
-
-  onClickTabMenu = (tabKey) => {
+  _onClickTabMenu = (tabKey) => {
     this.setState({
       selectedTabKey: tabKey
     })
   }
 
-  getCurrentTab() {
+  _getCurrentTab() {
     const item = tabMenuList.find(_ => _.key === this.state.selectedTabKey);
     return item ? item.component : null;
   }
 
   render() {
-    const CurrentTab = this.getCurrentTab();
-    const { selectedTabKey }  = this.state;
+    const CurrentTab = this._getCurrentTab();
+    const { selectedTabKey } = this.state;
     return (
       <div className="tab-container">
-        <TabMenu selectedTabMenu={selectedTabKey} onClickTabMenu={this.onClickTabMenu} tabMenuList={tabMenuList} />
+        <TabMenu selectedTabMenu={selectedTabKey} onClickTabMenu={() => this._onClickTabMenu} tabMenuList={tabMenuList} />
         {CurrentTab && <CurrentTab />}
       </div>
     );
@@ -41,20 +38,15 @@ class TabContainer extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
+
   return bindActionCreators({
-    getCurrencyInfo: ActionCreators.getCurrencyInfo,
-    setBaseCurrency: ActionCreators.setBaseCurrency,
-    setMeasurement: ActionCreators.setMeasurement
+    ActionCreators
   }, dispatch);
 }
 
 function mapStateToProps(state) {
-  return {
-    selectedBaseCurrency: state.selectedBaseCurrency,
-    selectedMeasurement: state.selectedMeasurement,
-    currencyInfo: state.currencyInfo,
-    measurements: state.measurements
-  }
+  const { ...rest } = state;
+  return Object.assign({}, rest);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabContainer)
