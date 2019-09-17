@@ -12,8 +12,10 @@ const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__
 
 const defaultState =
 {
-  currencyInfo: { Currency: [],
-    BaseCurrency: []}
+  currencyInfo: {
+    Currency: [],
+    BaseCurrency: []
+  }
 };
 function configureStore(initialState) {
   const enhancer = compose(

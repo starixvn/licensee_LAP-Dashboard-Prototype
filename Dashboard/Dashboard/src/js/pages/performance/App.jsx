@@ -8,17 +8,20 @@ import TabContainer from "./components/TabContainer";
 class PerformanceDashboard extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isUpdate: true
     }
+  }
 
   componentDidMount() {
-    //this.props.getCurrencyInfo();
   }
+
 
   render() {
     return (
       <div className="performance-container">
-          <FilterTopPanel  />
-          <TabContainer/>
+          <FilterTopPanel onSubmit={null}/>
+          <TabContainer />
       </div >
     );
   }

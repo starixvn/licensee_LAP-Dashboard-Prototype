@@ -373,15 +373,19 @@ __webpack_require__.r(__webpack_exports__);
 class PerformanceDashboard extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor(props) {
     super(props);
+    this.state = {
+      isUpdate: true
+    };
   }
 
-  componentDidMount() {//this.props.getCurrencyInfo();
-  }
+  componentDidMount() {}
 
   render() {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "performance-container"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_FilterTopPanel__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_TabContainer__WEBPACK_IMPORTED_MODULE_5__["default"], null));
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_FilterTopPanel__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      onSubmit: null
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_TabContainer__WEBPACK_IMPORTED_MODULE_5__["default"], null));
   }
 
 }
@@ -496,20 +500,20 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor(props) {
     super(props);
 
-    _defineProperty(this, "onChangeBaseCurrency", e => {
+    _defineProperty(this, "_onChangeBaseCurrency", e => {
       this.props.setBaseCurrency(e.target.value);
     });
 
-    _defineProperty(this, "onChangeMeasurement", e => {
+    _defineProperty(this, "_onChangeMeasurement", e => {
       const value = _lib_constants__WEBPACK_IMPORTED_MODULE_5__["defaultData"].measurements.find(_ => _.id == e.target.value);
       this.props.setMeasurement(value);
     });
 
-    _defineProperty(this, "onChangeDateRange", dateRange => {
+    _defineProperty(this, "_onChangeDateRange", dateRange => {
       this.props.setDateRange(dateRange);
     });
 
-    _defineProperty(this, "onSubmit", () => {//this.props.getPerformanceOverview(overviewService.getFilterData());
+    _defineProperty(this, "_onSubmit", () => {//this.props.updateData();
     });
   }
 
@@ -525,13 +529,13 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
     }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["langCode"], "date")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_DateTimePicker__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      onChangeDateRange: this.onChangeDateRange
+      onChangeDateRange: this._onChangeDateRange
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "filter-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
     }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["langCode"], "Based")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-      onChange: this.onChangeBaseCurrency,
+      onChange: e => this._onChangeBaseCurrency(e),
       value: this.props.selectedBaseCurrency
     }, this.props.currencyInfo.BaseCurrency.map((item, i) => {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -543,7 +547,7 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
     }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["langCode"], "measurement")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-      onChange: this.onChangeMeasurement,
+      onChange: e => this._onChangeMeasurement(e),
       value: this.props.selectedMeasurement.id
     }, _lib_constants__WEBPACK_IMPORTED_MODULE_5__["defaultData"].measurements.map((item, i) => {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -560,20 +564,20 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 }
 
 function mapDispatchToProps(dispatch) {
-  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
-    getCurrencyInfo: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].getCurrencyInfo,
-    setDateRange: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setDateRange,
-    setBaseCurrency: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setBaseCurrency,
-    setMeasurement: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setMeasurement
-  }, dispatch);
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(_actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"], dispatch);
 }
 
 function mapStateToProps(state) {
-  return {
-    selectedBaseCurrency: state.selectedBaseCurrency,
-    selectedMeasurement: state.selectedMeasurement,
-    currencyInfo: state.currencyInfo
-  };
+  const {
+    selectedBaseCurrency,
+    selectedMeasurement,
+    currencyInfo
+  } = state;
+  return Object.assign({}, {
+    selectedBaseCurrency,
+    selectedMeasurement,
+    currencyInfo
+  });
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapStateToProps, mapDispatchToProps)(FilterTopPanel));
@@ -609,7 +613,7 @@ class TabContainer extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor(props) {
     super(props);
 
-    _defineProperty(this, "onClickTabMenu", tabKey => {
+    _defineProperty(this, "_onClickTabMenu", tabKey => {
       this.setState({
         selectedTabKey: tabKey
       });
@@ -620,15 +624,14 @@ class TabContainer extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     };
   }
 
-  componentDidMount() {}
-
-  getCurrentTab() {
+  _getCurrentTab() {
     const item = _lib_constants__WEBPACK_IMPORTED_MODULE_4__["tabMenuList"].find(_ => _.key === this.state.selectedTabKey);
     return item ? item.component : null;
   }
 
   render() {
-    const CurrentTab = this.getCurrentTab();
+    const CurrentTab = this._getCurrentTab();
+
     const {
       selectedTabKey
     } = this.state;
@@ -636,7 +639,7 @@ class TabContainer extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       className: "tab-container"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dashboard_components_TabMenu__WEBPACK_IMPORTED_MODULE_5__["default"], {
       selectedTabMenu: selectedTabKey,
-      onClickTabMenu: this.onClickTabMenu,
+      onClickTabMenu: this._onClickTabMenu,
       tabMenuList: _lib_constants__WEBPACK_IMPORTED_MODULE_4__["tabMenuList"]
     }), CurrentTab && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CurrentTab, null));
   }
@@ -645,19 +648,14 @@ class TabContainer extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
 function mapDispatchToProps(dispatch) {
   return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
-    getCurrencyInfo: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].getCurrencyInfo,
-    setBaseCurrency: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setBaseCurrency,
-    setMeasurement: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setMeasurement
+    ActionCreators: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"]
   }, dispatch);
 }
 
 function mapStateToProps(state) {
-  return {
-    selectedBaseCurrency: state.selectedBaseCurrency,
-    selectedMeasurement: state.selectedMeasurement,
-    currencyInfo: state.currencyInfo,
-    measurements: state.measurements
-  };
+  const { ...rest
+  } = state;
+  return Object.assign({}, rest);
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(TabContainer));
@@ -974,27 +972,56 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../lib/constants */ "./src/js/lib/constants.js");
 /* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
-class TimeComparisonSelect extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+
+
+class TimeComparisonSelect extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
   constructor(props) {
     super(props);
+
+    _defineProperty(this, "_onChangeComparison", (value, type) => {
+      const {
+        onChangeComparison
+      } = this.props;
+      onChangeComparison && onChangeComparison({
+        type,
+        value
+      });
+    });
+
     this.state = {
       isLoading: false
     };
   }
 
+  _getRangeYears() {
+    const {
+      selectedDateRange
+    } = this.props;
+    return [2018, 2017, 2016];
+  }
+
   render() {
     const {
-      years
+      selectedComparison
     } = this.props;
+
+    const rangeYears = this._getRangeYears();
+
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "time-comparison"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_1__["langCode"], "comparedWith")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       className: "btn-submit",
-      href: "#"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_1__["langCode"], "previousPeriod")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_1__["langCode"], "samePeriod")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", null, years && years.map(_ => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      href: "#",
+      onClick: e => this._onChangeComparison(null, _lib_constants__WEBPACK_IMPORTED_MODULE_3__["ComparisonType"].PREVIOUS_PERIOD)
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_1__["langCode"], "previousPeriod")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_1__["langCode"], "samePeriod")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      onChange: e => this._onChangeComparison(e.target.value, _lib_constants__WEBPACK_IMPORTED_MODULE_3__["ComparisonType"].SAME_PERIOD),
+      value: selectedComparison.value || rangeYears[0]
+    }, rangeYears && rangeYears.map(_ => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: `period_${_}`,
       value: _
     }, _))));
@@ -1032,177 +1059,6 @@ const ValueChangeIcon = props => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (react__WEBPACK_IMPORTED_MODULE_0___default.a.memo(ValueChangeIcon));
-
-/***/ }),
-
-/***/ "./src/js/pages/performance/components/tabs/CurrencyTab.jsx":
-/*!******************************************************************!*\
-  !*** ./src/js/pages/performance/components/tabs/CurrencyTab.jsx ***!
-  \******************************************************************/
-/*! exports provided: CurrencyTab, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CurrencyTab", function() { return CurrencyTab; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions */ "./src/js/pages/performance/actions/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-
-
-
-class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Currency Tab");
-  }
-
-}
-
-function mapDispatchToProps(dispatch) {
-  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
-    getCurrencyInfo: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].getCurrencyInfo,
-    setBaseCurrency: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setBaseCurrency,
-    setMeasurement: _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"].setMeasurement
-  }, dispatch);
-}
-
-function mapStateToProps(state) {
-  return {
-    selectedBaseCurrency: state.selectedBaseCurrency,
-    selectedMeasurement: state.selectedMeasurement,
-    currencyInfo: state.currencyInfo,
-    measurements: state.measurements
-  };
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(CurrencyTab));
-
-/***/ }),
-
-/***/ "./src/js/pages/performance/components/tabs/OverviewTab.jsx":
-/*!******************************************************************!*\
-  !*** ./src/js/pages/performance/components/tabs/OverviewTab.jsx ***!
-  \******************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../normal/BoxInfoMeasureList */ "./src/js/pages/performance/components/normal/BoxInfoMeasureList.jsx");
-/* harmony import */ var _normal_TableMajorChangeItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../normal/TableMajorChangeItem */ "./src/js/pages/performance/components/normal/TableMajorChangeItem.jsx");
-/* harmony import */ var _charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../charts/GrowthChart */ "./src/js/pages/performance/components/charts/GrowthChart.jsx");
-/* harmony import */ var _normal_TimeComparisonSelect__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../normal/TimeComparisonSelect */ "./src/js/pages/performance/components/normal/TimeComparisonSelect.jsx");
-/* harmony import */ var _normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../normal/ValueChangeIcon */ "./src/js/pages/performance/components/normal/ValueChangeIcon.jsx");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-
-
-
-
-
-
-
-
-
-const majorChangeData = {
-  data: [{
-    name: 'MYR',
-    totalValue: 1235,
-    changeValue: 5
-  }, {
-    name: 'THB',
-    totalValue: 1235,
-    changeValue: 5
-  }, {
-    name: 'USD',
-    totalValue: 91231239,
-    changeValue: 0
-  }, {
-    name: 'CNY',
-    totalValue: 91231239,
-    changeValue: -5
-  }, {
-    name: 'INH',
-    totalValue: 91231239,
-    changeValue: 5
-  }]
-};
-
-class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {}
-
-  renderMajorChangeTableList() {
-    return _lib_constants__WEBPACK_IMPORTED_MODULE_8__["majorChangeList"].map(_ => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TableMajorChangeItem__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({ ..._,
-      ...majorChangeData
-    }, {
-      renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-        key: item.name
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        value: item.changeValue
-      }), item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue + '%'))
-    })));
-  }
-
-  renderBoxInfoMeasureList() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      items: [{
-        measurementName: 'Turnover',
-        totalValue: 'EUR 123,59k',
-        changeValue: -5
-      }, {
-        measurementName: 'Gross Profit',
-        totalValue: 'EUR 123,59k',
-        changeValue: 5
-      }, {
-        measurementName: 'Margin',
-        totalValue: '3%',
-        changeValue: 23
-      }]
-    });
-  }
-
-  render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "overview-tab"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_normal_TimeComparisonSelect__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      years: ['2017', '2018', '2019']
-    }), this.renderBoxInfoMeasureList(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "table-major-list"
-    }, this.renderMajorChangeTableList()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      currentMeasuremnent: this.props.selectedMeasurement.name
-    }));
-  }
-
-}
-
-function mapDispatchToProps(dispatch) {
-  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({}, dispatch);
-}
-
-function mapStateToProps(state) {
-  return {
-    selectedBaseCurrency: state.selectedBaseCurrency,
-    selectedMeasurement: state.selectedMeasurement
-  };
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps)(OverviewTab));
 
 /***/ }),
 
@@ -1245,7 +1101,9 @@ const defaultState = {
   currencyInfo: {
     Currency: [],
     BaseCurrency: []
-  }
+  },
+  performanceOverviewTotal: [],
+  performanceOverviewTopChange: []
 };
 
 function configureStore(initialState) {
@@ -1266,11 +1124,48 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
 /***/ }),
 
+/***/ "./src/js/pages/performance/lib/api.js":
+/*!*********************************************!*\
+  !*** ./src/js/pages/performance/lib/api.js ***!
+  \*********************************************/
+/*! exports provided: overviewApi */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overviewApi", function() { return overviewApi; });
+/* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/widgetApi */ "./src/js/lib/widgetApi.js");
+
+const overviewApi = {
+  getTotal: async filterData => {
+    var param = {
+      Data: filterData,
+      Url: '/api/performance/overview/total',
+      IsCrossSite: true
+    };
+    const response = await _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].fetchData(param);
+    if (response && response.data) return response.data.data || [];
+    return [];
+  },
+  getTopChange: async filterData => {
+    var param = {
+      Data: filterData,
+      Url: '/api/performance/overview/topchange',
+      IsCrossSite: true
+    };
+    const response = await _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].fetchData(param);
+    if (response && response.data) return response.data.data || [];
+    return [];
+  }
+};
+
+/***/ }),
+
 /***/ "./src/js/pages/performance/lib/constants.js":
 /*!***************************************************!*\
   !*** ./src/js/pages/performance/lib/constants.js ***!
   \***************************************************/
-/*! exports provided: defaultData, tabMenuList, majorChangeList */
+/*! exports provided: defaultData, tabMenuList, majorChangeList, ComparisonType */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1278,8 +1173,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultData", function() { return defaultData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tabMenuList", function() { return tabMenuList; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "majorChangeList", function() { return majorChangeList; });
-/* harmony import */ var _components_tabs_OverviewTab__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/tabs/OverviewTab */ "./src/js/pages/performance/components/tabs/OverviewTab.jsx");
-/* harmony import */ var _components_tabs_CurrencyTab__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/tabs/CurrencyTab */ "./src/js/pages/performance/components/tabs/CurrencyTab.jsx");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ComparisonType", function() { return ComparisonType; });
+/* harmony import */ var _tabs_overview_OverviewTab__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../tabs/overview/OverviewTab */ "./src/js/pages/performance/tabs/overview/OverviewTab.jsx");
+/* harmony import */ var _tabs_currency_CurrencyTab__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../tabs/currency/CurrencyTab */ "./src/js/pages/performance/tabs/currency/CurrencyTab.jsx");
 
 
 const defaultData = {
@@ -1297,11 +1193,11 @@ const defaultData = {
 const tabMenuList = [{
   key: 'overview',
   name: 'Overview',
-  component: _components_tabs_OverviewTab__WEBPACK_IMPORTED_MODULE_0__["default"]
+  component: _tabs_overview_OverviewTab__WEBPACK_IMPORTED_MODULE_0__["default"]
 }, {
   key: 'currency',
   name: 'Currency',
-  component: _components_tabs_CurrencyTab__WEBPACK_IMPORTED_MODULE_1__["default"]
+  component: _tabs_currency_CurrencyTab__WEBPACK_IMPORTED_MODULE_1__["default"]
 }];
 const majorChangeList = [{
   title: 'MAJOR CHANGES - By CURRENCY',
@@ -1316,6 +1212,10 @@ const majorChangeList = [{
   header: ['Platform', 'Turnover', '%CHG'],
   data: []
 }];
+const ComparisonType = {
+  "PREVIOUS_PERIOD": 1,
+  "SAME_PERIOD": 2
+};
 
 /***/ }),
 
@@ -1334,7 +1234,7 @@ const overviewService = {
     return {
       baseCurrency: data.selectedBaseCurrency,
       measurement: data.selectedMeasurement,
-      dateRange: data.props.dateRange,
+      dateRange: data.dateRange,
       compareWith: data.compareWith
     };
   }
@@ -1378,11 +1278,368 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reducers_currencyReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../reducers/currencyReducer */ "./src/js/reducers/currencyReducer.js");
 /* harmony import */ var _reducers_dateReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../reducers/dateReducer */ "./src/js/reducers/dateReducer.js");
 /* harmony import */ var _filterReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./filterReducer */ "./src/js/pages/performance/reducers/filterReducer.js");
+/* harmony import */ var _tabs_overview_reducers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../tabs/overview/reducers */ "./src/js/pages/performance/tabs/overview/reducers/index.js");
 
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(Object.assign(_reducers_currencyReducer__WEBPACK_IMPORTED_MODULE_1__, _reducers_dateReducer__WEBPACK_IMPORTED_MODULE_2__, _filterReducer__WEBPACK_IMPORTED_MODULE_3__)));
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(Object.assign(_reducers_currencyReducer__WEBPACK_IMPORTED_MODULE_1__, _reducers_dateReducer__WEBPACK_IMPORTED_MODULE_2__, _filterReducer__WEBPACK_IMPORTED_MODULE_3__, _tabs_overview_reducers__WEBPACK_IMPORTED_MODULE_4__["default"])));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/currency/CurrencyTab.jsx":
+/*!****************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/currency/CurrencyTab.jsx ***!
+  \****************************************************************/
+/*! exports provided: CurrencyTab, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CurrencyTab", function() { return CurrencyTab; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions */ "./src/js/pages/performance/actions/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+
+
+
+class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Currency Tab");
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  const {} = _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"];
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({}, dispatch);
+}
+
+function mapStateToProps(state) {
+  const {} = state;
+  return Object.assign({});
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(CurrencyTab));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/overview/OverviewTab.jsx":
+/*!****************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/overview/OverviewTab.jsx ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _components_normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/normal/BoxInfoMeasureList */ "./src/js/pages/performance/components/normal/BoxInfoMeasureList.jsx");
+/* harmony import */ var _components_normal_TableMajorChangeItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/normal/TableMajorChangeItem */ "./src/js/pages/performance/components/normal/TableMajorChangeItem.jsx");
+/* harmony import */ var _components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/charts/GrowthChart */ "./src/js/pages/performance/components/charts/GrowthChart.jsx");
+/* harmony import */ var _components_normal_TimeComparisonSelect__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/normal/TimeComparisonSelect */ "./src/js/pages/performance/components/normal/TimeComparisonSelect.jsx");
+/* harmony import */ var _components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../components/normal/ValueChangeIcon */ "./src/js/pages/performance/components/normal/ValueChangeIcon.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./actions */ "./src/js/pages/performance/tabs/overview/actions/index.js");
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../lib/service */ "./src/js/pages/performance/lib/service.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+
+
+
+
+
+
+const majorChangeData = {
+  data: [{
+    name: 'MYR',
+    totalValue: 1235,
+    changeValue: 5
+  }, {
+    name: 'THB',
+    totalValue: 1235,
+    changeValue: 5
+  }, {
+    name: 'USD',
+    totalValue: 91231239,
+    changeValue: 0
+  }, {
+    name: 'CNY',
+    totalValue: 91231239,
+    changeValue: -5
+  }, {
+    name: 'INH',
+    totalValue: 91231239,
+    changeValue: 5
+  }]
+};
+
+class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+
+    _defineProperty(this, "onChangeComparison", value => {
+      this.setState({
+        selectedComparison: value
+      });
+    });
+
+    this.state = {
+      selectedComparison: {
+        type: _lib_constants__WEBPACK_IMPORTED_MODULE_8__["ComparisonType"].PREVIOUS_PERIOD,
+        value: null
+      }
+    };
+  }
+
+  componentDidMount() {
+    var filterData = _lib_service__WEBPACK_IMPORTED_MODULE_10__["overviewService"].getFilterData(this.props);
+    this.props.getPerformanceOverviewTotal(filterData);
+    this.props.getPerformanceOverviewTopChange(filterData);
+  }
+
+  renderMajorChangeTableList() {
+    return _lib_constants__WEBPACK_IMPORTED_MODULE_8__["majorChangeList"].map(_ => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_TableMajorChangeItem__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({ ..._,
+      ...majorChangeData
+    }, {
+      renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: item.name
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        value: item.changeValue
+      }), item.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.totalValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changeValue + '%'))
+    })));
+  }
+
+  renderBoxInfoMeasureList() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_BoxInfoMeasureList__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      items: this.props.performanceOverviewTotal
+    });
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "overview-tab"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_TimeComparisonSelect__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      onChangeComparison: this.onChangeComparison,
+      selectedDateRange: this.props.selectedDateRange,
+      selectedComparison: this.state.selectedComparison
+    }), this.renderBoxInfoMeasureList(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "table-major-list"
+    }, this.renderMajorChangeTableList()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      currentMeasuremnent: this.props.selectedMeasurement.name
+    }));
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  const {
+    getPerformanceOverviewTotal,
+    getPerformanceOverviewTopChange
+  } = _actions__WEBPACK_IMPORTED_MODULE_9__["default"];
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(Object.assign({}, {
+    getPerformanceOverviewTotal,
+    getPerformanceOverviewTopChange
+  }), dispatch);
+}
+
+function mapStateToProps(state) {
+  const {
+    selectedBaseCurrency,
+    selectedMeasurement,
+    selectedDateRange,
+    performanceOverviewTotal,
+    performanceOverviewTopChange
+  } = state;
+  return Object.assign({}, {
+    selectedBaseCurrency,
+    selectedMeasurement,
+    performanceOverviewTotal,
+    performanceOverviewTopChange
+  });
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps)(OverviewTab));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/overview/actions/index.js":
+/*!*****************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/overview/actions/index.js ***!
+  \*****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _totalAction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./totalAction */ "./src/js/pages/performance/tabs/overview/actions/totalAction.js");
+/* harmony import */ var _topChangeAction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./topChangeAction */ "./src/js/pages/performance/tabs/overview/actions/topChangeAction.js");
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object.assign(_totalAction__WEBPACK_IMPORTED_MODULE_0__, _topChangeAction__WEBPACK_IMPORTED_MODULE_1__));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/overview/actions/topChangeAction.js":
+/*!***************************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/overview/actions/topChangeAction.js ***!
+  \***************************************************************************/
+/*! exports provided: getPerformanceOverviewTopChange, setPerformanceOverviewTopChange */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPerformanceOverviewTopChange", function() { return getPerformanceOverviewTopChange; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setPerformanceOverviewTopChange", function() { return setPerformanceOverviewTopChange; });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./src/js/pages/performance/tabs/overview/actions/types.js");
+/* harmony import */ var _performance_lib_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../performance/lib/api */ "./src/js/pages/performance/lib/api.js");
+
+
+const getPerformanceOverviewTopChange = filterData => {
+  return async dispatch => {
+    const data = await _performance_lib_api__WEBPACK_IMPORTED_MODULE_1__["overviewApi"].getTopChange(filterData);
+    dispatch(setPerformanceOverviewTopChange(data));
+  };
+};
+const setPerformanceOverviewTopChange = data => {
+  return {
+    type: _types__WEBPACK_IMPORTED_MODULE_0__["SET_PERFORMANCE_OVERVIEW_TOP_CHANGE"],
+    data
+  };
+};
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/overview/actions/totalAction.js":
+/*!***********************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/overview/actions/totalAction.js ***!
+  \***********************************************************************/
+/*! exports provided: getPerformanceOverviewTotal, setPerformanceOverviewTotal */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPerformanceOverviewTotal", function() { return getPerformanceOverviewTotal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setPerformanceOverviewTotal", function() { return setPerformanceOverviewTotal; });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./src/js/pages/performance/tabs/overview/actions/types.js");
+/* harmony import */ var _performance_lib_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../performance/lib/api */ "./src/js/pages/performance/lib/api.js");
+
+
+const getPerformanceOverviewTotal = filterData => {
+  return async dispatch => {
+    const data = await _performance_lib_api__WEBPACK_IMPORTED_MODULE_1__["overviewApi"].getTotal(filterData);
+    dispatch(setPerformanceOverviewTotal(data));
+  };
+};
+const setPerformanceOverviewTotal = data => {
+  return {
+    type: _types__WEBPACK_IMPORTED_MODULE_0__["SET_PERFORMANCE_OVERVIEW_TOTAL"],
+    data
+  };
+};
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/overview/actions/types.js":
+/*!*****************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/overview/actions/types.js ***!
+  \*****************************************************************/
+/*! exports provided: GET_PERFORMANCE_OVERVIEW_TOTAL, SET_PERFORMANCE_OVERVIEW_TOTAL, GET_PERFORMANCE_OVERVIEW_TOP_CHANGE, SET_PERFORMANCE_OVERVIEW_TOP_CHANGE, GET_PERFORMANCE_OVERVIEW_GROWTH */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_PERFORMANCE_OVERVIEW_TOTAL", function() { return GET_PERFORMANCE_OVERVIEW_TOTAL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PERFORMANCE_OVERVIEW_TOTAL", function() { return SET_PERFORMANCE_OVERVIEW_TOTAL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_PERFORMANCE_OVERVIEW_TOP_CHANGE", function() { return GET_PERFORMANCE_OVERVIEW_TOP_CHANGE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PERFORMANCE_OVERVIEW_TOP_CHANGE", function() { return SET_PERFORMANCE_OVERVIEW_TOP_CHANGE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GET_PERFORMANCE_OVERVIEW_GROWTH", function() { return GET_PERFORMANCE_OVERVIEW_GROWTH; });
+const GET_PERFORMANCE_OVERVIEW_TOTAL = "GET_PERFORMANCE_OVERVIEW_TOTAL";
+const SET_PERFORMANCE_OVERVIEW_TOTAL = "SET_PERFORMANCE_OVERVIEW_TOTAL";
+const GET_PERFORMANCE_OVERVIEW_TOP_CHANGE = "GET_PERFORMANCE_OVERVIEW_TOP_CHANGE";
+const SET_PERFORMANCE_OVERVIEW_TOP_CHANGE = "SET_PERFORMANCE_OVERVIEW_TOP_CHANGE";
+const GET_PERFORMANCE_OVERVIEW_GROWTH = "GET_PERFORMANCE_OVERVIEW_GROWTH";
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/overview/reducers/index.js":
+/*!******************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/overview/reducers/index.js ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _totalReducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./totalReducer */ "./src/js/pages/performance/tabs/overview/reducers/totalReducer.js");
+/* harmony import */ var _topChangeReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./topChangeReducer */ "./src/js/pages/performance/tabs/overview/reducers/topChangeReducer.js");
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object.assign(_totalReducer__WEBPACK_IMPORTED_MODULE_0__, _topChangeReducer__WEBPACK_IMPORTED_MODULE_1__));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/overview/reducers/topChangeReducer.js":
+/*!*****************************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/overview/reducers/topChangeReducer.js ***!
+  \*****************************************************************************/
+/*! exports provided: performanceOverviewTopChange */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "performanceOverviewTopChange", function() { return performanceOverviewTopChange; });
+/* harmony import */ var _lib_createReducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../lib/createReducer */ "./src/js/lib/createReducer.js");
+/* harmony import */ var _actions_types_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/types.js */ "./src/js/pages/performance/tabs/overview/actions/types.js");
+
+
+const performanceOverviewTopChange = Object(_lib_createReducer__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
+  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_PERFORMANCE_OVERVIEW_TOP_CHANGE"]](state, action) {
+    return action.data;
+  }
+
+});
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/overview/reducers/totalReducer.js":
+/*!*************************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/overview/reducers/totalReducer.js ***!
+  \*************************************************************************/
+/*! exports provided: performanceOverviewTotal */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "performanceOverviewTotal", function() { return performanceOverviewTotal; });
+/* harmony import */ var _lib_createReducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../lib/createReducer */ "./src/js/lib/createReducer.js");
+/* harmony import */ var _actions_types_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/types.js */ "./src/js/pages/performance/tabs/overview/actions/types.js");
+
+
+const performanceOverviewTotal = Object(_lib_createReducer__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
+  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_PERFORMANCE_OVERVIEW_TOTAL"]](state, action) {
+    return action.data;
+  }
+
+});
 
 /***/ }),
 

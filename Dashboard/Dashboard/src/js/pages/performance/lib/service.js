@@ -3,7 +3,7 @@ export const overviewService = {
     return {
       baseCurrency: data.selectedBaseCurrency,
       measurement: data.selectedMeasurement,
-      dateRange: data.props.dateRange,
+      dateRange: data.dateRange,
       compareWith: data.compareWith
     }
   }

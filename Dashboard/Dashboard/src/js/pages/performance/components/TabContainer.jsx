@@ -30,7 +30,7 @@ class TabContainer extends Component {
     const { selectedTabKey } = this.state;
     return (
       <div className="tab-container">
-        <TabMenu selectedTabMenu={selectedTabKey} onClickTabMenu={() => this._onClickTabMenu} tabMenuList={tabMenuList} />
+        <TabMenu selectedTabMenu={selectedTabKey} onClickTabMenu={this._onClickTabMenu} tabMenuList={tabMenuList} />
         {CurrentTab && <CurrentTab />}
       </div>
     );

@@ -1,5 +1,5 @@
-import OverviewTab from '../components/tabs/OverviewTab';
-import CurrencyTab from '../components/tabs/CurrencyTab';
+import OverviewTab from '../tabs/overview/OverviewTab';
+import CurrencyTab from '../tabs/currency/CurrencyTab';
 
 export const defaultData = {
   measurements: [
@@ -31,3 +31,9 @@ export const majorChangeList = [
     data: []
   }
 ]
+
+export const ComparisonType = {
+  "PREVIOUS_PERIOD": 1,
+  "SAME_PERIOD": 2
+}
+

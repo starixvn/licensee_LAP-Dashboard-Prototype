@@ -17,7 +17,9 @@ const defaultState =
   currencyInfo: {
     Currency: [],
     BaseCurrency: []
-  }
+  },
+  performanceOverviewTotal: [],
+  performanceOverviewTopChange: []
 };
 
 function configureStore(initialState) {

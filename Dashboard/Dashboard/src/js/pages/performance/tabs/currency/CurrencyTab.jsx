@@ -18,13 +18,17 @@ export class CurrencyTab extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  const { getCurrencyInfo, setBaseCurrency, setMeasurement } = ActionCreators;
-  return bindActionCreators({  getCurrencyInfo, setBaseCurrency, setMeasurement }, dispatch);
+  const {} = ActionCreators;
+  return bindActionCreators({
+
+  }, dispatch);
 }
 
 function mapStateToProps(state) {
-  const { ...rest } = state;
-  return Object.assign({}, rest );
+  const { } = state;
+  return Object.assign({}
+
+  )
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CurrencyTab);
