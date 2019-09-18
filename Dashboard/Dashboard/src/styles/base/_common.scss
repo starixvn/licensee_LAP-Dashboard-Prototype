@@ -1,4 +1,6 @@
-﻿.left {
+﻿@import '../vendors/vendor';
+
+.left {
     float: left;
 }
 
@@ -103,7 +105,7 @@
     display: inline-block;
     margin-right: 40px;
 
-    select {
+    .select-filter {
       width: 150px;
       height: 30px;
       border: none;

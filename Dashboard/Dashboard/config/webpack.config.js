@@ -91,7 +91,8 @@ module.exports = env => {
         plugins: [
             new FixStyleOnlyEntriesPlugin(),
             new MiniCssExtractPlugin({
-                filename: "[name].css"
+                filename: "[name].css",
+                chunkFilename: 'css/pages/analytics/[name].css',
             }),
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
             //new CopyPlugin([

@@ -78,7 +78,7 @@
   .filter-top-panel .filter-item {
     display: inline-block;
     margin-right: 40px; }
-    .filter-top-panel .filter-item select {
+    .filter-top-panel .filter-item .select-filter {
       width: 150px;
       height: 30px;
       border: none;

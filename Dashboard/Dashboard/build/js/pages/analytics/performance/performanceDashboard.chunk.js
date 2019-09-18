@@ -535,6 +535,7 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
     }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["langCode"], "Based")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      className: "select-filter",
       onChange: e => this._onChangeBaseCurrency(e),
       value: this.props.selectedBaseCurrency
     }, this.props.currencyInfo.BaseCurrency.map((item, i) => {
@@ -547,6 +548,7 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
     }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["langCode"], "measurement")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      className: "select-filter",
       onChange: e => this._onChangeMeasurement(e),
       value: this.props.selectedMeasurement.id
     }, _lib_constants__WEBPACK_IMPORTED_MODULE_5__["defaultData"].measurements.map((item, i) => {

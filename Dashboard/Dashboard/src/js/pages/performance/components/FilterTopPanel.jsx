@@ -44,6 +44,7 @@ class FilterTopPanel extends Component {
         <div className="filter-item">
           <div className="label">{languageApi.getRes(langCode, "Based")}</div>
           <select
+            className="select-filter"
             onChange={(e) => this._onChangeBaseCurrency(e)}
             value={this.props.selectedBaseCurrency}>
             {this.props.currencyInfo.BaseCurrency.map((item, i) => {
@@ -54,6 +55,7 @@ class FilterTopPanel extends Component {
         <div className="filter-item">
           <div className="label">{languageApi.getRes(langCode, "measurement")}</div>
           <select
+            className="select-filter"
             onChange={(e) => this._onChangeMeasurement(e)}
             value={this.props.selectedMeasurement.id}>
             {defaultData.measurements.map((item, i) => {
