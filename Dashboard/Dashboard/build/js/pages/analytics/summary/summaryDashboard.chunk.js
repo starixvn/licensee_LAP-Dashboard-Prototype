@@ -2681,8 +2681,10 @@ const en = {
   measurement: "Measurement",
   submit: "Submit",
   comparedWith: "Compared With",
-  previousPeriod: "Previous Period",
-  samePeriod: "Same period of"
+  currerntPeriodPicker: "Current Period",
+  previousPeriodPicker: "Previous Period",
+  previousPeriodQuickSelection: "Previous Period",
+  previousYearQuickSelection: "Previous Year"
 };
 
 /***/ }),

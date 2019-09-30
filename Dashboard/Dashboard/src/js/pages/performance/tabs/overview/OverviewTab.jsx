@@ -65,9 +65,6 @@ class OverviewTab extends Component {
   render() {
     return (
       <div className="overview-tab">
-        {<TimeComparisonSelect onChangeComparison={this.onChangeComparison}
-          selectedDateRange={this.props.selectedDateRange}
-          selectedComparison={this.state.selectedComparison} />}
         {this.renderBoxInfoMeasureList()}
         <div className="table-major-list">
           {this.renderMajorChangeTableList()}

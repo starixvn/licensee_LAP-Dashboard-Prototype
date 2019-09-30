@@ -40,11 +40,13 @@ export const en = {
     MobileApp: "Mobile App",
     Mobile: "Mobile",
     MobileLiteVersion: "Mobile Lite Version",
-	DeepLink: "Deep Link",
+	  DeepLink: "Deep Link",
     date: "Date",
     measurement: "Measurement",
     submit: "Submit",
     comparedWith: "Compared With",
-    previousPeriod: "Previous Period",
-    samePeriod: "Same period of"
+    currerntPeriodPicker: "Current Period",
+    previousPeriodPicker: "Previous Period",
+    previousPeriodQuickSelection: "Previous Period",
+    previousYearQuickSelection: "Previous Year"
 };

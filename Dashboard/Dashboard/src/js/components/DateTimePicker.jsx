@@ -4,7 +4,6 @@ import moment from 'moment';
 import { datetimeDefaultData } from '../lib/constants';
 import datetimeFormat from '../lib/datetimeFormat';
 
-
 const iconElement = (<span className="oi oi-calendar"></span>);
 
 export default class DateTimePicker extends React.PureComponent {

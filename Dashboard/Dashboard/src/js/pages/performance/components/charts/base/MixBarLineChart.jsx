@@ -11,12 +11,12 @@ const data = {
     lineTension: 0,
     data: [51, -20, 40, -35, 60, 37, 105],
     fill: false,
-    borderColor: 'rgba(192, 80, 77, 1)',
-    backgroundColor: 'rgba(192, 80, 77, 1)',
-    pointBorderColor: 'rgba(192, 80, 77, 1)',
-    pointBackgroundColor: 'rgba(192, 80, 77, 1)',
-    pointHoverBackgroundColor: 'rgba(192, 80, 77, 1)',
-    pointHoverBorderColor: 'rgba(192, 80, 77, 1)',
+    borderColor: 'rgba(75, 172, 198, 1)',
+    backgroundColor: 'rgba(75, 172, 198, 1)',
+    pointBorderColor: 'rgba(75, 172, 198, 1)',
+    pointBackgroundColor: 'rgba(75, 172, 198, 1)',
+    pointHoverBackgroundColor:'rgba(75, 172, 198, 1)',
+    pointHoverBorderColor: 'rgba(75, 172, 198, 1)',
     yAxisID: 'y-axis-2'
   },
   {
@@ -24,10 +24,10 @@ const data = {
     label: 'Visitor',
     data: [200, 185, 590, 621, 250, 400, 95],
     fill: false,
-    backgroundColor: 'rgba(79,129,189,1)',
-    borderColor: '#71B37C',
-    hoverBackgroundColor: 'rgba(79,129,189,1)',
-    hoverBorderColor: '#71B37C',
+    backgroundColor: 'rgba(247,150,70,1)',
+    borderColor: 'rgba(247,150,70,0.5)',
+    hoverBackgroundColor: 'rgba(247,150,70,1)',
+    hoverBorderColor: 'rgba(247,150,70,0.5)',
     yAxisID: 'y-axis-1'
   }]
 };

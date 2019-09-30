@@ -4,7 +4,7 @@ import { ActionCreators } from '../actions';
 import languageApi from '../../../lib/languageApi';
 import { connect } from 'react-redux';
 import { defaultData } from '../lib/constants'
-import DateTimePicker from '../../../components/DateTimePicker';
+import MonthRangePicker from '../../../components/MonthRangePicker';
 import { langCode } from '../../../lib/constants'
 export { overviewService } from '../lib/service';
 
@@ -26,20 +26,23 @@ class FilterTopPanel extends Component {
     this.props.setMeasurement(value);
   }
 
-  _onChangeDateRange = dateRange => {
-    this.props.setDateRange(dateRange);
+  _onChangeMonthRange = monthRange => {
+    debugger
   }
 
   _onSubmit = () => {
-    //this.props.updateData();
   }
 
   render() {
     return (
       <div className="filter-top-panel">
         <div className="filter-item">
-          <div className="label">{languageApi.getRes(langCode, "date")}</div>
-          <DateTimePicker onChangeDateRange={this._onChangeDateRange} />
+          <div className="label">{languageApi.getRes(langCode, "currerntPeriodPicker")}</div>
+          <MonthRangePicker onChangeMonthRange={this._onChangeMonthRange}/>
+        </div>
+        <div className="filter-item">
+          <div className="label">{languageApi.getRes(langCode, "previousPeriodPicker")}</div>
+          <MonthRangePicker onChangeMonthRange={this._onChangeMonthRange}/>
         </div>
         <div className="filter-item">
           <div className="label">{languageApi.getRes(langCode, "Based")}</div>

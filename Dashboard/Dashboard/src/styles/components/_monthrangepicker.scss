@@ -1,0 +1,55 @@
+.rmp-main-container {
+    .mp-form-container {
+        .mp-form-input {
+            width: 150px;
+            height: 30px;
+            border: none;
+            border-bottom: 1px solid #dcdcdc;
+            text-align: center;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    .range-mp-container {
+        display: block;
+        position: absolute;
+        z-index: 10;
+        width: 600px;
+        background: rgb(255, 255, 255);
+        border-width: 1px;
+        border-style: solid;
+        border-image: initial;
+        border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(187, 187, 187);
+        padding: 10px;
+        box-sizing: border-box;
+
+        .quick-selection-container {
+            float: left;
+            .quick-selection {
+              padding: 5px;
+              margin-bottom: 5px;
+
+              &:hover {
+                cursor: pointer;
+                background-color: #4d6274;
+                color: white;
+              }
+            }
+        }
+
+        .mp-container {
+            float: left;
+            position: unset;
+            margin-left: 10px;
+        }
+
+
+    }
+}

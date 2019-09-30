@@ -93,24 +93,23 @@ const SET_DATE_RANGE = "SET_DATE_RANGE";
 
 /***/ }),
 
-/***/ "./src/js/components/DateTimePicker.jsx":
-/*!**********************************************!*\
-  !*** ./src/js/components/DateTimePicker.jsx ***!
-  \**********************************************/
+/***/ "./src/js/components/MonthRangePicker.jsx":
+/*!************************************************!*\
+  !*** ./src/js/components/MonthRangePicker.jsx ***!
+  \************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DateTimePicker; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MonthRangePicker; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _9softstudio_react_datepicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @9softstudio/react-datepicker */ "./node_modules/@9softstudio/react-datepicker/dist/index.js");
-/* harmony import */ var _9softstudio_react_datepicker__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_9softstudio_react_datepicker__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
-/* harmony import */ var _lib_datetimeFormat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/datetimeFormat */ "./src/js/lib/datetimeFormat.js");
+/* harmony import */ var _lib_datetimeFormat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/datetimeFormat */ "./src/js/lib/datetimeFormat.js");
+/* harmony import */ var _9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @9softstudio/react-monthpicker */ "./node_modules/@9softstudio/react-monthpicker/dist/index.js");
+/* harmony import */ var _9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -118,53 +117,239 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-const iconElement = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-  className: "oi oi-calendar"
-});
-class DateTimePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
+
+const defaultFormatFunc = (month, year) => {
+  return `${month < 10 ? '0' + month : month}/${year}`;
+};
+
+class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   constructor(props) {
     super(props);
 
-    _defineProperty(this, "handleChangeDateRange", value => {
-      const dateRange = {
-        fromDate: value.startDate,
-        toDate: value.endDate
-      };
-      this.setState(dateRange, this.props.onChangeDateRange(_lib_datetimeFormat__WEBPACK_IMPORTED_MODULE_4__["default"].formatDateRange(dateRange, this.dateInfo.format)));
+    _defineProperty(this, "toggle", () => {
+      if (this.props.enable) {
+        this.setState(prevState => ({
+          open: !prevState.open
+        }));
+      }
     });
 
-    this.inputDateRef = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
-    this.dateInfo = {
-      fromDate: props.fromDate || moment__WEBPACK_IMPORTED_MODULE_2___default()().clone(),
-      toDate: props.toDate || moment__WEBPACK_IMPORTED_MODULE_2___default()().clone(),
-      limitedMonthRange: this.props.limitedMonthRange || _lib_constants__WEBPACK_IMPORTED_MODULE_3__["datetimeDefaultData"].limitedMonthRange,
-      format: props.format || _lib_constants__WEBPACK_IMPORTED_MODULE_3__["datetimeDefaultData"].dateFormat
-    };
+    _defineProperty(this, "handleChangeYear", selectedValue => {
+      this.setState({
+        selectedDropdownYear: selectedValue
+      });
+    });
+
+    _defineProperty(this, "handleSelectMonth", selectedValue => {
+      const {
+        selectedDropdownYear
+      } = this.state;
+      this.setState({
+        selectedMonth: selectedValue,
+        selectedYear: selectedDropdownYear
+      });
+    });
+
+    _defineProperty(this, "handleClickOutSide", event => {
+      const containerElement = this.container.current;
+      const clickOutside = containerElement && !containerElement.contains(event.target);
+
+      if (clickOutside && this.state.open) {
+        this.setState({
+          open: false
+        });
+      }
+    });
+
+    _defineProperty(this, "_onChangeMonthRange", () => {
+      const {
+        selectedDropdownYear
+      } = this.state;
+      this.setState({
+        selectedMonth: selectedValue,
+        selectedYear: selectedDropdownYear,
+        open: false
+      }, () => this.props.onSelect(selectedValue + 1, selectedDropdownYear));
+    });
+
+    _defineProperty(this, "_cancel", () => {
+      this.setState({
+        open: false
+      });
+    });
+
+    const {
+      open,
+      selectedDropdownYear: _selectedDropdownYear,
+      selectedMonth,
+      selectedYear
+    } = this.props;
+    const now = new Date();
+
+    const initialYear = _selectedDropdownYear || now.getFullYear();
+
     this.state = {
-      fromDate: this.dateInfo.fromDate,
-      toDate: this.dateInfo.toDate
+      open,
+      selectedDropdownYear: initialYear,
+      selectedYear: selectedYear || initialYear,
+      selectedMonth: selectedMonth ? selectedMonth - 1 : now.getMonth()
+    };
+    this.container = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    this.currentRange = {
+      selectedDropdownYear: this.state.initialYear,
+      selectedYear: this.state.selectedYear,
+      selectedMonth: this.state.selectedMonth
+    };
+  }
+
+  componentDidMount() {
+    document.addEventListener('click', this.handleClickOutSide, true);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClickOutSide, true);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      selectedDropdownYear,
+      selectedMonth,
+      selectedYear
+    } = this.props;
+
+    if (selectedMonth !== prevProps.selectedMonth || selectedYear !== prevProps.selectedYear || selectedDropdownYear !== prevProps.selectedDropdownYear) {
+      this.setState({
+        selectedYear: selectedDropdownYear,
+        selectedMonth: selectedMonth - 1,
+        selectedDropdownYear
+      });
+    }
+  }
+
+  saveCurrentRange() {
+    this.currentRange = {
+      selectedDropdownYear: this.state.initialYear,
+      selectedYear: this.state.selectedYear,
+      selectedMonth: this.state.selectedMonth
     };
   }
 
   render() {
-    const dateInfo = this.dateInfo;
     const {
-      fromDate,
-      toDate
+      open,
+      selectedDropdownYear,
+      selectedYear,
+      selectedMonth
     } = this.state;
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_datepicker__WEBPACK_IMPORTED_MODULE_1__["DateRange"], {
-      startDate: fromDate,
-      endDate: toDate,
-      minDate: dateInfo.minDate,
-      maxDate: dateInfo.maxDate,
-      today: dateInfo.toDate,
-      limitedMonthRange: dateInfo.limitedMonthRange,
-      onChange: this.handleChangeDateRange,
-      iconElement: iconElement
-    }));
+    let {
+      monthNames,
+      hasRange,
+      minMonth,
+      minYear,
+      maxMonth,
+      maxYear,
+      isReadonly,
+      onFormat,
+      iconElement,
+      enable
+    } = this.props;
+    const displayText = onFormat(selectedMonth + 1, selectedYear) + '  -  ' + onFormat(selectedMonth + 1, selectedYear);
+    const inputClassName = enable ? 'mp-form-container' : 'mp-form-container disable';
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "rmp-main-container "
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: inputClassName,
+      onClick: this.toggle
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      type: "text",
+      className: "mp-form-input",
+      value: displayText,
+      readOnly: isReadonly
+    }), iconElement), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "range-mp-container",
+      style: {
+        display: open ? 'block' : 'none'
+      },
+      ref: this.container
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "quick-selection-container"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      class: "quick-selection"
+    }, "Previous Period"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      class: "quick-selection"
+    }, "Previous Year"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "rdr-Button rdr-ApplyButton",
+      onClick: this._onChangeMonthRange
+    }, "OK"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "rdr-Button rdr-CancelButton",
+      onClick: this._cancel
+    }, "Cancel"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mp-container"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["YearSelector"], {
+      minYear: minYear,
+      maxYear: maxYear,
+      selectedDropdownYear: selectedDropdownYear,
+      onSelect: this.handleChangeYear
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["MonthList"], {
+      monthNames: monthNames,
+      hasRange: hasRange,
+      selectedDropdownYear: selectedDropdownYear,
+      selectedMonth: selectedMonth,
+      selectedYear: selectedYear,
+      minMonth: minMonth,
+      minYear: minYear,
+      maxMonth: maxMonth,
+      maxYear: maxYear,
+      onSelect: this.handleSelectMonth
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "mp-container"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["YearSelector"], {
+      minYear: minYear,
+      maxYear: maxYear,
+      selectedDropdownYear: selectedDropdownYear,
+      onSelect: this.handleChangeYear
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["MonthList"], {
+      monthNames: monthNames,
+      hasRange: hasRange,
+      selectedDropdownYear: selectedDropdownYear,
+      selectedMonth: selectedMonth,
+      selectedYear: selectedYear,
+      minMonth: minMonth,
+      minYear: minYear,
+      maxMonth: maxMonth,
+      maxYear: maxYear,
+      onSelect: this.handleSelectMonth
+    }))));
   }
 
 }
+
+_defineProperty(MonthRangePicker, "propTypes", {
+  open: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.bool,
+  minMonth: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.number,
+  minYear: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.number,
+  maxMonth: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.number,
+  maxYear: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.number,
+  monthNames: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string)),
+  hasRange: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.bool,
+  selectedDropdownYear: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.number,
+  selectedMonth: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.number,
+  onSelect: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.func,
+  onFormat: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.func,
+  isReadonly: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.bool,
+  iconElement: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.any,
+  enable: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.bool
+});
+
+_defineProperty(MonthRangePicker, "defaultProps", {
+  open: false,
+  onSelect: () => {},
+  onFormat: defaultFormatFunc,
+  isReadonly: true,
+  enable: true,
+  minYear: new Date().getFullYear() - 5,
+  maxYear: new Date().getFullYear()
+});
 
 /***/ }),
 
@@ -479,7 +664,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../lib/languageApi */ "./src/js/lib/languageApi.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
-/* harmony import */ var _components_DateTimePicker__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/DateTimePicker */ "./src/js/components/DateTimePicker.jsx");
+/* harmony import */ var _components_MonthRangePicker__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/MonthRangePicker */ "./src/js/components/MonthRangePicker.jsx");
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../lib/constants */ "./src/js/lib/constants.js");
 /* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../lib/service */ "./src/js/pages/performance/lib/service.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "overviewService", function() { return _lib_service__WEBPACK_IMPORTED_MODULE_8__["overviewService"]; });
@@ -509,12 +694,11 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       this.props.setMeasurement(value);
     });
 
-    _defineProperty(this, "_onChangeDateRange", dateRange => {
-      this.props.setDateRange(dateRange);
+    _defineProperty(this, "_onChangeMonthRange", monthRange => {
+      debugger;
     });
 
-    _defineProperty(this, "_onSubmit", () => {//this.props.updateData();
-    });
+    _defineProperty(this, "_onSubmit", () => {});
   }
 
   componentDidMount() {
@@ -528,8 +712,14 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       className: "filter-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["langCode"], "date")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_DateTimePicker__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      onChangeDateRange: this._onChangeDateRange
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["langCode"], "currerntPeriodPicker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_MonthRangePicker__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      onChangeMonthRange: this._onChangeMonthRange
+    })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "filter-item"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "label"
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["langCode"], "previousPeriodPicker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_MonthRangePicker__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      onChangeMonthRange: this._onChangeMonthRange
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "filter-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -741,22 +931,22 @@ const data = {
     lineTension: 0,
     data: [51, -20, 40, -35, 60, 37, 105],
     fill: false,
-    borderColor: 'rgba(192, 80, 77, 1)',
-    backgroundColor: 'rgba(192, 80, 77, 1)',
-    pointBorderColor: 'rgba(192, 80, 77, 1)',
-    pointBackgroundColor: 'rgba(192, 80, 77, 1)',
-    pointHoverBackgroundColor: 'rgba(192, 80, 77, 1)',
-    pointHoverBorderColor: 'rgba(192, 80, 77, 1)',
+    borderColor: 'rgba(75, 172, 198, 1)',
+    backgroundColor: 'rgba(75, 172, 198, 1)',
+    pointBorderColor: 'rgba(75, 172, 198, 1)',
+    pointBackgroundColor: 'rgba(75, 172, 198, 1)',
+    pointHoverBackgroundColor: 'rgba(75, 172, 198, 1)',
+    pointHoverBorderColor: 'rgba(75, 172, 198, 1)',
     yAxisID: 'y-axis-2'
   }, {
     type: 'bar',
     label: 'Visitor',
     data: [200, 185, 590, 621, 250, 400, 95],
     fill: false,
-    backgroundColor: 'rgba(79,129,189,1)',
-    borderColor: '#71B37C',
-    hoverBackgroundColor: 'rgba(79,129,189,1)',
-    hoverBorderColor: '#71B37C',
+    backgroundColor: 'rgba(247,150,70,1)',
+    borderColor: 'rgba(247,150,70,0.5)',
+    hoverBackgroundColor: 'rgba(247,150,70,1)',
+    hoverBorderColor: 'rgba(247,150,70,0.5)',
     yAxisID: 'y-axis-1'
   }]
 };
@@ -1439,11 +1629,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   render() {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "overview-tab"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_TimeComparisonSelect__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      onChangeComparison: this.onChangeComparison,
-      selectedDateRange: this.props.selectedDateRange,
-      selectedComparison: this.state.selectedComparison
-    }), this.renderBoxInfoMeasureList(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, this.renderBoxInfoMeasureList(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "table-major-list"
     }, this.renderMajorChangeTableList()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
       currentMeasuremnent: this.props.selectedMeasurement.name
@@ -1874,8 +2060,10 @@ const en = {
   measurement: "Measurement",
   submit: "Submit",
   comparedWith: "Compared With",
-  previousPeriod: "Previous Period",
-  samePeriod: "Same period of"
+  currerntPeriodPicker: "Current Period",
+  previousPeriodPicker: "Previous Period",
+  previousPeriodQuickSelection: "Previous Period",
+  previousYearQuickSelection: "Previous Year"
 };
 
 /***/ }),
