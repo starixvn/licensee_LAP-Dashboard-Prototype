@@ -105,13 +105,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MonthRangePicker; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _lib_datetimeFormat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/datetimeFormat */ "./src/js/lib/datetimeFormat.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @9softstudio/react-monthpicker */ "./node_modules/@9softstudio/react-monthpicker/dist/index.js");
 /* harmony import */ var _9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
-/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/dateTimeHelper */ "./src/js/lib/dateTimeHelper.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -122,124 +121,193 @@ const defaultFormatFunc = (month, year) => {
   return `${month < 10 ? '0' + month : month}/${year}`;
 };
 
+const getMaxYearTo = ({
+  year,
+  month
+}, range, maxYear) => {
+  let maxDate = new Date(year, month + 1);
+  maxDate = new Date(maxDate.setMonth(maxDate.getMonth() + range - 1));
+  let maxYearTo = maxDate.getFullYear();
+  return maxYearTo < maxYear ? maxYearTo : maxYear;
+};
+
+const getMaxMonthTo = (month, range) => {
+  const result = (month + range - 1) % 12 || -1;
+  return result;
+};
+
 class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
   constructor(props) {
     super(props);
 
-    _defineProperty(this, "toggle", () => {
+    _defineProperty(this, "_toggle", () => {
       if (this.props.enable) {
-        this.setState(prevState => ({
-          open: !prevState.open
-        }));
-      }
-    });
-
-    _defineProperty(this, "handleChangeYear", selectedValue => {
-      this.setState({
-        selectedDropdownYear: selectedValue
-      });
-    });
-
-    _defineProperty(this, "handleSelectMonth", selectedValue => {
-      const {
-        selectedDropdownYear
-      } = this.state;
-      this.setState({
-        selectedMonth: selectedValue,
-        selectedYear: selectedDropdownYear
-      });
-    });
-
-    _defineProperty(this, "handleClickOutSide", event => {
-      const containerElement = this.container.current;
-      const clickOutside = containerElement && !containerElement.contains(event.target);
-
-      if (clickOutside && this.state.open) {
-        this.setState({
-          open: false
+        this.setState(prevState => {
+          !prevState.open && this._saveCurrentRange();
+          return {
+            open: !prevState.open
+          };
         });
       }
     });
 
-    _defineProperty(this, "_onChangeMonthRange", () => {
+    _defineProperty(this, "_onChangeYearFrom", selectedYear => {
+      let {
+        from
+      } = this.state;
+      from = { ...from,
+        ...{
+          dropdownYear: selectedYear
+        }
+      };
+      this.setState({
+        from
+      });
+    });
+
+    _defineProperty(this, "_onChangeMonthFrom", selectedMonth => {
+      let {
+        from,
+        to
+      } = this.state;
+      from = { ...from,
+        ...{
+          month: selectedMonth,
+          year: from.dropdownYear
+        }
+      };
+      to = { ...to,
+        ...from
+      };
+      this.setState({
+        from,
+        to
+      });
+    });
+
+    _defineProperty(this, "_onChangeYearTo", selectedYear => {
+      let {
+        to
+      } = this.state;
+      to = { ...to,
+        ...{
+          dropdownYear: selectedYear
+        }
+      };
+      this.setState({
+        to
+      });
+    });
+
+    _defineProperty(this, "_onChangeMonthTo", selectedMonth => {
+      let {
+        to
+      } = this.state;
+      to = { ...to,
+        ...{
+          month: selectedMonth,
+          year: to.dropdownYear
+        }
+      };
+      this.setState({
+        to
+      });
+    });
+
+    _defineProperty(this, "_handleClickOutSide", event => {
+      const containerElement = this.container.current;
+      const clickOutside = containerElement && !containerElement.contains(event.target);
+
+      if (clickOutside && this.state.open) {
+        this._cancel();
+      }
+    });
+
+    _defineProperty(this, "_onConfirmChangeRange", () => {
       const {
-        selectedDropdownYear
+        onChange
+      } = this.props;
+      const {
+        from,
+        to
       } = this.state;
       this.setState({
-        selectedMonth: selectedValue,
-        selectedYear: selectedDropdownYear,
         open: false
-      }, () => this.props.onSelect(selectedValue + 1, selectedDropdownYear));
+      }, () => onChange && onChangeRange({
+        from,
+        to
+      }));
     });
 
     _defineProperty(this, "_cancel", () => {
-      this.setState({
+      this.setState({ ...this.currentRange,
         open: false
       });
     });
 
+    _defineProperty(this, "_onSelectPreviousPeriod", currentPeriod => {
+      Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_3__["getPreviousPeriod"])(currentPeriod);
+    });
+
     const {
       open,
-      selectedDropdownYear: _selectedDropdownYear,
-      selectedMonth,
-      selectedYear
+      selectedDropdownYear,
+      selectedMonth: _selectedMonth,
+      selectedYear: _selectedYear
     } = this.props;
     const now = new Date();
-
-    const initialYear = _selectedDropdownYear || now.getFullYear();
-
+    const initialYear = selectedDropdownYear || now.getFullYear();
     this.state = {
-      open,
-      selectedDropdownYear: initialYear,
-      selectedYear: selectedYear || initialYear,
-      selectedMonth: selectedMonth ? selectedMonth - 1 : now.getMonth()
+      open: open,
+      from: {
+        dropdownYear: _selectedYear || initialYear,
+        year: _selectedYear || initialYear,
+        month: _selectedMonth ? _selectedMonth - 1 : now.getMonth()
+      },
+      to: {
+        dropdownYear: _selectedYear || initialYear,
+        year: _selectedYear || initialYear,
+        month: _selectedMonth ? _selectedMonth - 1 : now.getMonth()
+      }
     };
     this.container = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
-    this.currentRange = {
-      selectedDropdownYear: this.state.initialYear,
-      selectedYear: this.state.selectedYear,
-      selectedMonth: this.state.selectedMonth
-    };
   }
 
   componentDidMount() {
-    document.addEventListener('click', this.handleClickOutSide, true);
+    document.addEventListener('click', this._handleClickOutSide, true);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClickOutSide, true);
+    document.removeEventListener('click', this._handleClickOutSide, true);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  _saveCurrentRange() {
     const {
-      selectedDropdownYear,
-      selectedMonth,
-      selectedYear
-    } = this.props;
-
-    if (selectedMonth !== prevProps.selectedMonth || selectedYear !== prevProps.selectedYear || selectedDropdownYear !== prevProps.selectedDropdownYear) {
-      this.setState({
-        selectedYear: selectedDropdownYear,
-        selectedMonth: selectedMonth - 1,
-        selectedDropdownYear
-      });
-    }
+      from,
+      to
+    } = this.state;
+    this.currentRange = {
+      from,
+      to
+    };
   }
 
-  saveCurrentRange() {
-    this.currentRange = {
-      selectedDropdownYear: this.state.initialYear,
-      selectedYear: this.state.selectedYear,
-      selectedMonth: this.state.selectedMonth
-    };
+  _getDisplayText() {
+    const {
+      from,
+      to
+    } = this.state;
+    const {
+      onFormat
+    } = this.props;
+    return `${onFormat(from.month + 1, from.year)}  -  ${onFormat(to.month + 1, to.year)}`;
   }
 
   render() {
     const {
       open,
-      selectedDropdownYear,
-      selectedYear,
-      selectedMonth
+      from,
+      to
     } = this.state;
     let {
       monthNames,
@@ -249,21 +317,21 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
       maxMonth,
       maxYear,
       isReadonly,
-      onFormat,
       iconElement,
-      enable
+      enable,
+      range
     } = this.props;
-    const displayText = onFormat(selectedMonth + 1, selectedYear) + '  -  ' + onFormat(selectedMonth + 1, selectedYear);
-    const inputClassName = enable ? 'mp-form-container' : 'mp-form-container disable';
+    const maxYearTo = getMaxYearTo(from, range, maxYear);
+    const maxMonthTo = getMaxMonthTo(from.month + 1, range);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "rmp-main-container "
+      className: "rmp-main-container"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: inputClassName,
-      onClick: this.toggle
+      className: enable ? 'mp-form-container' : 'mp-form-container disable',
+      onClick: this._toggle
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "text",
       className: "mp-form-input",
-      value: displayText,
+      value: this._getDisplayText(),
       readOnly: isReadonly
     }), iconElement), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "range-mp-container",
@@ -274,71 +342,73 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Comp
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "quick-selection-container"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      class: "quick-selection"
+      class: "quick-selection",
+      onClick: this._onSelectPreviousPeriod
     }, "Previous Period"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       class: "quick-selection"
     }, "Previous Year"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "rdr-Button rdr-ApplyButton",
-      onClick: this._onChangeMonthRange
+      className: "btn btn-confirm",
+      onClick: this._onConfirmChangeRange
     }, "OK"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "rdr-Button rdr-CancelButton",
+      className: "btn btn-cancel",
       onClick: this._cancel
     }, "Cancel"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "mp-container"
+      className: "mp-container mp-from"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["YearSelector"], {
       minYear: minYear,
       maxYear: maxYear,
-      selectedDropdownYear: selectedDropdownYear,
-      onSelect: this.handleChangeYear
+      selectedDropdownYear: from.dropdownYear,
+      onSelect: this._onChangeYearFrom
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["MonthList"], {
       monthNames: monthNames,
       hasRange: hasRange,
-      selectedDropdownYear: selectedDropdownYear,
-      selectedMonth: selectedMonth,
-      selectedYear: selectedYear,
-      minMonth: minMonth,
+      selectedDropdownYear: from.dropdownYear,
+      selectedMonth: from.month,
+      selectedYear: from.year,
       minYear: minYear,
-      maxMonth: maxMonth,
       maxYear: maxYear,
-      onSelect: this.handleSelectMonth
+      minMonth: minMonth,
+      maxMonth: maxMonth,
+      onSelect: this._onChangeMonthFrom
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "mp-container"
+      className: "mp-container mp-to"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["YearSelector"], {
-      minYear: minYear,
-      maxYear: maxYear,
-      selectedDropdownYear: selectedDropdownYear,
-      onSelect: this.handleChangeYear
+      minYear: from.year,
+      maxYear: maxYearTo,
+      selectedDropdownYear: to.dropdownYear,
+      onSelect: this._onChangeYearTo
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["MonthList"], {
       monthNames: monthNames,
       hasRange: hasRange,
-      selectedDropdownYear: selectedDropdownYear,
-      selectedMonth: selectedMonth,
-      selectedYear: selectedYear,
-      minMonth: minMonth,
-      minYear: minYear,
-      maxMonth: maxMonth,
-      maxYear: maxYear,
-      onSelect: this.handleSelectMonth
+      selectedDropdownYear: to.dropdownYear,
+      selectedMonth: to.month,
+      selectedYear: to.year,
+      minYear: from.year,
+      maxYear: maxYearTo,
+      minMonth: from.month + 1,
+      maxMonth: maxMonthTo,
+      onSelect: this._onChangeMonthTo
     }))));
   }
 
 }
 
 _defineProperty(MonthRangePicker, "propTypes", {
-  open: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.bool,
-  minMonth: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.number,
-  minYear: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.number,
-  maxMonth: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.number,
-  maxYear: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.number,
-  monthNames: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.string)),
-  hasRange: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.bool,
-  selectedDropdownYear: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.number,
-  selectedMonth: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.number,
-  onSelect: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.func,
-  onFormat: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.func,
-  isReadonly: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.bool,
-  iconElement: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.any,
-  enable: prop_types__WEBPACK_IMPORTED_MODULE_3___default.a.bool
+  open: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  minMonth: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  minYear: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  maxMonth: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  maxYear: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  monthNames: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string)),
+  hasRange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  range: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  selectedDropdownYear: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  selectedMonth: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  onSelect: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
+  onFormat: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
+  isReadonly: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
+  iconElement: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.any,
+  enable: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
 });
 
 _defineProperty(MonthRangePicker, "defaultProps", {
@@ -348,7 +418,9 @@ _defineProperty(MonthRangePicker, "defaultProps", {
   isReadonly: true,
   enable: true,
   minYear: new Date().getFullYear() - 5,
-  maxYear: new Date().getFullYear()
+  maxYear: new Date().getFullYear(),
+  hasRange: true,
+  range: 12
 });
 
 /***/ }),
@@ -375,36 +447,35 @@ function createReducer(initialState, handlers) {
 
 /***/ }),
 
-/***/ "./src/js/lib/datetimeFormat.js":
+/***/ "./src/js/lib/dateTimeHelper.js":
 /*!**************************************!*\
-  !*** ./src/js/lib/datetimeFormat.js ***!
+  !*** ./src/js/lib/dateTimeHelper.js ***!
   \**************************************/
-/*! exports provided: default */
+/*! exports provided: getPreviousPeriod */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return datetimeFormat; });
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/js/lib/constants.js");
-
-class datetimeFormat {
-  static formatDateDefault(momentObj) {
-    return formatDate(momentObj, _constants__WEBPACK_IMPORTED_MODULE_0__["datetimeDefaultData"].dateFormat);
-  }
-
-  static formatDate(momentObj, format) {
-    return momentObj.format(format);
-  }
-
-  static formatDateRange(dateRange, format) {
-    format = format || _constants__WEBPACK_IMPORTED_MODULE_0__["datetimeDefaultData"].dateFormat;
-    return {
-      fromDate: datetimeFormat.formatDate(dateRange.fromDate, format),
-      toDate: datetimeFormat.formatDate(dateRange.toDate, format)
-    };
-  }
-
-}
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPreviousPeriod", function() { return getPreviousPeriod; });
+const getPreviousPeriod = currentPeriod => {
+  const {
+    from,
+    to
+  } = currentPeriod;
+  const distance = 12 * (to.year - from.year) + (to.month - from.month);
+  const prevPeriodTo = {
+    month: from.month - 1 || 12,
+    year: from.month - 1 ? from.year : from.year - 1
+  };
+  const prevPeriodFrom = {
+    month: (12 * (to.year - from.year) + prevPeriodTo.month - distance) % 12,
+    year: prevPeriodTo.year - distance / 12
+  };
+  undefined.setState({
+    from: prevPeriodFrom,
+    to: prevPeriodTo
+  });
+};
 
 /***/ }),
 

@@ -1,34 +1,45 @@
 import React from 'react';
-import datetimeFormat from '../lib/datetimeFormat';
-import MonthPicker from "@9softstudio/react-monthpicker";
 import PropTypes from 'prop-types';
-import { YearSelector, MonthList } from "@9softstudio/react-monthpicker";
+import { YearSelector, MonthList } from '@9softstudio/react-monthpicker';
+import { getPreviousPeriod } from '../lib/dateTimeHelper';
 
 const defaultFormatFunc = (month, year) => {
   return `${month < 10 ? '0' + month : month}/${year}`
 }
+
+const getMaxYearTo = ({ year, month}, range, maxYear) => {
+  let maxDate = new Date(year, month + 1);
+  maxDate = new Date(maxDate.setMonth(maxDate.getMonth() + range - 1));
+  let maxYearTo = maxDate.getFullYear();
+  return  maxYearTo < maxYear ? maxYearTo : maxYear;
+}
+
+const getMaxMonthTo = (month, range) => {
+  const result =  (month + range - 1) % 12 || -1;
+  return result;
+}
+
+
 export default class MonthRangePicker extends React.Component {
   constructor(props) {
     super(props);
-
     const { open, selectedDropdownYear, selectedMonth, selectedYear } = this.props;
     const now = new Date();
-
     const initialYear = selectedDropdownYear || now.getFullYear();
-
     this.state = {
-      open,
-      selectedDropdownYear: initialYear,
-      selectedYear: selectedYear || initialYear,
-      selectedMonth: selectedMonth ? selectedMonth - 1 : now.getMonth()
+      open: open,
+      from: {
+        dropdownYear: selectedYear || initialYear,
+        year: selectedYear || initialYear,
+        month: selectedMonth ? selectedMonth - 1 : now.getMonth()
+      },
+      to: {
+        dropdownYear: selectedYear || initialYear,
+        year: selectedYear || initialYear,
+        month: selectedMonth ? selectedMonth - 1 : now.getMonth()
+      }
     }
-
     this.container = React.createRef();
-    this.currentRange = {
-      selectedDropdownYear: this.state.initialYear,
-      selectedYear: this.state.selectedYear,
-      selectedMonth: this.state.selectedMonth
-    }
   }
 
   static propTypes = {
@@ -39,6 +50,7 @@ export default class MonthRangePicker extends React.Component {
     maxYear: PropTypes.number,
     monthNames: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
     hasRange: PropTypes.bool,
+    range: PropTypes.number,
     selectedDropdownYear: PropTypes.number,
     selectedMonth: PropTypes.number,
     onSelect: PropTypes.func,
@@ -56,119 +68,167 @@ export default class MonthRangePicker extends React.Component {
     enable: true,
     minYear: new Date().getFullYear() - 5,
     maxYear: new Date().getFullYear(),
+    hasRange: true,
+    range: 12,
   }
 
   componentDidMount() {
-    document.addEventListener('click', this.handleClickOutSide, true);
+    document.addEventListener('click', this._handleClickOutSide, true);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClickOutSide, true);
+    document.removeEventListener('click', this._handleClickOutSide, true);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { selectedDropdownYear, selectedMonth, selectedYear } = this.props;
-
-    if (selectedMonth !== prevProps.selectedMonth ||
-      selectedYear !== prevProps.selectedYear ||
-      selectedDropdownYear !== prevProps.selectedDropdownYear) {
-      this.setState({
-        selectedYear: selectedDropdownYear,
-        selectedMonth: selectedMonth - 1,
-        selectedDropdownYear
-      });
-    }
-  }
-
-  toggle = () => {
+  _toggle = () => {
     if (this.props.enable) {
-      this.setState((prevState) => ({
-        open: !prevState.open
-      }));
+      this.setState(prevState => {
+        !prevState.open && this._saveCurrentRange();
+        return {
+          open: !prevState.open
+        }
+      })
     }
   }
 
-  handleChangeYear = (selectedValue) => {
-    this.setState({ selectedDropdownYear: selectedValue });
+  _onChangeYearFrom = selectedYear => {
+    let { from } = this.state;
+    from = {
+      ...from,
+      ...{
+        dropdownYear: selectedYear
+      }
+    }
+
+    this.setState({ from });
   }
 
-  handleSelectMonth = (selectedValue) => {
-    const { selectedDropdownYear } = this.state;
-    this.setState({
-      selectedMonth: selectedValue,
-      selectedYear: selectedDropdownYear
-    });
+  _onChangeMonthFrom = selectedMonth => {
+    let { from, to } = this.state;
+    from = {
+      ...from,
+      ...{
+        month: selectedMonth,
+        year: from.dropdownYear
+      }
+    };
+
+    to = {
+      ...to,
+      ...from
+    };
+
+    this.setState({ from, to });
   }
 
-  handleClickOutSide = (event) => {
+  _onChangeYearTo = selectedYear => {
+    let { to } = this.state;
+    to = {
+      ...to,
+      ...{
+        dropdownYear: selectedYear
+      }
+    }
+    this.setState({ to });
+  }
+
+  _onChangeMonthTo = selectedMonth => {
+    let { to } = this.state;
+    to = {
+      ...to,
+      ...{
+        month: selectedMonth,
+        year: to.dropdownYear
+      }
+    }
+    this.setState({ to });
+  }
+
+  _handleClickOutSide = (event) => {
     const containerElement = this.container.current;
     const clickOutside = containerElement && !containerElement.contains(event.target);
-
     if (clickOutside && this.state.open) {
-      this.setState({ open: false });
+      this._cancel();
     }
   }
 
-  _onChangeMonthRange = () => {
-    const { selectedDropdownYear } = this.state;
+  _onConfirmChangeRange = () => {
+    const { onChange } = this.props;
+    const { from, to } = this.state;
     this.setState({
-      selectedMonth: selectedValue,
-      selectedYear: selectedDropdownYear,
       open: false
-    }, () => this.props.onSelect(selectedValue + 1, selectedDropdownYear));
+    }, () => onChange && onChangeRange({ from, to }))
   }
 
   _cancel = () => {
     this.setState({
+      ...this.currentRange,
       open: false
     })
   }
 
-  saveCurrentRange() {
-    this.currentRange = {
-      selectedDropdownYear: this.state.initialYear,
-      selectedYear: this.state.selectedYear,
-      selectedMonth: this.state.selectedMonth
-    }
+  _saveCurrentRange() {
+    const { from, to } = this.state;
+    this.currentRange = { from, to };
+  }
+
+  _getDisplayText() {
+    const { from, to } = this.state;
+    const { onFormat } = this.props;
+    return `${onFormat(from.month + 1, from.year)}  -  ${onFormat(to.month + 1, to.year)}`;
+  }
+
+  _onSelectPreviousPeriod = currentPeriod => {
+    getPreviousPeriod(currentPeriod)
   }
 
   render() {
-    const { open, selectedDropdownYear, selectedYear, selectedMonth } = this.state;
-    let { monthNames, hasRange, minMonth, minYear, maxMonth, maxYear, isReadonly, onFormat, iconElement, enable } = this.props;
-    const displayText = onFormat(selectedMonth + 1, selectedYear) + '  -  ' + onFormat(selectedMonth + 1, selectedYear);
-    const inputClassName = enable ? 'mp-form-container' : 'mp-form-container disable';
+    const { open, from, to } = this.state;
+    let { monthNames, hasRange, minMonth, minYear, maxMonth, maxYear, isReadonly, iconElement, enable, range } = this.props;
+    const maxYearTo = getMaxYearTo(from, range, maxYear);
+    const maxMonthTo = getMaxMonthTo(from.month + 1, range);
 
     return (
-      <div className="rmp-main-container ">
-        <div className={inputClassName} onClick={this.toggle}>
-          <input type="text" className="mp-form-input" value={displayText} readOnly={isReadonly} />
+      <div className="rmp-main-container">
+        <div className={enable ? 'mp-form-container' : 'mp-form-container disable'} onClick={this._toggle}>
+          <input type="text" className="mp-form-input" value={this._getDisplayText()} readOnly={isReadonly} />
           {iconElement}
         </div>
         <div className="range-mp-container" style={{ display: open ? 'block' : 'none' }} ref={this.container}>
           <div className="quick-selection-container">
-            <div class="quick-selection">Previous Period</div>
+            <div class="quick-selection" onClick={this._onSelectPreviousPeriod}>Previous Period</div>
             <div class="quick-selection">Previous Year</div>
             <div>
-              <button className="rdr-Button rdr-ApplyButton" onClick={this._onChangeMonthRange}>OK</button>
-              <button className="rdr-Button rdr-CancelButton" onClick={this._cancel}>Cancel</button>
+              <button className="btn btn-confirm" onClick={this._onConfirmChangeRange}>OK</button>
+              <button className="btn btn-cancel" onClick={this._cancel}>Cancel</button>
             </div>
           </div>
-          <div className="mp-container" >
-            <YearSelector minYear={minYear} maxYear={maxYear} selectedDropdownYear={selectedDropdownYear} onSelect={this.handleChangeYear} />
+          <div className="mp-container mp-from" >
+            <YearSelector minYear={minYear} maxYear={maxYear}
+              selectedDropdownYear={from.dropdownYear}
+              onSelect={this._onChangeYearFrom} />
             <MonthList monthNames={monthNames} hasRange={hasRange}
-              selectedDropdownYear={selectedDropdownYear} selectedMonth={selectedMonth} selectedYear={selectedYear}
-              minMonth={minMonth} minYear={minYear} maxMonth={maxMonth} maxYear={maxYear}
-              onSelect={this.handleSelectMonth} />
+              selectedDropdownYear={from.dropdownYear}
+              selectedMonth={from.month} selectedYear={from.year}
+              minYear={minYear} maxYear={maxYear}
+              minMonth={minMonth} maxMonth={maxMonth}
+              onSelect={this._onChangeMonthFrom} />
           </div>
-          <div className="mp-container">
-            <YearSelector minYear={minYear} maxYear={maxYear} selectedDropdownYear={selectedDropdownYear} onSelect={this.handleChangeYear} />
+          <div className="mp-container mp-to">
+            <YearSelector minYear={from.year} maxYear={maxYearTo}
+             selectedDropdownYear={to.dropdownYear}
+             onSelect={this._onChangeYearTo} />
             <MonthList monthNames={monthNames} hasRange={hasRange}
-              selectedDropdownYear={selectedDropdownYear} selectedMonth={selectedMonth} selectedYear={selectedYear}
-              minMonth={minMonth} minYear={minYear} maxMonth={maxMonth} maxYear={maxYear}
-              onSelect={this.handleSelectMonth} />
+              selectedDropdownYear={to.dropdownYear}
+              selectedMonth={to.month} selectedYear={to.year}
+              minYear={from.year} maxYear={maxYearTo}
+              minMonth={from.month + 1} maxMonth={maxMonthTo}
+              onSelect={this._onChangeMonthTo} />
           </div>
         </div>
       </div>
     )
   }
 }
+
+
