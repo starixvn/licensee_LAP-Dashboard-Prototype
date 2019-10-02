@@ -1,0 +1,17 @@
+@import '../../base/variables';
+
+.btn {
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.btn-confirm {
+  background-color: #f05b1f;
+}
+
+.btn-cancel {
+  background-color: $colorCancel;
+}

@@ -706,6 +706,24 @@ class widgetApi {
     }
   }
 
+  static async fetchDataCrossSite({
+    url,
+    params,
+    body
+  }) {
+    let response = await widgetApi._getAuthToken(url);
+    const token = response.data.Token || '';
+    body = body || {};
+    params = params || {};
+    url = 'http://localhost:5001' + url;
+    response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, body, {
+      headers: {
+        'X-Auth-Token': token
+      }
+    });
+    return response;
+  }
+
 }
 
 /***/ }),

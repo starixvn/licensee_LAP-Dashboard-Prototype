@@ -1,33 +1,28 @@
-import React, { Component, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 import { connect } from 'react-redux';
 import { tabMenuList } from '../lib/constants';
 import TabMenu from '../../dashboard/components/TabMenu';
 
-class TabContainer extends Component {
+class TabContainer extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {
-      selectedTabKey: tabMenuList[0].key
-    };
   }
 
-  _onClickTabMenu = (tabKey) => {
-    this.setState({
-      selectedTabKey: tabKey
-    })
+  _onClickTabMenu = tabKey => {
+    this.props.setCurrentTab(tabKey);
   }
 
   _getCurrentTab() {
-    const item = tabMenuList.find(_ => _.key === this.state.selectedTabKey);
+    const { selectedTabKey } = this.props;
+    const item = tabMenuList.find(_ => _.key === selectedTabKey);
     return item ? item.component : null;
   }
 
   render() {
     const CurrentTab = this._getCurrentTab();
-    const { selectedTabKey } = this.state;
+    const { selectedTabKey } = this.props;
     return (
       <div className="tab-container">
         <TabMenu selectedTabMenu={selectedTabKey} onClickTabMenu={this._onClickTabMenu} tabMenuList={tabMenuList} />
@@ -38,15 +33,17 @@ class TabContainer extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-
+  const { setCurrentTab } = ActionCreators;
   return bindActionCreators({
-    ActionCreators
+    setCurrentTab
   }, dispatch);
 }
 
 function mapStateToProps(state) {
-  const { ...rest } = state;
-  return Object.assign({}, rest);
+  const { currentChildTabKey } = state;
+  return Object.assign({}, {
+    selectedTabKey: currentChildTabKey
+  });
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TabContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(TabContainer);

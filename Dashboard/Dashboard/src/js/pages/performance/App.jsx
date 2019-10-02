@@ -3,24 +3,31 @@ import { bindActionCreators } from 'redux'
 import { ActionCreators } from './actions'
 import { connect } from 'react-redux';
 import FilterTopPanel from './components/FilterTopPanel';
-import TabContainer from "./components/TabContainer";
+import TabContainer from './components/TabContainer';
+import Loader from '../../components/Loader';
+import { generalService } from '../performance/lib/service';
 
 class PerformanceDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isUpdate: true
+
     }
   }
 
   componentDidMount() {
+    const { currentChildTabKey, selectedComparePeriods, selectedBaseCurrency, selectedMeasurement } = this.props;
+    const filterData = generalService.getFilterData({ selectedComparePeriods, selectedBaseCurrency, selectedMeasurement });
+    this.props.getAnalyticData(filterData, currentChildTabKey);
   }
 
-
   render() {
+    const { isLoading } = this.props;
+
     return (
       <div className="performance-container">
-          <FilterTopPanel onSubmit={null}/>
+          <Loader isLoading={isLoading} widgetKey={this.props.widgetKey} />
+          <FilterTopPanel />
           <TabContainer />
       </div >
     );
@@ -28,16 +35,20 @@ class PerformanceDashboard extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
+  const { getAnalyticData } = ActionCreators;
   return bindActionCreators({
-    getCurrencyInfo: ActionCreators.getCurrencyInfo,
-    setBaseCurrency: ActionCreators.setBaseCurrency
+    getAnalyticData
   }, dispatch);
 }
 
 function mapStateToProps(state) {
-  return {
-    selectedBaseCurrency: state.selectedBaseCurrency,
-    currencyInfo: state.currencyInfo
-  }
+  const { isLoading, currentChildTabKey, selectedComparePeriods, selectedBaseCurrency, selectedMeasurement } = state;
+  return Object.assign({}, {
+    isLoading,
+    currentChildTabKey,
+    selectedComparePeriods,
+    selectedBaseCurrency,
+    selectedMeasurement
+  });
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PerformanceDashboard)

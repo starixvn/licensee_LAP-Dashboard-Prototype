@@ -6,3 +6,9 @@ export const selectedMeasurement = createReducer({}, {
     return action.data;
   }
 });
+
+export const selectedComparePeriods = createReducer({}, {
+  [types.SET_COMPARE_PERIODS](state, action) {
+    return action.data;
+  }
+});

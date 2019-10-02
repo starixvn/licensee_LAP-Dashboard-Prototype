@@ -5,14 +5,10 @@ import { connect } from 'react-redux';
 import BoxInfoMeasureList from '../../components/normal/BoxInfoMeasureList';
 import TableMajorChangeItem from '../../components/normal/TableMajorChangeItem';
 import GrowthChart from '../../components/charts/GrowthChart';
-import TimeComparisonSelect from '../../components/normal/TimeComparisonSelect';
 import ValueChangeIcon from '../../components/normal/ValueChangeIcon';
 
-import { majorChangeList, ComparisonType } from '../../lib/constants';
+import { majorChangeList } from '../../lib/constants';
 import overviewActions from './actions';
-
-import { overviewService  } from '../../lib/service';
-
 
 const majorChangeData = {
   data: [{ name: 'MYR', totalValue: 1235, changeValue: 5 },
@@ -26,28 +22,14 @@ const majorChangeData = {
 class OverviewTab extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      selectedComparison: {
-        type: ComparisonType.PREVIOUS_PERIOD,
-        value: null
-      }
     }
   }
 
   componentDidMount() {
-    var filterData = overviewService.getFilterData(this.props);
-    this.props.getPerformanceOverviewTotal(filterData);
-    this.props.getPerformanceOverviewTopChange(filterData);
   }
 
-  onChangeComparison = value => {
-    this.setState({
-      selectedComparison: value
-    })
-  }
-
-  renderMajorChangeTableList() {
+  _renderMajorChangeTableList() {
     return majorChangeList.map(_ => <TableMajorChangeItem
       {...{ ..._, ...majorChangeData }}
       renderRow={item => <tr key={item.name}>
@@ -55,42 +37,46 @@ class OverviewTab extends Component {
         <td>{item.totalValue}</td>
         <td>{item.changeValue + '%'}</td>
       </tr>}
-    />)
+    />);
   }
 
-  renderBoxInfoMeasureList() {
-    return <BoxInfoMeasureList items={this.props.performanceOverviewTotal} />
+  _renderBoxInfoMeasureList() {
+    return <BoxInfoMeasureList items={this.props.analyticData.summary} />;
+  }
+
+  _renderGrowthChart() {
+    const { analyticData } = this.props;
+    return <GrowthChart currentMeasuremnent={this.props.selectedMeasurement.name}
+              data={analyticData.periodGrowth} />;
   }
 
   render() {
+
     return (
       <div className="overview-tab">
-        {this.renderBoxInfoMeasureList()}
+        {this._renderBoxInfoMeasureList()}
         <div className="table-major-list">
-          {this.renderMajorChangeTableList()}
+          {this._renderMajorChangeTableList()}
         </div>
-        <GrowthChart currentMeasuremnent={this.props.selectedMeasurement.name} />
+        {this._renderGrowthChart()}
       </div>
     );
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  const { getPerformanceOverviewTotal, getPerformanceOverviewTopChange } = overviewActions;
-  return bindActionCreators(Object.assign({},
-  {
-    getPerformanceOverviewTotal,
-    getPerformanceOverviewTopChange
+  const { } = overviewActions;
+  return bindActionCreators(Object.assign({}, {
   }), dispatch);
 }
 
 function mapStateToProps(state) {
-  const { selectedBaseCurrency, selectedMeasurement, selectedDateRange, performanceOverviewTotal, performanceOverviewTopChange } = state;
+  const { selectedBaseCurrency, selectedMeasurement, performanceOverviewTotal, analyticData } = state;
   return Object.assign({}, {
     selectedBaseCurrency,
     selectedMeasurement,
     performanceOverviewTotal,
-    performanceOverviewTopChange
+    analyticData // { summaryData, }
   });
 }
 

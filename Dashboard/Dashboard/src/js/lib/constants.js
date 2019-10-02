@@ -1,6 +1,9 @@
-﻿export const datetimeDefaultData = {
-  dateFormat: 'MM/DD/YYYY',
-  limitedMonthRange: 12*5
+﻿export const getCurrentTime = () => {
+  const now = new Date();
+  return {
+    month: now.getMonth(),
+    year: now.getFullYear()
+  }
 }
 
 export const langCode = window.dashboardLangCode || 'en';

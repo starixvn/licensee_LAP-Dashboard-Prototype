@@ -1,12 +1,23 @@
 import OverviewTab from '../tabs/overview/OverviewTab';
 import CurrencyTab from '../tabs/currency/CurrencyTab';
+import { getCurrentTime } from '../../../lib/constants';
 
 export const defaultData = {
   measurements: [
     { id: 1, name: 'Turnover' },
     { id: 2, name: 'Gross Profit' },
     { id: 3, name: 'Margin' },
-  ]
+  ],
+  comparePeriods: {
+    currentPeriod: {
+      from: getCurrentTime(),
+      to: getCurrentTime()
+    },
+    previousPeriod: {
+      from: getCurrentTime(),
+      to: getCurrentTime()
+    }
+  }
 }
 
 export const tabMenuList = [
@@ -31,9 +42,4 @@ export const majorChangeList = [
     data: []
   }
 ]
-
-export const ComparisonType = {
-  "PREVIOUS_PERIOD": 1,
-  "SAME_PERIOD": 2
-}
 

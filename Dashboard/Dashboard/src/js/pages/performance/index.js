@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
-import PerformanceDashboard from './App'
-import { defaultData } from './lib/constants'
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose } from 'redux'
-import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
-import reducer from './reducers/index'
+import PerformanceDashboard from './App';
+import { defaultData } from './lib/constants';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+import reducer from './reducers/index';
+import { tabMenuList } from './lib/constants';
 
 // middleware that logs actions
 /* global __DEV__ */
 const __DEV__ = '__DEV__';
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
 
-const defaultState =
-{
+const defaultState = {
+  isLoading: false,
+  currentChildTabKey: tabMenuList[0].key,
   currencyInfo: {
     Currency: [],
     BaseCurrency: []
   },
-  performanceOverviewTotal: [],
-  performanceOverviewTopChange: []
+  selectedMeasurement: defaultData.measurements[0],
+  selectedBaseCurrency: window.defaultBaseCurrency,
+  analyticData: {},
+  selectedComparePeriods: defaultData.comparePeriods,
 };
 
 function configureStore(initialState) {

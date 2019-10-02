@@ -1,19 +1,13 @@
-export const getPreviousPeriod = currentPeriod => {
-  const { from, to } = currentPeriod;
+export const getDistanceBetweenPeriod = ({ from, to }) => {
   const distance = 12 * (to.year - from.year) + (to.month - from.month);
+  return distance;
+}
 
-  const prevPeriodTo = {
-    month: (from.month - 1) || 12,
-    year: from.month - 1 ? from.year : from.year - 1
-  }
+export const addMonths = (date, numberOfMonth) => {
+  const newDate = new Date(date.setMonth(date.getMonth() - numberOfMonth));
+  return newDate;
+}
 
-  const prevPeriodFrom = {
-    month: (12 * (to.year - from.year) + prevPeriodTo.month - distance) % 12,
-    year:  prevPeriodTo.year - distance / 12
-  }
-
-  this.setState({
-    from: prevPeriodFrom,
-    to:  prevPeriodTo
-  });
+export const defaultFormatFunc = (month, year) => {
+  return `${month < 10 ? '0' + month : month}/${year}`
 }

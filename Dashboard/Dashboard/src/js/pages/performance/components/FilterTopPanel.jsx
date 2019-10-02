@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 import languageApi from '../../../lib/languageApi';
 import { connect } from 'react-redux';
 import { defaultData } from '../lib/constants'
-import MonthRangePicker from '../../../components/MonthRangePicker';
 import { langCode } from '../../../lib/constants'
-export { overviewService } from '../lib/service';
+import { generalService } from '../lib/service';
+import CoupleMonthRangePicker from '../../../components/CoupleMonthRangePicker';
 
-class FilterTopPanel extends Component {
+class FilterTopPanel extends React.PureComponent {
   constructor(props) {
     super(props);
   }
@@ -26,23 +26,31 @@ class FilterTopPanel extends Component {
     this.props.setMeasurement(value);
   }
 
-  _onChangeMonthRange = monthRange => {
-    debugger
+  _onChangeRangeOfTwoPeriod = ({ currentPeriod, previousPeriod }) => {
+    this.props.setComparePeriods({ currentPeriod, previousPeriod });
   }
 
   _onSubmit = () => {
+    const { currentChildTabKey, selectedComparePeriods, selectedBaseCurrency, selectedMeasurement } = this.props;
+    const filterData = generalService.getFilterData({ selectedComparePeriods, selectedBaseCurrency, selectedMeasurement });
+    this.props.getAnalyticData(filterData, currentChildTabKey);
+  }
+
+  _getFilterData() {
+
+    return filterData;
   }
 
   render() {
+    const { selectedComparePeriods } = this.props;
+
     return (
       <div className="filter-top-panel">
         <div className="filter-item">
-          <div className="label">{languageApi.getRes(langCode, "currerntPeriodPicker")}</div>
-          <MonthRangePicker onChangeMonthRange={this._onChangeMonthRange}/>
-        </div>
-        <div className="filter-item">
-          <div className="label">{languageApi.getRes(langCode, "previousPeriodPicker")}</div>
-          <MonthRangePicker onChangeMonthRange={this._onChangeMonthRange}/>
+          <CoupleMonthRangePicker onChangeRangeOfTwoPeriod={this._onChangeRangeOfTwoPeriod}
+            currentPeriod={selectedComparePeriods.currentPeriod}
+            previousPeriod={selectedComparePeriods.previousPeriod}
+          />
         </div>
         <div className="filter-item">
           <div className="label">{languageApi.getRes(langCode, "Based")}</div>
@@ -66,24 +74,31 @@ class FilterTopPanel extends Component {
             })}
           </select>
         </div>
-        <a className="btn-submit" href="#" onClick={this.onSubmit}>{languageApi.getRes(langCode, "submit")}</a>
+        <a className="btn-submit" href="#" onClick={this._onSubmit}>{languageApi.getRes(langCode, "submit")}</a>
       </div>
     );
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-
-    ActionCreators, dispatch);
+  const { getCurrencyInfo, setBaseCurrency, setMeasurement, setComparePeriods, getAnalyticData } = ActionCreators;
+  return bindActionCreators({
+    getCurrencyInfo,
+    getAnalyticData,
+    setBaseCurrency,
+    setMeasurement,
+    setComparePeriods
+  }, dispatch);
 }
 
 function mapStateToProps(state) {
-  const { selectedBaseCurrency, selectedMeasurement, currencyInfo } = state;
+  const { selectedBaseCurrency, selectedMeasurement, currencyInfo, selectedComparePeriods, currentChildTabKey } = state;
   return Object.assign({}, {
     selectedBaseCurrency,
     selectedMeasurement,
-    currencyInfo
+    selectedComparePeriods,
+    currencyInfo,
+    currentChildTabKey
   });
 }
 

@@ -32,7 +32,7 @@
   display: block;
   position: absolute;
   z-index: 10;
-  width: 600px;
+  width: 630px;
   background: white;
   border-width: 1px;
   border-style: solid;
@@ -53,6 +53,11 @@
     float: left;
     position: unset;
     margin-left: 10px; }
+
+.performance-container .loading-process {
+  background: rgba(255, 255, 255, 0.7) no-repeat; }
+  .performance-container .loading-process .icon-loading {
+    top: 45%; }
 
 .performance-container .filter-top-panel .btn-submit {
   cursor: pointer;

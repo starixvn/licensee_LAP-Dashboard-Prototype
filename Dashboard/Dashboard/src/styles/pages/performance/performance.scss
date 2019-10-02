@@ -2,6 +2,12 @@
 @import '../../components/monthrangepicker';
 
 .performance-container {
+  .loading-process {
+    background: rgba(255, 255, 255, 0.7) no-repeat;
+    .icon-loading {
+      top: 45%;
+    }
+  }
 
   .filter-top-panel {
     .btn-submit {

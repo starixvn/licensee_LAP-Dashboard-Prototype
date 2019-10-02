@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { YearSelector, MonthList } from '@9softstudio/react-monthpicker';
-import { getPreviousPeriod } from '../lib/dateTimeHelper';
+import { defaultFormatFunc } from '../lib/dateTimeHelper';
 
-const defaultFormatFunc = (month, year) => {
-  return `${month < 10 ? '0' + month : month}/${year}`
-}
-
-const getMaxYearTo = ({ year, month}, range, maxYear) => {
-  let maxDate = new Date(year, month + 1);
-  maxDate = new Date(maxDate.setMonth(maxDate.getMonth() + range - 1));
+const getMaxYearTo = ({ year, month }, range, maxYear) => {
+  let maxDate = new Date(year, month);
+  maxDate = new Date(maxDate.setMonth(maxDate.getMonth() + range));
   let maxYearTo = maxDate.getFullYear();
   return  maxYearTo < maxYear ? maxYearTo : maxYear;
 }
@@ -19,13 +15,13 @@ const getMaxMonthTo = (month, range) => {
   return result;
 }
 
-
-export default class MonthRangePicker extends React.Component {
+export default class MonthRangePicker extends React.PureComponent {
   constructor(props) {
     super(props);
     const { open, selectedDropdownYear, selectedMonth, selectedYear } = this.props;
     const now = new Date();
     const initialYear = selectedDropdownYear || now.getFullYear();
+
     this.state = {
       open: open,
       from: {
@@ -57,7 +53,8 @@ export default class MonthRangePicker extends React.Component {
     onFormat: PropTypes.func,
     isReadonly: PropTypes.bool,
     iconElement: PropTypes.any,
-    enable: PropTypes.bool
+    enable: PropTypes.bool,
+    quickSelections: PropTypes.func
   }
 
   static defaultProps = {
@@ -71,6 +68,13 @@ export default class MonthRangePicker extends React.Component {
     hasRange: true,
     range: 12,
   }
+
+  static getDerivedStateFromProps(nextProps, prevState){
+    if (nextProps !== prevState) {
+      return null;
+   }
+    return null;
+ }
 
   componentDidMount() {
     document.addEventListener('click', this._handleClickOutSide, true);
@@ -153,11 +157,12 @@ export default class MonthRangePicker extends React.Component {
   }
 
   _onConfirmChangeRange = () => {
-    const { onChange } = this.props;
+    const { onChangeRange } = this.props;
     const { from, to } = this.state;
+
     this.setState({
       open: false
-    }, () => onChange && onChangeRange({ from, to }))
+    }, () => onChangeRange && onChangeRange({ from, to}))
   }
 
   _cancel = () => {
@@ -178,13 +183,9 @@ export default class MonthRangePicker extends React.Component {
     return `${onFormat(from.month + 1, from.year)}  -  ${onFormat(to.month + 1, to.year)}`;
   }
 
-  _onSelectPreviousPeriod = currentPeriod => {
-    getPreviousPeriod(currentPeriod)
-  }
-
   render() {
     const { open, from, to } = this.state;
-    let { monthNames, hasRange, minMonth, minYear, maxMonth, maxYear, isReadonly, iconElement, enable, range } = this.props;
+    let { monthNames, hasRange, minMonth, minYear, maxMonth, maxYear, isReadonly, iconElement, enable, range, quickSelections } = this.props;
     const maxYearTo = getMaxYearTo(from, range, maxYear);
     const maxMonthTo = getMaxMonthTo(from.month + 1, range);
 
@@ -196,11 +197,10 @@ export default class MonthRangePicker extends React.Component {
         </div>
         <div className="range-mp-container" style={{ display: open ? 'block' : 'none' }} ref={this.container}>
           <div className="quick-selection-container">
-            <div class="quick-selection" onClick={this._onSelectPreviousPeriod}>Previous Period</div>
-            <div class="quick-selection">Previous Year</div>
+           {quickSelections && quickSelections()}
             <div>
               <button className="btn btn-confirm" onClick={this._onConfirmChangeRange}>OK</button>
-              <button className="btn btn-cancel" onClick={this._cancel}>Cancel</button>
+              <button className="btn btn-cancel m-l-5" onClick={this._cancel}>Cancel</button>
             </div>
           </div>
           <div className="mp-container mp-from" >
@@ -219,6 +219,7 @@ export default class MonthRangePicker extends React.Component {
              selectedDropdownYear={to.dropdownYear}
              onSelect={this._onChangeYearTo} />
             <MonthList monthNames={monthNames} hasRange={hasRange}
+            d
               selectedDropdownYear={to.dropdownYear}
               selectedMonth={to.month} selectedYear={to.year}
               minYear={from.year} maxYear={maxYearTo}
