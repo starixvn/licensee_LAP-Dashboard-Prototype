@@ -10,8 +10,7 @@ import reducer from '../../reducers/index'
 const __DEV__ = '__DEV__';
 const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
 
-const defaultState =
-{
+const defaultState ={
   currencyInfo: {
     Currency: [],
     BaseCurrency: []

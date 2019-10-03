@@ -5,7 +5,6 @@ import languageApi from '../../../lib/languageApi';
 import { connect } from 'react-redux';
 import { defaultData } from '../lib/constants'
 import { langCode } from '../../../lib/constants'
-import { generalService } from '../lib/service';
 import CoupleMonthRangePicker from '../../../components/CoupleMonthRangePicker';
 
 class FilterTopPanel extends React.PureComponent {
@@ -31,14 +30,7 @@ class FilterTopPanel extends React.PureComponent {
   }
 
   _onSubmit = () => {
-    const { currentChildTabKey, selectedComparePeriods, selectedBaseCurrency, selectedMeasurement } = this.props;
-    const filterData = generalService.getFilterData({ selectedComparePeriods, selectedBaseCurrency, selectedMeasurement });
-    this.props.getAnalyticData(filterData, currentChildTabKey);
-  }
-
-  _getFilterData() {
-
-    return filterData;
+    this.props.onSubmit && this.props.onSubmit();
   }
 
   render() {
@@ -81,10 +73,9 @@ class FilterTopPanel extends React.PureComponent {
 }
 
 function mapDispatchToProps(dispatch) {
-  const { getCurrencyInfo, setBaseCurrency, setMeasurement, setComparePeriods, getAnalyticData } = ActionCreators;
+  const { getCurrencyInfo, setBaseCurrency, setMeasurement, setComparePeriods } = ActionCreators;
   return bindActionCreators({
     getCurrencyInfo,
-    getAnalyticData,
     setBaseCurrency,
     setMeasurement,
     setComparePeriods
@@ -97,8 +88,7 @@ function mapStateToProps(state) {
     selectedBaseCurrency,
     selectedMeasurement,
     selectedComparePeriods,
-    currencyInfo,
-    currentChildTabKey
+    currencyInfo
   });
 }
 

@@ -140,7 +140,7 @@ export default class CoupleMonthRangePicker extends React.PureComponent {
 
   _renderCurrentPeriodQuickSelection = () => {
     return  _currentPeriodQuickSelections
-          .map(_ => <div className="quick-selection"
+          .map((_, index) => <div key={`cp_selection_${index}`} className="quick-selection"
               onClick={() => {
                 const currentPeriod = _.onSelect(getCurrentTime());
                 this.setState({ currentPeriod })
@@ -150,7 +150,7 @@ export default class CoupleMonthRangePicker extends React.PureComponent {
 
   _renderPreviousPeriodQuickSelection = () => {
      return  _previousPeriodQuickSelections
-                .map(_ => <div className="quick-selection"
+                .map((_, index) => <div key={`pp_selection_${index}`} className="quick-selection"
                     onClick={() => {
                       const previousPeriod = _.onSelect(this.state.currentPeriod);
                       this.setState({ previousPeriod })
@@ -159,14 +159,25 @@ export default class CoupleMonthRangePicker extends React.PureComponent {
   }
 
   render() {
+    const {currentPeriod, previousPeriod } = this.state;
+
     return (<div className="couple-month-range">
       <div className="month-range-item">
         <div className="label">{languageApi.getRes(langCode, "currerntPeriodPicker")}</div>
-        <MonthRangePicker onChangeRange={this._onChangeRangeCurrentPeriod} quickSelections={this._renderCurrentPeriodQuickSelection} />
+        <MonthRangePicker
+        // from={currentPeriod.from}
+        // to={currentPeriod.to}
+         onChangeRange={this._onChangeRangeCurrentPeriod}
+         quickSelections={this._renderCurrentPeriodQuickSelection}
+         />
       </div>
       <div className="month-range-item">
         <div className="label">{languageApi.getRes(langCode, "previousPeriodPicker")}</div>
-        <MonthRangePicker onChangeRange={this._onChangeRangePreviousPeriod} quickSelections={this._renderPreviousPeriodQuickSelection} />
+        <MonthRangePicker
+        // from={previousPeriod.from}
+        // to={previousPeriod.to}
+        onChangeRange={this._onChangeRangePreviousPeriod}
+         quickSelections={this._renderPreviousPeriodQuickSelection} />
       </div>
     </div>);
   }

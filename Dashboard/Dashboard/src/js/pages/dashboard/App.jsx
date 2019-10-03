@@ -34,7 +34,6 @@ export default class DashboardApp extends Component {
         return (
             <div className="dashboard-container">
                 <TabMenu selectedTabMenu={selectedTabMenu} onClickTabMenu={this.onClickTabMenu} tabMenuList={tabMenuList} />
-
                 <DefaultLayout>
                     {
                         TabComponent && (

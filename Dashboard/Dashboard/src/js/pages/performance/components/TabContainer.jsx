@@ -11,7 +11,7 @@ class TabContainer extends React.PureComponent {
   }
 
   _onClickTabMenu = tabKey => {
-    this.props.setCurrentTab(tabKey);
+    this.props.onChangeTab(tabKey);
   }
 
   _getCurrentTab() {
@@ -33,16 +33,12 @@ class TabContainer extends React.PureComponent {
 }
 
 function mapDispatchToProps(dispatch) {
-  const { setCurrentTab } = ActionCreators;
   return bindActionCreators({
-    setCurrentTab
   }, dispatch);
 }
 
 function mapStateToProps(state) {
-  const { currentChildTabKey } = state;
   return Object.assign({}, {
-    selectedTabKey: currentChildTabKey
   });
 }
 

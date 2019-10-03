@@ -19,17 +19,36 @@ export default class MonthRangePicker extends React.PureComponent {
   constructor(props) {
     super(props);
     const { open, selectedDropdownYear, selectedMonth, selectedYear } = this.props;
+    let { from, to } = this.props;
     const now = new Date();
     const initialYear = selectedDropdownYear || now.getFullYear();
 
+    if(from) {
+      to = {
+        ...from,
+        ...{
+          dropdownYear: from.year
+        }
+      }
+    }
+
+    if(to) {
+      to = {
+        ...to,
+        ...{
+          dropdownYear: to.year
+        }
+      }
+    }
+
     this.state = {
       open: open,
-      from: {
+      from: from || {
         dropdownYear: selectedYear || initialYear,
         year: selectedYear || initialYear,
         month: selectedMonth ? selectedMonth - 1 : now.getMonth()
       },
-      to: {
+      to: to || {
         dropdownYear: selectedYear || initialYear,
         year: selectedYear || initialYear,
         month: selectedMonth ? selectedMonth - 1 : now.getMonth()
@@ -219,10 +238,9 @@ export default class MonthRangePicker extends React.PureComponent {
              selectedDropdownYear={to.dropdownYear}
              onSelect={this._onChangeYearTo} />
             <MonthList monthNames={monthNames} hasRange={hasRange}
-            d
               selectedDropdownYear={to.dropdownYear}
               selectedMonth={to.month} selectedYear={to.year}
-              minYear={from.year} maxYear={maxYearTo}
+              minYear={from.year} maxYear={maxYear === maxYearTo ? maxYearTo + 1 : maxYearTo}
               minMonth={from.month + 1} maxMonth={maxMonthTo}
               onSelect={this._onChangeMonthTo} />
           </div>

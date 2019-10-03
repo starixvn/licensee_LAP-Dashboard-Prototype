@@ -6,7 +6,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import reducer from './reducers/index';
-import { tabMenuList } from './lib/constants';
 
 // middleware that logs actions
 /* global __DEV__ */
@@ -15,7 +14,6 @@ const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__
 
 const defaultState = {
   isLoading: false,
-  currentChildTabKey: tabMenuList[0].key,
   currencyInfo: {
     Currency: [],
     BaseCurrency: []
@@ -23,7 +21,7 @@ const defaultState = {
   selectedMeasurement: defaultData.measurements[0],
   selectedBaseCurrency: window.defaultBaseCurrency,
   analyticData: {},
-  selectedComparePeriods: defaultData.comparePeriods,
+  selectedComparePeriods: defaultData.getComparePeriods(),
 };
 
 function configureStore(initialState) {
@@ -31,7 +29,6 @@ function configureStore(initialState) {
     applyMiddleware(
       thunkMiddleware, // lets us dispatch() functions
       loggerMiddleware,
-
     ),
   );
   return createStore(reducer, initialState, enhancer);

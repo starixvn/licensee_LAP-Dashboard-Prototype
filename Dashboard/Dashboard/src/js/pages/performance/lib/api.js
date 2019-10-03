@@ -1,11 +1,11 @@
 import widgetApi from '../../../lib/widgetApi';
-import { tabMenuList } from '../lib/constants';
+import { tabMenuKey } from '../lib/constants';
 
 export const factoryApi = {
-  [tabMenuList[0].key]: filterData => {
+  [tabMenuKey.overview]: filterData => {
     return overviewApi.getCombineData(filterData);
   },
-  [tabMenuList[1].key]: filterData => {
+  [tabMenuKey.currency]: filterData => {
     return currencyApi.getCombineData(filterData);
   }
 }

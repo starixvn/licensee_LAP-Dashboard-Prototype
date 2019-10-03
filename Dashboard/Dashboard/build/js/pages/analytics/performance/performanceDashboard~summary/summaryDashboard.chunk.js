@@ -58,17 +58,15 @@ const setBaseCurrency = newData => {
 /*!*********************************!*\
   !*** ./src/js/actions/types.js ***!
   \*********************************/
-/*! exports provided: SET_CURRENCY_INFO, SET_BASE_CURRENCY, SET_DATE_RANGE */
+/*! exports provided: SET_CURRENCY_INFO, SET_BASE_CURRENCY */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CURRENCY_INFO", function() { return SET_CURRENCY_INFO; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_BASE_CURRENCY", function() { return SET_BASE_CURRENCY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_DATE_RANGE", function() { return SET_DATE_RANGE; });
 const SET_CURRENCY_INFO = "SET_CURRENCY_INFO";
 const SET_BASE_CURRENCY = "SET_BASE_CURRENCY";
-const SET_DATE_RANGE = "SET_DATE_RANGE";
 
 /***/ }),
 
@@ -216,63 +214,9 @@ class numberFormat {
   !*** ./src/js/lib/widgetApi.js ***!
   \*********************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return widgetApi; });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-const defaultHostUrl = "http://ha.nexdev.net:7611/LAP/12bet";
-class widgetApi {
-  static _getAuthToken(action) {
-    var tokenUrl = window.TokenUrl || defaultHostUrl + "/Verify/ApplyApiToken?type=1&actionLink={0}&_=" + new Date().getTime();
-    tokenUrl = tokenUrl.replace("{0}", encodeURIComponent(action));
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(tokenUrl, {});
-  }
-
-  static fetchData(param) {
-    var data = param.Data || {};
-
-    if (param.IsCrossSite) {
-      return widgetApi._getAuthToken(param.Url).then(response => {
-        data['X-Auth-Token'] = response.data.Token;
-        const dataUrl = response.data.ApiUrl + param.Url;
-        return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(dataUrl, {
-          params: data
-        });
-      });
-    } else {
-      var lapRootUrl = window.HostUrl || defaultHostUrl;
-      const lapApi = lapRootUrl.replace("SessionIsAlive", param.Url);
-      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(lapApi, {
-        params: data
-      });
-    }
-  }
-
-  static async fetchDataCrossSite({
-    url,
-    params,
-    body
-  }) {
-    debugger;
-    const response = await widgetApi._getAuthToken(url);
-    const token = response.data.Token || '';
-    body = body || {};
-    params = params || {};
-    url = response.data.ApiUrl + url;
-    response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(newUrl, {
-      data: body,
-      params: params,
-      headers: {
-        'X-Auth-Token': token
-      }
-    });
-  }
-
-}
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\src\\js\\lib\\widgetApi.js: Unexpected token, expected \":\" (23:12)\n\n\u001b[0m \u001b[90m 21 | \u001b[39m                    params\u001b[33m:\u001b[39m data\u001b[0m\n\u001b[0m \u001b[90m 22 | \u001b[39m                })\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 23 | \u001b[39m            })\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 24 | \u001b[39m        } \u001b[36melse\u001b[39m {\u001b[0m\n\u001b[0m \u001b[90m 25 | \u001b[39m            \u001b[36mvar\u001b[39m lapRootUrl \u001b[33m=\u001b[39m window\u001b[33m.\u001b[39m\u001b[33mHostUrl\u001b[39m \u001b[33m||\u001b[39m defaultHostUrl\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 26 | \u001b[39m            \u001b[36mconst\u001b[39m lapApi \u001b[33m=\u001b[39m lapRootUrl\u001b[33m.\u001b[39mreplace(\u001b[32m\"SessionIsAlive\"\u001b[39m\u001b[33m,\u001b[39m param\u001b[33m.\u001b[39m\u001b[33mUrl\u001b[39m)\u001b[0m\n    at Object.raise (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:6325:17)\n    at Object.unexpected (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:7642:16)\n    at Object.expect (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:7628:28)\n    at Object.parseConditional (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8255:12)\n    at Object.parseMaybeConditional (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8247:17)\n    at Object.parseMaybeAssign (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8187:21)\n    at Object.parseExpression (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8135:23)\n    at Object.parseReturnStatement (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10198:28)\n    at Object.parseStatementContent (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:9877:21)\n    at Object.parseStatement (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:9829:17)\n    at Object.parseBlockOrModuleBlockBody (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10405:25)\n    at Object.parseBlockBody (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10392:10)\n    at Object.parseBlock (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10376:10)\n    at Object.parseFunctionBody (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:9424:24)\n    at Object.parseArrowExpression (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:9365:10)\n    at Object.parseParenAndDistinguishExpression (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:9002:12)\n    at Object.parseExprAtom (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8762:21)\n    at Object.parseExprAtom (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:3601:20)\n    at Object.parseExprSubscripts (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8412:23)\n    at Object.parseMaybeUnary (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8392:21)\n    at Object.parseExprOps (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8267:23)\n    at Object.parseMaybeConditional (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8240:23)\n    at Object.parseMaybeAssign (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8187:21)\n    at Object.parseExprListItem (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:9491:18)\n    at Object.parseCallExpressionArguments (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8621:22)\n    at Object.parseSubscript (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8514:29)\n    at Object.parseSubscripts (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8433:19)\n    at Object.parseExprSubscripts (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8422:17)\n    at Object.parseMaybeUnary (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8392:21)\n    at Object.parseExprOps (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8267:23)\n    at Object.parseMaybeConditional (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8240:23)\n    at Object.parseMaybeAssign (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8187:21)\n    at Object.parseExpression (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:8135:23)\n    at Object.parseReturnStatement (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10198:28)\n    at Object.parseStatementContent (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:9877:21)\n    at Object.parseStatement (D:\\Projects\\Nexcel\\LAP-Dashboard-Prototype\\Dashboard\\Dashboard\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:9829:17)");
 
 /***/ }),
 
@@ -280,13 +224,12 @@ class widgetApi {
 /*!********************************************!*\
   !*** ./src/js/reducers/currencyReducer.js ***!
   \********************************************/
-/*! exports provided: currencyInfo, dateRange, selectedBaseCurrency */
+/*! exports provided: currencyInfo, selectedBaseCurrency */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currencyInfo", function() { return currencyInfo; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateRange", function() { return dateRange; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectedBaseCurrency", function() { return selectedBaseCurrency; });
 /* harmony import */ var _lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/createReducer.js */ "./src/js/lib/createReducer.js");
 /* harmony import */ var _actions_types_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/types.js */ "./src/js/actions/types.js");
@@ -294,12 +237,6 @@ __webpack_require__.r(__webpack_exports__);
 
 const currencyInfo = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
   [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_CURRENCY_INFO"]](state, action) {
-    return action.data;
-  }
-
-});
-const dateRange = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
-  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_DATE_RANGE"]](state, action) {
     return action.data;
   }
 

@@ -1,4 +1,2 @@
 
-export default Object.assign(
-{}
-)
+export default Object.assign({})

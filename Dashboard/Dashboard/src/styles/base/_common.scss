@@ -1,5 +1,6 @@
 ﻿@import '../vendors/vendor';
 @import '../components/button';
+@import '../components/arrow';
 
 .left {
     float: left;
@@ -191,11 +192,10 @@
 }
 
 .box-info-measure-list {
-  width: 150px;
+  min-width: 150px;
 }
 
 .table-major-list {
-  width: 350px;
   .table-major {
       margin-bottom: 30px;
   }
@@ -209,32 +209,17 @@
     text-align: center;
     padding: 15px 0;
     font-size: 1.7rem;
+    .arrow-left {
+      float: left;
+      margin-left: 20px;
+      cursor: pointer;
+    }
   }
 
   .chart-footer {
     margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
-  }
-}
-
-.time-comparison {
-  margin-left: 15px;
-  padding-bottom: 15px;
-  span {
-    font-size: 1.3rem;
-    font-weight: 600;
-  }
-
-  .btn-submit {
-    margin-left: 10px;
-    margin-right: 10px;
-    text-transform: none;
-  }
-
-  select {
-    margin-left: 5px;
-    height: 25px;
   }
 }
 

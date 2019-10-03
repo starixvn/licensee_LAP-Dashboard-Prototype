@@ -1,5 +1,4 @@
 .box-info-measure {
-  max-width: 150px;
   height: 120px;
   padding: 10px 15px;
   box-sizing: border-box;
@@ -57,7 +56,7 @@
 .performance-container .loading-process {
   background: rgba(255, 255, 255, 0.7) no-repeat; }
   .performance-container .loading-process .icon-loading {
-    top: 45%; }
+    top: 40%; }
 
 .performance-container .filter-top-panel .btn-submit {
   cursor: pointer;
@@ -90,7 +89,7 @@
 
 .performance-container .chart-container {
   float: left;
-  width: 60%;
+  width: 50%;
   margin-left: 30px; }
 
 
