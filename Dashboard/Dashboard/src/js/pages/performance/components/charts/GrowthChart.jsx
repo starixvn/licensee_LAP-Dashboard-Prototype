@@ -4,39 +4,37 @@ import MixBarLineChart from './base/MixBarLineChart';
 export default class GrowthChart extends React.PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {
-    }
-  }
-
-  _renderBackIcon() {
-    const { showBackIcon, backToDefaultChart } = this.props;
-    return showBackIcon ? <div className="" onClick={backToDefaultChart}>
-      <i class="arrow-left"></i>
-    </div> : null;
   }
 
   _renderHeaderChart = () => {
-    const { currentMeasuremnent } = this.props;
-
-    const title= `${currentMeasuremnent || ''} Growth` ;
-
+    const { showBackIcon, backToDefaultChart } = this.props;
     return <div className="chart-title">
-      {this._renderBackIcon()}
-      {title}
+      {showBackIcon ? <div className="left" onClick={backToDefaultChart}>
+        <i className="arrow-left"></i>
+        {'Go back'}
+      </div> : null}
     </div>;
   }
 
   render() {
-    const { lineChartData, barChartData, labels } = this.props;
+    const { currentMeasuremnent, lineChartData, barChartData, labels } = this.props;
+
     return (
-      <React.Fragment>
-        <MixBarLineChart header={this._renderHeaderChart}
-         lineChartData={lineChartData}
-         barChartData={barChartData}
-         labels={labels}
-        />
-      </React.Fragment>
+      <div className="info-zone-container">
+        <div className="info-zone-header">
+          {`${currentMeasuremnent || ''} Growth`}
+          </div>
+        <div className="info-zone-body">
+        <div className="side-chart left-chart">{`${currentMeasuremnent || ''}(thousand)`}</div>
+        <MixBarLineChart
+            header={this._renderHeaderChart}
+            lineChartData={lineChartData}
+            barChartData={barChartData}
+            labels={labels}
+          />
+        <div className="side-chart right-chart">{'Growth rate(%)'}</div>
+        </div>
+      </div>
     );
   }
 }

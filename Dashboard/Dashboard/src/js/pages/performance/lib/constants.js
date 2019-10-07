@@ -1,6 +1,7 @@
 import OverviewTab from '../tabs/overview/OverviewTab';
 import CurrencyTab from '../tabs/currency/CurrencyTab';
 import { getCurrentTime } from '../../../lib/constants';
+import { getPeriodByNumberOfLastMonths, getPreviousPeriod } from '../../../lib/dateTimeHelper';
 
 export const defaultData = {
   measurements: [
@@ -9,16 +10,11 @@ export const defaultData = {
     { id: 3, name: 'Margin' },
   ],
   getComparePeriods: () => {
-    const currentTime = getCurrentTime();
+    const currentPeriod = getPeriodByNumberOfLastMonths(getCurrentTime(), 3);
+    const previousPeriod = getPreviousPeriod(currentPeriod);
     return {
-      currentPeriod: {
-        from: currentTime,
-        to: currentTime
-      },
-      previousPeriod: {
-        from: currentTime,
-        to: currentTime
-      }
+      currentPeriod,
+      previousPeriod
     }
   }
 }
@@ -54,8 +50,13 @@ export const getMajorChangeList = measurementId => {
       title: 'MAJOR CHANGES - By PLATFORM',
       header: ['Platform', measurement.name, '%CHG'],
       data: []
+    },
+    {
+      key: 'productTopChange',
+      title: 'MAJOR CHANGES - By PRODUCT',
+      header: ['Product', measurement.name, '%CHG'],
+      data: []
     }
   ]
 }
-
 

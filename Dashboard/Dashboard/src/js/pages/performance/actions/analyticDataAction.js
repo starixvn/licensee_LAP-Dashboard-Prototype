@@ -6,13 +6,12 @@ export const getAnalyticData = (filterData, tabKey) => {
    return async (dispatch) => {
         dispatch(setLoading(true));
         try {
-
-            const data = await factoryApi[tabKey](filterData);
+          const data = await factoryApi[tabKey](filterData);
           dispatch(setAnalyticData(data));
-          dispatch(setLoading(false));
         } catch(error) {
           console.log('error', error.message)
         }
+        dispatch(setLoading(false));
         console.log('filter', filterData)
     }
 }

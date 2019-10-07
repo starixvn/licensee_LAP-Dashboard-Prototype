@@ -1,6 +1,6 @@
 import React from 'react';
 import BoxInfoMeasureItem from './BoxInfoMeasureItem';
-import { defaultData } from '../../lib/constants';
+import { defaultData } from '../../lib/constants'
 import numberFormat from '../../../../lib/numberFormat';
 
 export const BoxInfoMeasureList = props => {

@@ -66,7 +66,7 @@ class FilterTopPanel extends React.PureComponent {
             })}
           </select>
         </div>
-        <a className="btn-submit" href="#" onClick={this._onSubmit}>{languageApi.getRes(langCode, "submit")}</a>
+        <button className="btn btn-confirm" onClick={this._onSubmit}>{languageApi.getRes(langCode, "submit")}</button>
       </div>
     );
   }

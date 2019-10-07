@@ -1,7 +1,4 @@
 import React, { Suspense } from 'react';
-import { bindActionCreators } from 'redux';
-import { ActionCreators } from '../actions';
-import { connect } from 'react-redux';
 import { tabMenuList } from '../lib/constants';
 import TabMenu from '../../dashboard/components/TabMenu';
 
@@ -32,14 +29,4 @@ class TabContainer extends React.PureComponent {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-  }, dispatch);
-}
-
-function mapStateToProps(state) {
-  return Object.assign({}, {
-  });
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TabContainer);
+export default TabContainer;

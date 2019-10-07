@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Bar } from 'react-chartjs-2';
 import numberFormat from '../../../../../lib/numberFormat';
 
+const defaultColorBarChart = '#F1A837';
+const defaultColorLineChart = '#F15D21';
+
 const buildLineChartDataSet = lineChartData => {
   return {
     label: lineChartData.name,
@@ -9,12 +12,12 @@ const buildLineChartDataSet = lineChartData => {
     lineTension: 0,
     data: lineChartData.dataSet,
     fill: false,
-    borderColor: 'rgba(75, 172, 198, 1)',
-    backgroundColor: 'rgba(75, 172, 198, 1)',
-    pointBorderColor: 'rgba(75, 172, 198, 1)',
-    pointBackgroundColor: 'rgba(75, 172, 198, 1)',
-    pointHoverBackgroundColor: 'rgba(75, 172, 198, 1)',
-    pointHoverBorderColor: 'rgba(75, 172, 198, 1)',
+    borderColor: lineChartData.color || defaultColorLineChart,
+    backgroundColor: lineChartData.color || defaultColorLineChart,
+    pointBorderColor: lineChartData.color || defaultColorLineChart,
+    pointBackgroundColor: lineChartData.color || defaultColorLineChart,
+    pointHoverBackgroundColor: lineChartData.color || defaultColorLineChart,
+    pointHoverBorderColor: lineChartData.color || defaultColorLineChart,
     yAxisID: 'y-axis-2'
   }
 }
@@ -25,10 +28,10 @@ const buildBarChartDataSet = barChartData => {
     label: barChartData.name,
     data: barChartData.dataSet,
     fill: false,
-    backgroundColor: 'rgba(247,150,70,1)',
-    borderColor: 'rgba(247,150,70,0.5)',
-    hoverBackgroundColor: 'rgba(247,150,70,1)',
-    hoverBorderColor: 'rgba(247,150,70,0.5)',
+    backgroundColor: barChartData.color || defaultColorBarChart,
+    borderColor: barChartData.color || defaultColorBarChart,
+    hoverBackgroundColor: barChartData.color || defaultColorBarChart,
+    hoverBorderColor: barChartData.color || defaultColorBarChart,
     yAxisID: 'y-axis-1'
   }
 }
@@ -44,16 +47,8 @@ const buildMixChartDataSet = ({ lineChartData, barChartData }) => {
 const buildMixChartOption = ({ labels, barChartData }) => {
   const events = barChartData.events;
   const eventClicks = events ? events.click : null;
-   /*{
-      click: [
-        {
-          columnIndex: 0,
-          callBack: () => { }
-        }
-      ]
+  const barWidth = barChartData.dataSet.length > 6 ? 60 : 100;
 
-   //}
-   // [{ columnIndex: 0, onClick: }]*/
   return {
     onClick: (e, item) => {
       if(item && item.length == 2) {
@@ -106,6 +101,7 @@ const buildMixChartOption = ({ labels, barChartData }) => {
     scales: {
       xAxes: [
         {
+          barThickness : barWidth,
           display: true,
           gridLines: {
             display: false
@@ -144,12 +140,6 @@ const buildMixChartOption = ({ labels, barChartData }) => {
   };
 }
 
-const plugins = [{
-  afterDraw: (chartInstance, easing) => {
-    const ctx = chartInstance.chart.ctx;
-  }
-}];
-
 export default class MixBarLineChart extends Component {
   constructor(props) {
     super(props);
@@ -160,13 +150,6 @@ export default class MixBarLineChart extends Component {
     </div>
   }
 
-  _renderTitle = () => {
-    const { title } = this.props;
-    return <div className="chart-title">
-      {title}
-    </div>;
-  }
-
   _renderChart() {
     const { lineChartData, barChartData, labels } = this.props;
     const data = buildMixChartDataSet({ lineChartData, barChartData });
@@ -174,7 +157,6 @@ export default class MixBarLineChart extends Component {
     return <Bar
       data={data}
       options={options}
-      plugins={plugins}
     />
   }
 

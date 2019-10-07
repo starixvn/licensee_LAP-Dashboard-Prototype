@@ -94,84 +94,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
-const _getPreviousPeriod = currentPeriod => {
-  const {
-    from
-  } = currentPeriod;
-  const distance = Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getDistanceBetweenPeriod"])(currentPeriod);
-  const prevPeriodTo = {
-    month: from.month - 1 || 12,
-    year: from.month - 1 ? from.year : from.year - 1
-  };
-  let dateTo = new Date(prevPeriodTo.year, prevPeriodTo.month - 1);
-  dateTo = Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["addMonths"])(dateTo, distance);
-  const prevPeriodFrom = {
-    month: dateTo.getMonth() + 1,
-    year: dateTo.getFullYear()
-  };
-  return {
-    from: prevPeriodFrom,
-    to: prevPeriodTo
-  };
-};
-
-const _getPreviousYear = currentPeriod => {
-  const {
-    from,
-    to
-  } = currentPeriod;
-  const prevPeriodFrom = {
-    month: from.month,
-    year: from.year - 1
-  };
-  const prevPeriodTo = {
-    month: to.month,
-    year: to.year - 1
-  };
-  return {
-    from: prevPeriodFrom,
-    to: prevPeriodTo
-  };
-};
-
-const _getPeriodByNumberOfLastMonths = (currentTime, numberOfMonth) => {
-  const {
-    month,
-    year
-  } = currentTime;
-  let date = new Date(year, month - 1);
-  date = Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["addMonths"])(date, -numberOfMonth);
-  const from = {
-    month: date.getMonth(),
-    year: date.getFullYear()
-  };
-  const to = {
-    month: month - 1 || 12,
-    year: month - 1 ? year : year - 1
-  };
-  return {
-    from,
-    to
-  };
-};
-
-const _previousPeriodQuickSelections = [{
+const previousPeriodQuickSelections = [{
   label: "Previous Period",
-  onSelect: selectedCurrentPeriod => _getPreviousPeriod(selectedCurrentPeriod)
+  onSelect: selectedCurrentPeriod => Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getPreviousPeriod"])(selectedCurrentPeriod)
 }, {
   label: "Previous Year",
-  onSelect: selectedCurrentPeriod => _getPreviousYear(selectedCurrentPeriod)
+  onSelect: selectedCurrentPeriod => Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getPreviousYear"])(selectedCurrentPeriod)
 }];
-const _currentPeriodQuickSelections = [{
+const currentPeriodQuickSelections = [{
   label: "Last Month",
-  onSelect: currentTime => _getPeriodByNumberOfLastMonths(currentTime, 1)
+  onSelect: currentTime => Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getPeriodByNumberOfLastMonths"])(currentTime, 1)
 }, {
   label: "Last 3 months",
-  onSelect: currentTime => _getPeriodByNumberOfLastMonths(currentTime, 3)
+  onSelect: currentTime => Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getPeriodByNumberOfLastMonths"])(currentTime, 3)
 }, {
   label: "Last 6 months",
-  onSelect: currentTime => _getPeriodByNumberOfLastMonths(currentTime, 6)
+  onSelect: currentTime => Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getPeriodByNumberOfLastMonths"])(currentTime, 6)
 }];
 class CoupleMonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
   constructor(props) {
@@ -181,9 +119,10 @@ class CoupleMonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.
       const {
         onChangeRangeOfTwoPeriod
       } = this.props;
+      const previousPeriod = Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getPreviousPeriod"])(selectedRange);
       const periods = {
         currentPeriod: selectedRange,
-        previousPeriod: this.state.previousPeriod
+        previousPeriod
       };
       this.setState(periods, () => onChangeRangeOfTwoPeriod && onChangeRangeOfTwoPeriod(periods));
     });
@@ -199,61 +138,46 @@ class CoupleMonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.
       this.setState(periods, () => onChangeRangeOfTwoPeriod && onChangeRangeOfTwoPeriod(periods));
     });
 
-    _defineProperty(this, "_renderCurrentPeriodQuickSelection", () => {
-      return _currentPeriodQuickSelections.map((_, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        key: `cp_selection_${index}`,
-        className: "quick-selection",
-        onClick: () => {
-          const currentPeriod = _.onSelect(Object(_lib_constants__WEBPACK_IMPORTED_MODULE_3__["getCurrentTime"])());
+    _defineProperty(this, "_renderCurrentPeriodQuickSelection", self => {
+      return currentPeriodQuickSelections.map((_, index) => {
+        const isSelected = Object(_MonthRangePicker__WEBPACK_IMPORTED_MODULE_1__["isPeriodEqual"])(_.onSelect(Object(_lib_constants__WEBPACK_IMPORTED_MODULE_3__["getCurrentTime"])()), self.state);
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: `cp_selection_${index}`,
+          className: `quick-selection ${isSelected ? 'quick-selection-active' : ''}`,
+          onClick: () => {
+            const currentPeriod = _.onSelect(Object(_lib_constants__WEBPACK_IMPORTED_MODULE_3__["getCurrentTime"])());
 
-          this.setState({
-            currentPeriod
-          });
-        }
-      }, _.label));
+            self.setState(currentPeriod);
+          }
+        }, _.label);
+      });
     });
 
-    _defineProperty(this, "_renderPreviousPeriodQuickSelection", () => {
-      return _previousPeriodQuickSelections.map((_, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        key: `pp_selection_${index}`,
-        className: "quick-selection",
-        onClick: () => {
-          const previousPeriod = _.onSelect(this.state.currentPeriod);
+    _defineProperty(this, "_renderPreviousPeriodQuickSelection", self => {
+      return previousPeriodQuickSelections.map((_, index) => {
+        const {
+          currentPeriod
+        } = this.state;
+        const isSelected = Object(_MonthRangePicker__WEBPACK_IMPORTED_MODULE_1__["isPeriodEqual"])(_.onSelect(currentPeriod), self.state);
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: `pp_selection_${index}`,
+          className: `quick-selection ${isSelected ? 'quick-selection-active' : ''}`,
+          onClick: () => {
+            const previousPeriod = _.onSelect(currentPeriod);
 
-          this.setState({
-            previousPeriod
-          });
-        }
-      }, _.label));
+            self.setState(previousPeriod);
+          }
+        }, _.label);
+      });
     });
 
     const {
       currentPeriod: _currentPeriod,
-      previousPeriod: _previousPeriod,
-      range
+      previousPeriod: _previousPeriod
     } = this.props;
-    const now = new Date();
     this.state = {
-      currentPeriod: _currentPeriod || {
-        from: {
-          year: now.getFullYear(),
-          month: now.getMonth()
-        },
-        to: {
-          year: now.getFullYear(),
-          month: now.getMonth()
-        }
-      },
-      previousPeriod: _previousPeriod || {
-        from: {
-          year: now.getFullYear(),
-          month: now.getMonth()
-        },
-        to: {
-          year: now.getFullYear(),
-          month: now.getMonth()
-        }
-      }
+      currentPeriod: _currentPeriod,
+      previousPeriod: _previousPeriod
     };
   }
 
@@ -262,25 +186,29 @@ class CoupleMonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.
       currentPeriod,
       previousPeriod
     } = this.state;
-    debugger;
+    const rangeTo = Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getDistanceBetweenPeriod"])(currentPeriod) + 1;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "couple-month-range"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "month-range-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_3__["langCode"], "currerntPeriodPicker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MonthRangePicker__WEBPACK_IMPORTED_MODULE_1__["default"] // from={currentPeriod.from}
-    // to={currentPeriod.to}
-    , {
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_3__["langCode"], "currerntPeriodPicker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MonthRangePicker__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      from: currentPeriod.from,
+      to: currentPeriod.to,
       onChangeRange: this._onChangeRangeCurrentPeriod,
       quickSelections: this._renderCurrentPeriodQuickSelection
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "month-range-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_3__["langCode"], "previousPeriodPicker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MonthRangePicker__WEBPACK_IMPORTED_MODULE_1__["default"] // from={previousPeriod.from}
-    // to={previousPeriod.to}
-    , {
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_3__["langCode"], "previousPeriodPicker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MonthRangePicker__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      isDisableTo: true,
+      range: rangeTo,
+      maxMonthFrom: previousPeriod.from.month + 1,
+      maxYearFrom: previousPeriod.from.year,
+      from: previousPeriod.from,
+      to: previousPeriod.to,
       onChangeRange: this._onChangeRangePreviousPeriod,
       quickSelections: this._renderPreviousPeriodQuickSelection
     })));
@@ -332,11 +260,12 @@ class Loader extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
 /*!************************************************!*\
   !*** ./src/js/components/MonthRangePicker.jsx ***!
   \************************************************/
-/*! exports provided: default */
+/*! exports provided: isPeriodEqual, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isPeriodEqual", function() { return isPeriodEqual; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MonthRangePicker; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -352,10 +281,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+const isTimeEqual = (time1, time2) => {
+  return time1.year === time2.year && time1.month === time2.month;
+};
+
+const isPeriodEqual = (period1, period2) => {
+  return isTimeEqual(period1.from, period2.from) && isTimeEqual(period1.to, period2.to);
+};
+
 const getMaxYearTo = ({
   year,
   month
-}, range, maxYear) => {
+}, range, maxYear = new Date().getFullYear()) => {
   let maxDate = new Date(year, month);
   maxDate = new Date(maxDate.setMonth(maxDate.getMonth() + range));
   let maxYearTo = maxDate.getFullYear();
@@ -404,12 +341,10 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
       from = { ...from,
         ...{
           month: selectedMonth,
-          year: from.dropdownYear
+          year: from.dropdownYear || from.year
         }
       };
-      to = { ...to,
-        ...from
-      };
+      to = this._getToValueOnChaneMonthFrom(from);
       this.setState({
         from,
         to
@@ -437,7 +372,7 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
       to = { ...to,
         ...{
           month: selectedMonth,
-          year: to.dropdownYear
+          year: to.dropdownYear || to.year
         }
       };
       this.setState({
@@ -462,8 +397,11 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
         from,
         to
       } = this.state;
-      this.setState({
-        open: false
+      this.setState({ ...from,
+        ...to,
+        ...{
+          open: false
+        }
       }, () => onChangeRange && onChangeRange({
         from,
         to
@@ -477,56 +415,37 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
     });
 
     const {
-      open,
-      selectedDropdownYear,
-      selectedMonth: _selectedMonth,
-      selectedYear: _selectedYear
+      open
     } = this.props;
     let {
       from: _from,
       to: _to
     } = this.props;
-    const now = new Date();
-    const initialYear = selectedDropdownYear || now.getFullYear();
-
-    if (_from) {
-      _to = { ..._from,
-        ...{
-          dropdownYear: _from.year
-        }
-      };
-    }
-
-    if (_to) {
-      _to = { ..._to,
-        ...{
-          dropdownYear: _to.year
-        }
-      };
-    }
-
     this.state = {
       open: open,
-      from: _from || {
-        dropdownYear: _selectedYear || initialYear,
-        year: _selectedYear || initialYear,
-        month: _selectedMonth ? _selectedMonth - 1 : now.getMonth()
-      },
-      to: _to || {
-        dropdownYear: _selectedYear || initialYear,
-        year: _selectedYear || initialYear,
-        month: _selectedMonth ? _selectedMonth - 1 : now.getMonth()
-      }
+      from: _from,
+      to: _to
     };
     this.container = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps !== prevState) {
-      return null;
+    if (!prevState.open) {
+      if (!isPeriodEqual({
+        from: nextProps.from,
+        to: nextProps.to
+      }, {
+        from: prevState.from,
+        to: prevState.to
+      })) {
+        return {
+          from: nextProps.from,
+          to: nextProps.to
+        };
+      }
     }
 
-    return null;
+    return {};
   }
 
   componentDidMount() {
@@ -535,6 +454,26 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
 
   componentWillUnmount() {
     document.removeEventListener('click', this._handleClickOutSide, true);
+  }
+
+  _getToValueOnChaneMonthFrom(from) {
+    const {
+      isDisableTo,
+      range
+    } = this.props;
+
+    if (isDisableTo) {
+      let date = new Date(from.year, from.month);
+      date = Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_3__["addMonths"])(date, range - 1);
+      return {
+        month: date.getMonth(),
+        year: date.getFullYear(),
+        dropdownYear: date.getFullYear()
+      };
+    } else {
+      return { ...from
+      };
+    }
   }
 
   _saveCurrentRange() {
@@ -565,20 +504,23 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
       from,
       to
     } = this.state;
-    let {
+    const {
       monthNames,
       hasRange,
-      minMonth,
-      minYear,
-      maxMonth,
-      maxYear,
       isReadonly,
       iconElement,
       enable,
       range,
-      quickSelections
+      quickSelections,
+      isDisableTo
     } = this.props;
-    const maxYearTo = getMaxYearTo(from, range, maxYear);
+    const {
+      minMonthFrom,
+      maxMonthFrom,
+      maxYearFrom,
+      minYearFrom
+    } = this.props;
+    const maxYearTo = getMaxYearTo(from, range);
     const maxMonthTo = getMaxMonthTo(from.month + 1, range);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "rmp-main-container"
@@ -598,7 +540,7 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
       ref: this.container
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "quick-selection-container"
-    }, quickSelections && quickSelections(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, quickSelections && quickSelections(this), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-confirm",
       onClick: this._onConfirmChangeRange
     }, "OK"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -607,36 +549,36 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
     }, "Cancel"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "mp-container mp-from"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["YearSelector"], {
-      minYear: minYear,
-      maxYear: maxYear,
-      selectedDropdownYear: from.dropdownYear,
+      minYear: minYearFrom,
+      maxYear: maxYearFrom,
+      selectedDropdownYear: from.dropdownYear || from.year,
       onSelect: this._onChangeYearFrom
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["MonthList"], {
       monthNames: monthNames,
       hasRange: hasRange,
-      selectedDropdownYear: from.dropdownYear,
+      selectedDropdownYear: from.dropdownYear || from.year,
       selectedMonth: from.month,
       selectedYear: from.year,
-      minYear: minYear,
-      maxYear: maxYear,
-      minMonth: minMonth,
-      maxMonth: maxMonth,
+      minYear: minYearFrom,
+      maxYear: maxYearFrom,
+      minMonth: minMonthFrom,
+      maxMonth: maxMonthFrom,
       onSelect: this._onChangeMonthFrom
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "mp-container mp-to"
+      className: `mp-container mp-to ${isDisableTo ? 'disabled' : ''}`
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["YearSelector"], {
       minYear: from.year,
       maxYear: maxYearTo,
-      selectedDropdownYear: to.dropdownYear,
+      selectedDropdownYear: to.dropdownYear || to.year,
       onSelect: this._onChangeYearTo
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["MonthList"], {
       monthNames: monthNames,
       hasRange: hasRange,
-      selectedDropdownYear: to.dropdownYear,
+      selectedDropdownYear: to.dropdownYear || to.year,
       selectedMonth: to.month,
       selectedYear: to.year,
       minYear: from.year,
-      maxYear: maxYear === maxYearTo ? maxYearTo + 1 : maxYearTo,
+      maxYear: isDisableTo ? 1 : maxYearTo,
       minMonth: from.month + 1,
       maxMonth: maxMonthTo,
       onSelect: this._onChangeMonthTo
@@ -647,21 +589,20 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
 
 _defineProperty(MonthRangePicker, "propTypes", {
   open: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  minMonth: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
-  minYear: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
-  maxMonth: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
-  maxYear: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  minYearFrom: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  maxYearFrom: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  minMonthFrom: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
+  maxMonthFrom: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
   monthNames: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.string)),
   hasRange: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
   range: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
-  selectedDropdownYear: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
-  selectedMonth: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.number,
   onSelect: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
   onFormat: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
   isReadonly: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
   iconElement: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.any,
   enable: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool,
-  quickSelections: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func
+  quickSelections: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.func,
+  isDisableTo: prop_types__WEBPACK_IMPORTED_MODULE_1___default.a.bool
 });
 
 _defineProperty(MonthRangePicker, "defaultProps", {
@@ -670,10 +611,13 @@ _defineProperty(MonthRangePicker, "defaultProps", {
   onFormat: _lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_3__["defaultFormatFunc"],
   isReadonly: true,
   enable: true,
-  minYear: new Date().getFullYear() - 5,
-  maxYear: new Date().getFullYear(),
+  minYearFrom: new Date().getFullYear() - 5,
+  maxYearFrom: new Date().getFullYear(),
+  minMonthFrom: 1,
+  maxMonthFrom: 12,
   hasRange: true,
-  range: 12
+  range: 12,
+  isDisableTo: false
 });
 
 /***/ }),
@@ -704,7 +648,7 @@ function createReducer(initialState, handlers) {
 /*!**************************************!*\
   !*** ./src/js/lib/dateTimeHelper.js ***!
   \**************************************/
-/*! exports provided: getDistanceBetweenPeriod, addMonths, defaultFormatFunc */
+/*! exports provided: getDistanceBetweenPeriod, addMonths, defaultFormatFunc, getPreviousPeriod, getPreviousYear, getPeriodByNumberOfLastMonths */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -712,6 +656,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDistanceBetweenPeriod", function() { return getDistanceBetweenPeriod; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addMonths", function() { return addMonths; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultFormatFunc", function() { return defaultFormatFunc; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPreviousPeriod", function() { return getPreviousPeriod; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPreviousYear", function() { return getPreviousYear; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPeriodByNumberOfLastMonths", function() { return getPeriodByNumberOfLastMonths; });
 const getDistanceBetweenPeriod = ({
   from,
   to
@@ -720,11 +667,71 @@ const getDistanceBetweenPeriod = ({
   return distance;
 };
 const addMonths = (date, numberOfMonth) => {
-  const newDate = new Date(date.setMonth(date.getMonth() - numberOfMonth));
+  const newDate = new Date(date.setMonth(date.getMonth() + numberOfMonth));
   return newDate;
 };
 const defaultFormatFunc = (month, year) => {
   return `${month < 10 ? '0' + month : month}/${year}`;
+};
+const getPreviousPeriod = currentPeriod => {
+  const {
+    from
+  } = currentPeriod;
+  const distance = getDistanceBetweenPeriod(currentPeriod);
+  let date = new Date(from.year, from.month);
+  date = addMonths(date, -1);
+  const prevPeriodTo = {
+    month: date.getMonth(),
+    year: date.getFullYear()
+  };
+  date = addMonths(date, -distance);
+  const prevPeriodFrom = {
+    month: date.getMonth(),
+    year: date.getFullYear()
+  };
+  return {
+    from: prevPeriodFrom,
+    to: prevPeriodTo
+  };
+};
+const getPreviousYear = currentPeriod => {
+  const {
+    from,
+    to
+  } = currentPeriod;
+  const prevPeriodFrom = {
+    month: from.month,
+    year: from.year - 1
+  };
+  const prevPeriodTo = {
+    month: to.month,
+    year: to.year - 1
+  };
+  return {
+    from: prevPeriodFrom,
+    to: prevPeriodTo
+  };
+};
+const getPeriodByNumberOfLastMonths = (currentTime, numberOfMonth) => {
+  const {
+    month,
+    year
+  } = currentTime;
+  let date = new Date(year, month);
+  date = addMonths(date, -1);
+  const to = {
+    month: date.getMonth(),
+    year: date.getFullYear()
+  };
+  date = addMonths(date, -numberOfMonth + 1);
+  const from = {
+    month: date.getMonth(),
+    year: date.getFullYear()
+  };
+  return {
+    from,
+    to
+  };
 };
 
 /***/ }),
@@ -1007,11 +1014,11 @@ const getAnalyticData = (filterData, tabKey) => {
     try {
       const data = await _lib_api__WEBPACK_IMPORTED_MODULE_2__["factoryApi"][tabKey](filterData);
       dispatch(setAnalyticData(data));
-      dispatch(Object(_loadingAction__WEBPACK_IMPORTED_MODULE_1__["setLoading"])(false));
     } catch (error) {
       console.log('error', error.message);
     }
 
+    dispatch(Object(_loadingAction__WEBPACK_IMPORTED_MODULE_1__["setLoading"])(false));
     console.log('filter', filterData);
   };
 };
@@ -1216,9 +1223,8 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureCo
         key: item.id,
         value: item.id
       }, item.name);
-    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-      className: "btn-submit",
-      href: "#",
+    }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-confirm",
       onClick: this._onSubmit
     }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_6__["langCode"], "submit")));
   }
@@ -1271,15 +1277,9 @@ function mapStateToProps(state) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions */ "./src/js/pages/performance/actions/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
-/* harmony import */ var _dashboard_components_TabMenu__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../dashboard/components/TabMenu */ "./src/js/pages/dashboard/components/TabMenu.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+/* harmony import */ var _dashboard_components_TabMenu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../dashboard/components/TabMenu */ "./src/js/pages/dashboard/components/TabMenu.jsx");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
 
 
 
@@ -1298,7 +1298,7 @@ class TabContainer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComp
     const {
       selectedTabKey
     } = this.props;
-    const item = _lib_constants__WEBPACK_IMPORTED_MODULE_4__["tabMenuList"].find(_ => _.key === selectedTabKey);
+    const item = _lib_constants__WEBPACK_IMPORTED_MODULE_1__["tabMenuList"].find(_ => _.key === selectedTabKey);
     return item ? item.component : null;
   }
 
@@ -1310,24 +1310,16 @@ class TabContainer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComp
     } = this.props;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "tab-container"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dashboard_components_TabMenu__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_dashboard_components_TabMenu__WEBPACK_IMPORTED_MODULE_2__["default"], {
       selectedTabMenu: selectedTabKey,
       onClickTabMenu: this._onClickTabMenu,
-      tabMenuList: _lib_constants__WEBPACK_IMPORTED_MODULE_4__["tabMenuList"]
+      tabMenuList: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["tabMenuList"]
     }), CurrentTab && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CurrentTab, null));
   }
 
 }
 
-function mapDispatchToProps(dispatch) {
-  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({}, dispatch);
-}
-
-function mapStateToProps(state) {
-  return Object.assign({}, {});
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(TabContainer));
+/* harmony default export */ __webpack_exports__["default"] = (TabContainer);
 
 /***/ }),
 
@@ -1354,42 +1346,43 @@ class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureCompo
 
     _defineProperty(this, "_renderHeaderChart", () => {
       const {
-        currentMeasuremnent
+        showBackIcon,
+        backToDefaultChart
       } = this.props;
-      const title = `${currentMeasuremnent || ''} Growth`;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chart-title"
-      }, this._renderBackIcon(), title);
+      }, showBackIcon ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "left",
+        onClick: backToDefaultChart
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "arrow-left"
+      }), 'Go back') : null);
     });
-
-    this.state = {};
-  }
-
-  _renderBackIcon() {
-    const {
-      showBackIcon,
-      backToDefaultChart
-    } = this.props;
-    return showBackIcon ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "",
-      onClick: backToDefaultChart
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      class: "arrow-left"
-    })) : null;
   }
 
   render() {
     const {
+      currentMeasuremnent,
       lineChartData,
       barChartData,
       labels
     } = this.props;
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_base_MixBarLineChart__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "info-zone-container"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "info-zone-header"
+    }, `${currentMeasuremnent || ''} Growth`), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "info-zone-body"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "side-chart left-chart"
+    }, `${currentMeasuremnent || ''}(thousand)`), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_base_MixBarLineChart__WEBPACK_IMPORTED_MODULE_1__["default"], {
       header: this._renderHeaderChart,
       lineChartData: lineChartData,
       barChartData: barChartData,
       labels: labels
-    }));
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "side-chart right-chart"
+    }, 'Growth rate(%)')));
   }
 
 }
@@ -1415,6 +1408,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+const defaultColorBarChart = '#F1A837';
+const defaultColorLineChart = '#F15D21';
 
 const buildLineChartDataSet = lineChartData => {
   return {
@@ -1423,12 +1418,12 @@ const buildLineChartDataSet = lineChartData => {
     lineTension: 0,
     data: lineChartData.dataSet,
     fill: false,
-    borderColor: 'rgba(75, 172, 198, 1)',
-    backgroundColor: 'rgba(75, 172, 198, 1)',
-    pointBorderColor: 'rgba(75, 172, 198, 1)',
-    pointBackgroundColor: 'rgba(75, 172, 198, 1)',
-    pointHoverBackgroundColor: 'rgba(75, 172, 198, 1)',
-    pointHoverBorderColor: 'rgba(75, 172, 198, 1)',
+    borderColor: lineChartData.color || defaultColorLineChart,
+    backgroundColor: lineChartData.color || defaultColorLineChart,
+    pointBorderColor: lineChartData.color || defaultColorLineChart,
+    pointBackgroundColor: lineChartData.color || defaultColorLineChart,
+    pointHoverBackgroundColor: lineChartData.color || defaultColorLineChart,
+    pointHoverBorderColor: lineChartData.color || defaultColorLineChart,
     yAxisID: 'y-axis-2'
   };
 };
@@ -1439,10 +1434,10 @@ const buildBarChartDataSet = barChartData => {
     label: barChartData.name,
     data: barChartData.dataSet,
     fill: false,
-    backgroundColor: 'rgba(247,150,70,1)',
-    borderColor: 'rgba(247,150,70,0.5)',
-    hoverBackgroundColor: 'rgba(247,150,70,1)',
-    hoverBorderColor: 'rgba(247,150,70,0.5)',
+    backgroundColor: barChartData.color || defaultColorBarChart,
+    borderColor: barChartData.color || defaultColorBarChart,
+    hoverBackgroundColor: barChartData.color || defaultColorBarChart,
+    hoverBorderColor: barChartData.color || defaultColorBarChart,
     yAxisID: 'y-axis-1'
   };
 };
@@ -1464,16 +1459,7 @@ const buildMixChartOption = ({
 }) => {
   const events = barChartData.events;
   const eventClicks = events ? events.click : null;
-  /*{
-     click: [
-       {
-         columnIndex: 0,
-         callBack: () => { }
-       }
-     ]
-   //}
-  // [{ columnIndex: 0, onClick: }]*/
-
+  const barWidth = barChartData.dataSet.length > 6 ? 60 : 100;
   return {
     onClick: (e, item) => {
       if (item && item.length == 2) {
@@ -1523,6 +1509,7 @@ const buildMixChartOption = ({
     },
     scales: {
       xAxes: [{
+        barThickness: barWidth,
         display: true,
         gridLines: {
           display: false
@@ -1556,11 +1543,6 @@ const buildMixChartOption = ({
   };
 };
 
-const plugins = [{
-  afterDraw: (chartInstance, easing) => {
-    const ctx = chartInstance.chart.ctx;
-  }
-}];
 class MixBarLineChart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor(props) {
     super(props);
@@ -1569,15 +1551,6 @@ class MixBarLineChart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chart-footer"
       });
-    });
-
-    _defineProperty(this, "_renderTitle", () => {
-      const {
-        title
-      } = this.props;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "chart-title"
-      }, title);
     });
   }
 
@@ -1597,8 +1570,7 @@ class MixBarLineChart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     });
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_1__["Bar"], {
       data: data,
-      options: options,
-      plugins: plugins
+      options: options
     });
   }
 
@@ -1905,6 +1877,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tabs_overview_OverviewTab__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../tabs/overview/OverviewTab */ "./src/js/pages/performance/tabs/overview/OverviewTab.jsx");
 /* harmony import */ var _tabs_currency_CurrencyTab__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../tabs/currency/CurrencyTab */ "./src/js/pages/performance/tabs/currency/CurrencyTab.jsx");
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../lib/constants */ "./src/js/lib/constants.js");
+/* harmony import */ var _lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../lib/dateTimeHelper */ "./src/js/lib/dateTimeHelper.js");
+
 
 
 
@@ -1920,16 +1894,11 @@ const defaultData = {
     name: 'Margin'
   }],
   getComparePeriods: () => {
-    const currentTime = Object(_lib_constants__WEBPACK_IMPORTED_MODULE_2__["getCurrentTime"])();
+    const currentPeriod = Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_3__["getPeriodByNumberOfLastMonths"])(Object(_lib_constants__WEBPACK_IMPORTED_MODULE_2__["getCurrentTime"])(), 3);
+    const previousPeriod = Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_3__["getPreviousPeriod"])(currentPeriod);
     return {
-      currentPeriod: {
-        from: currentTime,
-        to: currentTime
-      },
-      previousPeriod: {
-        from: currentTime,
-        to: currentTime
-      }
+      currentPeriod,
+      previousPeriod
     };
   }
 };
@@ -1964,6 +1933,11 @@ const getMajorChangeList = measurementId => {
     title: 'MAJOR CHANGES - By PLATFORM',
     header: ['Platform', measurement.name, '%CHG'],
     data: []
+  }, {
+    key: 'productTopChange',
+    title: 'MAJOR CHANGES - By PRODUCT',
+    header: ['Product', measurement.name, '%CHG'],
+    data: []
   }];
 };
 
@@ -1989,10 +1963,7 @@ const generalService = {
   }) => {
     return {
       measurement: selectedMeasurement,
-      baseCurrency: {
-        name: selectedBaseCurrency,
-        id: 2
-      },
+      baseCurrencyName: selectedBaseCurrency,
       currentPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.currentPeriod)),
       previousPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.previousPeriod))
     };
@@ -2242,14 +2213,14 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     } = this.props.analyticData;
     const majorChangeList = Object(_lib_constants__WEBPACK_IMPORTED_MODULE_7__["getMajorChangeList"])(measurementId);
     return topChangeData && majorChangeList.map(_ => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_TableMajorChangeItem__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({
-      key: _.key
+      key: 'major_change_table_' + _.key
     }, { ..._,
       ...{
         data: topChangeData[_.key]
       }
     }, {
       renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-        key: item.perspectiveName
+        key: 'major_change_row_' + item.perspectiveName
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_6__["default"], {
         value: item.changePercent
       }), item.perspectiveName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, _lib_numberFormat__WEBPACK_IMPORTED_MODULE_10__["default"].formatDecimal(item.total)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changePercent + '%'))

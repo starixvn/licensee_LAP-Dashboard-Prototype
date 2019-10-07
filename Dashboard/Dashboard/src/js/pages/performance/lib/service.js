@@ -4,7 +4,7 @@ export const generalService = {
   getFilterData: ({ selectedMeasurement, selectedBaseCurrency, selectedComparePeriods}) => {
     return {
       measurement: selectedMeasurement,
-      baseCurrency: { name: selectedBaseCurrency, id: 2 },
+      baseCurrencyName: selectedBaseCurrency,
       currentPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.currentPeriod)),
       previousPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.previousPeriod)),
     }

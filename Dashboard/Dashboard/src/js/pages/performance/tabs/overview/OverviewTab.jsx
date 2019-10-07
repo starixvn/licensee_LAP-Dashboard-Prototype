@@ -34,14 +34,14 @@ class OverviewTab extends Component {
     const majorChangeList = getMajorChangeList(measurementId)
 
     return topChangeData && majorChangeList.map(_ => <TableMajorChangeItem
-      key={_.key}
+      key={'major_change_table_' + _.key}
       {...{
         ..._,
         ...{
           data: topChangeData[_.key]
         }
       }}
-      renderRow={item => <tr key={item.perspectiveName}>
+      renderRow={item => <tr key={'major_change_row_' + item.perspectiveName}>
         <td><ValueChangeIcon value={item.changePercent} />{item.perspectiveName}</td>
         <td>{numberFormat.formatDecimal(item.total)}</td>
         <td>{item.changePercent + '%'}</td>

@@ -5,40 +5,19 @@
   .loading-process {
     background: rgba(255, 255, 255, 0.7) no-repeat;
     .icon-loading {
-      top: 40%;
-    }
-  }
-
-  .filter-top-panel {
-    .btn-submit {
-      cursor: pointer;
-      padding-left: 15px;
-      padding-right: 15px;
+      top: 350px;
     }
   }
 
   .overview-tab {
     background-color: #fff;
-    padding-left: 30px;
-    padding-right: 30px;
     padding-top: 15px;
     padding-bottom: 50px;
     overflow: auto;
 
-    .arrow-down, .arrow-up {
-      display: inline-block;
-      margin-right: 5px;
-    }
-
-    .rec-equal {
-      position: absolute;
-      left: -27px;
-      top: 12px;
-    }
-
     .table-major-list {
       float: left;
-      margin-left: 60px;
+      margin-left: 20px;
     }
 
     .box-info-measure-list {
@@ -51,9 +30,65 @@
     width: 100%;
   }
 
-  .chart-container {
+  .info-zone-container {
     float: left;
     width: 50%;
-    margin-left: 30px;
+    margin-left: 20px;
+    .info-zone-body {
+      .side-chart {
+        position: absolute;
+        top: 45%;
+        transform: rotate(-90deg);
+        font-size: 13px;
+        color: #000000;
+      }
+
+      .left-chart {
+        left: -30px;
+      }
+
+      .right-chart {
+        right: -20px;
+      }
+    }
+  }
+
+
+  @media (max-width: 767px) {
+    .overview-tab {
+      .info-zone-container {
+        width: 100% ;
+        margin-left: 0;
+      }
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1280px) {
+    .overview-tab {
+      .info-zone-container {
+        width: 95% ;
+        margin-left: 0;
+      }
+      .table-major-list {
+        float: none;
+        overflow: auto;
+        margin-left: 0;
+        .table-major {
+          margin-bottom: 15px;
+          float: left;
+          margin-left: 20px;
+          .table-major-body {
+            width: 380px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: 1800px) {
+    .info-zone-container {
+      width: 65%;
+    }
   }
 }
+

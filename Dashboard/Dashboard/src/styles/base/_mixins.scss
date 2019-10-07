@@ -1,0 +1,9 @@
+@import '../base/variables';
+
+@mixin zone-header() {
+    padding: 15px 0;
+    text-align: center;
+    color: $text-white-color;
+    background-color: $main-color;
+    font-size: 15px;
+}

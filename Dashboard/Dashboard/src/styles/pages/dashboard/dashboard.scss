@@ -1,4 +1,5 @@
 ﻿@import '../../base/common';
+@import '../../base/variables';
 
 #dashboard {
     ul {
@@ -6,7 +7,7 @@
         margin: 0;
         padding: 0;
         overflow: hidden;
-        border: 2px solid #E5E5E5 !important;
+        border-bottom: 1px solid #C4C4C4 !important;
     }
 
     li {
@@ -15,17 +16,16 @@
 
     li a {
         display: block;
-        color: black;
+        color: $text-default-color;
+        text-transform: uppercase;
         text-align: center;
-        padding: 14px 30px;
+        padding: 10px 20px;
         text-decoration: none;
-    }
-
-    li a:hover:not(.active) {
-        background-color: #E5E5E5;
+        text-transform: uppercase;
     }
 
     .active {
-        background-color: #E5E5E5;
+        color: $active-color;
+        border-bottom: 2px solid $active-color;
     }
 }
