@@ -133,8 +133,7 @@
 
     .label {
       margin-left: 3px;
-      font-weight: 400;
-      color: $text-default-color;
+      @include text-default
     }
   }
 }
@@ -171,6 +170,21 @@ i.arrow-left {
   -webkit-transform: rotate(135deg);
 }
 
+.child-tab {
+    &::-webkit-scrollbar {
+    width: 5px;
+   }
+
+    &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 5x;
+   }
+
+   &::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 5px;
+   }
+}
 
 .table-major {
   .table-major-title {
@@ -264,5 +278,6 @@ i.arrow-left {
     position: relative;
   }
 }
+
 
 

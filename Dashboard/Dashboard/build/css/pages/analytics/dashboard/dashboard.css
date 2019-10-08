@@ -145,6 +145,17 @@ i.arrow-left {
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg); }
 
+.child-tab::-webkit-scrollbar {
+  width: 5px; }
+
+.child-tab::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 5x; }
+
+.child-tab::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 5px; }
+
 .table-major .table-major-title {
   padding: 15px 0;
   text-align: center;

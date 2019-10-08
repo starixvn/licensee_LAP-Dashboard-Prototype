@@ -1,3 +1,14 @@
+
+const getLastQuarter = currentTime => {
+  const { month, year } = currentTime;
+  const currentQuater = Math.ceil((month + 1) / 3);
+  const lastQuarter = currentQuater - 1 || 4;
+  return {
+    quarter: lastQuarter,
+    year: lastQuarter === 4 ? year - 1 : year
+  }
+}
+
 export const getDistanceBetweenPeriod = ({ from, to }) => {
   const distance = 12 * (to.year - from.year) + (to.month - from.month);
   return distance;
@@ -70,4 +81,20 @@ export const getPeriodByNumberOfLastMonths = (currentTime, numberOfMonth) => {
   }
 
   return { from, to }
+}
+
+export const getPeriodByLastQuarter = currentTime => {
+  const { quarter, year } = getLastQuarter(currentTime);
+  const to = {
+    month: quarter * 3 - 1,
+    year
+  }
+  const from = {
+    month: to.month - 2,
+    year
+  }
+  return {
+    from,
+    to
+  }
 }

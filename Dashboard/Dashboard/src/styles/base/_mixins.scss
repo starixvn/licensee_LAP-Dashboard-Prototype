@@ -7,3 +7,8 @@
     background-color: $main-color;
     font-size: 15px;
 }
+
+@mixin text-default() {
+  font-weight: 400;
+  color: $text-default-color;
+}

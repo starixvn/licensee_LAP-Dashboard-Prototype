@@ -8,6 +8,12 @@ export const generalService = {
       currentPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.currentPeriod)),
       previousPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.previousPeriod)),
     }
+  },
+  getScrollTabStyle: () => {
+    const { height } = window.screen;
+    return {
+      maxHeight: (height - 300) + 'px'
+    }
   }
 }
 

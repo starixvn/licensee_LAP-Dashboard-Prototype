@@ -1,6 +1,6 @@
 import React from 'react';
 import MonthRangePicker, { isPeriodEqual } from './MonthRangePicker';
-import { getDistanceBetweenPeriod, getPreviousPeriod, getPreviousYear, getPeriodByNumberOfLastMonths } from '../lib/dateTimeHelper';
+import { getDistanceBetweenPeriod, getPreviousPeriod, getPreviousYear, getPeriodByNumberOfLastMonths, getPeriodByLastQuarter } from '../lib/dateTimeHelper';
 import { getCurrentTime } from '../lib/constants';
 import languageApi from '../lib/languageApi';
 import { langCode } from '../lib/constants';
@@ -22,6 +22,10 @@ const currentPeriodQuickSelections = [
     onSelect: currentTime => getPeriodByNumberOfLastMonths(currentTime, 1)
   },
   {
+    label: "Last Quarter",
+    onSelect: currentTime => getPeriodByLastQuarter(currentTime)
+  },
+  {
     label: "Last 3 months",
     onSelect: currentTime => getPeriodByNumberOfLastMonths(currentTime, 3)
   },
@@ -37,7 +41,7 @@ export default class CoupleMonthRangePicker extends React.PureComponent {
     const { currentPeriod, previousPeriod } = this.props;
     this.state = {
       currentPeriod: currentPeriod,
-      previousPeriod: previousPeriod 
+      previousPeriod: previousPeriod
     }
   }
 
@@ -48,7 +52,7 @@ export default class CoupleMonthRangePicker extends React.PureComponent {
       currentPeriod: selectedRange,
       previousPeriod
     }
-    
+
     this.setState(periods, () => onChangeRangeOfTwoPeriod && onChangeRangeOfTwoPeriod(periods));
   }
 
@@ -77,7 +81,7 @@ export default class CoupleMonthRangePicker extends React.PureComponent {
   _renderPreviousPeriodQuickSelection = self => {
     return previousPeriodQuickSelections
       .map((_, index) => {
-        const { currentPeriod } = this.state;        
+        const { currentPeriod } = this.state;
         const isSelected = isPeriodEqual(_.onSelect(currentPeriod), self.state);
         return <div key={`pp_selection_${index}`} className={`quick-selection ${isSelected ? 'quick-selection-active' : ''}`}
         onClick={() => {

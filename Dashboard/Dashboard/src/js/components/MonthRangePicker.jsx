@@ -15,7 +15,7 @@ const getMaxYearTo = ({ year, month }, range, maxYear = new Date().getFullYear()
   let maxDate = new Date(year, month);
   maxDate = new Date(maxDate.setMonth(maxDate.getMonth() + range));
   let maxYearTo = maxDate.getFullYear();
-  return maxYearTo < maxYear ? maxYearTo : maxYear;
+  return maxYearTo;
 }
 
 const getMaxMonthTo = (month, range) => {
@@ -26,16 +26,12 @@ const getMaxMonthTo = (month, range) => {
 export default class MonthRangePicker extends React.PureComponent {
   constructor(props) {
     super(props);
-    
-    const { open } = this.props;
-    let { from, to } = this.props;
-
+    const { open, from, to } = this.props;
     this.state = {
       open: open,
       from: from,
       to: to
     }
-
     this.container = React.createRef();
   }
 
@@ -129,12 +125,12 @@ export default class MonthRangePicker extends React.PureComponent {
         year: from.dropdownYear || from.year
       }
     };
-    
+
     to = this._getToValueOnChaneMonthFrom(from);
 
-    this.setState({ 
+    this.setState({
       from,
-      to 
+      to
     });
   }
 
@@ -224,17 +220,19 @@ export default class MonthRangePicker extends React.PureComponent {
 
     const maxYearTo = getMaxYearTo(from, range);
     const maxMonthTo = getMaxMonthTo(from.month + 1, range);
-        
+
+    const displayText = this._getDisplayText();
+
     return (
       <div className="rmp-main-container">
         <div className={enable ? 'mp-form-container' : 'mp-form-container disable'} onClick={this._toggle}>
-          <input type="text" className="mp-form-input" value={this._getDisplayText()} readOnly={isReadonly} />
+          <input type="text" className="mp-form-input" value={displayText} readOnly={isReadonly} />
           {iconElement}
         </div>
         <div className="range-mp-container" style={{ display: open ? 'block' : 'none' }} ref={this.container}>
           <div className="quick-selection-container">
             {quickSelections && quickSelections(this)}
-            <div>
+            <div className="">
               <button className="btn btn-confirm" onClick={this._onConfirmChangeRange}>OK</button>
               <button className="btn btn-cancel m-l-5" onClick={this._cancel}>Cancel</button>
             </div>

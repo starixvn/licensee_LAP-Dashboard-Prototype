@@ -99,9 +99,8 @@ class OverviewTab extends Component {
   }
 
   render() {
-
     return (
-      <div className="overview-tab">
+      <div className="child-tab overview-tab" style={generalService.getScrollTabStyle()}>
         {this._renderBoxInfoMeasureList()}
         <div className="table-major-list">
           {this._renderTopChangeTableList()}

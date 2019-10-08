@@ -99,12 +99,14 @@
   .performance-container .info-zone-container .info-zone-body .side-chart {
     position: absolute;
     top: 45%;
-    transform: rotate(-90deg);
     font-size: 13px;
-    color: #000000; }
+    font-weight: 400;
+    color: #6E6E6E; }
   .performance-container .info-zone-container .info-zone-body .left-chart {
+    transform: rotate(-90deg);
     left: -30px; }
   .performance-container .info-zone-container .info-zone-body .right-chart {
+    transform: rotate(90deg);
     right: -20px; }
 
 @media (max-width: 767px) {
@@ -114,7 +116,7 @@
 
 @media (min-width: 768px) and (max-width: 1280px) {
   .performance-container .overview-tab .info-zone-container {
-    width: 95%;
+    width: 100%;
     margin-left: 0; }
   .performance-container .overview-tab .table-major-list {
     float: none;
@@ -129,7 +131,7 @@
 
 @media (min-width: 1800px) {
   .performance-container .info-zone-container {
-    width: 65%; } }
+    width: 60%; } }
 
 
 /*# sourceMappingURL=performance.css.map*/

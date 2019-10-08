@@ -47,12 +47,12 @@ const buildMixChartDataSet = ({ lineChartData, barChartData }) => {
 const buildMixChartOption = ({ labels, barChartData }) => {
   const events = barChartData.events;
   const eventClicks = events ? events.click : null;
-  const barWidth = barChartData.dataSet.length > 6 ? 60 : 100;
+  const barWidthObj = barChartData.dataSet.length > 6 ? { barPercentage: 0.9 } : { barPercentage: 0.4 };
 
   return {
     onClick: (e, item) => {
-      if(item && item.length == 2) {
-        if(eventClicks && eventClicks.length > 0) {
+      if (item && item.length == 2) {
+        if (eventClicks && eventClicks.length > 0) {
           const eventClick = eventClicks.find(_ => _.columnIndex === item[1]._index);
           eventClick && eventClick.callBack && eventClick.callBack();
         }
@@ -101,15 +101,17 @@ const buildMixChartOption = ({ labels, barChartData }) => {
     scales: {
       xAxes: [
         {
-          barThickness : barWidth,
-          display: true,
-          gridLines: {
-            display: false
-          },
-          labels: {
-            show: true
-          },
-          labels: labels
+          ...barWidthObj,
+          ...{
+            display: true,
+            gridLines: {
+              display: false
+            },
+            labels: {
+              show: true
+            },
+            labels: labels
+          }
         }
       ],
       yAxes: [
@@ -154,6 +156,7 @@ export default class MixBarLineChart extends Component {
     const { lineChartData, barChartData, labels } = this.props;
     const data = buildMixChartDataSet({ lineChartData, barChartData });
     const options = buildMixChartOption({ labels, barChartData });
+
     return <Bar
       data={data}
       options={options}

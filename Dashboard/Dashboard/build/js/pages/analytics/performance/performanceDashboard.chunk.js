@@ -105,6 +105,9 @@ const currentPeriodQuickSelections = [{
   label: "Last Month",
   onSelect: currentTime => Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getPeriodByNumberOfLastMonths"])(currentTime, 1)
 }, {
+  label: "Last Quarter",
+  onSelect: currentTime => Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getPeriodByLastQuarter"])(currentTime)
+}, {
   label: "Last 3 months",
   onSelect: currentTime => Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getPeriodByNumberOfLastMonths"])(currentTime, 3)
 }, {
@@ -296,7 +299,7 @@ const getMaxYearTo = ({
   let maxDate = new Date(year, month);
   maxDate = new Date(maxDate.setMonth(maxDate.getMonth() + range));
   let maxYearTo = maxDate.getFullYear();
-  return maxYearTo < maxYear ? maxYearTo : maxYear;
+  return maxYearTo;
 };
 
 const getMaxMonthTo = (month, range) => {
@@ -415,9 +418,7 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
     });
 
     const {
-      open
-    } = this.props;
-    let {
+      open,
       from: _from,
       to: _to
     } = this.props;
@@ -522,6 +523,9 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
     } = this.props;
     const maxYearTo = getMaxYearTo(from, range);
     const maxMonthTo = getMaxMonthTo(from.month + 1, range);
+
+    const displayText = this._getDisplayText();
+
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "rmp-main-container"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -530,7 +534,7 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       type: "text",
       className: "mp-form-input",
-      value: this._getDisplayText(),
+      value: displayText,
       readOnly: isReadonly
     }), iconElement), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "range-mp-container",
@@ -540,7 +544,9 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
       ref: this.container
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "quick-selection-container"
-    }, quickSelections && quickSelections(this), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, quickSelections && quickSelections(this), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: ""
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-confirm",
       onClick: this._onConfirmChangeRange
     }, "OK"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -648,7 +654,7 @@ function createReducer(initialState, handlers) {
 /*!**************************************!*\
   !*** ./src/js/lib/dateTimeHelper.js ***!
   \**************************************/
-/*! exports provided: getDistanceBetweenPeriod, addMonths, defaultFormatFunc, getPreviousPeriod, getPreviousYear, getPeriodByNumberOfLastMonths */
+/*! exports provided: getDistanceBetweenPeriod, addMonths, defaultFormatFunc, getPreviousPeriod, getPreviousYear, getPeriodByNumberOfLastMonths, getPeriodByLastQuarter */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -659,6 +665,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPreviousPeriod", function() { return getPreviousPeriod; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPreviousYear", function() { return getPreviousYear; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPeriodByNumberOfLastMonths", function() { return getPeriodByNumberOfLastMonths; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPeriodByLastQuarter", function() { return getPeriodByLastQuarter; });
+const getLastQuarter = currentTime => {
+  const {
+    month,
+    year
+  } = currentTime;
+  const currentQuater = Math.ceil((month + 1) / 3);
+  const lastQuarter = currentQuater - 1 || 4;
+  return {
+    quarter: lastQuarter,
+    year: lastQuarter === 4 ? year - 1 : year
+  };
+};
+
 const getDistanceBetweenPeriod = ({
   from,
   to
@@ -727,6 +747,24 @@ const getPeriodByNumberOfLastMonths = (currentTime, numberOfMonth) => {
   const from = {
     month: date.getMonth(),
     year: date.getFullYear()
+  };
+  return {
+    from,
+    to
+  };
+};
+const getPeriodByLastQuarter = currentTime => {
+  const {
+    quarter,
+    year
+  } = getLastQuarter(currentTime);
+  const to = {
+    month: quarter * 3 - 1,
+    year
+  };
+  const from = {
+    month: to.month - 2,
+    year
   };
   return {
     from,
@@ -1340,7 +1378,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
+class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
   constructor(props) {
     super(props);
 
@@ -1459,7 +1497,11 @@ const buildMixChartOption = ({
 }) => {
   const events = barChartData.events;
   const eventClicks = events ? events.click : null;
-  const barWidth = barChartData.dataSet.length > 6 ? 60 : 100;
+  const barWidthObj = barChartData.dataSet.length > 6 ? {
+    barPercentage: 0.9
+  } : {
+    barPercentage: 0.4
+  };
   return {
     onClick: (e, item) => {
       if (item && item.length == 2) {
@@ -1508,16 +1550,17 @@ const buildMixChartOption = ({
       }
     },
     scales: {
-      xAxes: [{
-        barThickness: barWidth,
-        display: true,
-        gridLines: {
-          display: false
-        },
-        labels: {
-          show: true
-        },
-        labels: labels
+      xAxes: [{ ...barWidthObj,
+        ...{
+          display: true,
+          gridLines: {
+            display: false
+          },
+          labels: {
+            show: true
+          },
+          labels: labels
+        }
       }],
       yAxes: [{
         type: 'linear',
@@ -1967,6 +2010,14 @@ const generalService = {
       currentPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.currentPeriod)),
       previousPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.previousPeriod))
     };
+  },
+  getScrollTabStyle: () => {
+    const {
+      height
+    } = window.screen;
+    return {
+      maxHeight: height - 300 + 'px'
+    };
   }
 };
 
@@ -2284,7 +2335,8 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
   render() {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "overview-tab"
+      className: "child-tab overview-tab",
+      style: _lib_service__WEBPACK_IMPORTED_MODULE_8__["generalService"].getScrollTabStyle()
     }, this._renderBoxInfoMeasureList(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "table-major-list"
     }, this._renderTopChangeTableList()), this._renderGrowthChart());

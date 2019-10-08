@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import MixBarLineChart from './base/MixBarLineChart';
 
-export default class GrowthChart extends React.PureComponent {
+export default class GrowthChart extends PureComponent {
   constructor(props) {
     super(props);
   }
