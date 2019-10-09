@@ -81,7 +81,8 @@
   background-color: #fff;
   padding-top: 15px;
   padding-bottom: 50px;
-  overflow: auto; }
+  overflow: auto;
+  box-sizing: border-box; }
   .performance-container .overview-tab .table-major-list {
     float: left;
     margin-left: 20px; }

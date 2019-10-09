@@ -12,7 +12,7 @@ export const factoryApi = {
 
 export const overviewApi = {
   getCombineData: async (filterData) => {
-    const url =  '/api/performance/overview';
+    const url = '/api/performance/overview';
     const body = filterData;
     const response = await widgetApi.fetchDataCrossSite({ url, body });
     if (response && response.data) {
@@ -28,10 +28,8 @@ export const currencyApi = {
     const body = filterData;
     const response = await widgetApi.fetchDataCrossSite({ url, body });
     if (response && response.data) {
-      debugger
       return response.data.data;
     }
     return null;
-
   }
 }

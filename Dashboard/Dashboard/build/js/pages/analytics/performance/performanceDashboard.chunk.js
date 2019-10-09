@@ -1894,7 +1894,6 @@ const currencyApi = {
     });
 
     if (response && response.data) {
-      debugger;
       return response.data.data;
     }
 
@@ -2013,10 +2012,10 @@ const generalService = {
   },
   getScrollTabStyle: () => {
     const {
-      height
-    } = window.screen;
+      innerHeight
+    } = window;
     return {
-      maxHeight: height - 300 + 'px'
+      maxHeight: innerHeight - 200 + 'px'
     };
   }
 };

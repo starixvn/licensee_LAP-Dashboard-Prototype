@@ -10,9 +10,9 @@ export const generalService = {
     }
   },
   getScrollTabStyle: () => {
-    const { height } = window.screen;
+    const { innerHeight } = window;
     return {
-      maxHeight: (height - 300) + 'px'
+      maxHeight: (innerHeight - 200) + 'px'
     }
   }
 }
