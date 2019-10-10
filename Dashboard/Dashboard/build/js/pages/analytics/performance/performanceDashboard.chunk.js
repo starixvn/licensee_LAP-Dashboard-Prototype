@@ -868,9 +868,9 @@ __webpack_require__.r(__webpack_exports__);
 
 class widgetApi {
   static _getAuthToken(action, type = 1) {
-    var tokenUrl = window.TokenUrl + "/Verify/ApplyApiToken?type={0}&actionLink={1}&_=" + new Date().getTime();
-    tokenUrl = tokenUrl.replace("{1}", encodeURIComponent(action));
-    tokenUrl = tokenUrl.replace("{0}", type);
+    var tokenUrl = window.TokenUrl + "&_=" + new Date().getTime();
+    tokenUrl = tokenUrl.replace("{0}", encodeURIComponent(action));
+    tokenUrl = tokenUrl.replace("{1}", type);
     return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(tokenUrl, {});
   }
 
