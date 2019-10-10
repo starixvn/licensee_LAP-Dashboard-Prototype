@@ -312,6 +312,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+__webpack_require__.p = document.getElementById("public-path").value;
 const SummaryDashboard = Promise.all(/*! import() | summary/summaryDashboard */[__webpack_require__.e("vendors/common"), __webpack_require__.e("summary/summaryDashboard")]).then(__webpack_require__.bind(null, /*! ../summary/index */ "./src/js/pages/summary/index.js"));
 const PerformanceDashboard = Promise.all(/*! import() | performance/performanceDashboard */[__webpack_require__.e("vendors/common"), __webpack_require__.e("performance/performanceDashboard")]).then(__webpack_require__.bind(null, /*! ../performance/index */ "./src/js/pages/performance/index.js"));
 const tabMenuList = [{
@@ -334,7 +335,7 @@ class DashboardApp extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     });
 
     this.state = {
-      selectedTabMenu: _lib_constants__WEBPACK_IMPORTED_MODULE_3__["performance"]
+      selectedTabMenu: _lib_constants__WEBPACK_IMPORTED_MODULE_3__["summary"]
     };
   }
 
