@@ -9,12 +9,16 @@ export const factoryApi = {
     return currencyApi.getCombineData(filterData);
   }
 }
-
+const commonParam = {
+  IsCrossSite: true,
+  Data: {},
+  Url: '',
+  Type: 4
+};
 export const overviewApi = {
   getCombineData: async (filterData) => {
-    const url = '/api/performance/overview';
-    const body = filterData;
-    const response = await widgetApi.fetchDataCrossSite({ url, body });
+    const param = Object.assign({}, commonParam, { Data: filterData, Url: '/api/performance/overview' });
+    const response = await widgetApi.postData(param);
     if (response && response.data) {
       return response.data.data;
     }
@@ -24,9 +28,8 @@ export const overviewApi = {
 }
 export const currencyApi = {
   getCombineData: async (filterData) => {
-    const url =  '/api/performance/currency';
-    const body = filterData;
-    const response = await widgetApi.fetchDataCrossSite({ url, body });
+    const param = Object.assign({}, commonParam, { Data: filterData, Url: '/api/performance/currency' });
+    const response = await widgetApi.postData(param);
     if (response && response.data) {
       return response.data.data;
     }

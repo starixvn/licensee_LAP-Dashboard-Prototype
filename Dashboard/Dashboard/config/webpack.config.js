@@ -25,7 +25,7 @@ module.exports = env => {
             path: projectPath.rootPath + '/build/',
             filename: "[name].js",
             chunkFilename: 'js/pages/analytics/[name].chunk.js',
-            publicPath: isDevBuild ? "/build/" : '/LAP/'
+            publicPath: ""
         },
         optimization: {
             splitChunks: {

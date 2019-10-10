@@ -676,19 +676,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
-const defaultHostUrl = "http://ha.nexdev.net:7611/LAP/12bet";
 class widgetApi {
-  static _getAuthToken(action) {
-    var tokenUrl = window.TokenUrl || defaultHostUrl + "/Verify/ApplyApiToken?type=1&actionLink={0}&_=" + new Date().getTime();
-    tokenUrl = tokenUrl.replace("{0}", encodeURIComponent(action));
+  static _getAuthToken(action, type = 1) {
+    var tokenUrl = window.TokenUrl + "/Verify/ApplyApiToken?type={0}&actionLink={1}&_=" + new Date().getTime();
+    tokenUrl = tokenUrl.replace("{1}", encodeURIComponent(action));
+    tokenUrl = tokenUrl.replace("{0}", type);
     return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(tokenUrl, {});
   }
 
   static fetchData(param) {
     var data = param.Data || {};
+    var type = param.Type || 1;
 
     if (param.IsCrossSite) {
-      return widgetApi._getAuthToken(param.Url).then(response => {
+      return widgetApi._getAuthToken(param.Url, type).then(response => {
         data['X-Auth-Token'] = response.data.Token;
         const dataUrl = response.data.ApiUrl + param.Url;
         return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(dataUrl, {
@@ -696,7 +697,7 @@ class widgetApi {
         });
       });
     } else {
-      var lapRootUrl = window.HostUrl || defaultHostUrl;
+      var lapRootUrl = window.HostUrl;
       const lapApi = lapRootUrl.replace("SessionIsAlive", param.Url);
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(lapApi, {
         params: data
@@ -704,22 +705,19 @@ class widgetApi {
     }
   }
 
-  static async fetchDataCrossSite({
-    url,
-    params,
-    body
-  }) {
-    let response = await widgetApi._getAuthToken(url);
-    const token = response.data.Token || '';
-    body = body || {};
-    params = params || {};
-    url = 'http://localhost:5001' + url;
-    response = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(url, body, {
+  static async postData(param) {
+    if (!param.IsCrossSite) return new Promise((resolve, reject) => {
+      resolve({});
+    });
+    var postContent = param.Data || {};
+    var type = param.Type || 1;
+    let response = await widgetApi._getAuthToken(param.Url, type);
+    const dataUrl = response.data.ApiUrl + param.Url;
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(dataUrl, postContent, {
       headers: {
-        'X-Auth-Token': token
+        'X-Auth-Token': response.data.Token
       }
     });
-    return response;
   }
 
 }

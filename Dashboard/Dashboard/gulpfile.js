@@ -8,7 +8,15 @@
 // Include Gulp and other build automation tools and utilities
 // See: https://github.com/gulpjs/gulp/blob/master/docs/API.md
 var gulp = require('gulp');
-
+var webserver = require('gulp-webserver');
+gulp.task('webserver', function() {
+  gulp.src('./src')
+    .pipe(webserver({
+      livereload: true,
+      directoryListing: true,
+      open: true
+    }));
+});
 gulp.task('copytoLocal', function (cb) {
     //JS
     gulp.src('build/js/pages/analytics/summary/**')
