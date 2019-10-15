@@ -14,7 +14,8 @@
     background-color: #fff;
     padding-top: 15px;
     padding-bottom: 50px;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     box-sizing: border-box;
 
     .table-major-list {
@@ -34,7 +35,6 @@
 
   .info-zone-container {
     float: left;
-    width: 50%;
     margin-left: 20px;
 
     .info-zone-body {
@@ -61,7 +61,6 @@
   @media (max-width: 767px) {
     .overview-tab {
       .info-zone-container {
-        width: 100% ;
         margin-left: 0;
       }
     }
@@ -69,29 +68,26 @@
 
   @media (min-width: 768px) and (max-width: 1280px) {
     .overview-tab {
+
       .info-zone-container {
-        width: 100% ;
         margin-left: 0;
       }
+
       .table-major-list {
         float: none;
         overflow: auto;
         margin-left: 0;
+
         .table-major {
           margin-bottom: 15px;
           float: left;
           margin-left: 20px;
+
           .table-major-body {
             width: 380px;
           }
         }
       }
-    }
-  }
-
-  @media (min-width: 1800px) {
-    .info-zone-container {
-      width: 60%;
     }
   }
 }

@@ -12,3 +12,7 @@
   font-weight: 400;
   color: $text-default-color;
 }
+
+@mixin on-hover {
+  opacity: 0.9;
+}

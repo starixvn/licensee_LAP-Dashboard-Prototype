@@ -7,6 +7,15 @@
   border-radius: 3px;
   text-transform: uppercase;
   cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active, &:focus {
+    outline: none;
+    border: none;
+  }
 }
 
 .btn-confirm {

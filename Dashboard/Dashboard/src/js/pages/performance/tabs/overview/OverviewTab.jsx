@@ -41,7 +41,7 @@ class OverviewTab extends Component {
           data: topChangeData[_.key]
         }
       }}
-      renderRow={item => <tr key={'major_change_row_' + item.perspectiveName}>
+      renderRow={(item, index) => <tr key={`major_change_row_${index}_${item.perspectiveName}`}>
         <td><ValueChangeIcon value={item.changePercent} />{item.perspectiveName}</td>
         <td>{numberFormat.formatDecimal(item.total)}</td>
         <td>{item.changePercent + '%'}</td>
@@ -57,7 +57,7 @@ class OverviewTab extends Component {
 
   _renderGrowthChart() {
     let { growthData, measurementId } = this.props.analyticData;
-    growthData = growthData || { };
+    growthData = growthData || {};
 
     const { isPeriodGrowthDataType } = this.state;
     const currentChartData = growthData[isPeriodGrowthDataType ? 'periodGrowth' : 'monthGrowth'] || [];
@@ -89,13 +89,29 @@ class OverviewTab extends Component {
 
     const labels = currentChartData.map(_ => _.time);
 
-    return <GrowthChart currentMeasuremnent={measurement.name}
+    return <GrowthChart
+    getStyle={this._getStyleGrowthChart}
+    currentMeasuremnent={measurement.name}
     barChartData={barChartData}
     lineChartData={lineChartData}
     labels={labels}
     showBackIcon={!this.state.isPeriodGrowthDataType}
     backToDefaultChart={() => this.setState({ isPeriodGrowthDataType: true })}
     />;
+  }
+
+  _getStyleGrowthChart = (refSelf) => {
+    const { current } = refSelf;
+    if(current) {
+      const { offsetLeft } = current;
+      const { innerWidth } = window;
+      const width = offsetLeft < 30  ? innerWidth - 60 : innerWidth - 700;
+      return {
+        width: width + 'px'
+      }
+    } else {
+      return {}
+    }
   }
 
   render() {

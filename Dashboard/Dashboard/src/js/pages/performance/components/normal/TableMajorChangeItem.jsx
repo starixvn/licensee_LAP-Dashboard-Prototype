@@ -1,11 +1,11 @@
 import React from 'react';
 
 const renderHeader = header => {
-  return header.map(_ => <th>{_ + ''}</th>)
+  return header.map((_, index) => <th key={`table_major_header_${index}`}>{_ + ''}</th>)
 }
 
 const renderRows = (data, renderRow) => {
-  return data.map(rowData => renderRow(rowData));
+  return data.map((rowData, index) => renderRow(rowData, index));
 }
 
 export const TableMajorChangeItem = props => {

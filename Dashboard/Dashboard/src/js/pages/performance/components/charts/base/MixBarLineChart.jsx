@@ -44,10 +44,34 @@ const buildMixChartDataSet = ({ lineChartData, barChartData }) => {
   }
 }
 
+const drawTextToTopChart = function() {
+  const self = this,
+    chart = this.chart,
+    ctx = chart.ctx;
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#555";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+
+  self.data.datasets.forEach(function (dataset, datasetIndex) {
+    const isLineChart = dataset.type === "line" ? true : false;
+    const suffix = isLineChart ? "%" : '';
+    const meta = self.getDatasetMeta(datasetIndex);
+    meta.data.forEach(function (element, elementIndex) {
+      const value = dataset.data[elementIndex];
+      const text = numberFormat.formatDecimal(value) + suffix;
+      const yOffset = value > 0 ? 6 : -7;
+      const xLabel =   element._model.x - (isLineChart ? 0 : element._model.width /2);
+      ctx.fillText(text, xLabel, element._model.y - yOffset);
+    });
+  });
+}
+
 const buildMixChartOption = ({ labels, barChartData }) => {
   const events = barChartData.events;
   const eventClicks = events ? events.click : null;
-  const barWidthObj = barChartData.dataSet.length > 6 ? { barPercentage: 0.9 } : { barPercentage: 0.4 };
+  const barWidthObj = barChartData.dataSet.length >= 6 ? { barPercentage: 0.9 } : { barPercentage: 0.4 };
+  const leftAxisName = barChartData.name;
 
   return {
     onClick: (e, item) => {
@@ -72,30 +96,20 @@ const buildMixChartOption = ({ labels, barChartData }) => {
     },
     legend: {
       display: true,
-      position: 'bottom'
+      position: 'bottom',
+      labels: {
+        usePointStyle: true,
+        boxWidth: 8,
+        padding: 20
+      }
     },
     animation: {
-      onComplete: function () {
-        const self = this,
-          chart = this.chart,
-          ctx = chart.ctx;
-
-        ctx.textAlign = "center";
-        ctx.fillStyle = "#555";
-        ctx.textAlign = "left";
-        ctx.textBaseline = "middle";
-
-        self.data.datasets.forEach(function (dataset, datasetIndex) {
-          const suffix = dataset.type === "line" ? "%" : '';
-          const meta = self.getDatasetMeta(datasetIndex);
-          meta.data.forEach(function (element, elementIndex) {
-            const value = dataset.data[elementIndex];
-            const text = numberFormat.formatDecimal(value) + suffix;
-            const textWidth = ctx.measureText(text).width;
-            const yOffset = value > 0 ? 6 : -7;
-            ctx.fillText(text, element._model.x - (textWidth / 2), element._model.y - yOffset);
-          });
-        });
+      onComplete: drawTextToTopChart
+    },
+    layout: {
+      padding: {
+          top: 20,
+          bottom: 20
       }
     },
     scales: {
@@ -120,11 +134,20 @@ const buildMixChartOption = ({ labels, barChartData }) => {
           display: true,
           position: 'left',
           id: 'y-axis-1',
-          gridLines: {
-            display: false
-          },
           labels: {
             show: true
+          },
+          scaleLabel: {
+            display: true,
+            fontSize: 13,
+            fontFamily: "'Roboto'",
+            labelString: leftAxisName
+          },
+          ticks: {
+            beginAtZero: true,
+            callback: function (value) {
+              return numberFormat.nFormatter(value);
+            }
           }
         },
         {
@@ -132,9 +155,21 @@ const buildMixChartOption = ({ labels, barChartData }) => {
           display: true,
           position: 'right',
           id: 'y-axis-2',
-
           labels: {
             show: true
+          },
+          gridLines: {
+            display: false
+          },
+          scaleLabel: {
+            display: true,
+            fontSize: 13,
+            fontFamily: "'Roboto'",
+
+            labelString: 'Growth rate(%)'
+          },
+          ticks: {
+            beginAtZero: true
           }
         }
       ]

@@ -1,75 +1,5 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["performance/performanceDashboard"],{
 
-/***/ "./src/js/actions/currencyAction.js":
-/*!******************************************!*\
-  !*** ./src/js/actions/currencyAction.js ***!
-  \******************************************/
-/*! exports provided: getCurrencyInfo, setBaseCurrency */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrencyInfo", function() { return getCurrencyInfo; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setBaseCurrency", function() { return setBaseCurrency; });
-/* harmony import */ var _types_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types.js */ "./src/js/actions/types.js");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
-/* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/widgetApi */ "./src/js/lib/widgetApi.js");
-
-
-
-const getCurrencyInfo = () => {
-  return dispatch => {
-    var param = {
-      Url: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["CurrenyListApiUrl"],
-      IsCrossSite: false
-    };
-    _lib_widgetApi__WEBPACK_IMPORTED_MODULE_2__["default"].fetchData(param).then(response => {
-      response.data.Currency.unshift({
-        Currency: "All",
-        CurrencyId: "0"
-      });
-      dispatch(setCurrencyInfo({
-        Currency: response.data.Currency,
-        BaseCurrency: response.data.BaseCurrency
-      }));
-    }).catch(function (error) {
-      console.log("error:", error);
-    });
-  };
-};
-
-const setCurrencyInfo = newData => {
-  return {
-    type: _types_js__WEBPACK_IMPORTED_MODULE_0__["SET_CURRENCY_INFO"],
-    data: newData
-  };
-};
-
-const setBaseCurrency = newData => {
-  return {
-    type: _types_js__WEBPACK_IMPORTED_MODULE_0__["SET_BASE_CURRENCY"],
-    data: newData
-  };
-};
-
-/***/ }),
-
-/***/ "./src/js/actions/types.js":
-/*!*********************************!*\
-  !*** ./src/js/actions/types.js ***!
-  \*********************************/
-/*! exports provided: SET_CURRENCY_INFO, SET_BASE_CURRENCY */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CURRENCY_INFO", function() { return SET_CURRENCY_INFO; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_BASE_CURRENCY", function() { return SET_BASE_CURRENCY; });
-const SET_CURRENCY_INFO = "SET_CURRENCY_INFO";
-const SET_BASE_CURRENCY = "SET_BASE_CURRENCY";
-
-/***/ }),
-
 /***/ "./src/js/components/CoupleMonthRangePicker.jsx":
 /*!******************************************************!*\
   !*** ./src/js/components/CoupleMonthRangePicker.jsx ***!
@@ -215,44 +145,6 @@ class CoupleMonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.
       onChangeRange: this._onChangeRangePreviousPeriod,
       quickSelections: this._renderPreviousPeriodQuickSelection
     })));
-  }
-
-}
-
-/***/ }),
-
-/***/ "./src/js/components/Loader.jsx":
-/*!**************************************!*\
-  !*** ./src/js/components/Loader.jsx ***!
-  \**************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Loader; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
-
-
-const baseNormalWidgets = [_lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalCustomerBalance, _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalPendingFund, _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalDeposit, _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalWithdrawal];
-class Loader extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "loading-process",
-      style: {
-        display: `${this.props.isLoading ? 'block' : 'none'}`
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "icon-loading"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: `loader-inner ball-beat ${baseNormalWidgets.filter(x => x === this.props.widgetKey).length > 0 ? 'loader-white' : ''}`
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null))));
   }
 
 }
@@ -628,28 +520,6 @@ _defineProperty(MonthRangePicker, "defaultProps", {
 
 /***/ }),
 
-/***/ "./src/js/lib/createReducer.js":
-/*!*************************************!*\
-  !*** ./src/js/lib/createReducer.js ***!
-  \*************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createReducer; });
-function createReducer(initialState, handlers) {
-  return function reducer(state = initialState, action) {
-    if (handlers.hasOwnProperty(action.type)) {
-      return handlers[action.type](state, action);
-    } else {
-      return state;
-    }
-  };
-}
-
-/***/ }),
-
 /***/ "./src/js/lib/dateTimeHelper.js":
 /*!**************************************!*\
   !*** ./src/js/lib/dateTimeHelper.js ***!
@@ -771,146 +641,6 @@ const getPeriodByLastQuarter = currentTime => {
     to
   };
 };
-
-/***/ }),
-
-/***/ "./src/js/lib/languageApi.js":
-/*!***********************************!*\
-  !*** ./src/js/lib/languageApi.js ***!
-  \***********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return languageApi; });
-/* harmony import */ var _resources_resource_ch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../resources/resource.ch */ "./src/js/resources/resource.ch.js");
-/* harmony import */ var _resources_resource_cs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../resources/resource.cs */ "./src/js/resources/resource.cs.js");
-/* harmony import */ var _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../resources/resource.en */ "./src/js/resources/resource.en.js");
-/* harmony import */ var _resources_resource_zhcn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../resources/resource.zhcn */ "./src/js/resources/resource.zhcn.js");
-
-
-
-
-class languageApi {
-  static getRes(langcode, resKey) {
-    switch (langcode) {
-      case "ch":
-        return _resources_resource_ch__WEBPACK_IMPORTED_MODULE_0__["ch"][resKey];
-
-      case "cs":
-        return _resources_resource_cs__WEBPACK_IMPORTED_MODULE_1__["cs"][resKey];
-
-      case "en":
-        return _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__["en"][resKey];
-
-      case "zhcn":
-        return _resources_resource_zhcn__WEBPACK_IMPORTED_MODULE_3__["zhcn"][resKey];
-
-      default:
-        return _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__["en"][resKey];
-    }
-  }
-
-}
-
-/***/ }),
-
-/***/ "./src/js/lib/numberFormat.js":
-/*!************************************!*\
-  !*** ./src/js/lib/numberFormat.js ***!
-  \************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return numberFormat; });
-class numberFormat {
-  static formatCurrency(value = 0, currency) {
-    const currencies = {
-      "EUR": "€",
-      "GBP": "£",
-      "USD": "$",
-      "CNY": "¥",
-      "MYR": "RM",
-      "THB": "฿",
-      "IDR": "Rp"
-    };
-    currency = currencies[currency] ? currencies[currency] : '';
-    return `${currency}${this.format(value, 2)}`;
-  }
-
-  static formatDecimal(value) {
-    return this.format(value, 2);
-  }
-
-  static format(value, digits = 0) {
-    return value.toFixed(digits).replace(/(\d)(?=(\d{3})+(\.|$))/g, "$1,");
-  }
-
-}
-
-/***/ }),
-
-/***/ "./src/js/lib/widgetApi.js":
-/*!*********************************!*\
-  !*** ./src/js/lib/widgetApi.js ***!
-  \*********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return widgetApi; });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-class widgetApi {
-  static _getAuthToken(action, type = 1) {
-    var tokenUrl = window.TokenUrl + "&_=" + new Date().getTime();
-    tokenUrl = tokenUrl.replace("{0}", encodeURIComponent(action));
-    tokenUrl = tokenUrl.replace("{1}", type);
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(tokenUrl, {});
-  }
-
-  static fetchData(param) {
-    var data = param.Data || {};
-    var type = param.Type || 1;
-
-    if (param.IsCrossSite) {
-      return widgetApi._getAuthToken(param.Url, type).then(response => {
-        data['X-Auth-Token'] = response.data.Token;
-        const dataUrl = response.data.ApiUrl + param.Url;
-        return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(dataUrl, {
-          params: data
-        });
-      });
-    } else {
-      var lapRootUrl = window.HostUrl;
-      const lapApi = lapRootUrl.replace("SessionIsAlive", param.Url);
-      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(lapApi, {
-        params: data
-      });
-    }
-  }
-
-  static async postData(param) {
-    if (!param.IsCrossSite) return new Promise((resolve, reject) => {
-      resolve({});
-    });
-    var postContent = param.Data || {};
-    var type = param.Type || 1;
-    let response = await widgetApi._getAuthToken(param.Url, type);
-    const dataUrl = response.data.ApiUrl + param.Url;
-    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(dataUrl, postContent, {
-      headers: {
-        'X-Auth-Token': response.data.Token
-      }
-    });
-  }
-
-}
 
 /***/ }),
 
@@ -1388,12 +1118,14 @@ class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chart-title"
       }, showBackIcon ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "left",
+        className: "back-icon",
         onClick: backToDefaultChart
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "arrow-left"
       }), 'Go back') : null);
     });
+
+    this.refSelf = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
   }
 
   render() {
@@ -1401,24 +1133,23 @@ class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
       currentMeasuremnent,
       lineChartData,
       barChartData,
-      labels
+      labels,
+      getStyle
     } = this.props;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "info-zone-container"
+      className: "info-zone-container",
+      ref: this.refSelf,
+      style: getStyle ? getStyle(this.refSelf) : {}
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "info-zone-header"
     }, `${currentMeasuremnent || ''} Growth`), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "info-zone-body"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "side-chart left-chart"
-    }, `${currentMeasuremnent || ''}(thousand)`), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_base_MixBarLineChart__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_base_MixBarLineChart__WEBPACK_IMPORTED_MODULE_1__["default"], {
       header: this._renderHeaderChart,
       lineChartData: lineChartData,
       barChartData: barChartData,
       labels: labels
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "side-chart right-chart"
-    }, 'Growth rate(%)')));
+    })));
   }
 
 }
@@ -1489,17 +1220,40 @@ const buildMixChartDataSet = ({
   };
 };
 
+const drawTextToTopChart = function () {
+  const self = this,
+        chart = this.chart,
+        ctx = chart.ctx;
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#555";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  self.data.datasets.forEach(function (dataset, datasetIndex) {
+    const isLineChart = dataset.type === "line" ? true : false;
+    const suffix = isLineChart ? "%" : '';
+    const meta = self.getDatasetMeta(datasetIndex);
+    meta.data.forEach(function (element, elementIndex) {
+      const value = dataset.data[elementIndex];
+      const text = _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__["default"].formatDecimal(value) + suffix;
+      const yOffset = value > 0 ? 6 : -7;
+      const xLabel = element._model.x - (isLineChart ? 0 : element._model.width / 2);
+      ctx.fillText(text, xLabel, element._model.y - yOffset);
+    });
+  });
+};
+
 const buildMixChartOption = ({
   labels,
   barChartData
 }) => {
   const events = barChartData.events;
   const eventClicks = events ? events.click : null;
-  const barWidthObj = barChartData.dataSet.length > 6 ? {
+  const barWidthObj = barChartData.dataSet.length >= 6 ? {
     barPercentage: 0.9
   } : {
     barPercentage: 0.4
   };
+  const leftAxisName = barChartData.name;
   return {
     onClick: (e, item) => {
       if (item && item.length == 2) {
@@ -1523,28 +1277,20 @@ const buildMixChartOption = ({
     },
     legend: {
       display: true,
-      position: 'bottom'
+      position: 'bottom',
+      labels: {
+        usePointStyle: true,
+        boxWidth: 8,
+        padding: 20
+      }
     },
     animation: {
-      onComplete: function () {
-        const self = this,
-              chart = this.chart,
-              ctx = chart.ctx;
-        ctx.textAlign = "center";
-        ctx.fillStyle = "#555";
-        ctx.textAlign = "left";
-        ctx.textBaseline = "middle";
-        self.data.datasets.forEach(function (dataset, datasetIndex) {
-          const suffix = dataset.type === "line" ? "%" : '';
-          const meta = self.getDatasetMeta(datasetIndex);
-          meta.data.forEach(function (element, elementIndex) {
-            const value = dataset.data[elementIndex];
-            const text = _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__["default"].formatDecimal(value) + suffix;
-            const textWidth = ctx.measureText(text).width;
-            const yOffset = value > 0 ? 6 : -7;
-            ctx.fillText(text, element._model.x - textWidth / 2, element._model.y - yOffset);
-          });
-        });
+      onComplete: drawTextToTopChart
+    },
+    layout: {
+      padding: {
+        top: 20,
+        bottom: 20
       }
     },
     scales: {
@@ -1565,11 +1311,20 @@ const buildMixChartOption = ({
         display: true,
         position: 'left',
         id: 'y-axis-1',
-        gridLines: {
-          display: false
-        },
         labels: {
           show: true
+        },
+        scaleLabel: {
+          display: true,
+          fontSize: 13,
+          fontFamily: "'Roboto'",
+          labelString: leftAxisName
+        },
+        ticks: {
+          beginAtZero: true,
+          callback: function (value) {
+            return _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__["default"].nFormatter(value);
+          }
         }
       }, {
         type: 'linear',
@@ -1578,6 +1333,18 @@ const buildMixChartOption = ({
         id: 'y-axis-2',
         labels: {
           show: true
+        },
+        gridLines: {
+          display: false
+        },
+        scaleLabel: {
+          display: true,
+          fontSize: 13,
+          fontFamily: "'Roboto'",
+          labelString: 'Growth rate(%)'
+        },
+        ticks: {
+          beginAtZero: true
         }
       }]
     }
@@ -1691,7 +1458,7 @@ const BoxInfoMeasureList = props => {
     className: "box-info-measure-list"
   }, data && data.map(_ => {
     const measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_2__["defaultData"].measurements.find(__ => __.id === _.measurementId);
-    const totalValue = measurement.id !== 3 ? `${currencyUnit} ${_lib_numberFormat__WEBPACK_IMPORTED_MODULE_3__["default"].formatDecimal(_.total)}${'K'}` : `${_.total}%`;
+    const totalValue = measurement.id !== 3 ? `${currencyUnit} ${_lib_numberFormat__WEBPACK_IMPORTED_MODULE_3__["default"].nFormatter(_.total)}` : `${_.total}%`;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BoxInfoMeasureItem__WEBPACK_IMPORTED_MODULE_1__["default"], {
       key: 'box_info_measure_' + _.measurementId,
       currencyUnit: currencyUnit,
@@ -1720,11 +1487,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const renderHeader = header => {
-  return header.map(_ => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, _ + ''));
+  return header.map((_, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+    key: `table_major_header_${index}`
+  }, _ + ''));
 };
 
 const renderRows = (data, renderRow) => {
-  return data.map(rowData => renderRow(rowData));
+  return data.map((rowData, index) => renderRow(rowData, index));
 };
 
 const TableMajorChangeItem = props => {
@@ -2222,6 +1991,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -2239,6 +2010,28 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor(props) {
     super(props);
+
+    _defineProperty(this, "_getStyleGrowthChart", refSelf => {
+      const {
+        current
+      } = refSelf;
+
+      if (current) {
+        const {
+          offsetLeft
+        } = current;
+        const {
+          innerWidth
+        } = window;
+        const width = offsetLeft < 30 ? innerWidth - 60 : innerWidth - 700;
+        return {
+          width: width + 'px'
+        };
+      } else {
+        return {};
+      }
+    });
+
     this.state = {
       isPeriodGrowthDataType: true
     };
@@ -2271,8 +2064,8 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
         data: topChangeData[_.key]
       }
     }, {
-      renderRow: item => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-        key: 'major_change_row_' + item.perspectiveName
+      renderRow: (item, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: `major_change_row_${index}_${item.perspectiveName}`
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_6__["default"], {
         value: item.changePercent
       }), item.perspectiveName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, _lib_numberFormat__WEBPACK_IMPORTED_MODULE_10__["default"].formatDecimal(item.total)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, item.changePercent + '%'))
@@ -2323,6 +2116,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     };
     const labels = currentChartData.map(_ => _.time);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      getStyle: this._getStyleGrowthChart,
       currentMeasuremnent: measurement.name,
       barChartData: barChartData,
       lineChartData: lineChartData,
@@ -2380,269 +2174,6 @@ function mapStateToProps(state) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (Object.assign({}));
-
-/***/ }),
-
-/***/ "./src/js/reducers/currencyReducer.js":
-/*!********************************************!*\
-  !*** ./src/js/reducers/currencyReducer.js ***!
-  \********************************************/
-/*! exports provided: currencyInfo, selectedBaseCurrency */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currencyInfo", function() { return currencyInfo; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectedBaseCurrency", function() { return selectedBaseCurrency; });
-/* harmony import */ var _lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/createReducer.js */ "./src/js/lib/createReducer.js");
-/* harmony import */ var _actions_types_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/types.js */ "./src/js/actions/types.js");
-
-
-const currencyInfo = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
-  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_CURRENCY_INFO"]](state, action) {
-    return action.data;
-  }
-
-});
-const selectedBaseCurrency = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
-  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_BASE_CURRENCY"]](state, action) {
-    return action.data;
-  }
-
-});
-
-/***/ }),
-
-/***/ "./src/js/resources/resource.ch.js":
-/*!*****************************************!*\
-  !*** ./src/js/resources/resource.ch.js ***!
-  \*****************************************/
-/*! exports provided: ch */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ch", function() { return ch; });
-const ch = {
-  n_deposit: "存款(今日)",
-  c_turnover: "交易额",
-  c_licWL: "投注输赢",
-  n_reg_customer: "已注册会员",
-  c_online_customer: "在线会员",
-  n_customer_balance: "会员馀额",
-  n_pending_funds: "未结算金额",
-  n_withdrawal: "提款(今日)",
-  turnover_byplatform_month_todate: '交易額(當月累計)',
-  deposit_today: "存款(今日)",
-  licensee_winloss_month_todate: "投注輸贏(當月累計)",
-  registered_customer: "已注册会员",
-  online_customer: "在线会员",
-  customer_balance: "会员馀额",
-  pending_funds: "未结算金额",
-  withdrawal_today: "提款(今日)",
-  apply: "設定",
-  currency: "会员币别",
-  Based: "显示币别",
-  Widgets: "小工具",
-  total_registered_cus_today: "總註冊會員",
-  deposit: "註冊且存款",
-  none_deposit: "註冊未存款",
-  Asia: "亞洲版",
-  China: "大陸版",
-  Euro: "歐洲版",
-  Wap: "WAP手機",
-  All: "全部",
-  Web: "桌機版",
-  total_turnover: "總交易額",
-  total_winloss: "總投注輸贏",
-  no_widget_permission: "You do not have sufficient permissions to access this page",
-  reset_layout: "初始設定",
-  Tablet: "平板",
-  SmartSite: "行動裝置版",
-  NewAsia: "新亞洲版",
-  MobileApp: "Mobile App",
-  Mobile: "Mobile",
-  MobileLiteVersion: "Mobile Lite Version",
-  DeepLink: "Deep Link",
-  date: "",
-  measurement: ""
-};
-
-/***/ }),
-
-/***/ "./src/js/resources/resource.cs.js":
-/*!*****************************************!*\
-  !*** ./src/js/resources/resource.cs.js ***!
-  \*****************************************/
-/*! exports provided: cs */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cs", function() { return cs; });
-const cs = {
-  n_deposit: "存款(今日)",
-  c_turnover: "交易额",
-  c_licWL: "投注输赢",
-  n_reg_customer: "已注册会员",
-  c_online_customer: "在线会员",
-  n_customer_balance: "会员馀额",
-  n_pending_funds: "未结算金额",
-  n_withdrawal: "提款(今日)",
-  turnover_byplatform_month_todate: '交易额(当月累计)',
-  deposit_today: "存款(今日)",
-  licensee_winloss_month_todate: "投注输赢(当月累计)",
-  registered_customer: "已註冊會員",
-  online_customer: "在線會員",
-  customer_balance: "會員餘額",
-  pending_funds: "未結算金額",
-  withdrawal_today: "提款(今日)",
-  apply: "设定",
-  currency: "会员币别",
-  Based: "基础货币",
-  Widgets: "小工具",
-  total_registered_cus_today: "总注册会员",
-  deposit: "注册且存款",
-  none_deposit: "注册未存款",
-  Asia: "亚洲版",
-  China: "中国版",
-  Euro: "欧洲版",
-  Wap: "WAP",
-  All: "全部",
-  Web: "桌机版",
-  total_turnover: "总交易额",
-  total_winloss: "总投注输赢",
-  no_widget_permission: "You do not have sufficient permissions to access this page",
-  reset_layout: "初始设定",
-  Tablet: "平板",
-  SmartSite: "行动装置版",
-  NewAsia: "新亚洲版",
-  MobileApp: "手机 APP",
-  Mobile: "手机版",
-  MobileLiteVersion: "手机轻量版",
-  DeepLink: "Deep Link",
-  date: "",
-  measurement: ""
-};
-
-/***/ }),
-
-/***/ "./src/js/resources/resource.en.js":
-/*!*****************************************!*\
-  !*** ./src/js/resources/resource.en.js ***!
-  \*****************************************/
-/*! exports provided: en */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "en", function() { return en; });
-const en = {
-  n_deposit: "Deposit (Today)",
-  c_turnover: "Turnover by Platform",
-  c_licWL: "Licensee Win Loss",
-  n_reg_customer: "Registered customers",
-  c_online_customer: "Online customers",
-  n_customer_balance: "Customer Balance",
-  n_pending_funds: "Pending Funds",
-  n_withdrawal: "Withdraw (Today)",
-  turnover_byplatform_month_todate: 'Turnover by Platform (Month to date)',
-  deposit_today: "Deposit (Today)",
-  licensee_winloss_month_todate: "Licensee Win Loss (Month to date)",
-  registered_customer: "Registered customers",
-  online_customer: "Online customers",
-  customer_balance: "Customer Balance",
-  pending_funds: "Pending Funds",
-  withdrawal_today: "Withdrawal (today)",
-  apply: "Apply",
-  currency: "Currency",
-  Based: "Base Currency",
-  Widgets: "WIDGETS",
-  total_registered_cus_today: "Total Registered Customers (to date)",
-  deposit: "Deposit",
-  none_deposit: "Non - Deposit",
-  Asia: "Asia",
-  China: "China",
-  Euro: "Euro",
-  Wap: "Wap",
-  All: "All",
-  Web: "Web",
-  total_turnover: "Total Turnover",
-  total_winloss: "Total Win Loss",
-  no_widget_permission: "You do not have sufficient permissions to access this page",
-  reset_layout: "Reset layout",
-  Tablet: "Tablet",
-  SmartSite: "Smart Site",
-  NewAsia: "New Asia",
-  MobileApp: "Mobile App",
-  Mobile: "Mobile",
-  MobileLiteVersion: "Mobile Lite Version",
-  DeepLink: "Deep Link",
-  date: "Date",
-  measurement: "Measurement",
-  submit: "Submit",
-  comparedWith: "Compared With",
-  currerntPeriodPicker: "Current Period",
-  previousPeriodPicker: "Previous Period",
-  previousPeriodQuickSelection: "Previous Period",
-  previousYearQuickSelection: "Previous Year"
-};
-
-/***/ }),
-
-/***/ "./src/js/resources/resource.zhcn.js":
-/*!*******************************************!*\
-  !*** ./src/js/resources/resource.zhcn.js ***!
-  \*******************************************/
-/*! exports provided: zhcn */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zhcn", function() { return zhcn; });
-const zhcn = {
-  n_deposit: "存款(今日)",
-  c_turnover: "交易額",
-  c_licWL: "投注輸贏",
-  n_reg_customer: "已註冊會員",
-  c_online_customer: "在線會員",
-  n_customer_balance: "會員餘額",
-  n_pending_funds: "未結算金額",
-  n_withdrawal: "提款(今日)",
-  turnover_byplatform_month_todate: '交易额(当月累计)',
-  deposit_today: "存款(今日)",
-  licensee_winloss_month_todate: "投注输赢(当月累计)",
-  registered_customer: "已註冊會員",
-  online_customer: "在線會員",
-  customer_balance: "會員餘額",
-  pending_funds: "未結算金額",
-  withdrawal_today: "提款(今日)",
-  apply: "设定",
-  currency: "會員幣別",
-  Based: "顯示幣別",
-  Widgets: "小工具",
-  total_registered_cus_today: "总注册会员",
-  deposit: "注册且存款",
-  none_deposit: "注册未存款",
-  Asia: "亚洲版",
-  China: "大陆版",
-  Euro: "欧洲版",
-  Wap: "WAP手机",
-  All: "全部",
-  Web: "桌机版",
-  total_turnover: "总交易额",
-  total_winloss: "总投注输赢",
-  no_widget_permission: "You do not have sufficient permissions to access this page",
-  reset_layout: "初始设定",
-  Tablet: "平板",
-  SmartSite: "新亚洲版",
-  MobileApp: "Mobile App",
-  Mobile: "Mobile",
-  MobileLiteVersion: "Mobile Lite Version",
-  DeepLink: "Deep Link",
-  date: "",
-  measurement: ""
-};
 
 /***/ })
 
