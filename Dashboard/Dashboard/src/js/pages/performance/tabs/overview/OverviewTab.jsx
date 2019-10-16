@@ -105,7 +105,7 @@ class OverviewTab extends Component {
     if(current) {
       const { offsetLeft } = current;
       const { innerWidth } = window;
-      const width = offsetLeft < 30  ? innerWidth - 60 : innerWidth - 700;
+      const width = offsetLeft < 30  ? innerWidth - 60 : innerWidth - 710;
       return {
         width: width + 'px'
       }

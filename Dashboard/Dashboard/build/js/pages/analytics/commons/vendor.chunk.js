@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["vendors/common"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["commons/vendor"],{
 
 /***/ "./node_modules/@9softstudio/react-monthpicker/dist/index.js":
 /*!*******************************************************************!*\
@@ -62365,4 +62365,4 @@ module.exports = function(module) {
 /***/ })
 
 }]);
-//# sourceMappingURL=common.chunk.js.map
+//# sourceMappingURL=vendor.chunk.js.map

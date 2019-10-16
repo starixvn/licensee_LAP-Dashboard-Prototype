@@ -30,10 +30,17 @@ module.exports = env => {
     optimization: {
       splitChunks: {
         cacheGroups: {
-          common: {
-            name: 'vendors/common',
+          vendors: {
+            name: 'commons/vendor',
             test: /node_modules/,
-            chunks: 'all'
+            chunks: 'all',
+            priority: -10
+           },
+          default: {
+            name: 'commons/default',
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true
           }
         }
       }

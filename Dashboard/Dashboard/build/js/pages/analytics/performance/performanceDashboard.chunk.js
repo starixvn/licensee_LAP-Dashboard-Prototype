@@ -2023,7 +2023,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
         const {
           innerWidth
         } = window;
-        const width = offsetLeft < 30 ? innerWidth - 60 : innerWidth - 700;
+        const width = offsetLeft < 30 ? innerWidth - 60 : innerWidth - 710;
         return {
           width: width + 'px'
         };

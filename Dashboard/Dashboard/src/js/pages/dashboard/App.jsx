@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import DefaultLayout from '../../layouts/DefaultLayout';
 import { summary, performance } from './lib/constants';
 import TabMenu from './components/TabMenu';
+
 const SummaryDashboard = import(/* webpackChunkName: "summary/summaryDashboard" */ '../summary/index');
 const PerformanceDashboard = import(/* webpackChunkName: "performance/performanceDashboard" */ '../performance/index');
 
@@ -17,7 +18,7 @@ export default class DashboardApp extends Component {
         super(props);
 
         this.state = {
-            selectedTabMenu: performance,
+            selectedTabMenu: summary,
         };
     }
 
