@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["commons/default"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["common/default"],{
 
 /***/ "./src/js/actions/currencyAction.js":
 /*!******************************************!*\

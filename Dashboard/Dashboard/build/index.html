@@ -7,16 +7,15 @@
     <title>Dashboard</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./css/pages/analytics/commons/vendor.css" rel="stylesheet" />
+    <link href="./css/pages/analytics/common/vendor.css" rel="stylesheet" />
     <link href="./css/pages/analytics/dashboard/dashboard.css" rel="stylesheet" />
     <link href="./css/pages/analytics/summary/summary.css" rel="stylesheet" />
     <link href="./css/pages/analytics/performance/performance.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div id="dashboard">
-
-    </div>
+    <input type="hidden" id="public-path" value="" />
+    <div id="dashboard"></div>
     <!--[if lt IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -27,8 +26,7 @@
         window.widgetPermission = JSON.parse('["c_turnover","c_licWL","n_deposit","c_online_customer","n_reg_customer","n_customer_balance","n_withdrawal","n_pending_funds"]');
         window.defaultBaseCurrency = 'USD';
     </script>
-    <script id="vendors-chunk-script" src="./js/pages/analytics/commons/vendor.chunk.js?v=201702141.3"></script>
+    <script id="vendors-chunk-script" src="./js/pages/analytics/common/vendor.chunk.js?v=201702141.3"></script>
     <script id="dashboard-script" src="../js/pages/analytics/dashboard/app.js?v=201702141.3"></script>
 </body>
-
 </html>

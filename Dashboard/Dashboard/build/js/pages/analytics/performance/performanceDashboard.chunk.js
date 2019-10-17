@@ -1339,8 +1339,6 @@ const buildMixChartOption = ({
         },
         scaleLabel: {
           display: true,
-          fontSize: 13,
-          fontFamily: "'Roboto'",
           labelString: 'Growth rate(%)'
         },
         ticks: {

@@ -31,15 +31,13 @@ module.exports = env => {
       splitChunks: {
         cacheGroups: {
           vendors: {
-            name: 'commons/vendor',
+            name: 'common/vendor',
             test: /node_modules/,
             chunks: 'all',
-            priority: -10
            },
           default: {
-            name: 'commons/default',
+            name: 'common/default',
             minChunks: 2,
-            priority: -20,
             reuseExistingChunk: true
           }
         }

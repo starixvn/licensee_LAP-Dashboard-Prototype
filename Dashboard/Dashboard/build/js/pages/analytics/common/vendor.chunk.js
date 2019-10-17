@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["commons/vendor"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["common/vendor"],{
 
 /***/ "./node_modules/@9softstudio/react-monthpicker/dist/index.js":
 /*!*******************************************************************!*\

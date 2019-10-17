@@ -9,12 +9,14 @@ export const factoryApi = {
     return currencyApi.getCombineData(filterData);
   }
 }
+
 const commonParam = {
   IsCrossSite: true,
   Data: {},
   Url: '',
   Type: 4
 };
+
 export const overviewApi = {
   getCombineData: async (filterData) => {
     const param = Object.assign({}, commonParam, { Data: filterData, Url: '/api/performance/overview' });
@@ -23,9 +25,9 @@ export const overviewApi = {
       return response.data.data;
     }
     return null;
-
   }
 }
+
 export const currencyApi = {
   getCombineData: async (filterData) => {
     const param = Object.assign({}, commonParam, { Data: filterData, Url: '/api/performance/currency' });
