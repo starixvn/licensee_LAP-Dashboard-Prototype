@@ -3,7 +3,7 @@ import { Bar } from 'react-chartjs-2';
 import numberFormat from '../../../../../lib/numberFormat';
 
 const defaultColorBarChart = '#F1A837';
-const defaultColorLineChart = '#F15D21';
+const defaultColorLineChart = '#690499';
 
 const buildLineChartDataSet = lineChartData => {
   return {

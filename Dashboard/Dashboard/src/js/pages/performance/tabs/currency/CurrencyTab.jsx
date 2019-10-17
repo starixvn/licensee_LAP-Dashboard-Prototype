@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
-import { ActionCreators } from '../../actions';
+import { setAnalyticData } from '../../actions/analyticDataAction';
 import { connect } from 'react-redux';
 
 export class CurrencyTab extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.props.setAnalyticData({});
   }
 
   render() {
@@ -18,14 +22,13 @@ export class CurrencyTab extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  const {} = ActionCreators;
   return bindActionCreators({
-
+    setAnalyticData
   }, dispatch);
 }
 
 function mapStateToProps(state) {
-  const { } = state;
+  const {} = state;
   return Object.assign({}
 
   )

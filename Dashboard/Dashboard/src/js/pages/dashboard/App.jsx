@@ -17,9 +17,8 @@ const tabMenuList = [
 export default class DashboardApp extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            selectedTabMenu: summary,
+            selectedTabMenu: performance
         };
     }
 

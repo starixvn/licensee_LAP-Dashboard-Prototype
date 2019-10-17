@@ -30,11 +30,7 @@ function configureStore(initialState) {
 const store = configureStore(defaultState);
 
 export default class App extends Component {
-
-
-
   render() {
-
     return (
       <Provider store={store}>
         <SummaryDashboard />

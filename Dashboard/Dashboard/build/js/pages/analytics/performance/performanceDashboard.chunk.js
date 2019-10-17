@@ -1125,7 +1125,19 @@ class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
       }), 'Go back') : null);
     });
 
+    this.state = {
+      style: {}
+    };
     this.refSelf = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+  }
+
+  componentDidMount() {
+    const {
+      getStyle
+    } = this.props;
+    getStyle && this.setState({
+      style: getStyle(this.refSelf)
+    });
   }
 
   render() {
@@ -1133,13 +1145,15 @@ class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
       currentMeasuremnent,
       lineChartData,
       barChartData,
-      labels,
-      getStyle
+      labels
     } = this.props;
+    const {
+      style
+    } = this.state;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "info-zone-container",
       ref: this.refSelf,
-      style: getStyle ? getStyle(this.refSelf) : {}
+      style: style
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "info-zone-header"
     }, `${currentMeasuremnent || ''} Growth`), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1176,7 +1190,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 const defaultColorBarChart = '#F1A837';
-const defaultColorLineChart = '#F15D21';
+const defaultColorLineChart = '#690499';
 
 const buildLineChartDataSet = lineChartData => {
   return {
@@ -1735,19 +1749,19 @@ const getMajorChangeList = measurementId => {
     header: ['Currency', measurement.name, '%CHG'],
     data: []
   }, {
+    key: 'productTopChange',
+    title: 'MAJOR CHANGES - By PRODUCT',
+    header: ['Product', measurement.name, '%CHG'],
+    data: []
+  }, {
     key: 'bettypeTopChange',
-    title: 'MAJOR CHANGES - By BETTYPES',
+    title: 'MAJOR CHANGES - By BETTYPE',
     header: ['Bettype', measurement.name, '%CHG'],
     data: []
   }, {
     key: 'platformTopChange',
     title: 'MAJOR CHANGES - By PLATFORM',
     header: ['Platform', measurement.name, '%CHG'],
-    data: []
-  }, {
-    key: 'productTopChange',
-    title: 'MAJOR CHANGES - By PRODUCT',
-    header: ['Product', measurement.name, '%CHG'],
     data: []
   }];
 };
@@ -1935,7 +1949,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions */ "./src/js/pages/performance/actions/index.js");
+/* harmony import */ var _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/analyticDataAction */ "./src/js/pages/performance/actions/analyticDataAction.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
 
@@ -1946,6 +1960,10 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     super(props);
   }
 
+  componentDidMount() {
+    this.props.setAnalyticData({});
+  }
+
   render() {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Currency Tab");
   }
@@ -1953,8 +1971,9 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 }
 
 function mapDispatchToProps(dispatch) {
-  const {} = _actions__WEBPACK_IMPORTED_MODULE_2__["ActionCreators"];
-  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({}, dispatch);
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
+    setAnalyticData: _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_2__["setAnalyticData"]
+  }, dispatch);
 }
 
 function mapStateToProps(state) {
@@ -2004,7 +2023,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
 class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor(props) {
     super(props);
@@ -2036,17 +2054,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   }
 
   componentDidMount() {
-    const {
-      selectedComparePeriods,
-      selectedBaseCurrency,
-      selectedMeasurement
-    } = this.props;
-    const filterData = _lib_service__WEBPACK_IMPORTED_MODULE_8__["generalService"].getFilterData({
-      selectedComparePeriods,
-      selectedBaseCurrency,
-      selectedMeasurement
-    });
-    this.props.getAnalyticData(filterData, _lib_constants__WEBPACK_IMPORTED_MODULE_7__["tabMenuKey"].overview);
+    this.props.setAnalyticData({});
   }
 
   _renderTopChangeTableList() {
@@ -2087,6 +2095,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       growthData,
       measurementId
     } = this.props.analyticData;
+    if (!measurementId) return null;
     growthData = growthData || {};
     const {
       isPeriodGrowthDataType
@@ -2139,7 +2148,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
 function mapDispatchToProps(dispatch) {
   return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(Object.assign({}, {
-    getAnalyticData: _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_9__["getAnalyticData"]
+    setAnalyticData: _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_9__["setAnalyticData"]
   }), dispatch);
 }
 

@@ -8,25 +8,21 @@ import GrowthChart from '../../components/charts/GrowthChart';
 import ValueChangeIcon from '../../components/normal/ValueChangeIcon';
 
 import { getMajorChangeList } from '../../lib/constants';
-import { tabMenuKey } from '../../lib/constants';
 import { generalService } from '../../lib/service';
-import { getAnalyticData } from '../../actions/analyticDataAction';
+import { setAnalyticData } from '../../actions/analyticDataAction';
 import { defaultData } from '../../lib/constants';
 import numberFormat from '../../../../lib/numberFormat';
 
 class OverviewTab extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isPeriodGrowthDataType: true
     };
   }
 
   componentDidMount() {
-    const { selectedComparePeriods, selectedBaseCurrency, selectedMeasurement } = this.props;
-    const filterData = generalService.getFilterData({ selectedComparePeriods, selectedBaseCurrency, selectedMeasurement });
-    this.props.getAnalyticData(filterData, tabMenuKey.overview);
+    this.props.setAnalyticData({});
   }
 
   _renderTopChangeTableList() {
@@ -57,6 +53,9 @@ class OverviewTab extends Component {
 
   _renderGrowthChart() {
     let { growthData, measurementId } = this.props.analyticData;
+    if(!measurementId)
+      return null;
+
     growthData = growthData || {};
 
     const { isPeriodGrowthDataType } = this.state;
@@ -129,7 +128,7 @@ class OverviewTab extends Component {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(Object.assign({}, {
-    getAnalyticData
+    setAnalyticData
   }), dispatch);
 }
 

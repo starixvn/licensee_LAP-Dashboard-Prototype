@@ -4,7 +4,17 @@ import MixBarLineChart from './base/MixBarLineChart';
 export default class GrowthChart extends PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      style: {}
+    };
     this.refSelf = React.createRef();
+  }
+
+  componentDidMount() {
+    const { getStyle } = this.props;
+    getStyle && this.setState({
+      style: getStyle(this.refSelf)
+    });
   }
 
   _renderHeaderChart = () => {
@@ -18,10 +28,11 @@ export default class GrowthChart extends PureComponent {
   }
 
   render() {
-    const { currentMeasuremnent, lineChartData, barChartData, labels, getStyle } = this.props;
+    const { currentMeasuremnent, lineChartData, barChartData, labels } = this.props;
+    const { style } = this.state;
 
     return (
-      <div className="info-zone-container" ref={this.refSelf} style={getStyle ? getStyle(this.refSelf) : {}}>
+      <div className="info-zone-container" ref={this.refSelf} style={style}>
         <div className="info-zone-header">
           {`${currentMeasuremnent || ''} Growth`}
           </div>

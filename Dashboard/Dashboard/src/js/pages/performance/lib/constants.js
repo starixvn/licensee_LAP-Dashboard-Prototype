@@ -40,8 +40,14 @@ export const getMajorChangeList = measurementId => {
       data: []
     },
     {
+      key: 'productTopChange',
+      title: 'MAJOR CHANGES - By PRODUCT',
+      header: ['Product', measurement.name, '%CHG'],
+      data: []
+    },
+    {
       key: 'bettypeTopChange',
-      title: 'MAJOR CHANGES - By BETTYPES',
+      title: 'MAJOR CHANGES - By BETTYPE',
       header: ['Bettype', measurement.name, '%CHG'],
       data: []
     },
@@ -49,12 +55,6 @@ export const getMajorChangeList = measurementId => {
       key: 'platformTopChange',
       title: 'MAJOR CHANGES - By PLATFORM',
       header: ['Platform', measurement.name, '%CHG'],
-      data: []
-    },
-    {
-      key: 'productTopChange',
-      title: 'MAJOR CHANGES - By PRODUCT',
-      header: ['Product', measurement.name, '%CHG'],
       data: []
     }
   ]
