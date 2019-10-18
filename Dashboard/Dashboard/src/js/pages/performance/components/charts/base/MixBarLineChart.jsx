@@ -55,11 +55,10 @@ const drawTextToTopChart = function() {
 
   self.data.datasets.forEach(function (dataset, datasetIndex) {
     const isLineChart = dataset.type === "line" ? true : false;
-    const suffix = isLineChart ? "%" : '';
     const meta = self.getDatasetMeta(datasetIndex);
     meta.data.forEach(function (element, elementIndex) {
       const value = dataset.data[elementIndex];
-      const text = numberFormat.formatDecimal(value) + suffix;
+      const text = isLineChart ? value + '%' : numberFormat.nFormatter(value);
       const yOffset = value > 0 ? 6 : -7;
       const xLabel =   element._model.x - (isLineChart ? 0 : element._model.width /2);
       ctx.fillText(text, xLabel, element._model.y - yOffset);
@@ -85,6 +84,17 @@ const buildMixChartOption = ({ labels, barChartData }) => {
     onHover: (event, chartElement) => {
       event.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
     },
+    tooltips: {
+      callbacks: {
+          label: function(tooltipItem, data) {
+            const dataSet = data.datasets[tooltipItem.datasetIndex];
+            if(dataSet.type === 'bar') {
+              return numberFormat.formatDecimal(dataSet.data[tooltipItem.index]);
+            }
+            return tooltipItem.value;
+          }
+      }
+  },
     responsive: true,
     elements: {
       line: {

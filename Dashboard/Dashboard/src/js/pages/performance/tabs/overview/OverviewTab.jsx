@@ -17,7 +17,8 @@ class OverviewTab extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isPeriodGrowthDataType: true
+      isPeriodGrowthDataType: true,
+      selectedDrillDownColumn: 0
     };
   }
 
@@ -52,59 +53,79 @@ class OverviewTab extends Component {
   }
 
   _renderGrowthChart() {
-    let { growthData, measurementId } = this.props.analyticData;
-    if(!measurementId)
+    const { measurementId } = this.props.analyticData;
+    if (!measurementId)
       return null;
 
-    growthData = growthData || {};
-
     const { isPeriodGrowthDataType } = this.state;
-    const currentChartData = growthData[isPeriodGrowthDataType ? 'periodGrowth' : 'monthGrowth'] || [];
+
+    const growthChartData = this._getGrowthChartData();
 
     let measurement = defaultData.measurements.find(_ => _.id === measurementId) || {};
     measurement = measurement || {};
 
     const lineChartData = {
       name: 'Growth',
-      dataSet: currentChartData.map(_ => _.growthPercent)
+      dataSet: growthChartData.map(_ => _.growthPercent)
     };
 
     const barChartData = {
       name: measurement.name,
-      dataSet: currentChartData.map(_ => _.total),
+      dataSet: growthChartData.map(_ => _.total),
       events: {
-        click: [
+        click: isPeriodGrowthDataType ? [
           {
-            columnIndex: currentChartData.length - 1,
+            columnIndex: 0,
             callBack: () => {
               this.setState({
-                isPeriodGrowthDataType: false
+                isPeriodGrowthDataType: false,
+                selectedDrillDownColumn: 0
+              })
+            }
+          },
+          {
+            columnIndex: 1,
+            callBack: () => {
+              this.setState({
+                isPeriodGrowthDataType: false,
+                selectedDrillDownColumn: 1
               })
             }
           }
-        ]
+        ] : []
       }
     };
 
-    const labels = currentChartData.map(_ => _.time);
+    const labels = growthChartData.map(_ => _.time);
 
     return <GrowthChart
-    getStyle={this._getStyleGrowthChart}
-    currentMeasuremnent={measurement.name}
-    barChartData={barChartData}
-    lineChartData={lineChartData}
-    labels={labels}
-    showBackIcon={!this.state.isPeriodGrowthDataType}
-    backToDefaultChart={() => this.setState({ isPeriodGrowthDataType: true })}
+      getStyle={this._getStyleGrowthChart}
+      currentMeasuremnent={measurement.name}
+      barChartData={barChartData}
+      lineChartData={lineChartData}
+      labels={labels}
+      showBackIcon={!isPeriodGrowthDataType}
+      backToDefaultChart={() => this.setState({ isPeriodGrowthDataType: true })}
     />;
+  }
+
+  _getGrowthChartData() {
+    const { isPeriodGrowthDataType, selectedDrillDownColumn } = this.state;
+    const { growthData } = this.props.analyticData;
+    if (isPeriodGrowthDataType) {
+      return growthData['periodGrowth'];
+    } else {
+      const drillDownData = growthData['monthGrowth'][selectedDrillDownColumn];
+      return drillDownData;
+    }
   }
 
   _getStyleGrowthChart = (refSelf) => {
     const { current } = refSelf;
-    if(current) {
+    if (current) {
       const { offsetLeft } = current;
       const { innerWidth } = window;
-      const width = offsetLeft < 30  ? innerWidth - 60 : innerWidth - 710;
+      const width = offsetLeft < 30 ? innerWidth - 60 : innerWidth - 710;
       return {
         width: width + 'px'
       }
@@ -133,11 +154,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { selectedBaseCurrency, selectedMeasurement, analyticData, selectedComparePeriods } = state;
+  const { analyticData } = state;
   return Object.assign({}, {
-    selectedBaseCurrency,
-    selectedMeasurement,
-    selectedComparePeriods,
     analyticData
   });
 }

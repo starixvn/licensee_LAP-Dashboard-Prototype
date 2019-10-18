@@ -1244,11 +1244,10 @@ const drawTextToTopChart = function () {
   ctx.textBaseline = "middle";
   self.data.datasets.forEach(function (dataset, datasetIndex) {
     const isLineChart = dataset.type === "line" ? true : false;
-    const suffix = isLineChart ? "%" : '';
     const meta = self.getDatasetMeta(datasetIndex);
     meta.data.forEach(function (element, elementIndex) {
       const value = dataset.data[elementIndex];
-      const text = _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__["default"].formatDecimal(value) + suffix;
+      const text = isLineChart ? value + '%' : _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__["default"].nFormatter(value);
       const yOffset = value > 0 ? 6 : -7;
       const xLabel = element._model.x - (isLineChart ? 0 : element._model.width / 2);
       ctx.fillText(text, xLabel, element._model.y - yOffset);
@@ -1279,6 +1278,19 @@ const buildMixChartOption = ({
     },
     onHover: (event, chartElement) => {
       event.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+    },
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          const dataSet = data.datasets[tooltipItem.datasetIndex];
+
+          if (dataSet.type === 'bar') {
+            return _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__["default"].formatDecimal(dataSet.data[tooltipItem.index]);
+          }
+
+          return tooltipItem.value;
+        }
+      }
     },
     responsive: true,
     elements: {
@@ -2049,7 +2061,8 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     });
 
     this.state = {
-      isPeriodGrowthDataType: true
+      isPeriodGrowthDataType: true,
+      selectedDrillDownColumn: 0
     };
   }
 
@@ -2091,48 +2104,74 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   }
 
   _renderGrowthChart() {
-    let {
-      growthData,
+    const {
       measurementId
     } = this.props.analyticData;
     if (!measurementId) return null;
-    growthData = growthData || {};
     const {
       isPeriodGrowthDataType
     } = this.state;
-    const currentChartData = growthData[isPeriodGrowthDataType ? 'periodGrowth' : 'monthGrowth'] || [];
+
+    const growthChartData = this._getGrowthChartData();
+
     let measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_7__["defaultData"].measurements.find(_ => _.id === measurementId) || {};
     measurement = measurement || {};
     const lineChartData = {
       name: 'Growth',
-      dataSet: currentChartData.map(_ => _.growthPercent)
+      dataSet: growthChartData.map(_ => _.growthPercent)
     };
     const barChartData = {
       name: measurement.name,
-      dataSet: currentChartData.map(_ => _.total),
+      dataSet: growthChartData.map(_ => _.total),
       events: {
-        click: [{
-          columnIndex: currentChartData.length - 1,
+        click: isPeriodGrowthDataType ? [{
+          columnIndex: 0,
           callBack: () => {
             this.setState({
-              isPeriodGrowthDataType: false
+              isPeriodGrowthDataType: false,
+              selectedDrillDownColumn: 0
             });
           }
-        }]
+        }, {
+          columnIndex: 1,
+          callBack: () => {
+            this.setState({
+              isPeriodGrowthDataType: false,
+              selectedDrillDownColumn: 1
+            });
+          }
+        }] : []
       }
     };
-    const labels = currentChartData.map(_ => _.time);
+    const labels = growthChartData.map(_ => _.time);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
       getStyle: this._getStyleGrowthChart,
       currentMeasuremnent: measurement.name,
       barChartData: barChartData,
       lineChartData: lineChartData,
       labels: labels,
-      showBackIcon: !this.state.isPeriodGrowthDataType,
+      showBackIcon: !isPeriodGrowthDataType,
       backToDefaultChart: () => this.setState({
         isPeriodGrowthDataType: true
       })
     });
+  }
+
+  _getGrowthChartData() {
+    const {
+      isPeriodGrowthDataType,
+      selectedDrillDownColumn
+    } = this.state;
+    const {
+      growthData
+    } = this.props.analyticData;
+
+    if (isPeriodGrowthDataType) {
+      return growthData['periodGrowth'];
+    } else {
+      const drillDownData = growthData['monthGrowth'][selectedDrillDownColumn];
+      return drillDownData;
+    }
   }
 
   render() {
@@ -2154,15 +2193,9 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   const {
-    selectedBaseCurrency,
-    selectedMeasurement,
-    analyticData,
-    selectedComparePeriods
+    analyticData
   } = state;
   return Object.assign({}, {
-    selectedBaseCurrency,
-    selectedMeasurement,
-    selectedComparePeriods,
     analyticData
   });
 }
