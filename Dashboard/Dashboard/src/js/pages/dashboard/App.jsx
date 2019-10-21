@@ -6,6 +6,7 @@ import { summary, performance } from './lib/constants';
 import TabMenu from './components/TabMenu';
 
 __webpack_public_path__ = document.getElementById("public-path").value;
+
 const SummaryDashboard = import(/* webpackChunkName: "summary/summaryDashboard" */ '../summary/index');
 const PerformanceDashboard = import(/* webpackChunkName: "performance/performanceDashboard" */ '../performance/index');
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Bar } from 'react-chartjs-2';
 import numberFormat from '../../../../../lib/numberFormat';
 
-const defaultColorBarChart = '#F1A837';
+const defaultColorBarChart = ['#F1A837', '#36A2EB'];
 const defaultColorLineChart = '#690499';
 
 const buildLineChartDataSet = lineChartData => {
@@ -23,28 +23,31 @@ const buildLineChartDataSet = lineChartData => {
 }
 
 const buildBarChartDataSet = barChartData => {
-  return {
-    type: 'bar',
-    label: barChartData.name,
-    data: barChartData.dataSet,
-    fill: false,
-    backgroundColor: barChartData.color || defaultColorBarChart,
-    borderColor: barChartData.color || defaultColorBarChart,
-    hoverBackgroundColor: barChartData.color || defaultColorBarChart,
-    hoverBorderColor: barChartData.color || defaultColorBarChart,
-    yAxisID: 'y-axis-1'
-  }
+  return barChartData.map((_, index) => {
+    return {
+      type: 'bar',
+      label: _.name,
+      data: _.dataSet,
+      hidden: _.hidden === undefined ? false : _.hidden,
+      fill: false,
+      backgroundColor: _.color || defaultColorBarChart[index],
+      borderColor: _.color || defaultColorBarChart[index],
+      hoverBackgroundColor: _.color || defaultColorBarChart[index],
+      hoverBorderColor: _.color || defaultColorBarChart[index],
+      yAxisID: 'y-axis-1'
+    }
+  });
 }
 
 const buildMixChartDataSet = ({ lineChartData, barChartData }) => {
   const lineChartDataSet = buildLineChartDataSet(lineChartData);
   const barChartDataSet = buildBarChartDataSet(barChartData);
   return {
-    datasets: [lineChartDataSet, barChartDataSet]
+    datasets: [lineChartDataSet, ...barChartDataSet]
   }
 }
 
-const drawTextToTopChart = function() {
+const drawTextToTopChart = function () {
   const self = this,
     chart = this.chart,
     ctx = chart.ctx;
@@ -60,23 +63,26 @@ const drawTextToTopChart = function() {
       const value = dataset.data[elementIndex];
       const text = isLineChart ? value + '%' : numberFormat.nFormatter(value);
       const yOffset = value > 0 ? 6 : -7;
-      const xLabel =   element._model.x - (isLineChart ? 0 : element._model.width /2);
+      const xLabel = element._model.x - (isLineChart ? 0 : element._model.width / 2);
       ctx.fillText(text, xLabel, element._model.y - yOffset);
     });
   });
 }
 
 const buildMixChartOption = ({ labels, barChartData }) => {
-  const events = barChartData.events;
-  const eventClicks = events ? events.click : null;
-  const barWidthObj = barChartData.dataSet.length >= 6 ? { barPercentage: 0.9 } : { barPercentage: 0.4 };
-  const leftAxisName = barChartData.name;
+  const barWidthObj = barChartData[0].dataSet.length >= 6 ? { barPercentage: 0.9 } : { barPercentage: 0.4 };
+  const leftAxisName = barChartData[0].name;
 
   return {
-    onClick: (e, item) => {
-      if (item && item.length == 2) {
+    onClick: function (e, item) {
+      const activeElement = this.getElementAtEvent(e);
+      if (activeElement && activeElement.length > 0) {
+        const datasetIndex = (activeElement[0]._datasetIndex || 1) - 1;
+        const events = barChartData[datasetIndex].events;
+        const eventClicks = events ? events.click : null;
         if (eventClicks && eventClicks.length > 0) {
-          const eventClick = eventClicks.find(_ => _.columnIndex === item[1]._index);
+          const colIndex = item[0]._index;
+          const eventClick = eventClicks.find(_ => _.columnIndex === colIndex);
           eventClick && eventClick.callBack && eventClick.callBack();
         }
       }
@@ -86,15 +92,15 @@ const buildMixChartOption = ({ labels, barChartData }) => {
     },
     tooltips: {
       callbacks: {
-          label: function(tooltipItem, data) {
-            const dataSet = data.datasets[tooltipItem.datasetIndex];
-            if(dataSet.type === 'bar') {
-              return numberFormat.formatDecimal(dataSet.data[tooltipItem.index]);
-            }
-            return tooltipItem.value;
+        label: function (tooltipItem, data) {
+          const dataSet = data.datasets[tooltipItem.datasetIndex];
+          if (dataSet.type === 'bar') {
+            return numberFormat.formatDecimal(dataSet.data[tooltipItem.index]);
           }
+          return tooltipItem.value;
+        }
       }
-  },
+    },
     responsive: true,
     elements: {
       line: {
@@ -108,18 +114,22 @@ const buildMixChartOption = ({ labels, barChartData }) => {
       display: true,
       position: 'bottom',
       labels: {
+        filter: function (item) {
+          return !item.hidden;
+        },
         usePointStyle: true,
         boxWidth: 8,
         padding: 20
-      }
+      },
+      onClick: e => e.stopPropagation()
     },
     animation: {
       onComplete: drawTextToTopChart
     },
     layout: {
       padding: {
-          top: 20,
-          bottom: 20
+        top: 20,
+        bottom: 20
       }
     },
     scales: {
@@ -190,11 +200,6 @@ export default class MixBarLineChart extends Component {
     super(props);
   }
 
-  _renderFooter = () => {
-    return <div className="chart-footer">
-    </div>
-  }
-
   _renderChart() {
     const { lineChartData, barChartData, labels } = this.props;
     const data = buildMixChartDataSet({ lineChartData, barChartData });
@@ -212,7 +217,6 @@ export default class MixBarLineChart extends Component {
       <div className="chart-container">
         {header && header()}
         {this._renderChart()}
-        {this._renderFooter()}
       </div>
     );
   }

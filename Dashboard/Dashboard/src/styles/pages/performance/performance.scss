@@ -10,13 +10,20 @@
     }
   }
 
-  .overview-tab {
+  .child-tab {
     background-color: #fff;
     padding-top: 15px;
     padding-bottom: 50px;
     overflow-x: hidden;
     overflow-y: auto;
     box-sizing: border-box;
+  }
+
+  .overview-tab {
+    .info-zone-container {
+      float: left;
+      margin-left: 20px;
+    }
 
     .table-major-list {
       float: left;
@@ -28,35 +35,32 @@
     }
   }
 
-  table {
-    border-spacing: 0 !important;
-    width: 100%;
-  }
+  .currency-tab {
+    .info-zone-container {
+      width: 100%;
+    }
 
-  .info-zone-container {
-    float: left;
-    margin-left: 20px;
+    .side-tab-left {
+      float: left;
+      width: 50%;
+    }
 
-    .info-zone-body {
-      .side-chart {
-        position: absolute;
-        top: 45%;
-        font-size: 13px;
-        @include text-default
-      }
-
-      .left-chart {
-        transform: rotate(-90deg);
-        left: -30px;
-      }
-
-      .right-chart {
-        transform: rotate(90deg);
-        right: -20px;
+    .side-tab-right {
+      float: right;
+      width: 49%;
+      .table-major {
+        margin-bottom: 15px;
+        .table-major-body {
+          width: 100%;
+        }
       }
     }
   }
 
+  table {
+    border-spacing: 0 !important;
+    width: 100%;
+  }
 
   @media (max-width: 767px) {
     .overview-tab {
@@ -64,11 +68,17 @@
         margin-left: 0;
       }
     }
+
+    .currency-tab {
+      .side-tab-left, .side-tab-right  {
+        float: none;
+        width: 100%;
+      }
+    }
   }
 
   @media (min-width: 768px) and (max-width: 1280px) {
     .overview-tab {
-
       .info-zone-container {
         margin-left: 0;
       }

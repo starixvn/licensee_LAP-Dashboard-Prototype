@@ -7,7 +7,7 @@ import TableMajorChangeItem from '../../components/normal/TableMajorChangeItem';
 import GrowthChart from '../../components/charts/GrowthChart';
 import ValueChangeIcon from '../../components/normal/ValueChangeIcon';
 
-import { getMajorChangeList } from '../../lib/constants';
+import { getMajorChangeList } from '../overview/lib/constants';
 import { generalService } from '../../lib/service';
 import { setAnalyticData } from '../../actions/analyticDataAction';
 import { defaultData } from '../../lib/constants';
@@ -18,7 +18,8 @@ class OverviewTab extends Component {
     super(props);
     this.state = {
       isPeriodGrowthDataType: true,
-      selectedDrillDownColumn: 0
+      selectedDrillDownColumn: 0,
+      selectedDrillDownColumnName: ''
     };
   }
 
@@ -57,50 +58,42 @@ class OverviewTab extends Component {
     if (!measurementId)
       return null;
 
-    const { isPeriodGrowthDataType } = this.state;
+    const { isPeriodGrowthDataType, selectedDrillDownColumnName } = this.state;
 
     const growthChartData = this._getGrowthChartData();
+    const measurement = defaultData.measurements.find(_ => _.id === measurementId) || {};
 
-    let measurement = defaultData.measurements.find(_ => _.id === measurementId) || {};
-    measurement = measurement || {};
+    const labels = growthChartData.map(_ => _.time);
 
     const lineChartData = {
       name: 'Growth',
       dataSet: growthChartData.map(_ => _.growthPercent)
     };
 
-    const barChartData = {
+    const barChartData = [{
       name: measurement.name,
       dataSet: growthChartData.map(_ => _.total),
       events: {
-        click: isPeriodGrowthDataType ? [
-          {
-            columnIndex: 0,
+        click: isPeriodGrowthDataType ? growthChartData.map((_, colIndex) => {
+          return {
+            columnIndex: colIndex,
             callBack: () => {
               this.setState({
                 isPeriodGrowthDataType: false,
-                selectedDrillDownColumn: 0
-              })
-            }
-          },
-          {
-            columnIndex: 1,
-            callBack: () => {
-              this.setState({
-                isPeriodGrowthDataType: false,
-                selectedDrillDownColumn: 1
+                selectedDrillDownColumn: colIndex,
+                selectedDrillDownColumnName: _.time
               })
             }
           }
-        ] : []
+        }) : []
       }
-    };
+    }];
 
-    const labels = growthChartData.map(_ => _.time);
+    const title =  `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ' - ' + selectedDrillDownColumnName}`;
 
     return <GrowthChart
       getStyle={this._getStyleGrowthChart}
-      currentMeasuremnent={measurement.name}
+      title={title}
       barChartData={barChartData}
       lineChartData={lineChartData}
       labels={labels}

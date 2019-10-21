@@ -166,6 +166,7 @@ i.arrow-left {
   text-align: center;
   color: #FFFFFF;
   background-color: #4C6375;
+  text-transform: uppercase;
   font-size: 15px; }
 
 .table-major .table-major-body {
@@ -222,6 +223,7 @@ i.arrow-left {
   text-align: center;
   color: #FFFFFF;
   background-color: #4C6375;
+  text-transform: uppercase;
   font-size: 15px; }
 
 .info-zone-container .info-zone-body {

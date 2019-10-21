@@ -28,13 +28,13 @@ export default class GrowthChart extends PureComponent {
   }
 
   render() {
-    const { currentMeasuremnent, lineChartData, barChartData, labels } = this.props;
+    const { title, lineChartData, barChartData, labels } = this.props;
     const { style } = this.state;
 
     return (
       <div className="info-zone-container" ref={this.refSelf} style={style}>
         <div className="info-zone-header">
-          {`${currentMeasuremnent || ''} Growth`}
+          {title}
           </div>
         <div className="info-zone-body">
         <MixBarLineChart

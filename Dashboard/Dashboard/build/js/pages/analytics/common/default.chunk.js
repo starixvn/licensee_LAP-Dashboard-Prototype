@@ -253,6 +253,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 class widgetApi {
+  static getCommonParam(type, isCrossSite = true) {
+    return {
+      IsCrossSite: isCrossSite,
+      Data: {},
+      Url: '',
+      Type: type
+    };
+  }
+
   static _getAuthToken(action, type = 1) {
     var tokenUrl = window.TokenUrl + "&_=" + new Date().getTime();
     tokenUrl = tokenUrl.replace("{0}", encodeURIComponent(action));

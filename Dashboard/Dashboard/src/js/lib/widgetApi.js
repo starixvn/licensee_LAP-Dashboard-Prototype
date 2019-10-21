@@ -1,6 +1,15 @@
 import axios from 'axios';
 
 export default class widgetApi {
+  static getCommonParam(type, isCrossSite = true) {
+    return {
+      IsCrossSite: isCrossSite,
+      Data: {},
+      Url: '',
+      Type: type
+    }
+  }
+
   static _getAuthToken(action, type = 1) {
     var tokenUrl = window.TokenUrl + "&_=" + (new Date()).getTime();
     tokenUrl = tokenUrl.replace("{0}", encodeURIComponent(action));

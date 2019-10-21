@@ -77,42 +77,50 @@
   .performance-container .loading-process .icon-loading {
     top: 350px; }
 
-.performance-container .overview-tab {
+.performance-container .child-tab {
   background-color: #fff;
   padding-top: 15px;
   padding-bottom: 50px;
   overflow-x: hidden;
   overflow-y: auto;
   box-sizing: border-box; }
-  .performance-container .overview-tab .table-major-list {
-    float: left;
-    margin-left: 20px; }
-  .performance-container .overview-tab .box-info-measure-list {
-    float: left; }
+
+.performance-container .overview-tab .info-zone-container {
+  float: left;
+  margin-left: 20px; }
+
+.performance-container .overview-tab .table-major-list {
+  float: left;
+  margin-left: 20px; }
+
+.performance-container .overview-tab .box-info-measure-list {
+  float: left; }
+
+.performance-container .currency-tab .info-zone-container {
+  width: 100%; }
+
+.performance-container .currency-tab .side-tab-left {
+  float: left;
+  width: 50%; }
+
+.performance-container .currency-tab .side-tab-right {
+  float: right;
+  width: 49%; }
+  .performance-container .currency-tab .side-tab-right .table-major {
+    margin-bottom: 15px; }
+    .performance-container .currency-tab .side-tab-right .table-major .table-major-body {
+      width: 100%; }
 
 .performance-container table {
   border-spacing: 0 !important;
   width: 100%; }
 
-.performance-container .info-zone-container {
-  float: left;
-  margin-left: 20px; }
-  .performance-container .info-zone-container .info-zone-body .side-chart {
-    position: absolute;
-    top: 45%;
-    font-size: 13px;
-    font-weight: 400;
-    color: #6E6E6E; }
-  .performance-container .info-zone-container .info-zone-body .left-chart {
-    transform: rotate(-90deg);
-    left: -30px; }
-  .performance-container .info-zone-container .info-zone-body .right-chart {
-    transform: rotate(90deg);
-    right: -20px; }
-
 @media (max-width: 767px) {
   .performance-container .overview-tab .info-zone-container {
-    margin-left: 0; } }
+    margin-left: 0; }
+  .performance-container .currency-tab .side-tab-left, .performance-container .currency-tab .side-tab-right {
+    float: none;
+    width: 100%; } }
 
 @media (min-width: 768px) and (max-width: 1280px) {
   .performance-container .overview-tab .info-zone-container {

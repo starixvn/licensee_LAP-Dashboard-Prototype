@@ -7,7 +7,7 @@ export const getAnalyticData = (filterData, tabKey) => {
         dispatch(setLoading(true));
         try {
           const data = await factoryApi[tabKey](filterData);
-          dispatch(setAnalyticData(data));
+          dispatch(setAnalyticData({ data }));
         } catch(error) {
           console.log('error', error.message)
         }
@@ -16,9 +16,12 @@ export const getAnalyticData = (filterData, tabKey) => {
     }
 }
 
-export const setAnalyticData = data => {
+export const setAnalyticData = ({data, handlerData }) => {
   return {
     type: types.SET_ANALYTIC_DATA,
-    data
+    ...{
+      data,
+      handlerData
+    }
   };
 }

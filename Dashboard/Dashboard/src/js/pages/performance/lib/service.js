@@ -5,8 +5,8 @@ export const generalService = {
     return {
       measurement: selectedMeasurement,
       baseCurrencyName: selectedBaseCurrency,
-      currentPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.currentPeriod)),
-      previousPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.previousPeriod)),
+      currentPeriod: convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.currentPeriod)),
+      previousPeriod: convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.previousPeriod)),
     }
   },
   getScrollTabStyle: () => {
@@ -34,7 +34,7 @@ const _convertPeriod = ({ from, to }) => {
   }
 }
 
-const _convertPeriodToMetaModel = ({ from, to }) => {
+export const convertPeriodToMetaModel = ({ from, to }) => {
   const fromMonth = defaultFormatFunc(from.month, from.year);
   const toMonth = defaultFormatFunc(to.month, to.year);
   return {

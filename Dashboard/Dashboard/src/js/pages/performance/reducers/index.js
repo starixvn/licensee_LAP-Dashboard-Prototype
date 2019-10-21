@@ -3,12 +3,10 @@ import * as currency from '../../../reducers/currencyReducer';
 import * as filter from './filterReducer';
 import * as loading from './loadingReducer';
 import * as analyticData from './analyticDataReducer';
-import overviewReducer from '../tabs/overview/reducers';
 
 export default combineReducers(Object.assign(
   loading,
   currency,
   filter,
-  analyticData,
-  overviewReducer
+  analyticData
 ));
