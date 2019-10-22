@@ -1,6 +1,8 @@
 ﻿@import '../../components/boxinfomeasure';
 @import '../../components/monthrangepicker';
 @import '../../base/mixins';
+@import './tabs/overview';
+@import './tabs/currency';
 
 .performance-container {
   .loading-process {
@@ -19,86 +21,9 @@
     box-sizing: border-box;
   }
 
-  .overview-tab {
-    .info-zone-container {
-      float: left;
-      margin-left: 20px;
-    }
-
-    .table-major-list {
-      float: left;
-      margin-left: 20px;
-    }
-
-    .box-info-measure-list {
-      float: left;
-    }
-  }
-
-  .currency-tab {
-    .info-zone-container {
-      width: 100%;
-    }
-
-    .side-tab-left {
-      float: left;
-      width: 50%;
-    }
-
-    .side-tab-right {
-      float: right;
-      width: 49%;
-      .table-major {
-        margin-bottom: 15px;
-        .table-major-body {
-          width: 100%;
-        }
-      }
-    }
-  }
-
   table {
     border-spacing: 0 !important;
     width: 100%;
-  }
-
-  @media (max-width: 767px) {
-    .overview-tab {
-      .info-zone-container {
-        margin-left: 0;
-      }
-    }
-
-    .currency-tab {
-      .side-tab-left, .side-tab-right  {
-        float: none;
-        width: 100%;
-      }
-    }
-  }
-
-  @media (min-width: 768px) and (max-width: 1280px) {
-    .overview-tab {
-      .info-zone-container {
-        margin-left: 0;
-      }
-
-      .table-major-list {
-        float: none;
-        overflow: auto;
-        margin-left: 0;
-
-        .table-major {
-          margin-bottom: 15px;
-          float: left;
-          margin-left: 20px;
-
-          .table-major-body {
-            width: 380px;
-          }
-        }
-      }
-    }
   }
 }
 

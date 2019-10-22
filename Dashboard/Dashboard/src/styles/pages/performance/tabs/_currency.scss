@@ -1,0 +1,36 @@
+.performance-container {
+  .currency-tab {
+
+    .info-zone-container {
+      width: 100%;
+    }
+
+    .side-tab-left {
+      float: left;
+      width: 55%;
+    }
+
+    .side-tab-right {
+      float: right;
+      width: 44%;
+      .table-comparison {
+        margin-bottom: 15px;
+        .table-comparison-body {
+          width: 100%;
+          td {
+            .arrow-up, .arrow-down, .rec-equal {
+              float: left;
+            }
+          }
+        }
+      }
+    }
+
+    @media (max-width: 767px) {
+        .side-tab-left, .side-tab-right  {
+          float: none;
+          width: 100%;
+        }
+    }
+  }
+}

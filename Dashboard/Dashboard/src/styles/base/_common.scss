@@ -186,14 +186,12 @@ i.arrow-left {
    }
 }
 
-.table-major {
-  .table-major-title {
+.table-comparison {
+  .table-comparison-title {
     @include zone-header();
   }
 
-  .table-major-body {
-    width: 450px;
-
+  .table-comparison-body {
     thead {
       tr {
           th {
@@ -242,7 +240,7 @@ i.arrow-left {
 }
 
 .table-major-list {
-  .table-major {
+  .table-comparison {
       margin-bottom: 15px;
   }
 }

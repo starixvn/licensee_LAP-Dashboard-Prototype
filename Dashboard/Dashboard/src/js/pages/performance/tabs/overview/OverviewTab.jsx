@@ -3,11 +3,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import BoxInfoMeasureList from '../../components/normal/BoxInfoMeasureList';
-import TableMajorChangeItem from '../../components/normal/TableMajorChangeItem';
+import ComparisonTable from '../../components/normal/ComparisonTable';
 import GrowthChart from '../../components/charts/GrowthChart';
 import ValueChangeIcon from '../../components/normal/ValueChangeIcon';
 
-import { getMajorChangeList } from '../overview/lib/constants';
+import { getMajorChangeList } from './lib/constants';
 import { generalService } from '../../lib/service';
 import { setAnalyticData } from '../../actions/analyticDataAction';
 import { defaultData } from '../../lib/constants';
@@ -31,7 +31,7 @@ class OverviewTab extends Component {
     let { topChangeData, measurementId } = this.props.analyticData;
     const majorChangeList = getMajorChangeList(measurementId)
 
-    return topChangeData && majorChangeList.map(_ => <TableMajorChangeItem
+    return topChangeData && majorChangeList.map(_ => <ComparisonTable
       key={'major_change_table_' + _.key}
       {...{
         ..._,
@@ -55,9 +55,6 @@ class OverviewTab extends Component {
 
   _renderGrowthChart() {
     const { measurementId } = this.props.analyticData;
-    if (!measurementId)
-      return null;
-
     const { isPeriodGrowthDataType, selectedDrillDownColumnName } = this.state;
 
     const growthChartData = this._getGrowthChartData();
@@ -128,7 +125,9 @@ class OverviewTab extends Component {
   }
 
   render() {
-    return (
+    const { measurementId } = this.props.analyticData;
+
+    return measurementId ? (
       <div className="child-tab overview-tab" style={generalService.getScrollTabStyle()}>
         {this._renderBoxInfoMeasureList()}
         <div className="table-major-list">
@@ -136,7 +135,7 @@ class OverviewTab extends Component {
         </div>
         {this._renderGrowthChart()}
       </div>
-    );
+    ) : null;
   }
 }
 

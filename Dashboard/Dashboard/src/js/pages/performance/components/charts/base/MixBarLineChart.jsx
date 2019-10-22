@@ -76,8 +76,8 @@ const buildMixChartOption = ({ labels, barChartData }) => {
   return {
     onClick: function (e, item) {
       const activeElement = this.getElementAtEvent(e);
-      if (activeElement && activeElement.length > 0) {
-        const datasetIndex = (activeElement[0]._datasetIndex || 1) - 1;
+      if (activeElement && activeElement.length > 0 && activeElement[0]._datasetIndex) {
+        const datasetIndex = activeElement[0]._datasetIndex - 1;
         const events = barChartData[datasetIndex].events;
         const eventClicks = events ? events.click : null;
         if (eventClicks && eventClicks.length > 0) {

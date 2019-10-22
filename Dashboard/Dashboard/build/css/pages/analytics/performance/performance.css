@@ -72,6 +72,59 @@
   .couple-month-range .month-range-item:last-child {
     margin-left: 20px; }
 
+.performance-container .overview-tab .info-zone-container {
+  float: left;
+  margin-left: 20px; }
+
+.performance-container .overview-tab .table-major-list {
+  float: left;
+  margin-left: 20px; }
+  .performance-container .overview-tab .table-major-list .table-comparison-body {
+    width: 450px; }
+
+.performance-container .overview-tab .box-info-measure-list {
+  float: left; }
+
+@media (max-width: 767px) {
+  .performance-container .overview-tab .info-zone-container {
+    margin-left: 0; } }
+
+@media (min-width: 768px) and (max-width: 1280px) {
+  .performance-container .overview-tab .info-zone-container {
+    margin-left: 0; }
+  .performance-container .overview-tab .table-major-list {
+    float: none;
+    overflow: auto;
+    margin-left: 0; }
+    .performance-container .overview-tab .table-major-list .table-comparison {
+      margin-bottom: 15px;
+      float: left;
+      margin-left: 20px; }
+      .performance-container .overview-tab .table-major-list .table-comparison .table-comparison-body {
+        width: 380px; } }
+
+.performance-container .currency-tab .info-zone-container {
+  width: 100%; }
+
+.performance-container .currency-tab .side-tab-left {
+  float: left;
+  width: 55%; }
+
+.performance-container .currency-tab .side-tab-right {
+  float: right;
+  width: 44%; }
+  .performance-container .currency-tab .side-tab-right .table-comparison {
+    margin-bottom: 15px; }
+    .performance-container .currency-tab .side-tab-right .table-comparison .table-comparison-body {
+      width: 100%; }
+      .performance-container .currency-tab .side-tab-right .table-comparison .table-comparison-body td .arrow-up, .performance-container .currency-tab .side-tab-right .table-comparison .table-comparison-body td .arrow-down, .performance-container .currency-tab .side-tab-right .table-comparison .table-comparison-body td .rec-equal {
+        float: left; }
+
+@media (max-width: 767px) {
+  .performance-container .currency-tab .side-tab-left, .performance-container .currency-tab .side-tab-right {
+    float: none;
+    width: 100%; } }
+
 .performance-container .loading-process {
   background: rgba(255, 255, 255, 0.7) no-repeat; }
   .performance-container .loading-process .icon-loading {
@@ -85,56 +138,9 @@
   overflow-y: auto;
   box-sizing: border-box; }
 
-.performance-container .overview-tab .info-zone-container {
-  float: left;
-  margin-left: 20px; }
-
-.performance-container .overview-tab .table-major-list {
-  float: left;
-  margin-left: 20px; }
-
-.performance-container .overview-tab .box-info-measure-list {
-  float: left; }
-
-.performance-container .currency-tab .info-zone-container {
-  width: 100%; }
-
-.performance-container .currency-tab .side-tab-left {
-  float: left;
-  width: 50%; }
-
-.performance-container .currency-tab .side-tab-right {
-  float: right;
-  width: 49%; }
-  .performance-container .currency-tab .side-tab-right .table-major {
-    margin-bottom: 15px; }
-    .performance-container .currency-tab .side-tab-right .table-major .table-major-body {
-      width: 100%; }
-
 .performance-container table {
   border-spacing: 0 !important;
   width: 100%; }
-
-@media (max-width: 767px) {
-  .performance-container .overview-tab .info-zone-container {
-    margin-left: 0; }
-  .performance-container .currency-tab .side-tab-left, .performance-container .currency-tab .side-tab-right {
-    float: none;
-    width: 100%; } }
-
-@media (min-width: 768px) and (max-width: 1280px) {
-  .performance-container .overview-tab .info-zone-container {
-    margin-left: 0; }
-  .performance-container .overview-tab .table-major-list {
-    float: none;
-    overflow: auto;
-    margin-left: 0; }
-    .performance-container .overview-tab .table-major-list .table-major {
-      margin-bottom: 15px;
-      float: left;
-      margin-left: 20px; }
-      .performance-container .overview-tab .table-major-list .table-major .table-major-body {
-        width: 380px; } }
 
 
 /*# sourceMappingURL=performance.css.map*/

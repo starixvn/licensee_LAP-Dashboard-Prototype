@@ -11,3 +11,4 @@ export const growthChartConsts = [
     columnColor: '#36A2EB'
   }
 ]
+

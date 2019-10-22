@@ -6,10 +6,12 @@ import { connect } from 'react-redux';
 import DistributionChart from '../../components/charts/DistributionChart';
 import GrowthChart from '../../components/charts/GrowthChart';
 import ValueChangeIcon from '../../components/normal/ValueChangeIcon';
-import TableMajorChangeItem from '../../components/normal/TableMajorChangeItem';
+import ComparisonTable from '../../components/normal/ComparisonTable';
 import { defaultData } from '../../lib/constants';
 import { convertPeriodToMetaModel } from '../../lib/service';
-import { growthChartConsts } from '../currency/lib/constants';
+import { growthChartConsts } from './lib/constants';
+import { getDiffenrenceTableData, getDistributionChartData } from './lib/service';
+import { generalService } from '../../lib/service';
 
 export class CurrencyTab extends Component {
   constructor(props) {
@@ -25,28 +27,13 @@ export class CurrencyTab extends Component {
     this.props.setAnalyticData({});
   }
 
-  _renderDifferencePeriodBoard() {
-    return <TableMajorChangeItem
-      key={'major_change_table_'}
-      {...{
-        title: 'MAJOR CHANGES - By CURRENCY',
-        header: ['Difference', 'THB', 'KRW', "USD", 'SGD', 'THB'],
-        data: [{
-          "perspectiveName": "Tablet",
-          "total": 128728.23,
-          "changePercent": 4428620.25
-        }, {
-          "perspectiveName": "Tablet",
-          "total": 128728.23,
-          "changePercent": 4428620.25
-        }, {
-          "perspectiveName": "Tablet",
-          "total": 128728.23,
-          "changePercent": 4428620.25
-        }]
-      }}
-      renderRow={(item, index) => <tr key={`major_change_row_${index}_${item.perspectiveName}`}>
+  _renderDifferenceTable() {
+    const data = getDiffenrenceTableData(null);
+    return <ComparisonTable
+      {...data}
+      renderRow={(item, index) => <tr key={`table_comparison_row_${index}_${item.perspectiveName}`}>
         <td>{item.perspectiveName}</td>
+        <td><div><ValueChangeIcon value={item.changePercent} /> <span>{'5%'}</span></div>{item.perspectiveName}</td>
         <td><ValueChangeIcon value={item.changePercent} />{item.perspectiveName}</td>
         <td><ValueChangeIcon value={item.changePercent} />{item.perspectiveName}</td>
         <td><ValueChangeIcon value={item.changePercent} />{item.perspectiveName}</td>
@@ -57,8 +44,7 @@ export class CurrencyTab extends Component {
   }
 
   _renderDistributionChart() {
-    const { analyticData } = this.props;
-
+    const chartData = getDistributionChartData(null);
     const barChartData = [
       {
         name: 'USD',
@@ -66,7 +52,7 @@ export class CurrencyTab extends Component {
       },
       {
         name: 'SGD',
-        dataSet: [70, 10]
+        dataSet: [70, -10]
       },
       {
         name: 'HKD',
@@ -75,10 +61,18 @@ export class CurrencyTab extends Component {
       {
         name: 'THB',
         dataSet: [10, 10]
+      },
+      {
+        name: 'CNY',
+        dataSet: [10, 10]
+      },
+      {
+        name: 'Others',
+        dataSet: [10, 10]
       }
-    ]
+    ];
+    const labels = ['Previous Period', 'Current Period'];
 
-    const labels = ['Current', 'Previous ']
     return <DistributionChart
       title={'Turnover Distribution'}
       barChartData={barChartData}
@@ -88,15 +82,10 @@ export class CurrencyTab extends Component {
 
   _renderGrowthChart() {
     const { measurementId } = this.props.analyticData;
-    if (!measurementId)
-      return null;
-
     const measurement = defaultData.measurements.find(_ => _.id === measurementId) || {};
     const { isPeriodGrowthDataType, selectedDrillDownCategory, selectedDrillDownDataset } = this.state;
 
-    const growthChartData = this._getGrowthChartData();
-    if(!growthChartData)
-      return null;
+    const growthChartData = this._getGrowthChartData() || [];
 
     const labels = growthChartData.map(_ => _.category);
 
@@ -181,22 +170,23 @@ export class CurrencyTab extends Component {
         name: selectedDrillDownCategory + ' ' + measurement.name,
         dataSet: growthChartData.map(_ => _.total),
         color: growthChartConsts[selectedDrillDownDataset].columnColor
-      }, { hidden: true }];
+        }, { hidden: true, dataSet: [] }];
     }
   }
 
   render() {
-    return (
-      <div className="child-tab currency-tab">
+    const { measurementId } = this.props.analyticData;
+    return measurementId ? (
+      <div className="child-tab currency-tab" style={generalService.getScrollTabStyle()}>
         <div className="side-tab-left">
           {this._renderGrowthChart()}
         </div>
         <div className="side-tab-right">
-          {this._renderDifferencePeriodBoard()}
+          {this._renderDifferenceTable()}
           {this._renderDistributionChart()}
         </div>
       </div>
-    );
+    ) : null;
   }
 }
 

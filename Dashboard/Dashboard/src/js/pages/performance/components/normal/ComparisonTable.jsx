@@ -1,21 +1,21 @@
 import React from 'react';
 
 const renderHeader = header => {
-  return header.map((_, index) => <th key={`table_major_header_${index}`}>{_ + ''}</th>)
+  return header.map((_, index) => <th key={`table_comparison_header_${index}`}>{_ + ''}</th>)
 }
 
 const renderRows = (data, renderRow) => {
   return data.map((rowData, index) => renderRow(rowData, index));
 }
 
-export const TableMajorChangeItem = props => {
+export const ComparisonTable = props => {
   const { header, data, title, renderRow } = props;
   return (
-    <div className='table-major'>
-      <div className="table-major-title">
+    <div className='table-comparison'>
+      <div className="table-comparison-title">
         {title}
       </div>
-      <table className="table-major-body">
+      <table className="table-comparison-body">
         <thead>
           <tr>{header && renderHeader(header)}</tr>
         </thead>
@@ -27,4 +27,4 @@ export const TableMajorChangeItem = props => {
   );
 }
 
-export default React.memo(TableMajorChangeItem)
+export default React.memo(ComparisonTable);
