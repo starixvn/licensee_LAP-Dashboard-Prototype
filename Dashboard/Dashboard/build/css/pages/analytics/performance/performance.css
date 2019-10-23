@@ -120,7 +120,7 @@
       .performance-container .currency-tab .side-tab-right .table-comparison .table-comparison-body td .arrow-up, .performance-container .currency-tab .side-tab-right .table-comparison .table-comparison-body td .arrow-down, .performance-container .currency-tab .side-tab-right .table-comparison .table-comparison-body td .rec-equal {
         float: left; }
 
-@media (max-width: 767px) {
+@media (max-width: 1300px) {
   .performance-container .currency-tab .side-tab-left, .performance-container .currency-tab .side-tab-right {
     float: none;
     width: 100%; } }

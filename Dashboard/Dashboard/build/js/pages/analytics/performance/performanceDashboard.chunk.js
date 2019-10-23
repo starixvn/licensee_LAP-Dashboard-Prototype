@@ -2258,7 +2258,7 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       selectedDrillDownDataset
     } = this.state;
     const growthChartData = this._getGrowthChartData() || [];
-    const labels = growthChartData.map(_ => _.category);
+    const labels = growthChartData.map(_ => _.name);
     const lineChartData = {
       name: 'Growth',
       dataSet: growthChartData.map(_ => _.growthPercent)
@@ -2683,7 +2683,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     const growthChartData = this._getGrowthChartData();
 
     const measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_10__["defaultData"].measurements.find(_ => _.id === measurementId) || {};
-    const labels = growthChartData.map(_ => _.time);
+    const labels = growthChartData.map(_ => _.name);
     const lineChartData = {
       name: 'Growth',
       dataSet: growthChartData.map(_ => _.growthPercent)
@@ -2699,7 +2699,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
               this.setState({
                 isPeriodGrowthDataType: false,
                 selectedDrillDownColumn: colIndex,
-                selectedDrillDownColumnName: _.time
+                selectedDrillDownColumnName: _.name
               });
             }
           };

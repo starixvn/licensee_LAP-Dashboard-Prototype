@@ -87,7 +87,7 @@ export class CurrencyTab extends Component {
 
     const growthChartData = this._getGrowthChartData() || [];
 
-    const labels = growthChartData.map(_ => _.category);
+    const labels = growthChartData.map(_ => _.name);
 
     const lineChartData = {
       name: 'Growth',

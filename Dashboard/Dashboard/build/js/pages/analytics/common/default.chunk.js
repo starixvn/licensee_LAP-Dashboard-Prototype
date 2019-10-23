@@ -300,7 +300,8 @@ class widgetApi {
     const dataUrl = response.data.ApiUrl + param.Url;
     return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(dataUrl, postContent, {
       headers: {
-        'X-Auth-Token': response.data.Token
+        'X-Auth-Token': response.data.Token,
+        'X-Requested-With': 'XMLHttpRequest'
       }
     });
   }

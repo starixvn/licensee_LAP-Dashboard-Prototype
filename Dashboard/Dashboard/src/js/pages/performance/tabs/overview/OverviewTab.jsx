@@ -60,7 +60,7 @@ class OverviewTab extends Component {
     const growthChartData = this._getGrowthChartData();
     const measurement = defaultData.measurements.find(_ => _.id === measurementId) || {};
 
-    const labels = growthChartData.map(_ => _.time);
+    const labels = growthChartData.map(_ => _.name);
 
     const lineChartData = {
       name: 'Growth',
@@ -78,7 +78,7 @@ class OverviewTab extends Component {
               this.setState({
                 isPeriodGrowthDataType: false,
                 selectedDrillDownColumn: colIndex,
-                selectedDrillDownColumnName: _.time
+                selectedDrillDownColumnName: _.name
               })
             }
           }
