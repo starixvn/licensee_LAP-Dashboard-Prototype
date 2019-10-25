@@ -1,13 +1,24 @@
 import { defaultFormatFunc } from '../../../lib/dateTimeHelper';
 
 export const generalService = {
-  getFilterData: ({ selectedMeasurement, selectedBaseCurrency, selectedComparePeriods}) => {
+  getFilterData: ({ selectedMeasurement, selectedBaseCurrency, selectedComparePeriods }) => {
     return {
       measurement: selectedMeasurement,
       baseCurrencyName: selectedBaseCurrency,
-      currentPeriod: convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.currentPeriod)),
-      previousPeriod: convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.previousPeriod)),
+      currentPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.currentPeriod)),
+      previousPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.previousPeriod)),
     }
+  },
+  getFilterDataMonthGrowth: ({ analyticData, selectedPeriod }) => {
+    return {
+      baseCurrencyName: analyticData.baseCurrency,
+      currentPeriod: selectedPeriod,
+      previousPeriod: analyticData.previousPeriod,
+      measurement: { id: analyticData.measurementId }
+    }
+  },
+  getFieldMonthGrowth (selectedCategory, selectedPeriod) {
+    return selectedCategory + '_' + selectedPeriod.fromMonth + '_' + selectedPeriod.toMonth;
   },
   getScrollTabStyle: () => {
     const { innerHeight } = window;
@@ -34,7 +45,7 @@ const _convertPeriod = ({ from, to }) => {
   }
 }
 
-export const convertPeriodToMetaModel = ({ from, to }) => {
+const _convertPeriodToMetaModel = ({ from, to }) => {
   const fromMonth = defaultFormatFunc(from.month, from.year);
   const toMonth = defaultFormatFunc(to.month, to.year);
   return {

@@ -1,3 +1,5 @@
+import { generalService } from '../../../lib/service';
+
 export const getDiffenrenceTableData = data => {
   return {
     title: 'differences between periods',
@@ -21,5 +23,13 @@ export const getDiffenrenceTableData = data => {
 export const getDistributionChartData = data => {
   return {
 
+  }
+}
+
+export const getFilterDataMonthGrowth = ({ analyticData, selectedPeriod, selectedCurrency }) => {
+  const filter = generalService.getFilterDataMonthGrowth({ analyticData, selectedPeriod })
+  return {
+    ...filter,
+    ...{ currencies: [selectedCurrency] }
   }
 }

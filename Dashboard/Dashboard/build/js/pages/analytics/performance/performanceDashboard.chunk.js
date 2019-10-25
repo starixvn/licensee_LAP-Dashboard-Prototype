@@ -1539,11 +1539,14 @@ const drawTextToTopChart = function () {
     const meta = self.getDatasetMeta(datasetIndex);
     meta.data.forEach(function (element, elementIndex) {
       const value = dataset.data[elementIndex];
-      const text = value + '%';
-      const textWidth = ctx.measureText(text).width;
-      const yOffset = value > 0 ? 10 : -10;
-      const xLabel = element._model.x - textWidth / 3;
-      ctx.fillText(text, xLabel, element._model.y + yOffset);
+
+      if (value !== 0) {
+        const text = value + '%';
+        const textWidth = ctx.measureText(text).width;
+        const yOffset = value > 0 ? 10 : -10;
+        const xLabel = element._model.x - textWidth / 3;
+        ctx.fillText(text, xLabel, element._model.y + yOffset);
+      }
     });
   });
 };
@@ -1969,13 +1972,12 @@ const tabMenuList = [{
 /*!*************************************************!*\
   !*** ./src/js/pages/performance/lib/service.js ***!
   \*************************************************/
-/*! exports provided: generalService, convertPeriodToMetaModel */
+/*! exports provided: generalService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generalService", function() { return generalService; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "convertPeriodToMetaModel", function() { return convertPeriodToMetaModel; });
 /* harmony import */ var _lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/dateTimeHelper */ "./src/js/lib/dateTimeHelper.js");
 
 const generalService = {
@@ -1987,10 +1989,28 @@ const generalService = {
     return {
       measurement: selectedMeasurement,
       baseCurrencyName: selectedBaseCurrency,
-      currentPeriod: convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.currentPeriod)),
-      previousPeriod: convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.previousPeriod))
+      currentPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.currentPeriod)),
+      previousPeriod: _convertPeriodToMetaModel(_convertPeriod(selectedComparePeriods.previousPeriod))
     };
   },
+  getFilterDataMonthGrowth: ({
+    analyticData,
+    selectedPeriod
+  }) => {
+    return {
+      baseCurrencyName: analyticData.baseCurrency,
+      currentPeriod: selectedPeriod,
+      previousPeriod: analyticData.previousPeriod,
+      measurement: {
+        id: analyticData.measurementId
+      }
+    };
+  },
+
+  getFieldMonthGrowth(selectedCategory, selectedPeriod) {
+    return selectedCategory + '_' + selectedPeriod.fromMonth + '_' + selectedPeriod.toMonth;
+  },
+
   getScrollTabStyle: () => {
     const {
       innerHeight
@@ -2019,7 +2039,7 @@ const _convertPeriod = ({
   };
 };
 
-const convertPeriodToMetaModel = ({
+const _convertPeriodToMetaModel = ({
   from,
   to
 }) => {
@@ -2164,11 +2184,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../components/normal/ValueChangeIcon */ "./src/js/pages/performance/components/normal/ValueChangeIcon.jsx");
 /* harmony import */ var _components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../components/normal/ComparisonTable */ "./src/js/pages/performance/components/normal/ComparisonTable.jsx");
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
-/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../lib/service */ "./src/js/pages/performance/lib/service.js");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./lib/constants */ "./src/js/pages/performance/tabs/currency/lib/constants.js");
-/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./lib/service */ "./src/js/pages/performance/tabs/currency/lib/service.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./lib/constants */ "./src/js/pages/performance/tabs/currency/lib/constants.js");
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./lib/service */ "./src/js/pages/performance/tabs/currency/lib/service.js");
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../lib/service */ "./src/js/pages/performance/lib/service.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 
 
 
@@ -2198,7 +2217,7 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   }
 
   _renderDifferenceTable() {
-    const data = Object(_lib_service__WEBPACK_IMPORTED_MODULE_12__["getDiffenrenceTableData"])(null);
+    const data = Object(_lib_service__WEBPACK_IMPORTED_MODULE_11__["getDiffenrenceTableData"])(null);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({}, data, {
       renderRow: (item, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         key: `table_comparison_row_${index}_${item.perspectiveName}`
@@ -2219,13 +2238,13 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   }
 
   _renderDistributionChart() {
-    const chartData = Object(_lib_service__WEBPACK_IMPORTED_MODULE_12__["getDistributionChartData"])(null);
+    const chartData = Object(_lib_service__WEBPACK_IMPORTED_MODULE_11__["getDistributionChartData"])(null);
     const barChartData = [{
       name: 'USD',
-      dataSet: [-30, 50]
+      dataSet: [0, 50]
     }, {
       name: 'SGD',
-      dataSet: [70, -10]
+      dataSet: [0, -10]
     }, {
       name: 'HKD',
       dataSet: [10, 30]
@@ -2266,7 +2285,7 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
     const barChartData = this._getBarChartData(growthChartData, labels, measurement);
 
-    const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ` - ${selectedDrillDownCategory} - ${_lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset].periodName}`}`;
+    const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ` - ${selectedDrillDownCategory} - ${_lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset].periodName}`}`;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_6__["default"], {
       title: title,
       barChartData: barChartData,
@@ -2308,10 +2327,34 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     const {
       analyticData
     } = this.props;
-    const period = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
-    const parsedPeriod = Object(_lib_service__WEBPACK_IMPORTED_MODULE_10__["convertPeriodToMetaModel"])(period);
-    const field = selectedDrillDownCategory + '_' + parsedPeriod.fromMonth + '_' + parsedPeriod.toMonth;
+    const period = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
+    const field = selectedDrillDownCategory + '_' + period.fromMonth + '_' + period.toMonth;
     return field;
+  }
+
+  _handleDrillDownGrowthChart() {
+    const {
+      selectedDrillDownCategory,
+      selectedDrillDownDataset
+    } = this.state;
+    const {
+      analyticData
+    } = this.props;
+    const {
+      growthData
+    } = analyticData;
+    const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
+    const field = _lib_service__WEBPACK_IMPORTED_MODULE_12__["generalService"].getFieldMonthGrowth(selectedDrillDownCategory, selectedPeriod);
+    const drillDownData = growthData['monthGrowth'][field];
+
+    if (!drillDownData) {
+      const filterData = Object(_lib_service__WEBPACK_IMPORTED_MODULE_11__["getFilterDataMonthGrowth"])({
+        analyticData,
+        selectedPeriod,
+        selectedCurrency: selectedDrillDownCategory
+      });
+      this.props.getDrillDownData(filterData, field);
+    }
   }
 
   _getBarChartData(growthChartData, labels, measurement) {
@@ -2320,12 +2363,9 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       selectedDrillDownCategory,
       selectedDrillDownDataset
     } = this.state;
-    const {
-      growthData
-    } = this.props.analyticData;
 
     if (isPeriodGrowthDataType) {
-      return _lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"].map((_, datasetIndex) => {
+      return _lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"].map((_, datasetIndex) => {
         return {
           name: _.periodName,
           dataSet: growthChartData.map(__ => __[_.periodFieldName]),
@@ -2338,15 +2378,7 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                     isPeriodGrowthDataType: false,
                     selectedDrillDownDataset: datasetIndex,
                     selectedDrillDownCategory: __
-                  }, () => {
-                    const field = this._getDrillDownField();
-
-                    let drillDownData = growthData['monthGrowth'][field];
-
-                    if (!drillDownData) {
-                      this.props.getDrillDownData({}, field);
-                    }
-                  });
+                  }, this._handleDrillDownGrowthChart);
                 }
               };
             })
@@ -2357,7 +2389,7 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       return [{
         name: selectedDrillDownCategory + ' ' + measurement.name,
         dataSet: growthChartData.map(_ => _.total),
-        color: _lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset].columnColor
+        color: _lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset].columnColor
       }, {
         hidden: true,
         dataSet: []
@@ -2371,7 +2403,7 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     } = this.props.analyticData;
     return measurementId ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "child-tab currency-tab",
-      style: _lib_service__WEBPACK_IMPORTED_MODULE_10__["generalService"].getScrollTabStyle()
+      style: _lib_service__WEBPACK_IMPORTED_MODULE_12__["generalService"].getScrollTabStyle()
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "side-tab-left"
     }, this._renderGrowthChart()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2531,13 +2563,16 @@ const growthChartConsts = [{
 /*!***************************************************************!*\
   !*** ./src/js/pages/performance/tabs/currency/lib/service.js ***!
   \***************************************************************/
-/*! exports provided: getDiffenrenceTableData, getDistributionChartData */
+/*! exports provided: getDiffenrenceTableData, getDistributionChartData, getFilterDataMonthGrowth */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDiffenrenceTableData", function() { return getDiffenrenceTableData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDistributionChartData", function() { return getDistributionChartData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFilterDataMonthGrowth", function() { return getFilterDataMonthGrowth; });
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/service */ "./src/js/pages/performance/lib/service.js");
+
 const getDiffenrenceTableData = data => {
   return {
     title: 'differences between periods',
@@ -2559,6 +2594,21 @@ const getDiffenrenceTableData = data => {
 };
 const getDistributionChartData = data => {
   return {};
+};
+const getFilterDataMonthGrowth = ({
+  analyticData,
+  selectedPeriod,
+  selectedCurrency
+}) => {
+  const filter = _lib_service__WEBPACK_IMPORTED_MODULE_0__["generalService"].getFilterDataMonthGrowth({
+    analyticData,
+    selectedPeriod
+  });
+  return { ...filter,
+    ...{
+      currencies: [selectedCurrency]
+    }
+  };
 };
 
 /***/ }),
