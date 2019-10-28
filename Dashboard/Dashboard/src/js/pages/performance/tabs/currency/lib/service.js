@@ -1,28 +1,37 @@
 import { generalService } from '../../../lib/service';
+import { diffenrenceTableRowDataConst } from './constants';
 
 export const getDiffenrenceTableData = data => {
+  const header = [
+    'Difference',
+    ...data.map(_ => _.name)
+  ];
+
+  const rows = diffenrenceTableRowDataConst.map(_ => ({
+    id: _.id,
+    name: _.name,
+    data: data.map(__ =>  __[_.propertyName])
+  }));
+
   return {
     title: 'differences between periods',
-    header: ['Difference', 'THB', 'KRW', "USD", 'SGD', 'THB', 'Others'],
-    data: [{
-      "perspectiveName": "Tablet",
-      "total": 128728.23,
-      "changePercent": 4428620.25
-    }, {
-      "perspectiveName": "Tablet",
-      "total": 128728.23,
-      "changePercent": 4428620.25
-    }, {
-      "perspectiveName": "Tablet",
-      "total": 128728.23,
-      "changePercent": 4428620.25
-    }]
+    header,
+    data: rows
   }
 }
 
 export const getDistributionChartData = data => {
+  const labels = data.map(_ => _.name);
+  const currentPeriodDistributions = data[1].distributions;
+  const stackedChartData = currentPeriodDistributions.map(_ => {
+    return {
+        name: _.name,
+        dataSet: getDistributionDataSet(data, _.name)
+      }
+  })
   return {
-
+    labels,
+    stackedChartData,
   }
 }
 
@@ -32,4 +41,12 @@ export const getFilterDataMonthGrowth = ({ analyticData, selectedPeriod, selecte
     ...filter,
     ...{ currencies: [selectedCurrency] }
   }
+}
+
+const getDistributionDataSet = (data, distributionName) => {
+  const dataSet = data.map(__ => {
+    const distribution = __.distributions.find(distribution => distribution.name === distributionName);
+    return distribution.percent
+  })
+  return dataSet;
 }

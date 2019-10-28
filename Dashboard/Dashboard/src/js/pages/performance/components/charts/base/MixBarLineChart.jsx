@@ -10,6 +10,8 @@ const buildLineChartDataSet = lineChartData => {
     label: lineChartData.name,
     type: 'line',
     lineTension: 0,
+    pointRadius: 2,
+    borderWidth: 2,
     data: lineChartData.dataSet,
     fill: false,
     borderColor: lineChartData.color || defaultColorLineChart,
@@ -70,7 +72,7 @@ const drawTextToTopChart = function () {
 }
 
 const buildMixChartOption = ({ labels, barChartData }) => {
-  const barWidthObj = barChartData[0].dataSet.length >= 6 ? { barPercentage: 0.9 } : { barPercentage: 0.4 };
+  const barWidthObj = barChartData[0].dataSet.length >= 6 ? { barPercentage: 0.9, categoryPercentage: 0.5 } : { barPercentage: 0.4, categoryPercentage: 0.5 };
   const leftAxisName = barChartData[0].name;
 
   return {

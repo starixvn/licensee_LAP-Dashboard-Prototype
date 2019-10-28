@@ -1,13 +1,17 @@
-import OverviewTab from '../tabs/overview/OverviewTab';
-import CurrencyTab from '../tabs/currency/CurrencyTab';
 import { getCurrentTime } from '../../../lib/constants';
 import { getPeriodByNumberOfLastMonths, getPreviousPeriod } from '../../../lib/dateTimeHelper';
 
+export const MEASUREMENT_ID = {
+  'TURNOVER': 1,
+  'GROSS_PROFIT': 2,
+  'MARGIN': 3
+}
+
 export const defaultData = {
   measurements: [
-    { id: 1, name: 'Turnover' },
-    { id: 2, name: 'Gross Profit' },
-    { id: 3, name: 'Margin' },
+    { id: MEASUREMENT_ID.TURNOVER, name: 'Turnover' },
+    { id: MEASUREMENT_ID.GROSS_PROFIT, name: 'Gross Profit' },
+    { id: MEASUREMENT_ID.MARGIN, name: 'Margin' },
   ],
   getComparePeriods: () => {
     const currentPeriod = getPeriodByNumberOfLastMonths(getCurrentTime(), 3);
@@ -23,8 +27,3 @@ export const tabMenuKey = {
   overview: 'overview',
   currency: 'currency'
 }
-
-export const tabMenuList = [
-  { key: tabMenuKey.overview, name: 'Overview', component: OverviewTab },
-  { key: tabMenuKey.currency, name: 'Currency', component: CurrencyTab }
-]

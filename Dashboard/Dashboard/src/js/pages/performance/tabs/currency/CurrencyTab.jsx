@@ -27,54 +27,36 @@ export class CurrencyTab extends Component {
   }
 
   _renderDifferenceTable() {
-    const data = getDiffenrenceTableData(null);
+    const { measurementDifferenceData } = this.props.analyticData;
+    if(!measurementDifferenceData) {
+      return null;
+    }
+    const data = getDiffenrenceTableData(measurementDifferenceData);
     return <ComparisonTable
       {...data}
-      renderRow={(item, index) => <tr key={`table_comparison_row_${index}_${item.perspectiveName}`}>
-        <td>{item.perspectiveName}</td>
-        <td><div><ValueChangeIcon value={item.changePercent} /> <span>{'5%'}</span></div>{item.perspectiveName}</td>
-        <td><ValueChangeIcon value={item.changePercent} />{item.perspectiveName}</td>
-        <td><ValueChangeIcon value={item.changePercent} />{item.perspectiveName}</td>
-        <td><ValueChangeIcon value={item.changePercent} />{item.perspectiveName}</td>
-        <td><ValueChangeIcon value={item.changePercent} />{item.perspectiveName}</td>
-        <td><ValueChangeIcon value={item.changePercent} />{item.perspectiveName}</td>
+      renderRow={(rowData, index) => <tr key={`table_comparison_row_${index}_${rowData}`}>
+        <td><span>{rowData.name}</span></td>
+        {rowData.data.map(_ => {
+          const differenceDistribution = rowData.id === 3 ? _.differenceTotal : _.differenceDistribution;
+          const differenceTotal = rowData.id === 3 ? null : _.differenceTotal;
+          return <td>
+          <div className="m-b-5 m-t-5"><ValueChangeIcon value={differenceDistribution} /><span>{differenceDistribution + '%'}</span></div>
+            {differenceTotal}
+          </td>
+        })}
       </tr>}
     />;
   }
 
   _renderDistributionChart() {
-    const chartData = getDistributionChartData(null);
-    const barChartData = [
-      {
-        name: 'USD',
-        dataSet: [0, 50]
-      },
-      {
-        name: 'SGD',
-        dataSet: [0, -10]
-      },
-      {
-        name: 'HKD',
-        dataSet: [10, 30]
-      },
-      {
-        name: 'THB',
-        dataSet: [10, 10]
-      },
-      {
-        name: 'CNY',
-        dataSet: [10, 10]
-      },
-      {
-        name: 'Others',
-        dataSet: [10, 10]
-      }
-    ];
-    const labels = ['Previous Period', 'Current Period'];
-
+    const { distributionData } = this.props.analyticData;
+    if(!distributionData) {
+      return null;
+    }
+    const { labels, stackedChartData } = getDistributionChartData(distributionData);
     return <DistributionChart
       title={'Turnover Distribution'}
-      barChartData={barChartData}
+      barChartData={stackedChartData}
       labels={labels}
     />
   }
@@ -117,7 +99,7 @@ export class CurrencyTab extends Component {
       return growthData['periodGrowth'];
     } else {
       const field = this._getDrillDownField();
-      let drillDownData = growthData['monthGrowth'][field];
+      const drillDownData = growthData['monthGrowth'][field];
       return drillDownData;
     }
   }
@@ -126,9 +108,8 @@ export class CurrencyTab extends Component {
     const { selectedDrillDownCategory, selectedDrillDownDataset } = this.state;
     const { analyticData } = this.props;
 
-    const period = analyticData[growthChartConsts[selectedDrillDownDataset]['periodField']];
-    const field = selectedDrillDownCategory + '_' + period.fromMonth + '_' + period.toMonth;
-
+    const selectedPeriod = analyticData[growthChartConsts[selectedDrillDownDataset]['periodField']];
+    const field = generalService.getFieldMonthGrowth(selectedDrillDownCategory, selectedPeriod);
     return field;
   }
 

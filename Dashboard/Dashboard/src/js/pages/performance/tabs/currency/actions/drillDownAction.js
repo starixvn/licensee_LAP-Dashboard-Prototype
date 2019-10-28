@@ -6,7 +6,6 @@ export const getDrillDownData = (filterData, field) => {
    return async (dispatch) => {
         dispatch(setLoading(true));
         try {
-          setTimeout(async () => {
             const responseData = await getMonthGrowthData(filterData);
             const data = {
               handlerData: state => {
@@ -17,12 +16,10 @@ export const getDrillDownData = (filterData, field) => {
               }
             }
             dispatch(setAnalyticData(data));
-            dispatch(setLoading(false));
-          }, 500)
-
         } catch(error) {
-          console.log('error', error.message)
+          console.log('error', error.message);
         }
-        console.log('filter', filterData)
+        dispatch(setLoading(false));
+        console.log('filter', filterData);
     }
 }

@@ -31,7 +31,13 @@
   clear: both; }
 
 .m-l-5 {
-  margin-left: 10px; }
+  margin-left: 5px; }
+
+.m-b-5 {
+  margin-bottom: 5px; }
+
+.m-t-5 {
+  margin-top: 5px; }
 
 .disabled {
   pointer-events: none; }

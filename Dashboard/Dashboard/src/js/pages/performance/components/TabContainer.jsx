@@ -1,6 +1,13 @@
 import React, { Suspense } from 'react';
-import { tabMenuList } from '../lib/constants';
 import TabMenu from '../../dashboard/components/TabMenu';
+import { tabMenuKey } from '../lib/constants';
+import OverviewTab from '../tabs/overview/OverviewTab';
+import CurrencyTab from '../tabs/currency/CurrencyTab';
+
+const tabMenuList = [
+  { key: tabMenuKey.overview, name: 'Overview', component: OverviewTab },
+  { key: tabMenuKey.currency, name: 'Currency', component: CurrencyTab }
+];
 
 class TabContainer extends React.PureComponent {
   constructor(props) {
