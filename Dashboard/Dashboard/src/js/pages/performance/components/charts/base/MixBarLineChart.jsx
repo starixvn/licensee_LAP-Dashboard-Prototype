@@ -71,10 +71,8 @@ const drawTextToTopChart = function () {
   });
 }
 
-const buildMixChartOption = ({ labels, barChartData }) => {
+const buildMixChartOption = ({ labels, barChartData, leftAxisName, rightAxisName }) => {
   const barWidthObj = barChartData[0].dataSet.length >= 6 ? { barPercentage: 0.9, categoryPercentage: 0.5 } : { barPercentage: 0.4, categoryPercentage: 0.5 };
-  const leftAxisName = barChartData[0].name;
-
   return {
     onClick: function (e, item) {
       const activeElement = this.getElementAtEvent(e);
@@ -185,8 +183,7 @@ const buildMixChartOption = ({ labels, barChartData }) => {
           },
           scaleLabel: {
             display: true,
-
-            labelString: 'Growth rate(%)'
+            labelString: rightAxisName
           },
           ticks: {
             beginAtZero: true
@@ -203,9 +200,9 @@ export default class MixBarLineChart extends Component {
   }
 
   _renderChart() {
-    const { lineChartData, barChartData, labels } = this.props;
+    const { lineChartData, barChartData, labels, leftAxisName, rightAxisName} = this.props;
     const data = buildMixChartDataSet({ lineChartData, barChartData });
-    const options = buildMixChartOption({ labels, barChartData });
+    const options = buildMixChartOption({ labels, barChartData, leftAxisName, rightAxisName });
 
     return <Bar
       data={data}

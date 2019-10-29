@@ -1146,7 +1146,7 @@ class DistributionChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponen
   render() {
     const {
       title,
-      barChartData,
+      stackedChartData,
       labels
     } = this.props;
     const {
@@ -1161,7 +1161,7 @@ class DistributionChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponen
     }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "info-zone-body"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_base_StackedBarChart__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      barChartData: barChartData,
+      stackedChartData: stackedChartData,
       labels: labels
     })));
   }
@@ -1226,7 +1226,8 @@ class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
       title,
       lineChartData,
       barChartData,
-      labels
+      labels,
+      leftAxisName
     } = this.props;
     const {
       style
@@ -1243,8 +1244,283 @@ class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
       header: this._renderHeaderChart,
       lineChartData: lineChartData,
       barChartData: barChartData,
+      leftAxisName: leftAxisName,
+      rightAxisName: 'Growth rate(%)',
       labels: labels
     })));
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/components/charts/OverallChart.jsx":
+/*!*********************************************************************!*\
+  !*** ./src/js/pages/performance/components/charts/OverallChart.jsx ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return OverallChart; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _base_BarChart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./base/BarChart */ "./src/js/pages/performance/components/charts/base/BarChart.jsx");
+
+
+class OverallChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
+  constructor(props) {
+    super(props);
+    this.state = {
+      style: {}
+    };
+    this.refSelf = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+  }
+
+  componentDidMount() {
+    const {
+      getStyle
+    } = this.props;
+    getStyle && this.setState({
+      style: getStyle(this.refSelf)
+    });
+  }
+
+  render() {
+    const {
+      title,
+      barChartData,
+      labels
+    } = this.props;
+    const {
+      style
+    } = this.state;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "info-zone-container",
+      ref: this.refSelf,
+      style: style
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "info-zone-header"
+    }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "info-zone-body"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_base_BarChart__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      barChartData: barChartData,
+      labels: labels,
+      hideLegend: true
+    })));
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/components/charts/base/BarChart.jsx":
+/*!**********************************************************************!*\
+  !*** ./src/js/pages/performance/components/charts/base/BarChart.jsx ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return BarChart; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_chartjs_2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-chartjs-2 */ "./node_modules/react-chartjs-2/es/index.js");
+/* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
+
+
+
+const defaultColorBarChart = ['#208E9B'];
+
+const buildBarChartDataSet = barChartData => {
+  return barChartData.map((_, index) => {
+    return {
+      type: 'bar',
+      label: _.name,
+      data: _.dataSet,
+      fill: false,
+      backgroundColor: _.color || defaultColorBarChart[index],
+      borderColor: _.color || defaultColorBarChart[index],
+      hoverBackgroundColor: _.color || defaultColorBarChart[index],
+      hoverBorderColor: _.color || defaultColorBarChart[index],
+      yAxisID: 'y-axis-1'
+    };
+  });
+};
+
+const buildChartDataSet = barChartData => {
+  const barChartDataSet = buildBarChartDataSet(barChartData);
+  return {
+    datasets: [...barChartDataSet]
+  };
+};
+
+const drawTextToTopChart = function () {
+  const self = this,
+        chart = this.chart,
+        ctx = chart.ctx;
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#555";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  self.data.datasets.forEach(function (dataset, datasetIndex) {
+    const meta = self.getDatasetMeta(datasetIndex);
+    meta.data.forEach(function (element, elementIndex) {
+      const value = dataset.data[elementIndex];
+      const text = value + '%';
+      const yOffset = value > 0 ? 6 : -7;
+      const xLabel = element._model.x - element._model.width / 2;
+      ctx.fillText(text, xLabel, element._model.y - yOffset);
+    });
+  });
+};
+
+const buildChartOption = ({
+  labels,
+  barChartData,
+  hideLegend
+}) => {
+  const barWidthObj = barChartData[0].dataSet.length >= 6 ? {
+    barPercentage: 0.9,
+    categoryPercentage: 0.5
+  } : {
+    barPercentage: 0.4,
+    categoryPercentage: 0.5
+  };
+  const leftAxisName = barChartData[0].name || '';
+  return {
+    onClick: function (e, item) {
+      const activeElement = this.getElementAtEvent(e);
+
+      if (activeElement && activeElement.length > 0 && activeElement[0]._datasetIndex) {
+        const datasetIndex = activeElement[0]._datasetIndex - 1;
+        const events = barChartData[datasetIndex].events;
+        const eventClicks = events ? events.click : null;
+
+        if (eventClicks && eventClicks.length > 0) {
+          const colIndex = item[0]._index;
+          const eventClick = eventClicks.find(_ => _.columnIndex === colIndex);
+          eventClick && eventClick.callBack && eventClick.callBack();
+        }
+      }
+    },
+    onHover: (event, chartElement) => {
+      event.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
+    },
+    tooltips: {
+      callbacks: {
+        label: function (tooltipItem, data) {
+          const dataSet = data.datasets[tooltipItem.datasetIndex];
+
+          if (dataSet.type === 'bar') {
+            return _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__["default"].formatDecimal(dataSet.data[tooltipItem.index]);
+          }
+
+          return tooltipItem.value;
+        }
+      }
+    },
+    responsive: true,
+    elements: {
+      line: {
+        fill: false
+      }
+    },
+    hover: {
+      animationDuration: 0
+    },
+    legend: {
+      display: !hideLegend,
+      position: 'bottom',
+      labels: {
+        filter: function (item) {
+          return !item.hidden;
+        },
+        usePointStyle: true,
+        boxWidth: 8,
+        padding: 20
+      },
+      onClick: e => e.stopPropagation()
+    },
+    animation: {
+      onComplete: drawTextToTopChart
+    },
+    layout: {
+      padding: {
+        top: 20,
+        bottom: 20
+      }
+    },
+    scales: {
+      xAxes: [{ ...barWidthObj,
+        ...{
+          display: true,
+          gridLines: {
+            display: false
+          },
+          labels: {
+            show: true
+          },
+          labels: labels
+        }
+      }],
+      yAxes: [{
+        type: 'linear',
+        display: true,
+        position: 'left',
+        id: 'y-axis-1',
+        labels: {
+          show: true
+        },
+        scaleLabel: {
+          display: true,
+          fontSize: 13,
+          fontFamily: "'Roboto'",
+          labelString: leftAxisName
+        },
+        ticks: {
+          beginAtZero: true,
+          callback: function (value) {
+            return _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__["default"].nFormatter(value);
+          }
+        }
+      }]
+    }
+  };
+};
+
+class BarChart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+  }
+
+  _renderChart() {
+    const {
+      barChartData,
+      labels,
+      hideLegend
+    } = this.props;
+    const data = buildChartDataSet(barChartData);
+    const options = buildChartOption({
+      labels,
+      barChartData,
+      hideLegend
+    });
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_1__["Bar"], {
+      data: data,
+      options: options
+    });
+  }
+
+  render() {
+    const {
+      header
+    } = this.props;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "chart-container"
+    }, header && header(), this._renderChart());
   }
 
 }
@@ -1341,7 +1617,9 @@ const drawTextToTopChart = function () {
 
 const buildMixChartOption = ({
   labels,
-  barChartData
+  barChartData,
+  leftAxisName,
+  rightAxisName
 }) => {
   const barWidthObj = barChartData[0].dataSet.length >= 6 ? {
     barPercentage: 0.9,
@@ -1350,7 +1628,6 @@ const buildMixChartOption = ({
     barPercentage: 0.4,
     categoryPercentage: 0.5
   };
-  const leftAxisName = barChartData[0].name;
   return {
     onClick: function (e, item) {
       const activeElement = this.getElementAtEvent(e);
@@ -1460,7 +1737,7 @@ const buildMixChartOption = ({
         },
         scaleLabel: {
           display: true,
-          labelString: 'Growth rate(%)'
+          labelString: rightAxisName
         },
         ticks: {
           beginAtZero: true
@@ -1479,7 +1756,9 @@ class MixBarLineChart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     const {
       lineChartData,
       barChartData,
-      labels
+      labels,
+      leftAxisName,
+      rightAxisName
     } = this.props;
     const data = buildMixChartDataSet({
       lineChartData,
@@ -1487,7 +1766,9 @@ class MixBarLineChart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     });
     const options = buildMixChartOption({
       labels,
-      barChartData
+      barChartData,
+      leftAxisName,
+      rightAxisName
     });
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_1__["Bar"], {
       data: data,
@@ -1527,9 +1808,9 @@ __webpack_require__.r(__webpack_exports__);
 
 const defaultColorBarChart = ['#2B465B', '#37C2CC', '#F15D21', '#F1A837', '#208E9B', '#4C6375'];
 
-const buildChartDataSet = barChartData => {
+const buildChartDataSet = stackedChartData => {
   return {
-    datasets: barChartData.map((_, index) => {
+    datasets: stackedChartData.map((_, index) => {
       return {
         type: 'bar',
         label: _.name,
@@ -1569,10 +1850,8 @@ const drawTextToTopChart = function () {
 };
 
 const buildChartOption = ({
-  labels,
-  barChartData
+  labels
 }) => {
-  const leftAxisName = barChartData[0].name;
   return {
     tooltips: {
       callbacks: {
@@ -1632,23 +1911,6 @@ const buildChartOption = ({
         }
       }],
       yAxes: [{
-        display: true,
-        position: 'left',
-        labels: {
-          show: true
-        },
-        scaleLabel: {
-          display: true,
-          fontSize: 13,
-          fontFamily: "'Roboto'",
-          labelString: leftAxisName
-        },
-        ticks: {
-          beginAtZero: true,
-          callback: function (value) {
-            return _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__["default"].nFormatter(value);
-          }
-        },
         stacked: true
       }]
     }
@@ -1662,13 +1924,12 @@ class StackedBarChart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
   _renderChart() {
     const {
-      barChartData,
+      stackedChartData,
       labels
     } = this.props;
-    const data = buildChartDataSet(barChartData);
+    const data = buildChartDataSet(stackedChartData);
     const options = buildChartOption({
-      labels,
-      barChartData
+      labels
     });
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_1__["Bar"], {
       data: data,
@@ -2189,14 +2450,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _currency_actions_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../currency/actions/index */ "./src/js/pages/performance/tabs/currency/actions/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _components_charts_DistributionChart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/charts/DistributionChart */ "./src/js/pages/performance/components/charts/DistributionChart.jsx");
-/* harmony import */ var _components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/charts/GrowthChart */ "./src/js/pages/performance/components/charts/GrowthChart.jsx");
-/* harmony import */ var _components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../components/normal/ValueChangeIcon */ "./src/js/pages/performance/components/normal/ValueChangeIcon.jsx");
-/* harmony import */ var _components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../components/normal/ComparisonTable */ "./src/js/pages/performance/components/normal/ComparisonTable.jsx");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./lib/constants */ "./src/js/pages/performance/tabs/currency/lib/constants.js");
-/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./lib/service */ "./src/js/pages/performance/tabs/currency/lib/service.js");
-/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../lib/service */ "./src/js/pages/performance/lib/service.js");
+/* harmony import */ var _components_charts_OverallChart__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/charts/OverallChart */ "./src/js/pages/performance/components/charts/OverallChart.jsx");
+/* harmony import */ var _components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../components/charts/GrowthChart */ "./src/js/pages/performance/components/charts/GrowthChart.jsx");
+/* harmony import */ var _components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../components/normal/ValueChangeIcon */ "./src/js/pages/performance/components/normal/ValueChangeIcon.jsx");
+/* harmony import */ var _components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../components/normal/ComparisonTable */ "./src/js/pages/performance/components/normal/ComparisonTable.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./lib/constants */ "./src/js/pages/performance/tabs/currency/lib/constants.js");
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./lib/service */ "./src/js/pages/performance/tabs/currency/lib/service.js");
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../lib/service */ "./src/js/pages/performance/lib/service.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 
 
 
@@ -2234,16 +2497,16 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       return null;
     }
 
-    const data = Object(_lib_service__WEBPACK_IMPORTED_MODULE_11__["getDiffenrenceTableData"])(measurementDifferenceData);
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({}, data, {
+    const data = Object(_lib_service__WEBPACK_IMPORTED_MODULE_12__["getDiffenrenceTableData"])(measurementDifferenceData);
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_9__["default"], _extends({}, data, {
       renderRow: (rowData, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         key: `table_comparison_row_${index}_${rowData}`
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, rowData.name)), rowData.data.map(_ => {
-        const differenceDistribution = rowData.id === 3 ? _.differenceTotal : _.differenceDistribution;
-        const differenceTotal = rowData.id === 3 ? null : _.differenceTotal;
+        const differenceDistribution = rowData.id === _lib_constants__WEBPACK_IMPORTED_MODULE_10__["MEASUREMENT_ID"].MARGIN ? _.differenceTotal : _.differenceDistribution;
+        const differenceTotal = rowData.id === _lib_constants__WEBPACK_IMPORTED_MODULE_10__["MEASUREMENT_ID"].MARGIN ? null : _.differenceTotal;
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "m-b-5 m-t-5"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_8__["default"], {
           value: differenceDistribution
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, differenceDistribution + '%')), differenceTotal);
       }))
@@ -2252,29 +2515,44 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
   _renderDistributionChart() {
     const {
-      distributionData
+      distributionData,
+      measurementId
     } = this.props.analyticData;
 
     if (!distributionData) {
       return null;
     }
 
+    const measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_10__["defaultData"].measurements.find(_ => _.id === measurementId) || {};
     const {
       labels,
       stackedChartData
-    } = Object(_lib_service__WEBPACK_IMPORTED_MODULE_11__["getDistributionChartData"])(distributionData);
+    } = Object(_lib_service__WEBPACK_IMPORTED_MODULE_12__["getDistributionChartData"])(distributionData);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_DistributionChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      title: 'Turnover Distribution',
-      barChartData: stackedChartData,
+      title: measurement.name + ' Distribution',
+      stackedChartData: stackedChartData,
       labels: labels
     });
+  }
+
+  _renderOverallChart() {
+    const {
+      overallMarginData
+    } = this.props.analyticData;
+
+    if (!overallMarginData) {
+      return null;
+    }
+
+    const data = Object(_lib_service__WEBPACK_IMPORTED_MODULE_12__["getOverallChartData"])(overallMarginData);
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_OverallChart__WEBPACK_IMPORTED_MODULE_6__["default"], data);
   }
 
   _renderGrowthChart() {
     const {
       measurementId
     } = this.props.analyticData;
-    const measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_9__["defaultData"].measurements.find(_ => _.id === measurementId) || {};
+    const measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_10__["defaultData"].measurements.find(_ => _.id === measurementId) || {};
     const {
       isPeriodGrowthDataType,
       selectedDrillDownCategory,
@@ -2289,12 +2567,13 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
     const barChartData = this._getBarChartData(growthChartData, labels, measurement);
 
-    const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ` - ${selectedDrillDownCategory} - ${_lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset].periodName}`}`;
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ` - ${selectedDrillDownCategory} - ${_lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset].periodName}`}`;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_7__["default"], {
       title: title,
       barChartData: barChartData,
       lineChartData: lineChartData,
       labels: labels,
+      leftAxisName: measurement.name,
       showBackIcon: !isPeriodGrowthDataType,
       backToDefaultChart: () => this.setState({
         isPeriodGrowthDataType: true
@@ -2331,8 +2610,8 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     const {
       analyticData
     } = this.props;
-    const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
-    const field = _lib_service__WEBPACK_IMPORTED_MODULE_12__["generalService"].getFieldMonthGrowth(selectedDrillDownCategory, selectedPeriod);
+    const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
+    const field = _lib_service__WEBPACK_IMPORTED_MODULE_13__["generalService"].getFieldMonthGrowth(selectedDrillDownCategory, selectedPeriod);
     return field;
   }
 
@@ -2347,12 +2626,12 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     const {
       growthData
     } = analyticData;
-    const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
-    const field = _lib_service__WEBPACK_IMPORTED_MODULE_12__["generalService"].getFieldMonthGrowth(selectedDrillDownCategory, selectedPeriod);
+    const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
+    const field = _lib_service__WEBPACK_IMPORTED_MODULE_13__["generalService"].getFieldMonthGrowth(selectedDrillDownCategory, selectedPeriod);
     const drillDownData = growthData['monthGrowth'][field];
 
     if (!drillDownData) {
-      const filterData = Object(_lib_service__WEBPACK_IMPORTED_MODULE_11__["getFilterDataMonthGrowth"])({
+      const filterData = Object(_lib_service__WEBPACK_IMPORTED_MODULE_12__["getFilterDataMonthGrowth"])({
         analyticData,
         selectedPeriod,
         selectedCurrency: selectedDrillDownCategory
@@ -2369,7 +2648,7 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     } = this.state;
 
     if (isPeriodGrowthDataType) {
-      return _lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"].map((_, datasetIndex) => {
+      return _lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"].map((_, datasetIndex) => {
         return {
           name: _.periodName,
           dataSet: growthChartData.map(__ => __[_.periodFieldName]),
@@ -2393,7 +2672,7 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       return [{
         name: selectedDrillDownCategory + ' ' + measurement.name,
         dataSet: growthChartData.map(_ => _.total),
-        color: _lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset].columnColor
+        color: _lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset].columnColor
       }, {
         hidden: true,
         dataSet: []
@@ -2407,12 +2686,12 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     } = this.props.analyticData;
     return measurementId ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "child-tab currency-tab",
-      style: _lib_service__WEBPACK_IMPORTED_MODULE_12__["generalService"].getScrollTabStyle()
+      style: _lib_service__WEBPACK_IMPORTED_MODULE_13__["generalService"].getScrollTabStyle()
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "side-tab-left"
     }, this._renderGrowthChart()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "side-tab-right"
-    }, this._renderDifferenceTable(), this._renderDistributionChart())) : null;
+    }, this._renderDifferenceTable(), measurementId === _lib_constants__WEBPACK_IMPORTED_MODULE_10__["MEASUREMENT_ID"].MARGIN ? this._renderOverallChart() : this._renderDistributionChart())) : null;
   }
 
 }
@@ -2581,13 +2860,14 @@ const diffenrenceTableRowDataConst = [{
 /*!***************************************************************!*\
   !*** ./src/js/pages/performance/tabs/currency/lib/service.js ***!
   \***************************************************************/
-/*! exports provided: getDiffenrenceTableData, getDistributionChartData, getFilterDataMonthGrowth */
+/*! exports provided: getDiffenrenceTableData, getDistributionChartData, getOverallChartData, getFilterDataMonthGrowth */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDiffenrenceTableData", function() { return getDiffenrenceTableData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDistributionChartData", function() { return getDistributionChartData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOverallChartData", function() { return getOverallChartData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFilterDataMonthGrowth", function() { return getFilterDataMonthGrowth; });
 /* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/service */ "./src/js/pages/performance/lib/service.js");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./src/js/pages/performance/tabs/currency/lib/constants.js");
@@ -2618,6 +2898,18 @@ const getDistributionChartData = data => {
   return {
     labels,
     stackedChartData
+  };
+};
+const getOverallChartData = data => {
+  const labels = data.map(_ => _.name);
+  const barChartData = [{
+    dataSet: data.map(_ => _.total)
+  }];
+  const title = 'Overall Margin Growth';
+  return {
+    labels,
+    barChartData,
+    title
   };
 };
 const getFilterDataMonthGrowth = ({
@@ -2797,6 +3089,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       barChartData: barChartData,
       lineChartData: lineChartData,
       labels: labels,
+      leftAxisName: measurement.name,
       showBackIcon: !isPeriodGrowthDataType,
       backToDefaultChart: () => this.setState({
         isPeriodGrowthDataType: true

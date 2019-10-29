@@ -94,6 +94,7 @@ class OverviewTab extends Component {
       barChartData={barChartData}
       lineChartData={lineChartData}
       labels={labels}
+      leftAxisName={measurement.name}
       showBackIcon={!isPeriodGrowthDataType}
       backToDefaultChart={() => this.setState({ isPeriodGrowthDataType: true })}
     />;

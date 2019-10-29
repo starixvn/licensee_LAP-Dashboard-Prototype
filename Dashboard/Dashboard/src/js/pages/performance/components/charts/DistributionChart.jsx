@@ -18,7 +18,7 @@ export default class DistributionChart extends PureComponent {
   }
 
   render() {
-    const { title, barChartData, labels } = this.props;
+    const { title, stackedChartData, labels } = this.props;
     const { style } = this.state;
 
     return (
@@ -28,7 +28,7 @@ export default class DistributionChart extends PureComponent {
         </div>
         <div className="info-zone-body">
           <StackedBarChart
-            barChartData={barChartData}
+            stackedChartData={stackedChartData}
             labels={labels}
           />
         </div>

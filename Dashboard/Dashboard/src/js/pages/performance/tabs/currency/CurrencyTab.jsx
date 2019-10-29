@@ -4,12 +4,13 @@ import { setAnalyticData } from '../../actions/analyticDataAction';
 import currencyTabAction from '../currency/actions/index';
 import { connect } from 'react-redux';
 import DistributionChart from '../../components/charts/DistributionChart';
+import OverallChart from '../../components/charts/OverallChart';
 import GrowthChart from '../../components/charts/GrowthChart';
 import ValueChangeIcon from '../../components/normal/ValueChangeIcon';
 import ComparisonTable from '../../components/normal/ComparisonTable';
-import { defaultData } from '../../lib/constants';
+import { defaultData, MEASUREMENT_ID } from '../../lib/constants';
 import { growthChartConsts } from './lib/constants';
-import { getDiffenrenceTableData, getDistributionChartData, getFilterDataMonthGrowth } from './lib/service';
+import { getDiffenrenceTableData, getDistributionChartData, getFilterDataMonthGrowth, getOverallChartData } from './lib/service';
 import { generalService } from '../../lib/service';
 
 export class CurrencyTab extends Component {
@@ -37,8 +38,8 @@ export class CurrencyTab extends Component {
       renderRow={(rowData, index) => <tr key={`table_comparison_row_${index}_${rowData}`}>
         <td><span>{rowData.name}</span></td>
         {rowData.data.map(_ => {
-          const differenceDistribution = rowData.id === 3 ? _.differenceTotal : _.differenceDistribution;
-          const differenceTotal = rowData.id === 3 ? null : _.differenceTotal;
+          const differenceDistribution = rowData.id === MEASUREMENT_ID.MARGIN ? _.differenceTotal : _.differenceDistribution;
+          const differenceTotal = rowData.id === MEASUREMENT_ID.MARGIN ? null : _.differenceTotal;
           return <td>
           <div className="m-b-5 m-t-5"><ValueChangeIcon value={differenceDistribution} /><span>{differenceDistribution + '%'}</span></div>
             {differenceTotal}
@@ -49,15 +50,28 @@ export class CurrencyTab extends Component {
   }
 
   _renderDistributionChart() {
-    const { distributionData } = this.props.analyticData;
+    const { distributionData, measurementId} = this.props.analyticData;
     if(!distributionData) {
       return null;
     }
+    const measurement = defaultData.measurements.find(_ => _.id === measurementId) || {};
     const { labels, stackedChartData } = getDistributionChartData(distributionData);
+
     return <DistributionChart
-      title={'Turnover Distribution'}
-      barChartData={stackedChartData}
+      title={measurement.name + ' Distribution'}
+      stackedChartData={stackedChartData}
       labels={labels}
+    />
+  }
+
+  _renderOverallChart() {
+    const { overallMarginData } = this.props.analyticData;
+    if(!overallMarginData) {
+      return null;
+    }
+    const data = getOverallChartData(overallMarginData);
+    return <OverallChart
+      {...data}
     />
   }
 
@@ -67,16 +81,12 @@ export class CurrencyTab extends Component {
     const { isPeriodGrowthDataType, selectedDrillDownCategory, selectedDrillDownDataset } = this.state;
 
     const growthChartData = this._getGrowthChartData() || [];
-
     const labels = growthChartData.map(_ => _.name);
-
     const lineChartData = {
       name: 'Growth',
       dataSet: growthChartData.map(_ => _.growthPercent)
     };
-
     const barChartData = this._getBarChartData(growthChartData, labels, measurement);
-
     const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' :
       ` - ${selectedDrillDownCategory} - ${growthChartConsts[selectedDrillDownDataset].periodName}`}`;
 
@@ -85,6 +95,7 @@ export class CurrencyTab extends Component {
       barChartData={barChartData}
       lineChartData={lineChartData}
       labels={labels}
+      leftAxisName={measurement.name}
       showBackIcon={!isPeriodGrowthDataType}
       backToDefaultChart={() => this.setState({ isPeriodGrowthDataType: true })}
     />;
@@ -168,7 +179,7 @@ export class CurrencyTab extends Component {
         </div>
         <div className="side-tab-right">
           {this._renderDifferenceTable()}
-          {this._renderDistributionChart()}
+          {measurementId === MEASUREMENT_ID.MARGIN ? this._renderOverallChart() : this._renderDistributionChart()}
         </div>
       </div>
     ) : null;

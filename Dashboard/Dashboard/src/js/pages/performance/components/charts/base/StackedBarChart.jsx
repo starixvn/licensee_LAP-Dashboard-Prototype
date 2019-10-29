@@ -4,9 +4,9 @@ import numberFormat from '../../../../../lib/numberFormat';
 
 const defaultColorBarChart = ['#2B465B', '#37C2CC', '#F15D21', '#F1A837', '#208E9B', '#4C6375'];
 
-const buildChartDataSet = barChartData => {
+const buildChartDataSet = stackedChartData => {
   return {
-    datasets: barChartData.map((_, index) => {
+    datasets: stackedChartData.map((_, index) => {
       return {
         type: 'bar',
         label: _.name,
@@ -45,9 +45,7 @@ const drawTextToTopChart = function() {
   });
 }
 
-const buildChartOption = ({ labels, barChartData }) => {
-  const leftAxisName = barChartData[0].name;
-
+const buildChartOption = ({ labels }) => {
   return {
     tooltips: {
       callbacks: {
@@ -107,23 +105,6 @@ const buildChartOption = ({ labels, barChartData }) => {
       ],
       yAxes: [
         {
-          display: true,
-          position: 'left',
-          labels: {
-            show: true
-          },
-          scaleLabel: {
-            display: true,
-            fontSize: 13,
-            fontFamily: "'Roboto'",
-            labelString: leftAxisName
-          },
-          ticks: {
-            beginAtZero: true,
-            callback: function (value) {
-              return numberFormat.nFormatter(value);
-            }
-          },
           stacked: true
         }
       ]
@@ -137,9 +118,9 @@ export default class StackedBarChart extends Component {
   }
 
   _renderChart() {
-    const { barChartData, labels } = this.props;
-    const data = buildChartDataSet(barChartData);
-    const options = buildChartOption({ labels, barChartData });
+    const { stackedChartData, labels } = this.props;
+    const data = buildChartDataSet(stackedChartData);
+    const options = buildChartOption({ labels });
     return <Bar
       data={data}
       options={options}

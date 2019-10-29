@@ -6,11 +6,10 @@ export const getDiffenrenceTableData = data => {
     'Difference',
     ...data.map(_ => _.name)
   ];
-
   const rows = diffenrenceTableRowDataConst.map(_ => ({
     id: _.id,
     name: _.name,
-    data: data.map(__ =>  __[_.propertyName])
+    data: data.map(__ => __[_.propertyName])
   }));
 
   return {
@@ -25,13 +24,26 @@ export const getDistributionChartData = data => {
   const currentPeriodDistributions = data[1].distributions;
   const stackedChartData = currentPeriodDistributions.map(_ => {
     return {
-        name: _.name,
-        dataSet: getDistributionDataSet(data, _.name)
-      }
+      name: _.name,
+      dataSet: getDistributionDataSet(data, _.name)
+    }
   })
   return {
     labels,
     stackedChartData,
+  }
+}
+
+export const getOverallChartData = data => {
+  const labels = data.map(_ => _.name);
+  const barChartData = [{
+    dataSet: data.map(_ => _.total)
+  }];
+  const title = 'Overall Margin Growth';
+  return {
+    labels,
+    barChartData,
+    title
   }
 }
 
