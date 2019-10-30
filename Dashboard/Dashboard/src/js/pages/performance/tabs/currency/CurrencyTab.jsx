@@ -19,7 +19,7 @@ export class CurrencyTab extends Component {
     this.state = {
       isPeriodGrowthDataType: true,
       selectedDrillDownDataset: 0,
-      selectedDrillDownName: null
+      selectedDrillDownCurrency: {}
     }
   }
 
@@ -78,7 +78,7 @@ export class CurrencyTab extends Component {
   _renderGrowthChart() {
     const { measurementId } = this.props.analyticData;
     const measurement = defaultData.measurements.find(_ => _.id === measurementId) || {};
-    const { isPeriodGrowthDataType, selectedDrillDownCategory, selectedDrillDownDataset } = this.state;
+    const { isPeriodGrowthDataType, selectedDrillDownCurrency, selectedDrillDownDataset } = this.state;
 
     const growthChartData = this._getGrowthChartData() || [];
     const labels = growthChartData.map(_ => _.name);
@@ -86,9 +86,9 @@ export class CurrencyTab extends Component {
       name: 'Growth',
       dataSet: growthChartData.map(_ => _.growthPercent)
     };
-    const barChartData = this._getBarChartData(growthChartData, labels, measurement);
+    const barChartData = this._getBarChartData(growthChartData, measurement);
     const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' :
-      ` - ${selectedDrillDownCategory} - ${growthChartConsts[selectedDrillDownDataset].periodName}`}`;
+      ` - ${selectedDrillDownCurrency.name} - ${growthChartConsts[selectedDrillDownDataset].periodName}`}`;
 
     return <GrowthChart
       title={title}
@@ -116,44 +116,49 @@ export class CurrencyTab extends Component {
   }
 
   _getDrillDownField() {
-    const { selectedDrillDownCategory, selectedDrillDownDataset } = this.state;
+    const { selectedDrillDownCurrency, selectedDrillDownDataset } = this.state;
     const { analyticData } = this.props;
 
     const selectedPeriod = analyticData[growthChartConsts[selectedDrillDownDataset]['periodField']];
-    const field = generalService.getFieldMonthGrowth(selectedDrillDownCategory, selectedPeriod);
+    const field = generalService.getFieldMonthGrowth(selectedDrillDownCurrency.name, selectedPeriod);
     return field;
   }
 
   _handleDrillDownGrowthChart() {
-    const { selectedDrillDownCategory, selectedDrillDownDataset } = this.state;
+    const { selectedDrillDownCurrency, selectedDrillDownDataset } = this.state;
     const { analyticData } = this.props;
     const { growthData } = analyticData;
 
     const selectedPeriod = analyticData[growthChartConsts[selectedDrillDownDataset]['periodField']];
-    const field = generalService.getFieldMonthGrowth(selectedDrillDownCategory, selectedPeriod);
+    const field = generalService.getFieldMonthGrowth(selectedDrillDownCurrency.name, selectedPeriod);
     const drillDownData = growthData['monthGrowth'][field];
     if (!drillDownData) {
-      const filterData = getFilterDataMonthGrowth({ analyticData, selectedPeriod, selectedCurrency: selectedDrillDownCategory });
+      const filterData = getFilterDataMonthGrowth({ analyticData, selectedPeriod, selectedCurrency: selectedDrillDownCurrency });
       this.props.getDrillDownData(filterData, field);
     }
   }
 
-  _getBarChartData(growthChartData, labels, measurement) {
-    const { isPeriodGrowthDataType, selectedDrillDownCategory, selectedDrillDownDataset } = this.state;
+  _getBarChartData(growthChartData, measurement) {
+    const { isPeriodGrowthDataType, selectedDrillDownCurrency, selectedDrillDownDataset } = this.state;
     if (isPeriodGrowthDataType) {
       return growthChartConsts.map((_, datasetIndex) => {
         return {
           name: _.periodName,
           dataSet: growthChartData.map(__ => __[_.periodFieldName]),
           events: {
-            click: labels.map((__, colIndex) => {
+            click: growthChartData.map((periodData, colIndex) => {
+              const drillDownCurrency = {
+                id: periodData.id,
+                name: periodData.name,
+                identifies: periodData[_.identifyFieldName]
+              }
               return {
                 columnIndex: colIndex,
                 callBack: () => {
                   this.setState({
                     isPeriodGrowthDataType: false,
                     selectedDrillDownDataset: datasetIndex,
-                    selectedDrillDownCategory: __
+                    selectedDrillDownCurrency: drillDownCurrency,
                   }, this._handleDrillDownGrowthChart)
                 }
               }
@@ -163,7 +168,7 @@ export class CurrencyTab extends Component {
       })
     } else {
       return [{
-        name: selectedDrillDownCategory + ' ' + measurement.name,
+        name: selectedDrillDownCurrency.name + ' ' + measurement.name,
         dataSet: growthChartData.map(_ => _.total),
         color: growthChartConsts[selectedDrillDownDataset].columnColor
       }, { hidden: true, dataSet: [] }];

@@ -2480,7 +2480,7 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     this.state = {
       isPeriodGrowthDataType: true,
       selectedDrillDownDataset: 0,
-      selectedDrillDownName: null
+      selectedDrillDownCurrency: {}
     };
   }
 
@@ -2555,7 +2555,7 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     const measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_10__["defaultData"].measurements.find(_ => _.id === measurementId) || {};
     const {
       isPeriodGrowthDataType,
-      selectedDrillDownCategory,
+      selectedDrillDownCurrency,
       selectedDrillDownDataset
     } = this.state;
     const growthChartData = this._getGrowthChartData() || [];
@@ -2565,9 +2565,9 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       dataSet: growthChartData.map(_ => _.growthPercent)
     };
 
-    const barChartData = this._getBarChartData(growthChartData, labels, measurement);
+    const barChartData = this._getBarChartData(growthChartData, measurement);
 
-    const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ` - ${selectedDrillDownCategory} - ${_lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset].periodName}`}`;
+    const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ` - ${selectedDrillDownCurrency.name} - ${_lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset].periodName}`}`;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_7__["default"], {
       title: title,
       barChartData: barChartData,
@@ -2604,20 +2604,20 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
   _getDrillDownField() {
     const {
-      selectedDrillDownCategory,
+      selectedDrillDownCurrency,
       selectedDrillDownDataset
     } = this.state;
     const {
       analyticData
     } = this.props;
     const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
-    const field = _lib_service__WEBPACK_IMPORTED_MODULE_13__["generalService"].getFieldMonthGrowth(selectedDrillDownCategory, selectedPeriod);
+    const field = _lib_service__WEBPACK_IMPORTED_MODULE_13__["generalService"].getFieldMonthGrowth(selectedDrillDownCurrency.name, selectedPeriod);
     return field;
   }
 
   _handleDrillDownGrowthChart() {
     const {
-      selectedDrillDownCategory,
+      selectedDrillDownCurrency,
       selectedDrillDownDataset
     } = this.state;
     const {
@@ -2627,23 +2627,23 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       growthData
     } = analyticData;
     const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
-    const field = _lib_service__WEBPACK_IMPORTED_MODULE_13__["generalService"].getFieldMonthGrowth(selectedDrillDownCategory, selectedPeriod);
+    const field = _lib_service__WEBPACK_IMPORTED_MODULE_13__["generalService"].getFieldMonthGrowth(selectedDrillDownCurrency.name, selectedPeriod);
     const drillDownData = growthData['monthGrowth'][field];
 
     if (!drillDownData) {
       const filterData = Object(_lib_service__WEBPACK_IMPORTED_MODULE_12__["getFilterDataMonthGrowth"])({
         analyticData,
         selectedPeriod,
-        selectedCurrency: selectedDrillDownCategory
+        selectedCurrency: selectedDrillDownCurrency
       });
       this.props.getDrillDownData(filterData, field);
     }
   }
 
-  _getBarChartData(growthChartData, labels, measurement) {
+  _getBarChartData(growthChartData, measurement) {
     const {
       isPeriodGrowthDataType,
-      selectedDrillDownCategory,
+      selectedDrillDownCurrency,
       selectedDrillDownDataset
     } = this.state;
 
@@ -2653,14 +2653,19 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
           name: _.periodName,
           dataSet: growthChartData.map(__ => __[_.periodFieldName]),
           events: {
-            click: labels.map((__, colIndex) => {
+            click: growthChartData.map((periodData, colIndex) => {
+              const drillDownCurrency = {
+                id: periodData.id,
+                name: periodData.name,
+                identifies: periodData[_.identifyFieldName]
+              };
               return {
                 columnIndex: colIndex,
                 callBack: () => {
                   this.setState({
                     isPeriodGrowthDataType: false,
                     selectedDrillDownDataset: datasetIndex,
-                    selectedDrillDownCategory: __
+                    selectedDrillDownCurrency: drillDownCurrency
                   }, this._handleDrillDownGrowthChart);
                 }
               };
@@ -2670,7 +2675,7 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       });
     } else {
       return [{
-        name: selectedDrillDownCategory + ' ' + measurement.name,
+        name: selectedDrillDownCurrency.name + ' ' + measurement.name,
         dataSet: growthChartData.map(_ => _.total),
         color: _lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset].columnColor
       }, {
@@ -2723,12 +2728,13 @@ function mapStateToProps(state) {
 /*!***************************************************************************!*\
   !*** ./src/js/pages/performance/tabs/currency/actions/drillDownAction.js ***!
   \***************************************************************************/
-/*! exports provided: getDrillDownData */
+/*! exports provided: getDrillDownData, getAllDrillDownData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDrillDownData", function() { return getDrillDownData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllDrillDownData", function() { return getAllDrillDownData; });
 /* harmony import */ var _actions_loadingAction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../actions/loadingAction */ "./src/js/pages/performance/actions/loadingAction.js");
 /* harmony import */ var _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../actions/analyticDataAction */ "./src/js/pages/performance/actions/analyticDataAction.js");
 /* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/api */ "./src/js/pages/performance/tabs/currency/lib/api.js");
@@ -2754,7 +2760,23 @@ const getDrillDownData = (filterData, field) => {
     }
 
     dispatch(Object(_actions_loadingAction__WEBPACK_IMPORTED_MODULE_0__["setLoading"])(false));
-    console.log('filter', filterData);
+  };
+};
+const getAllDrillDownData = filterData => {
+  return async dispatch => {
+    try {
+      const responseData = await Object(_lib_api__WEBPACK_IMPORTED_MODULE_2__["getAllMonthGrowthData"])(filterData);
+      const data = {
+        handlerData: state => {
+          state['growthData']['monthGrowth'] = responseData;
+          return { ...state
+          };
+        }
+      };
+      dispatch(Object(_actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_1__["setAnalyticData"])(data));
+    } catch (error) {
+      console.log('error', error.message);
+    }
   };
 };
 
@@ -2779,13 +2801,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************************!*\
   !*** ./src/js/pages/performance/tabs/currency/lib/api.js ***!
   \***********************************************************/
-/*! exports provided: getCombineData, getMonthGrowthData */
+/*! exports provided: getCombineData, getMonthGrowthData, getAllMonthGrowthData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCombineData", function() { return getCombineData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMonthGrowthData", function() { return getMonthGrowthData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllMonthGrowthData", function() { return getAllMonthGrowthData; });
 /* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../lib/widgetApi */ "./src/js/lib/widgetApi.js");
 
 const getCombineData = async filterData => {
@@ -2795,11 +2818,11 @@ const getCombineData = async filterData => {
   });
   const response = await _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].postData(param);
 
-  if (response && response.data) {
+  if (response && response.data && response.data.isSuccess) {
     return response.data.data;
   }
 
-  return null;
+  return {};
 };
 const getMonthGrowthData = async filterData => {
   const param = Object.assign({}, _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].getCommonParam(4), {
@@ -2808,11 +2831,24 @@ const getMonthGrowthData = async filterData => {
   });
   const response = await _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].postData(param);
 
-  if (response && response.data) {
+  if (response && response.data && response.data.isSuccess) {
     return response.data.data;
   }
 
-  return null;
+  return [];
+};
+const getAllMonthGrowthData = async filterData => {
+  const param = Object.assign({}, _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].getCommonParam(4), {
+    Data: filterData,
+    Url: '/api/performance/currency/all-month-growth'
+  });
+  const response = await _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].postData(param);
+
+  if (response && response.data && response.data.isSuccess) {
+    return response.data.data;
+  }
+
+  return {};
 };
 
 /***/ }),
@@ -2833,11 +2869,13 @@ __webpack_require__.r(__webpack_exports__);
 const growthChartConsts = [{
   periodName: 'Previous Period',
   periodFieldName: 'previousPeriodTotal',
-  periodField: 'previousPeriod'
+  periodField: 'previousPeriod',
+  identifyFieldName: 'previousPeriodIdentifies'
 }, {
   periodName: 'Current Period',
   periodFieldName: 'currentPeriodTotal',
   periodField: 'currentPeriod',
+  identifyFieldName: 'currentPeriodIdentifies',
   columnColor: '#36A2EB'
 }];
 const diffenrenceTableRowDataConst = [{
@@ -2923,7 +2961,7 @@ const getFilterDataMonthGrowth = ({
   });
   return { ...filter,
     ...{
-      currencies: [selectedCurrency]
+      currencies: selectedCurrency.identifies.map(_ => _.name)
     }
   };
 };
@@ -3166,11 +3204,11 @@ const getCombineData = async filterData => {
   });
   const response = await _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].postData(param);
 
-  if (response && response.data) {
+  if (response && response.data && response.data.isSuccess) {
     return response.data.data;
   }
 
-  return null;
+  return {};
 };
 
 /***/ }),

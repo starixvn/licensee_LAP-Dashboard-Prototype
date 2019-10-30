@@ -4,12 +4,14 @@ export const growthChartConsts = [
   {
     periodName: 'Previous Period',
     periodFieldName: 'previousPeriodTotal',
-    periodField: 'previousPeriod'
+    periodField: 'previousPeriod',
+    identifyFieldName: 'previousPeriodIdentifies'
   },
   {
     periodName: 'Current Period',
     periodFieldName: 'currentPeriodTotal',
     periodField: 'currentPeriod',
+    identifyFieldName: 'currentPeriodIdentifies',
     columnColor: '#36A2EB'
   }
 ]

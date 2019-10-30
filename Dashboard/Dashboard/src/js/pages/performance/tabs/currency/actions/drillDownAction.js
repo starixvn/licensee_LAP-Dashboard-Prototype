@@ -1,6 +1,6 @@
 import { setLoading } from '../../../actions/loadingAction';
 import { setAnalyticData } from '../../../actions/analyticDataAction';
-import { getMonthGrowthData } from '../lib/api';
+import { getMonthGrowthData, getAllMonthGrowthData } from '../lib/api';
 
 export const getDrillDownData = (filterData, field) => {
    return async (dispatch) => {
@@ -20,6 +20,24 @@ export const getDrillDownData = (filterData, field) => {
           console.log('error', error.message);
         }
         dispatch(setLoading(false));
-        console.log('filter', filterData);
     }
+}
+
+export const getAllDrillDownData = filterData => {
+  return async (dispatch) => {
+       try {
+           const responseData = await getAllMonthGrowthData(filterData);
+           const data = {
+             handlerData: state => {
+               state['growthData']['monthGrowth'] = responseData
+               return {
+                 ...state
+               }
+             }
+           }
+           dispatch(setAnalyticData(data));
+       } catch(error) {
+         console.log('error', error.message);
+       }
+   }
 }

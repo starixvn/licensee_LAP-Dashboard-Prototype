@@ -51,7 +51,7 @@ export const getFilterDataMonthGrowth = ({ analyticData, selectedPeriod, selecte
   const filter = generalService.getFilterDataMonthGrowth({ analyticData, selectedPeriod })
   return {
     ...filter,
-    ...{ currencies: [selectedCurrency] }
+    ...{ currencies: selectedCurrency.identifies.map(_ => _.name) }
   }
 }
 
