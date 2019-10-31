@@ -18,8 +18,9 @@ export default class OverallChart extends PureComponent {
   }
 
   render() {
-    const { title, barChartData, labels } = this.props;
     const { style } = this.state;
+    const { title, overallData, dataMapper } = this.props;
+    const { labels, barChartData } = dataMapper(overallData);
 
     return (
       <div className="info-zone-container" ref={this.refSelf} style={style}>

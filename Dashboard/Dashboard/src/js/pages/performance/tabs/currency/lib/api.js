@@ -19,7 +19,7 @@ export const getMonthGrowthData = async (filterData) => {
 }
 
 export const getAllMonthGrowthData = async (filterData) => {
-  const param = Object.assign({}, widgetApi.getCommonParam(4), { Data: filterData, Url: '/api/performance/currency/all-month-growth' });
+  const param = Object.assign({}, widgetApi.getCommonParam(4), { Data: filterData, Url: '/api/performance/currency/month-growth-all' });
   const response = await widgetApi.postData(param);
   if (response && response.data && response.data.isSuccess) {
     return response.data.data;

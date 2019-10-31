@@ -39,7 +39,7 @@ const drawTextToTopChart = function() {
         const textWidth = ctx.measureText(text).width;
         const yOffset = value > 0 ? 10 : -10;
         const xLabel = element._model.x - textWidth/3;
-        ctx.fillText(text, xLabel, element._model.y + yOffset);
+        ctx.fillText(text, element._model.x, element._model.y);
       }
     });
   });

@@ -778,26 +778,44 @@ const getAnalyticData = (filterData, tabKey) => {
     dispatch(Object(_loadingAction__WEBPACK_IMPORTED_MODULE_1__["setLoading"])(true));
 
     try {
-      const data = await _lib_api__WEBPACK_IMPORTED_MODULE_2__["factoryApi"][tabKey](filterData);
+      const mainData = await _lib_api__WEBPACK_IMPORTED_MODULE_2__["factoryApi"][tabKey].mainApi(filterData);
       dispatch(setAnalyticData({
-        data
+        mainData
       }));
+      dispatch(getLazyData(mainData, filterData, tabKey));
     } catch (error) {
       console.log('error', error.message);
     }
 
     dispatch(Object(_loadingAction__WEBPACK_IMPORTED_MODULE_1__["setLoading"])(false));
-    console.log('filter', filterData);
   };
 };
+
+const getLazyData = (mainData, filterData, tabKey) => {
+  const lazyApi = _lib_api__WEBPACK_IMPORTED_MODULE_2__["factoryApi"][tabKey].lazyApi;
+
+  if (!lazyApi) {
+    return {};
+  }
+
+  return async dispatch => {
+    try {
+      const data = await lazyApi(mainData, filterData);
+      dispatch(setAnalyticData(data));
+    } catch (error) {
+      console.log('error', error.message);
+    }
+  };
+};
+
 const setAnalyticData = ({
-  data,
+  mainData,
   handlerData
 }) => {
   return {
     type: _types__WEBPACK_IMPORTED_MODULE_0__["SET_ANALYTIC_DATA"],
     ...{
-      data,
+      mainData,
       handlerData
     }
   };
@@ -1055,7 +1073,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
 /* harmony import */ var _tabs_overview_OverviewTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../tabs/overview/OverviewTab */ "./src/js/pages/performance/tabs/overview/OverviewTab.jsx");
 /* harmony import */ var _tabs_currency_CurrencyTab__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../tabs/currency/CurrencyTab */ "./src/js/pages/performance/tabs/currency/CurrencyTab.jsx");
+/* harmony import */ var _tabs_product_ProductTab__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../tabs/product/ProductTab */ "./src/js/pages/performance/tabs/product/ProductTab.jsx");
+/* harmony import */ var _tabs_bettype_BettypeTab__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../tabs/bettype/BettypeTab */ "./src/js/pages/performance/tabs/bettype/BettypeTab.jsx");
+/* harmony import */ var _tabs_platform_PlatformTab__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../tabs/platform/PlatformTab */ "./src/js/pages/performance/tabs/platform/PlatformTab.jsx");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
 
 
 
@@ -1070,6 +1094,18 @@ const tabMenuList = [{
   key: _lib_constants__WEBPACK_IMPORTED_MODULE_2__["tabMenuKey"].currency,
   name: 'Currency',
   component: _tabs_currency_CurrencyTab__WEBPACK_IMPORTED_MODULE_4__["default"]
+}, {
+  key: _lib_constants__WEBPACK_IMPORTED_MODULE_2__["tabMenuKey"].product,
+  name: 'Product',
+  component: _tabs_product_ProductTab__WEBPACK_IMPORTED_MODULE_5__["default"]
+}, {
+  key: _lib_constants__WEBPACK_IMPORTED_MODULE_2__["tabMenuKey"].bettype,
+  name: 'Bettype',
+  component: _tabs_bettype_BettypeTab__WEBPACK_IMPORTED_MODULE_6__["default"]
+}, {
+  key: _lib_constants__WEBPACK_IMPORTED_MODULE_2__["tabMenuKey"].platform,
+  name: 'Platform',
+  component: _tabs_platform_PlatformTab__WEBPACK_IMPORTED_MODULE_7__["default"]
 }];
 
 class TabContainer extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
@@ -1145,13 +1181,17 @@ class DistributionChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponen
 
   render() {
     const {
-      title,
-      stackedChartData,
-      labels
-    } = this.props;
-    const {
       style
     } = this.state;
+    const {
+      title,
+      distributionData,
+      dataMapper
+    } = this.props;
+    const {
+      labels,
+      stackedChartData
+    } = dataMapper(distributionData);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "info-zone-container",
       ref: this.refSelf,
@@ -1289,13 +1329,17 @@ class OverallChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
 
   render() {
     const {
-      title,
-      barChartData,
-      labels
-    } = this.props;
-    const {
       style
     } = this.state;
+    const {
+      title,
+      overallData,
+      dataMapper
+    } = this.props;
+    const {
+      labels,
+      barChartData
+    } = dataMapper(overallData);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "info-zone-container",
       ref: this.refSelf,
@@ -1371,7 +1415,8 @@ const drawTextToTopChart = function () {
       const value = dataset.data[elementIndex];
       const text = value + '%';
       const yOffset = value > 0 ? 6 : -7;
-      const xLabel = element._model.x - element._model.width / 2;
+      const textWidth = ctx.measureText(text).width;
+      const xLabel = element._model.x - textWidth / 2;
       ctx.fillText(text, xLabel, element._model.y - yOffset);
     });
   });
@@ -1843,7 +1888,7 @@ const drawTextToTopChart = function () {
         const textWidth = ctx.measureText(text).width;
         const yOffset = value > 0 ? 10 : -10;
         const xLabel = element._model.x - textWidth / 3;
-        ctx.fillText(text, xLabel, element._model.y + yOffset);
+        ctx.fillText(text, element._model.x, element._model.y);
       }
     });
   });
@@ -2180,12 +2225,42 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const factoryApi = {
-  [_lib_constants__WEBPACK_IMPORTED_MODULE_0__["tabMenuKey"].overview]: filterData => {
-    return _tabs_overview_lib_api__WEBPACK_IMPORTED_MODULE_1__["getCombineData"](filterData);
+  [_lib_constants__WEBPACK_IMPORTED_MODULE_0__["tabMenuKey"].overview]: {
+    mainApi: filterData => {
+      return _tabs_overview_lib_api__WEBPACK_IMPORTED_MODULE_1__["getCombineData"](filterData);
+    },
+    lazyApi: null
   },
-  [_lib_constants__WEBPACK_IMPORTED_MODULE_0__["tabMenuKey"].currency]: filterData => {
-    return _tabs_currency_lib_api__WEBPACK_IMPORTED_MODULE_2__["getCombineData"](filterData);
+  [_lib_constants__WEBPACK_IMPORTED_MODULE_0__["tabMenuKey"].currency]: {
+    mainApi: filterData => {
+      return _tabs_currency_lib_api__WEBPACK_IMPORTED_MODULE_2__["getCombineData"](filterData);
+    },
+    lazyApi: async (mainData, filterData) => {
+      const topDistributions = mapToTopDistributions(mainData['growthData']['periodGrowth']);
+      const lazyFilterData = { ...filterData,
+        ...{
+          topDistributions
+        }
+      };
+      const responseData = await _tabs_currency_lib_api__WEBPACK_IMPORTED_MODULE_2__["getAllMonthGrowthData"](lazyFilterData);
+      const data = {
+        handlerData: state => {
+          state['growthData']['monthGrowth'] = responseData;
+          return state;
+        }
+      };
+      return data;
+    }
   }
+};
+
+const mapToTopDistributions = data => {
+  return data.map(_ => ({
+    displayId: _.id,
+    displayName: _.name,
+    previousPeriodDistributions: _.currentPeriodDistributions,
+    currentPeriodDistributions: _.previousPeriodDistributions
+  }));
 };
 
 /***/ }),
@@ -2233,7 +2308,10 @@ const defaultData = {
 };
 const tabMenuKey = {
   overview: 'overview',
-  currency: 'currency'
+  currency: 'currency',
+  product: 'product',
+  bettype: 'bettype',
+  platform: 'platform'
 };
 
 /***/ }),
@@ -2340,17 +2418,16 @@ __webpack_require__.r(__webpack_exports__);
 const analyticData = Object(_lib_createReducer__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
   [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_ANALYTIC_DATA"]](state, action) {
     const {
-      data,
+      mainData,
       handlerData
     } = action;
 
     if (handlerData) {
       const newData = handlerData(state);
-      return { ...newData
-      };
+      return newData;
     }
 
-    return data || {};
+    return mainData || {};
   }
 
 });
@@ -2433,6 +2510,64 @@ const isLoading = Object(_lib_createReducer__WEBPACK_IMPORTED_MODULE_0__["defaul
 
 /***/ }),
 
+/***/ "./src/js/pages/performance/tabs/bettype/BettypeTab.jsx":
+/*!**************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/bettype/BettypeTab.jsx ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/analyticDataAction */ "./src/js/pages/performance/actions/analyticDataAction.js");
+
+
+
+
+
+class BettypeTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPeriodGrowthDataType: true,
+      selectedDrillDownColumn: 0,
+      selectedDrillDownColumnName: ''
+    };
+  }
+
+  componentDidMount() {
+    this.props.setAnalyticData({});
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, 'Bettype tab');
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(Object.assign({}, {
+    setAnalyticData: _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_3__["setAnalyticData"]
+  }), dispatch);
+}
+
+function mapStateToProps(state) {
+  const {
+    analyticData
+  } = state;
+  return Object.assign({}, {
+    analyticData
+  });
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps)(BettypeTab));
+
+/***/ }),
+
 /***/ "./src/js/pages/performance/tabs/currency/CurrencyTab.jsx":
 /*!****************************************************************!*\
   !*** ./src/js/pages/performance/tabs/currency/CurrencyTab.jsx ***!
@@ -2474,7 +2609,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 
 
-class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
   constructor(props) {
     super(props);
     this.state = {
@@ -2482,6 +2617,8 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       selectedDrillDownDataset: 0,
       selectedDrillDownCurrency: {}
     };
+    this.prevMeasurementDifferenceData = null;
+    this.prevDistributionData = null;
   }
 
   componentDidMount() {
@@ -2524,14 +2661,10 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     }
 
     const measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_10__["defaultData"].measurements.find(_ => _.id === measurementId) || {};
-    const {
-      labels,
-      stackedChartData
-    } = Object(_lib_service__WEBPACK_IMPORTED_MODULE_12__["getDistributionChartData"])(distributionData);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_DistributionChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      distributionData: distributionData,
       title: measurement.name + ' Distribution',
-      stackedChartData: stackedChartData,
-      labels: labels
+      dataMapper: _lib_service__WEBPACK_IMPORTED_MODULE_12__["getDistributionChartData"]
     });
   }
 
@@ -2544,8 +2677,11 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       return null;
     }
 
-    const data = Object(_lib_service__WEBPACK_IMPORTED_MODULE_12__["getOverallChartData"])(overallMarginData);
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_OverallChart__WEBPACK_IMPORTED_MODULE_6__["default"], data);
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_OverallChart__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      title: 'Overall margin growth',
+      overallData: overallMarginData,
+      dataMapper: _lib_service__WEBPACK_IMPORTED_MODULE_12__["getOverallChartData"]
+    });
   }
 
   _renderGrowthChart() {
@@ -2615,31 +2751,6 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     return field;
   }
 
-  _handleDrillDownGrowthChart() {
-    const {
-      selectedDrillDownCurrency,
-      selectedDrillDownDataset
-    } = this.state;
-    const {
-      analyticData
-    } = this.props;
-    const {
-      growthData
-    } = analyticData;
-    const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
-    const field = _lib_service__WEBPACK_IMPORTED_MODULE_13__["generalService"].getFieldMonthGrowth(selectedDrillDownCurrency.name, selectedPeriod);
-    const drillDownData = growthData['monthGrowth'][field];
-
-    if (!drillDownData) {
-      const filterData = Object(_lib_service__WEBPACK_IMPORTED_MODULE_12__["getFilterDataMonthGrowth"])({
-        analyticData,
-        selectedPeriod,
-        selectedCurrency: selectedDrillDownCurrency
-      });
-      this.props.getDrillDownData(filterData, field);
-    }
-  }
-
   _getBarChartData(growthChartData, measurement) {
     const {
       isPeriodGrowthDataType,
@@ -2657,7 +2768,7 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
               const drillDownCurrency = {
                 id: periodData.id,
                 name: periodData.name,
-                identifies: periodData[_.identifyFieldName]
+                distributions: periodData[_.distributionFieldName]
               };
               return {
                 columnIndex: colIndex,
@@ -2682,6 +2793,31 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
         hidden: true,
         dataSet: []
       }];
+    }
+  }
+
+  _handleDrillDownGrowthChart() {
+    const {
+      selectedDrillDownCurrency,
+      selectedDrillDownDataset
+    } = this.state;
+    const {
+      analyticData
+    } = this.props;
+    const {
+      growthData
+    } = analyticData;
+    const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_11__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
+    const field = _lib_service__WEBPACK_IMPORTED_MODULE_13__["generalService"].getFieldMonthGrowth(selectedDrillDownCurrency.name, selectedPeriod);
+    const drillDownData = growthData['monthGrowth'][field];
+
+    if (!drillDownData) {
+      const filterData = Object(_lib_service__WEBPACK_IMPORTED_MODULE_12__["getFilterDataMonthGrowth"])({
+        analyticData,
+        selectedPeriod,
+        selectedCurrency: selectedDrillDownCurrency
+      });
+      this.props.getDrillDownData(filterData, field);
     }
   }
 
@@ -2728,13 +2864,12 @@ function mapStateToProps(state) {
 /*!***************************************************************************!*\
   !*** ./src/js/pages/performance/tabs/currency/actions/drillDownAction.js ***!
   \***************************************************************************/
-/*! exports provided: getDrillDownData, getAllDrillDownData */
+/*! exports provided: getDrillDownData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDrillDownData", function() { return getDrillDownData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllDrillDownData", function() { return getAllDrillDownData; });
 /* harmony import */ var _actions_loadingAction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../actions/loadingAction */ "./src/js/pages/performance/actions/loadingAction.js");
 /* harmony import */ var _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../actions/analyticDataAction */ "./src/js/pages/performance/actions/analyticDataAction.js");
 /* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/api */ "./src/js/pages/performance/tabs/currency/lib/api.js");
@@ -2760,23 +2895,6 @@ const getDrillDownData = (filterData, field) => {
     }
 
     dispatch(Object(_actions_loadingAction__WEBPACK_IMPORTED_MODULE_0__["setLoading"])(false));
-  };
-};
-const getAllDrillDownData = filterData => {
-  return async dispatch => {
-    try {
-      const responseData = await Object(_lib_api__WEBPACK_IMPORTED_MODULE_2__["getAllMonthGrowthData"])(filterData);
-      const data = {
-        handlerData: state => {
-          state['growthData']['monthGrowth'] = responseData;
-          return { ...state
-          };
-        }
-      };
-      dispatch(Object(_actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_1__["setAnalyticData"])(data));
-    } catch (error) {
-      console.log('error', error.message);
-    }
   };
 };
 
@@ -2840,7 +2958,7 @@ const getMonthGrowthData = async filterData => {
 const getAllMonthGrowthData = async filterData => {
   const param = Object.assign({}, _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].getCommonParam(4), {
     Data: filterData,
-    Url: '/api/performance/currency/all-month-growth'
+    Url: '/api/performance/currency/month-growth-all'
   });
   const response = await _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].postData(param);
 
@@ -2870,12 +2988,12 @@ const growthChartConsts = [{
   periodName: 'Previous Period',
   periodFieldName: 'previousPeriodTotal',
   periodField: 'previousPeriod',
-  identifyFieldName: 'previousPeriodIdentifies'
+  distributionFieldName: 'previousPeriodDistributions'
 }, {
   periodName: 'Current Period',
   periodFieldName: 'currentPeriodTotal',
   periodField: 'currentPeriod',
-  identifyFieldName: 'currentPeriodIdentifies',
+  distributionFieldName: 'currentPeriodDistributions',
   columnColor: '#36A2EB'
 }];
 const diffenrenceTableRowDataConst = [{
@@ -2909,6 +3027,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFilterDataMonthGrowth", function() { return getFilterDataMonthGrowth; });
 /* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/service */ "./src/js/pages/performance/lib/service.js");
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./src/js/pages/performance/tabs/currency/lib/constants.js");
+/* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
+
 
 
 const getDiffenrenceTableData = data => {
@@ -2925,7 +3045,7 @@ const getDiffenrenceTableData = data => {
   };
 };
 const getDistributionChartData = data => {
-  const labels = data.map(_ => _.name);
+  const labels = data.map(_ => _.name + '  ' + _lib_numberFormat__WEBPACK_IMPORTED_MODULE_2__["default"].nFormatter(_.total));
   const currentPeriodDistributions = data[1].distributions;
   const stackedChartData = currentPeriodDistributions.map(_ => {
     return {
@@ -2943,11 +3063,9 @@ const getOverallChartData = data => {
   const barChartData = [{
     dataSet: data.map(_ => _.total)
   }];
-  const title = 'Overall Margin Growth';
   return {
     labels,
-    barChartData,
-    title
+    barChartData
   };
 };
 const getFilterDataMonthGrowth = ({
@@ -2961,7 +3079,7 @@ const getFilterDataMonthGrowth = ({
   });
   return { ...filter,
     ...{
-      currencies: selectedCurrency.identifies.map(_ => _.name)
+      currencies: selectedCurrency.distributions.map(_ => _.name)
     }
   };
 };
@@ -3250,6 +3368,122 @@ const getMajorChangeList = measurementId => {
     data: []
   }];
 };
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/platform/PlatformTab.jsx":
+/*!****************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/platform/PlatformTab.jsx ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/analyticDataAction */ "./src/js/pages/performance/actions/analyticDataAction.js");
+
+
+
+
+
+class PlatformTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPeriodGrowthDataType: true,
+      selectedDrillDownColumn: 0,
+      selectedDrillDownColumnName: ''
+    };
+  }
+
+  componentDidMount() {
+    this.props.setAnalyticData({});
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, 'Platform tab');
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(Object.assign({}, {
+    setAnalyticData: _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_3__["setAnalyticData"]
+  }), dispatch);
+}
+
+function mapStateToProps(state) {
+  const {
+    analyticData
+  } = state;
+  return Object.assign({}, {
+    analyticData
+  });
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps)(PlatformTab));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/product/ProductTab.jsx":
+/*!**************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/product/ProductTab.jsx ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/analyticDataAction */ "./src/js/pages/performance/actions/analyticDataAction.js");
+
+
+
+
+
+class ProductTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPeriodGrowthDataType: true,
+      selectedDrillDownColumn: 0,
+      selectedDrillDownColumnName: ''
+    };
+  }
+
+  componentDidMount() {
+    this.props.setAnalyticData({});
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, 'Product tab');
+  }
+
+}
+
+function mapDispatchToProps(dispatch) {
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(Object.assign({}, {
+    setAnalyticData: _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_3__["setAnalyticData"]
+  }), dispatch);
+}
+
+function mapStateToProps(state) {
+  const {
+    analyticData
+  } = state;
+  return Object.assign({}, {
+    analyticData
+  });
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps)(ProductTab));
 
 /***/ })
 

@@ -1,5 +1,6 @@
 import { generalService } from '../../../lib/service';
 import { diffenrenceTableRowDataConst } from './constants';
+import numberFormat from '../../../../../lib/numberFormat';
 
 export const getDiffenrenceTableData = data => {
   const header = [
@@ -20,7 +21,7 @@ export const getDiffenrenceTableData = data => {
 }
 
 export const getDistributionChartData = data => {
-  const labels = data.map(_ => _.name);
+  const labels = data.map(_ => _.name + '  ' + numberFormat.nFormatter(_.total));
   const currentPeriodDistributions = data[1].distributions;
   const stackedChartData = currentPeriodDistributions.map(_ => {
     return {
@@ -39,11 +40,9 @@ export const getOverallChartData = data => {
   const barChartData = [{
     dataSet: data.map(_ => _.total)
   }];
-  const title = 'Overall Margin Growth';
   return {
     labels,
-    barChartData,
-    title
+    barChartData
   }
 }
 
@@ -51,7 +50,7 @@ export const getFilterDataMonthGrowth = ({ analyticData, selectedPeriod, selecte
   const filter = generalService.getFilterDataMonthGrowth({ analyticData, selectedPeriod })
   return {
     ...filter,
-    ...{ currencies: selectedCurrency.identifies.map(_ => _.name) }
+    ...{ currencies: selectedCurrency.distributions.map(_ => _.name) }
   }
 }
 

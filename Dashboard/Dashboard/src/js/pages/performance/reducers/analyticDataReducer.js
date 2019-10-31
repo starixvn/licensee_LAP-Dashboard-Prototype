@@ -3,13 +3,11 @@ import * as types from '../actions/types.js'
 
 export const analyticData = createReducer({}, {
   [types.SET_ANALYTIC_DATA](state, action) {
-    const { data, handlerData } = action;
+    const { mainData, handlerData } = action;
     if (handlerData) {
       const newData = handlerData(state);
-      return {
-        ...newData
-      }
+      return newData;
     }
-    return data || {};
+    return mainData || {};
   }
 });

@@ -18,8 +18,9 @@ export default class DistributionChart extends PureComponent {
   }
 
   render() {
-    const { title, stackedChartData, labels } = this.props;
     const { style } = this.state;
+    const { title,  distributionData, dataMapper } = this.props;
+    const { labels, stackedChartData } = dataMapper(distributionData);
 
     return (
       <div className="info-zone-container" ref={this.refSelf} style={style}>

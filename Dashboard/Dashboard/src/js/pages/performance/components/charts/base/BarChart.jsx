@@ -42,7 +42,8 @@ const drawTextToTopChart = function () {
       const value = dataset.data[elementIndex];
       const text = value + '%';
       const yOffset = value > 0 ? 6 : -7;
-      const xLabel = element._model.x - element._model.width / 2;
+      const textWidth = ctx.measureText(text).width;
+      const xLabel = element._model.x - textWidth/2;
       ctx.fillText(text, xLabel, element._model.y - yOffset);
     });
   });

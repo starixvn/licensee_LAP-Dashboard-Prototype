@@ -25,5 +25,8 @@ export const defaultData = {
 
 export const tabMenuKey = {
   overview: 'overview',
-  currency: 'currency'
+  currency: 'currency',
+  product: 'product',
+  bettype: 'bettype',
+  platform: 'platform'
 }

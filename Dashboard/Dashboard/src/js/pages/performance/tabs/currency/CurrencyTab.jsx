@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { setAnalyticData } from '../../actions/analyticDataAction';
 import currencyTabAction from '../currency/actions/index';
@@ -13,7 +13,7 @@ import { growthChartConsts } from './lib/constants';
 import { getDiffenrenceTableData, getDistributionChartData, getFilterDataMonthGrowth, getOverallChartData } from './lib/service';
 import { generalService } from '../../lib/service';
 
-export class CurrencyTab extends Component {
+export class CurrencyTab extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +21,9 @@ export class CurrencyTab extends Component {
       selectedDrillDownDataset: 0,
       selectedDrillDownCurrency: {}
     }
+    this.prevMeasurementDifferenceData = null;
+    this.prevDistributionData = null;
+
   }
 
   componentDidMount() {
@@ -32,6 +35,7 @@ export class CurrencyTab extends Component {
     if(!measurementDifferenceData) {
       return null;
     }
+
     const data = getDiffenrenceTableData(measurementDifferenceData);
     return <ComparisonTable
       {...data}
@@ -55,12 +59,10 @@ export class CurrencyTab extends Component {
       return null;
     }
     const measurement = defaultData.measurements.find(_ => _.id === measurementId) || {};
-    const { labels, stackedChartData } = getDistributionChartData(distributionData);
-
     return <DistributionChart
+      distributionData={distributionData}
       title={measurement.name + ' Distribution'}
-      stackedChartData={stackedChartData}
-      labels={labels}
+      dataMapper={getDistributionChartData}
     />
   }
 
@@ -69,9 +71,10 @@ export class CurrencyTab extends Component {
     if(!overallMarginData) {
       return null;
     }
-    const data = getOverallChartData(overallMarginData);
     return <OverallChart
-      {...data}
+      title={'Overall margin growth'}
+      overallData={overallMarginData}
+      dataMapper={getOverallChartData}
     />
   }
 
@@ -124,20 +127,6 @@ export class CurrencyTab extends Component {
     return field;
   }
 
-  _handleDrillDownGrowthChart() {
-    const { selectedDrillDownCurrency, selectedDrillDownDataset } = this.state;
-    const { analyticData } = this.props;
-    const { growthData } = analyticData;
-
-    const selectedPeriod = analyticData[growthChartConsts[selectedDrillDownDataset]['periodField']];
-    const field = generalService.getFieldMonthGrowth(selectedDrillDownCurrency.name, selectedPeriod);
-    const drillDownData = growthData['monthGrowth'][field];
-    if (!drillDownData) {
-      const filterData = getFilterDataMonthGrowth({ analyticData, selectedPeriod, selectedCurrency: selectedDrillDownCurrency });
-      this.props.getDrillDownData(filterData, field);
-    }
-  }
-
   _getBarChartData(growthChartData, measurement) {
     const { isPeriodGrowthDataType, selectedDrillDownCurrency, selectedDrillDownDataset } = this.state;
     if (isPeriodGrowthDataType) {
@@ -150,7 +139,7 @@ export class CurrencyTab extends Component {
               const drillDownCurrency = {
                 id: periodData.id,
                 name: periodData.name,
-                identifies: periodData[_.identifyFieldName]
+                distributions: periodData[_.distributionFieldName]
               }
               return {
                 columnIndex: colIndex,
@@ -172,6 +161,21 @@ export class CurrencyTab extends Component {
         dataSet: growthChartData.map(_ => _.total),
         color: growthChartConsts[selectedDrillDownDataset].columnColor
       }, { hidden: true, dataSet: [] }];
+    }
+  }
+
+
+  _handleDrillDownGrowthChart() {
+    const { selectedDrillDownCurrency, selectedDrillDownDataset } = this.state;
+    const { analyticData } = this.props;
+    const { growthData } = analyticData;
+
+    const selectedPeriod = analyticData[growthChartConsts[selectedDrillDownDataset]['periodField']];
+    const field = generalService.getFieldMonthGrowth(selectedDrillDownCurrency.name, selectedPeriod);
+    const drillDownData = growthData['monthGrowth'][field];
+    if (!drillDownData) {
+      const filterData = getFilterDataMonthGrowth({ analyticData, selectedPeriod, selectedCurrency: selectedDrillDownCurrency });
+      this.props.getDrillDownData(filterData, field);
     }
   }
 
