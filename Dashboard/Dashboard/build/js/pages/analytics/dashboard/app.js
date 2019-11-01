@@ -335,7 +335,7 @@ class DashboardApp extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     });
 
     this.state = {
-      selectedTabMenu: _lib_constants__WEBPACK_IMPORTED_MODULE_3__["performance"]
+      selectedTabMenu: _lib_constants__WEBPACK_IMPORTED_MODULE_3__["summary"]
     };
   }
 

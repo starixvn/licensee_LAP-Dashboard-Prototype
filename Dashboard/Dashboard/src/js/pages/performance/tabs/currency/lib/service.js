@@ -1,44 +1,47 @@
+import React from 'react';
 import { generalService } from '../../../lib/service';
 import { diffenrenceTableRowDataConst } from './constants';
 import numberFormat from '../../../../../lib/numberFormat';
+import ValueChangeIcon from '../../../components/normal/ValueChangeIcon';
+import { MEASUREMENT_ID } from '../../../lib/constants';
 
-export const getDiffenrenceTableData = data => {
+export const getDiffenrenceTableData = measurementDifferenceData => {
   const header = [
     'Difference',
-    ...data.map(_ => _.name)
+    ...measurementDifferenceData.map(_ => _.name)
   ];
   const rows = diffenrenceTableRowDataConst.map(_ => ({
     id: _.id,
     name: _.name,
-    data: data.map(__ => __[_.propertyName])
+    data: measurementDifferenceData.map(__ => __[_.propertyName])
   }));
 
   return {
     title: 'differences between periods',
     header,
-    data: rows
+    data: rows,
+    renderRow: renderDiffenrenceTableRow
   }
 }
 
-export const getDistributionChartData = data => {
-  const labels = data.map(_ => _.name + '  ' + numberFormat.nFormatter(_.total));
-  const currentPeriodDistributions = data[1].distributions;
-  const stackedChartData = currentPeriodDistributions.map(_ => {
+export const getDistributionChartData = (distributionData, topDistributions) => {
+  const labels = distributionData.map(_ => _.name + '  ' + numberFormat.nFormatter(_.total));
+  const stackedChartData = topDistributions.map(_ => {
     return {
-      name: _.name,
-      dataSet: getDistributionDataSet(data, _.name)
+      name: _.displayName,
+      dataSet: getDistributionDataSet(distributionData, _.displayId)
     }
   })
   return {
     labels,
-    stackedChartData,
+    stackedChartData
   }
 }
 
-export const getOverallChartData = data => {
-  const labels = data.map(_ => _.name);
+export const getOverallChartData = overallData => {
+  const labels = overallData.map(_ => _.name);
   const barChartData = [{
-    dataSet: data.map(_ => _.total)
+    dataSet: overallData.map(_ => _.total)
   }];
   return {
     labels,
@@ -54,10 +57,22 @@ export const getFilterDataMonthGrowth = ({ analyticData, selectedPeriod, selecte
   }
 }
 
-const getDistributionDataSet = (data, distributionName) => {
+const getDistributionDataSet = (data, distributionId) => {
   const dataSet = data.map(__ => {
-    const distribution = __.distributions.find(distribution => distribution.name === distributionName);
+    const distribution = __.distributions.find(distribution => distribution.id === distributionId);
     return distribution.percent
   })
   return dataSet;
 }
+
+const renderDiffenrenceTableRow = (rowData, index) => <tr key={`table_comparison_row_${index}_${rowData}`}>
+  <td><span>{rowData.name}</span></td>
+  {rowData.data.map(_ => {
+    const differenceDistribution = rowData.id === MEASUREMENT_ID.MARGIN ? _.differenceTotal : _.differenceDistribution;
+    const differenceTotal = rowData.id === MEASUREMENT_ID.MARGIN ? null : _.differenceTotal;
+    return <td>
+      <div className="m-b-5"><ValueChangeIcon value={differenceDistribution} /><span>{differenceDistribution + '%'}</span></div>
+      {differenceTotal}
+    </td>
+  })}
+</tr>

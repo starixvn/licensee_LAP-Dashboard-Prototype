@@ -7,14 +7,9 @@
 
     .side-tab-left {
       float: left;
-      width: 55%;
-    }
-
-    .side-tab-right {
-      float: right;
       width: 44%;
       .table-comparison {
-        margin-bottom: 15px;
+        margin-top: 15px;
         .table-comparison-body {
           width: 100%;
           td {
@@ -24,6 +19,11 @@
           }
         }
       }
+    }
+
+    .side-tab-right {
+      float: right;
+      width: 55%;
     }
 
     @media (max-width: 1300px) {

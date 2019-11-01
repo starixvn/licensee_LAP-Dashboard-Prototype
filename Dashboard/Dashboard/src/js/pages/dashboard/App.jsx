@@ -19,7 +19,7 @@ export default class DashboardApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTabMenu: performance
+            selectedTabMenu: summary
         };
     }
 

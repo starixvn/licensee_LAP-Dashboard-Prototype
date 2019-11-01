@@ -27,6 +27,15 @@ class OverviewTab extends Component {
     this.props.setAnalyticData({});
   }
 
+  componentDidUpdate(prevProps) {
+    const { isPeriodGrowthDataType } = this.state;
+    if(this.props.analyticData !== prevProps.analyticData && !isPeriodGrowthDataType) {
+      this.setState({
+        isPeriodGrowthDataType: true,
+      })
+    }
+  }
+
   _renderTopChangeTableList() {
     let { topChangeData, measurementId } = this.props.analyticData;
     const majorChangeList = getMajorChangeList(measurementId)

@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import DistributionChart from '../../components/charts/DistributionChart';
 import OverallChart from '../../components/charts/OverallChart';
 import GrowthChart from '../../components/charts/GrowthChart';
-import ValueChangeIcon from '../../components/normal/ValueChangeIcon';
 import ComparisonTable from '../../components/normal/ComparisonTable';
 import { defaultData, MEASUREMENT_ID } from '../../lib/constants';
 import { growthChartConsts } from './lib/constants';
@@ -21,54 +20,50 @@ export class CurrencyTab extends PureComponent {
       selectedDrillDownDataset: 0,
       selectedDrillDownCurrency: {}
     }
-    this.prevMeasurementDifferenceData = null;
-    this.prevDistributionData = null;
-
   }
 
   componentDidMount() {
     this.props.setAnalyticData({});
   }
 
+  componentDidUpdate(prevProps) {
+    const { isPeriodGrowthDataType } = this.state;
+    if(this.props.analyticData !== prevProps.analyticData && !isPeriodGrowthDataType) {
+      this.setState({
+        isPeriodGrowthDataType: true
+      })
+    }
+  }
+
   _renderDifferenceTable() {
     const { measurementDifferenceData } = this.props.analyticData;
-    if(!measurementDifferenceData) {
+    if (!measurementDifferenceData) {
       return null;
     }
-
-    const data = getDiffenrenceTableData(measurementDifferenceData);
+    const tableData = getDiffenrenceTableData(measurementDifferenceData);
     return <ComparisonTable
-      {...data}
-      renderRow={(rowData, index) => <tr key={`table_comparison_row_${index}_${rowData}`}>
-        <td><span>{rowData.name}</span></td>
-        {rowData.data.map(_ => {
-          const differenceDistribution = rowData.id === MEASUREMENT_ID.MARGIN ? _.differenceTotal : _.differenceDistribution;
-          const differenceTotal = rowData.id === MEASUREMENT_ID.MARGIN ? null : _.differenceTotal;
-          return <td>
-          <div className="m-b-5 m-t-5"><ValueChangeIcon value={differenceDistribution} /><span>{differenceDistribution + '%'}</span></div>
-            {differenceTotal}
-          </td>
-        })}
-      </tr>}
+      {...tableData}
     />;
   }
 
   _renderDistributionChart() {
-    const { distributionData, measurementId} = this.props.analyticData;
-    if(!distributionData) {
+    const { distributionData, topDistributions, measurementId } = this.props.analyticData;
+    if (!distributionData) {
       return null;
     }
     const measurement = defaultData.measurements.find(_ => _.id === measurementId) || {};
+    const title = measurement.name + ' Distribution - Top 5 Currencies';
     return <DistributionChart
       distributionData={distributionData}
-      title={measurement.name + ' Distribution'}
+      topDistributions={topDistributions}
+      title={title}
       dataMapper={getDistributionChartData}
     />
   }
 
   _renderOverallChart() {
     const { overallMarginData } = this.props.analyticData;
-    if(!overallMarginData) {
+    if (!overallMarginData) {
       return null;
     }
     return <OverallChart
@@ -84,12 +79,12 @@ export class CurrencyTab extends PureComponent {
     const { isPeriodGrowthDataType, selectedDrillDownCurrency, selectedDrillDownDataset } = this.state;
 
     const growthChartData = this._getGrowthChartData() || [];
-    const labels = growthChartData.map(_ => _.name);
     const lineChartData = {
       name: 'Growth',
       dataSet: growthChartData.map(_ => _.growthPercent)
     };
     const barChartData = this._getBarChartData(growthChartData, measurement);
+    const labels = growthChartData.map(_ => _.name);
     const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' :
       ` - ${selectedDrillDownCurrency.name} - ${growthChartConsts[selectedDrillDownDataset].periodName}`}`;
 
@@ -184,11 +179,11 @@ export class CurrencyTab extends PureComponent {
     return measurementId ? (
       <div className="child-tab currency-tab" style={generalService.getScrollTabStyle()}>
         <div className="side-tab-left">
-          {this._renderGrowthChart()}
+        {measurementId === MEASUREMENT_ID.MARGIN ? this._renderOverallChart() : this._renderDistributionChart()}
+        {this._renderDifferenceTable()}
         </div>
         <div className="side-tab-right">
-          {this._renderDifferenceTable()}
-          {measurementId === MEASUREMENT_ID.MARGIN ? this._renderOverallChart() : this._renderDistributionChart()}
+        {this._renderGrowthChart()}
         </div>
       </div>
     ) : null;

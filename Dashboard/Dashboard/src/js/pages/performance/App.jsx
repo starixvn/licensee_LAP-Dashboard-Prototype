@@ -58,4 +58,4 @@ function mapStateToProps(state) {
     selectedMeasurement
   });
 }
-export default connect(mapStateToProps, mapDispatchToProps)(PerformanceDashboard)
+export default connect(mapStateToProps, mapDispatchToProps)(PerformanceDashboard);

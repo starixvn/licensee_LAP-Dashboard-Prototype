@@ -10,6 +10,10 @@ export default class DistributionChart extends PureComponent {
     this.refSelf = React.createRef();
   }
 
+  static limitAxisY = {
+     suggestedMax: 100,
+  }
+
   componentDidMount() {
     const { getStyle } = this.props;
     getStyle && this.setState({
@@ -19,8 +23,8 @@ export default class DistributionChart extends PureComponent {
 
   render() {
     const { style } = this.state;
-    const { title,  distributionData, dataMapper } = this.props;
-    const { labels, stackedChartData } = dataMapper(distributionData);
+    const { title, distributionData, topDistributions, dataMapper } = this.props;
+    const { labels, stackedChartData } = dataMapper(distributionData, topDistributions);
 
     return (
       <div className="info-zone-container" ref={this.refSelf} style={style}>
@@ -31,6 +35,7 @@ export default class DistributionChart extends PureComponent {
           <StackedBarChart
             stackedChartData={stackedChartData}
             labels={labels}
+            limitAxisY={DistributionChart.limitAxisY}
           />
         </div>
       </div>

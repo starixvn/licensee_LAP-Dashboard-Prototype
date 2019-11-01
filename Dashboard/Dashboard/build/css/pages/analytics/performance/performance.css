@@ -108,17 +108,17 @@
 
 .performance-container .currency-tab .side-tab-left {
   float: left;
-  width: 55%; }
+  width: 44%; }
+  .performance-container .currency-tab .side-tab-left .table-comparison {
+    margin-top: 15px; }
+    .performance-container .currency-tab .side-tab-left .table-comparison .table-comparison-body {
+      width: 100%; }
+      .performance-container .currency-tab .side-tab-left .table-comparison .table-comparison-body td .arrow-up, .performance-container .currency-tab .side-tab-left .table-comparison .table-comparison-body td .arrow-down, .performance-container .currency-tab .side-tab-left .table-comparison .table-comparison-body td .rec-equal {
+        float: left; }
 
 .performance-container .currency-tab .side-tab-right {
   float: right;
-  width: 44%; }
-  .performance-container .currency-tab .side-tab-right .table-comparison {
-    margin-bottom: 15px; }
-    .performance-container .currency-tab .side-tab-right .table-comparison .table-comparison-body {
-      width: 100%; }
-      .performance-container .currency-tab .side-tab-right .table-comparison .table-comparison-body td .arrow-up, .performance-container .currency-tab .side-tab-right .table-comparison .table-comparison-body td .arrow-down, .performance-container .currency-tab .side-tab-right .table-comparison .table-comparison-body td .rec-equal {
-        float: left; }
+  width: 55%; }
 
 @media (max-width: 1300px) {
   .performance-container .currency-tab .side-tab-left, .performance-container .currency-tab .side-tab-right {
