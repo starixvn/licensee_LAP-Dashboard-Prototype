@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { setAnalyticData } from '../../actions/analyticDataAction';
-import currencyTabAction from '../currency/actions/index';
+import currencyTabActions from '../currency/actions/index';
 import { connect } from 'react-redux';
 import DistributionChart from '../../components/charts/DistributionChart';
 import OverallChart from '../../components/charts/OverallChart';
@@ -191,7 +191,7 @@ export class CurrencyTab extends PureComponent {
 }
 
 function mapDispatchToProps(dispatch) {
-  const { getDrillDownData } = currencyTabAction;
+  const { getDrillDownData } = currencyTabActions;
   return bindActionCreators({
     setAnalyticData,
     getDrillDownData

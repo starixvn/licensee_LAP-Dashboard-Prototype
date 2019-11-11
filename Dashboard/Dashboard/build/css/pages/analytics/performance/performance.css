@@ -125,6 +125,28 @@
     float: none;
     width: 100%; } }
 
+.performance-container .product-tab .info-zone-container {
+  width: 100%; }
+
+.performance-container .product-tab .side-tab-left {
+  float: left;
+  width: 44%; }
+  .performance-container .product-tab .side-tab-left .table-comparison {
+    margin-top: 15px; }
+    .performance-container .product-tab .side-tab-left .table-comparison .table-comparison-body {
+      width: 100%; }
+      .performance-container .product-tab .side-tab-left .table-comparison .table-comparison-body td .arrow-up, .performance-container .product-tab .side-tab-left .table-comparison .table-comparison-body td .arrow-down, .performance-container .product-tab .side-tab-left .table-comparison .table-comparison-body td .rec-equal {
+        float: left; }
+
+.performance-container .product-tab .side-tab-right {
+  float: right;
+  width: 55%; }
+
+@media (max-width: 1300px) {
+  .performance-container .product-tab .side-tab-left, .performance-container .product-tab .side-tab-right {
+    float: none;
+    width: 100%; } }
+
 .performance-container .loading-process {
   background: rgba(255, 255, 255, 0.7) no-repeat; }
   .performance-container .loading-process .icon-loading {
