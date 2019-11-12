@@ -60,8 +60,8 @@ const mapToTopDistributions = data => {
   return data.map(_ => ({
     displayId: _.id,
     displayName: _.name,
-    previousPeriodDistributions: _.currentPeriodDistributions,
-    currentPeriodDistributions: _.previousPeriodDistributions
+    previousPeriodDistributions: _.previousPeriodDistributions,
+    currentPeriodDistributions: _.currentPeriodDistributions
   }));
 }
 

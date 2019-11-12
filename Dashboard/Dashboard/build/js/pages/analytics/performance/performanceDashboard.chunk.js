@@ -2314,8 +2314,8 @@ const mapToTopDistributions = data => {
   return data.map(_ => ({
     displayId: _.id,
     displayName: _.name,
-    previousPeriodDistributions: _.currentPeriodDistributions,
-    currentPeriodDistributions: _.previousPeriodDistributions
+    previousPeriodDistributions: _.previousPeriodDistributions,
+    currentPeriodDistributions: _.currentPeriodDistributions
   }));
 };
 
@@ -2389,6 +2389,8 @@ const tabMenuKey = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generalService", function() { return generalService; });
 /* harmony import */ var _lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/dateTimeHelper */ "./src/js/lib/dateTimeHelper.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+
 
 const generalService = {
   getFilterData: ({
@@ -2416,11 +2418,12 @@ const generalService = {
       }
     };
   },
-
-  getFieldMonthGrowth(selectedCategory, selectedPeriod) {
+  getFieldMonthGrowth: (selectedCategory, selectedPeriod) => {
     return selectedCategory + '_' + selectedPeriod.fromMonth + '_' + selectedPeriod.toMonth;
   },
-
+  getMeasurementNameById: measurementId => {
+    return _lib_constants__WEBPACK_IMPORTED_MODULE_1__["defaultData"].measurements.find(_ => _.id === measurementId);
+  },
   getScrollTabStyle: () => {
     const {
       innerHeight
@@ -2572,6 +2575,233 @@ const isLoading = Object(_lib_createReducer__WEBPACK_IMPORTED_MODULE_0__["defaul
 
 /***/ }),
 
+/***/ "./src/js/pages/performance/tabs/PerformanceChildTab.jsx":
+/*!***************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/PerformanceChildTab.jsx ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PerformanceChildTab; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./src/js/pages/performance/tabs/constants.js");
+/* harmony import */ var _service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./service */ "./src/js/pages/performance/tabs/service.js");
+/* harmony import */ var _components_charts_DistributionChart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/charts/DistributionChart */ "./src/js/pages/performance/components/charts/DistributionChart.jsx");
+/* harmony import */ var _components_charts_OverallChart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/charts/OverallChart */ "./src/js/pages/performance/components/charts/OverallChart.jsx");
+/* harmony import */ var _components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/normal/ComparisonTable */ "./src/js/pages/performance/components/normal/ComparisonTable.jsx");
+/* harmony import */ var _components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/charts/GrowthChart */ "./src/js/pages/performance/components/charts/GrowthChart.jsx");
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../lib/service */ "./src/js/pages/performance/lib/service.js");
+
+
+
+
+
+
+
+
+class PerformanceChildTab extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPeriodGrowthDataType: true,
+      selectedColumnDrillDown: null
+    };
+    this.titleDistributionChart = '';
+  }
+
+  componentDidMount() {
+    this.props.setAnalyticData({});
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      isPeriodGrowthDataType
+    } = this.state;
+
+    if (this.props.analyticData !== prevProps.analyticData && !isPeriodGrowthDataType) {
+      this.setState({
+        isPeriodGrowthDataType: true
+      });
+    }
+  }
+
+  renderDistributionChart() {
+    const {
+      distributionData,
+      topDistributions,
+      measurementId
+    } = this._getDistributionChartData();
+
+    if (!distributionData) {
+      return null;
+    }
+
+    const measurement = _lib_service__WEBPACK_IMPORTED_MODULE_7__["generalService"].getMeasurementNameById(measurementId) || {};
+    const title = measurement.name + ' ' + this.titleDistributionChart;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_DistributionChart__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      distributionData: distributionData,
+      topDistributions: topDistributions,
+      title: title,
+      dataMapper: _service__WEBPACK_IMPORTED_MODULE_2__["getDistributionChartData"]
+    });
+  }
+
+  renderOverallChart() {
+    const {
+      overallMarginData,
+      title
+    } = this._getOverallChartData();
+
+    if (!overallMarginData) {
+      return null;
+    }
+
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_OverallChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: title,
+      overallData: overallMarginData,
+      dataMapper: _service__WEBPACK_IMPORTED_MODULE_2__["getOverallChartData"]
+    });
+  }
+
+  renderDifferenceTable() {
+    const {
+      measurementDifferenceData
+    } = this._getDifferenceTableData();
+
+    if (!measurementDifferenceData) {
+      return null;
+    }
+
+    const tableData = Object(_service__WEBPACK_IMPORTED_MODULE_2__["getDiffenrenceTableData"])(measurementDifferenceData);
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_5__["default"], tableData);
+  }
+
+  renderGrowthChart() {
+    const {
+      growthData,
+      measurementId
+    } = this.props.analyticData;
+
+    if (!growthData) {
+      return null;
+    }
+
+    const measurement = _lib_service__WEBPACK_IMPORTED_MODULE_7__["generalService"].getMeasurementNameById(measurementId) || {};
+    const {
+      isPeriodGrowthDataType,
+      selectedColumnDrillDown
+    } = this.state;
+    const growthChartData = this._getGrowthChartData() || [];
+    const lineChartData = {
+      name: 'Growth',
+      dataSet: growthChartData.map(_ => _.growthPercent)
+    };
+
+    const barChartData = this._getBarChartData(growthChartData, measurement);
+
+    const labels = growthChartData.map(_ => _.name);
+    const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ` - ${selectedColumnDrillDown.name} - ${_constants__WEBPACK_IMPORTED_MODULE_1__["growthChartConsts"][selectedColumnDrillDown.datasetIndex].periodName}`}`;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      title: title,
+      barChartData: barChartData,
+      lineChartData: lineChartData,
+      labels: labels,
+      leftAxisName: measurement.name,
+      showBackIcon: !isPeriodGrowthDataType,
+      backToDefaultChart: () => this.setState({
+        isPeriodGrowthDataType: true
+      })
+    });
+  }
+
+  _getDrillDownField() {
+    const {
+      selectedColumnDrillDown
+    } = this.state;
+    const {
+      datasetIndex,
+      id
+    } = selectedColumnDrillDown;
+    const {
+      analyticData
+    } = this.props;
+    const selectedPeriod = analyticData[_constants__WEBPACK_IMPORTED_MODULE_1__["growthChartConsts"][datasetIndex]['periodField']];
+    const field = _lib_service__WEBPACK_IMPORTED_MODULE_7__["generalService"].getFieldMonthGrowth(id, selectedPeriod);
+    return field;
+  }
+
+  _getGrowthChartData() {
+    const {
+      isPeriodGrowthDataType
+    } = this.state;
+    const {
+      analyticData
+    } = this.props;
+    const {
+      growthData
+    } = analyticData;
+
+    if (isPeriodGrowthDataType) {
+      return growthData['periodGrowth'];
+    } else {
+      const field = this._getDrillDownField();
+
+      const drillDownData = growthData['monthGrowth'][field];
+      return drillDownData;
+    }
+  }
+
+  _getBarChartData(growthChartData, measurement) {
+    const {
+      isPeriodGrowthDataType,
+      selectedColumnDrillDown
+    } = this.state;
+
+    if (isPeriodGrowthDataType) {
+      return _constants__WEBPACK_IMPORTED_MODULE_1__["growthChartConsts"].map((_, datasetIndex) => {
+        return {
+          name: _.periodName,
+          dataSet: growthChartData.map(__ => __[_.periodFieldName]),
+          events: {
+            click: growthChartData.map((periodData, colIndex) => {
+              const drillDownData = {
+                id: periodData.id,
+                name: periodData.name,
+                distributions: periodData[_.distributionFieldName],
+                datasetIndex
+              };
+              return {
+                columnIndex: colIndex,
+                callBack: () => {
+                  this.setState({
+                    isPeriodGrowthDataType: false,
+                    selectedColumnDrillDown: drillDownData
+                  });
+                }
+              };
+            })
+          }
+        };
+      });
+    } else {
+      return [{
+        name: selectedColumnDrillDown.name + ' ' + measurement.name,
+        dataSet: growthChartData.map(_ => _.total),
+        color: _constants__WEBPACK_IMPORTED_MODULE_1__["growthChartConsts"][selectedColumnDrillDown.datasetIndex].columnColor
+      }, {
+        hidden: true,
+        dataSet: []
+      }];
+    }
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/js/pages/performance/tabs/bettype/BettypeTab.jsx":
 /*!**************************************************************!*\
   !*** ./src/js/pages/performance/tabs/bettype/BettypeTab.jsx ***!
@@ -2630,6 +2860,47 @@ function mapStateToProps(state) {
 
 /***/ }),
 
+/***/ "./src/js/pages/performance/tabs/constants.js":
+/*!****************************************************!*\
+  !*** ./src/js/pages/performance/tabs/constants.js ***!
+  \****************************************************/
+/*! exports provided: growthChartConsts, diffenrenceTableRowDataConst */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "growthChartConsts", function() { return growthChartConsts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "diffenrenceTableRowDataConst", function() { return diffenrenceTableRowDataConst; });
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+
+const growthChartConsts = [{
+  periodName: 'Previous Period',
+  periodFieldName: 'previousPeriodTotal',
+  periodField: 'previousPeriod',
+  distributionFieldName: 'previousPeriodDistributions'
+}, {
+  periodName: 'Current Period',
+  periodFieldName: 'currentPeriodTotal',
+  periodField: 'currentPeriod',
+  distributionFieldName: 'currentPeriodDistributions',
+  columnColor: '#36A2EB'
+}];
+const diffenrenceTableRowDataConst = [{
+  id: _lib_constants__WEBPACK_IMPORTED_MODULE_0__["MEASUREMENT_ID"].TURNOVER,
+  name: 'Turnover',
+  propertyName: 'differenceTurnover'
+}, {
+  id: _lib_constants__WEBPACK_IMPORTED_MODULE_0__["MEASUREMENT_ID"].GROSS_PROFIT,
+  name: 'Gross Profit',
+  propertyName: 'differenceGrossProfit'
+}, {
+  id: _lib_constants__WEBPACK_IMPORTED_MODULE_0__["MEASUREMENT_ID"].MARGIN,
+  name: 'Margin',
+  propertyName: 'differenceMargin'
+}];
+
+/***/ }),
+
 /***/ "./src/js/pages/performance/tabs/currency/CurrencyTab.jsx":
 /*!****************************************************************!*\
   !*** ./src/js/pages/performance/tabs/currency/CurrencyTab.jsx ***!
@@ -2644,16 +2915,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/analyticDataAction */ "./src/js/pages/performance/actions/analyticDataAction.js");
-/* harmony import */ var _currency_actions_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../currency/actions/index */ "./src/js/pages/performance/tabs/currency/actions/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _components_charts_DistributionChart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/charts/DistributionChart */ "./src/js/pages/performance/components/charts/DistributionChart.jsx");
-/* harmony import */ var _components_charts_OverallChart__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/charts/OverallChart */ "./src/js/pages/performance/components/charts/OverallChart.jsx");
-/* harmony import */ var _components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../components/charts/GrowthChart */ "./src/js/pages/performance/components/charts/GrowthChart.jsx");
-/* harmony import */ var _components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../components/normal/ComparisonTable */ "./src/js/pages/performance/components/normal/ComparisonTable.jsx");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./lib/constants */ "./src/js/pages/performance/tabs/currency/lib/constants.js");
-/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./lib/service */ "./src/js/pages/performance/tabs/currency/lib/service.js");
-/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../lib/service */ "./src/js/pages/performance/lib/service.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../lib/service */ "./src/js/pages/performance/lib/service.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./lib/constants */ "./src/js/pages/performance/tabs/currency/lib/constants.js");
+/* harmony import */ var _PerformanceChildTab__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../PerformanceChildTab */ "./src/js/pages/performance/tabs/PerformanceChildTab.jsx");
 
 
 
@@ -2662,222 +2928,45 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
+class CurrencyTab extends _PerformanceChildTab__WEBPACK_IMPORTED_MODULE_7__["default"] {
   constructor(props) {
     super(props);
-    this.state = {
-      isPeriodGrowthDataType: true,
-      selectedDrillDownDataset: 0,
-      selectedDrillDownCurrency: {}
+    this.state = { ...this.state,
+      ...{}
     };
+    this.titleDistributionChart = _lib_constants__WEBPACK_IMPORTED_MODULE_6__["titleDistributionChart"];
   }
 
-  componentDidMount() {
-    this.props.setAnalyticData({});
-  }
-
-  componentDidUpdate(prevProps) {
-    const {
-      isPeriodGrowthDataType
-    } = this.state;
-
-    if (this.props.analyticData !== prevProps.analyticData && !isPeriodGrowthDataType) {
-      this.setState({
-        isPeriodGrowthDataType: true
-      });
-    }
-  }
-
-  _renderDifferenceTable() {
-    const {
-      measurementDifferenceData
-    } = this.props.analyticData;
-
-    if (!measurementDifferenceData) {
-      return null;
-    }
-
-    const tableData = Object(_lib_service__WEBPACK_IMPORTED_MODULE_11__["getDiffenrenceTableData"])(measurementDifferenceData);
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_8__["default"], tableData);
-  }
-
-  _renderDistributionChart() {
+  _getDistributionChartData() {
     const {
       distributionData,
       topDistributions,
       measurementId
     } = this.props.analyticData;
-
-    if (!distributionData) {
-      return null;
-    }
-
-    const measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_9__["defaultData"].measurements.find(_ => _.id === measurementId) || {};
-    const title = measurement.name + ' Distribution - Top 5 Currencies';
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_DistributionChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      distributionData: distributionData,
-      topDistributions: topDistributions,
-      title: title,
-      dataMapper: _lib_service__WEBPACK_IMPORTED_MODULE_11__["getDistributionChartData"]
-    });
+    return {
+      distributionData,
+      topDistributions,
+      measurementId
+    };
   }
 
-  _renderOverallChart() {
+  _getOverallChartData() {
     const {
       overallMarginData
     } = this.props.analyticData;
-
-    if (!overallMarginData) {
-      return null;
-    }
-
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_OverallChart__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      title: 'Overall margin growth',
-      overallData: overallMarginData,
-      dataMapper: _lib_service__WEBPACK_IMPORTED_MODULE_11__["getOverallChartData"]
-    });
-  }
-
-  _renderGrowthChart() {
-    const {
-      measurementId
-    } = this.props.analyticData;
-    const measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_9__["defaultData"].measurements.find(_ => _.id === measurementId) || {};
-    const {
-      isPeriodGrowthDataType,
-      selectedDrillDownCurrency,
-      selectedDrillDownDataset
-    } = this.state;
-    const growthChartData = this._getGrowthChartData() || [];
-    const lineChartData = {
-      name: 'Growth',
-      dataSet: growthChartData.map(_ => _.growthPercent)
+    return {
+      overallMarginData,
+      title: _lib_constants__WEBPACK_IMPORTED_MODULE_6__["titleOverallMarginChart"]
     };
-
-    const barChartData = this._getBarChartData(growthChartData, measurement);
-
-    const labels = growthChartData.map(_ => _.name);
-    const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ` - ${selectedDrillDownCurrency.name} - ${_lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset].periodName}`}`;
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      title: title,
-      barChartData: barChartData,
-      lineChartData: lineChartData,
-      labels: labels,
-      leftAxisName: measurement.name,
-      showBackIcon: !isPeriodGrowthDataType,
-      backToDefaultChart: () => this.setState({
-        isPeriodGrowthDataType: true
-      })
-    });
   }
 
-  _getGrowthChartData() {
+  _getDifferenceTableData() {
     const {
-      isPeriodGrowthDataType
-    } = this.state;
-    const {
-      analyticData
-    } = this.props;
-    const {
-      growthData
-    } = analyticData;
-
-    if (isPeriodGrowthDataType) {
-      return growthData['periodGrowth'];
-    } else {
-      const field = this._getDrillDownField();
-
-      const drillDownData = growthData['monthGrowth'][field];
-      return drillDownData;
-    }
-  }
-
-  _getDrillDownField() {
-    const {
-      selectedDrillDownCurrency,
-      selectedDrillDownDataset
-    } = this.state;
-    const {
-      analyticData
-    } = this.props;
-    const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
-    const field = _lib_service__WEBPACK_IMPORTED_MODULE_12__["generalService"].getFieldMonthGrowth(selectedDrillDownCurrency.name, selectedPeriod);
-    return field;
-  }
-
-  _getBarChartData(growthChartData, measurement) {
-    const {
-      isPeriodGrowthDataType,
-      selectedDrillDownCurrency,
-      selectedDrillDownDataset
-    } = this.state;
-
-    if (isPeriodGrowthDataType) {
-      return _lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"].map((_, datasetIndex) => {
-        return {
-          name: _.periodName,
-          dataSet: growthChartData.map(__ => __[_.periodFieldName]),
-          events: {
-            click: growthChartData.map((periodData, colIndex) => {
-              const drillDownCurrency = {
-                id: periodData.id,
-                name: periodData.name,
-                distributions: periodData[_.distributionFieldName]
-              };
-              return {
-                columnIndex: colIndex,
-                callBack: () => {
-                  this.setState({
-                    isPeriodGrowthDataType: false,
-                    selectedDrillDownDataset: datasetIndex,
-                    selectedDrillDownCurrency: drillDownCurrency
-                  }, this._handleDrillDownGrowthChart);
-                }
-              };
-            })
-          }
-        };
-      });
-    } else {
-      return [{
-        name: selectedDrillDownCurrency.name + ' ' + measurement.name,
-        dataSet: growthChartData.map(_ => _.total),
-        color: _lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset].columnColor
-      }, {
-        hidden: true,
-        dataSet: []
-      }];
-    }
-  }
-
-  _handleDrillDownGrowthChart() {
-    const {
-      selectedDrillDownCurrency,
-      selectedDrillDownDataset
-    } = this.state;
-    const {
-      analyticData
-    } = this.props;
-    const {
-      growthData
-    } = analyticData;
-    const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
-    const field = _lib_service__WEBPACK_IMPORTED_MODULE_12__["generalService"].getFieldMonthGrowth(selectedDrillDownCurrency.name, selectedPeriod);
-    const drillDownData = growthData['monthGrowth'][field];
-
-    if (!drillDownData) {
-      const filterData = Object(_lib_service__WEBPACK_IMPORTED_MODULE_11__["getFilterDataMonthGrowth"])({
-        analyticData,
-        selectedPeriod,
-        selectedCurrency: selectedDrillDownCurrency
-      });
-      this.props.getDrillDownData(filterData, field);
-    }
+      measurementDifferenceData
+    } = this.props.analyticData;
+    return {
+      measurementDifferenceData
+    };
   }
 
   render() {
@@ -2886,23 +2975,19 @@ class CurrencyTab extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
     } = this.props.analyticData;
     return measurementId ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "child-tab currency-tab",
-      style: _lib_service__WEBPACK_IMPORTED_MODULE_12__["generalService"].getScrollTabStyle()
+      style: _lib_service__WEBPACK_IMPORTED_MODULE_5__["generalService"].getScrollTabStyle()
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "side-tab-left"
-    }, measurementId === _lib_constants__WEBPACK_IMPORTED_MODULE_9__["MEASUREMENT_ID"].MARGIN ? this._renderOverallChart() : this._renderDistributionChart(), this._renderDifferenceTable()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, measurementId === _lib_constants__WEBPACK_IMPORTED_MODULE_4__["MEASUREMENT_ID"].MARGIN ? this.renderOverallChart() : this.renderDistributionChart(), this.renderDifferenceTable()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "side-tab-right"
-    }, this._renderGrowthChart())) : null;
+    }, this.renderGrowthChart())) : null;
   }
 
 }
 
 function mapDispatchToProps(dispatch) {
-  const {
-    getDrillDownData
-  } = _currency_actions_index__WEBPACK_IMPORTED_MODULE_3__["default"];
   return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
-    setAnalyticData: _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_2__["setAnalyticData"],
-    getDrillDownData
+    setAnalyticData: _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_2__["setAnalyticData"]
   }, dispatch);
 }
 
@@ -2915,62 +3000,7 @@ function mapStateToProps(state) {
   });
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapStateToProps, mapDispatchToProps)(CurrencyTab));
-
-/***/ }),
-
-/***/ "./src/js/pages/performance/tabs/currency/actions/drillDownAction.js":
-/*!***************************************************************************!*\
-  !*** ./src/js/pages/performance/tabs/currency/actions/drillDownAction.js ***!
-  \***************************************************************************/
-/*! exports provided: getDrillDownData */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDrillDownData", function() { return getDrillDownData; });
-/* harmony import */ var _actions_loadingAction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../actions/loadingAction */ "./src/js/pages/performance/actions/loadingAction.js");
-/* harmony import */ var _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../actions/analyticDataAction */ "./src/js/pages/performance/actions/analyticDataAction.js");
-/* harmony import */ var _lib_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/api */ "./src/js/pages/performance/tabs/currency/lib/api.js");
-
-
-
-const getDrillDownData = (filterData, field) => {
-  return async dispatch => {
-    dispatch(Object(_actions_loadingAction__WEBPACK_IMPORTED_MODULE_0__["setLoading"])(true));
-
-    try {
-      const responseData = await Object(_lib_api__WEBPACK_IMPORTED_MODULE_2__["getMonthGrowthData"])(filterData);
-      const data = {
-        handlerData: state => {
-          state['growthData']['monthGrowth'][field] = responseData;
-          return { ...state
-          };
-        }
-      };
-      dispatch(Object(_actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_1__["setAnalyticData"])(data));
-    } catch (error) {
-      console.log('error', error.message);
-    }
-
-    dispatch(Object(_actions_loadingAction__WEBPACK_IMPORTED_MODULE_0__["setLoading"])(false));
-  };
-};
-
-/***/ }),
-
-/***/ "./src/js/pages/performance/tabs/currency/actions/index.js":
-/*!*****************************************************************!*\
-  !*** ./src/js/pages/performance/tabs/currency/actions/index.js ***!
-  \*****************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _drillDownAction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./drillDownAction */ "./src/js/pages/performance/tabs/currency/actions/drillDownAction.js");
-
-/* harmony default export */ __webpack_exports__["default"] = (Object.assign({}, _drillDownAction__WEBPACK_IMPORTED_MODULE_0__));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(CurrencyTab));
 
 /***/ }),
 
@@ -3034,142 +3064,15 @@ const getAllMonthGrowthData = async filterData => {
 /*!*****************************************************************!*\
   !*** ./src/js/pages/performance/tabs/currency/lib/constants.js ***!
   \*****************************************************************/
-/*! exports provided: growthChartConsts, diffenrenceTableRowDataConst */
+/*! exports provided: titleDistributionChart, titleOverallMarginChart */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "growthChartConsts", function() { return growthChartConsts; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "diffenrenceTableRowDataConst", function() { return diffenrenceTableRowDataConst; });
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
-
-const growthChartConsts = [{
-  periodName: 'Previous Period',
-  periodFieldName: 'previousPeriodTotal',
-  periodField: 'previousPeriod',
-  distributionFieldName: 'previousPeriodDistributions'
-}, {
-  periodName: 'Current Period',
-  periodFieldName: 'currentPeriodTotal',
-  periodField: 'currentPeriod',
-  distributionFieldName: 'currentPeriodDistributions',
-  columnColor: '#36A2EB'
-}];
-const diffenrenceTableRowDataConst = [{
-  id: _lib_constants__WEBPACK_IMPORTED_MODULE_0__["MEASUREMENT_ID"].TURNOVER,
-  name: 'Turnover',
-  propertyName: 'differenceTurnover'
-}, {
-  id: _lib_constants__WEBPACK_IMPORTED_MODULE_0__["MEASUREMENT_ID"].GROSS_PROFIT,
-  name: 'Gross Profit',
-  propertyName: 'differenceGrossProfit'
-}, {
-  id: _lib_constants__WEBPACK_IMPORTED_MODULE_0__["MEASUREMENT_ID"].MARGIN,
-  name: 'Margin',
-  propertyName: 'differenceMargin'
-}];
-
-/***/ }),
-
-/***/ "./src/js/pages/performance/tabs/currency/lib/service.js":
-/*!***************************************************************!*\
-  !*** ./src/js/pages/performance/tabs/currency/lib/service.js ***!
-  \***************************************************************/
-/*! exports provided: getDiffenrenceTableData, getDistributionChartData, getOverallChartData, getFilterDataMonthGrowth */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDiffenrenceTableData", function() { return getDiffenrenceTableData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDistributionChartData", function() { return getDistributionChartData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOverallChartData", function() { return getOverallChartData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFilterDataMonthGrowth", function() { return getFilterDataMonthGrowth; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../lib/service */ "./src/js/pages/performance/lib/service.js");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./src/js/pages/performance/tabs/currency/lib/constants.js");
-/* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
-/* harmony import */ var _components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../components/normal/ValueChangeIcon */ "./src/js/pages/performance/components/normal/ValueChangeIcon.jsx");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
-
-
-
-
-
-
-const getDiffenrenceTableData = measurementDifferenceData => {
-  const header = ['Difference', ...measurementDifferenceData.map(_ => _.name)];
-  const rows = _constants__WEBPACK_IMPORTED_MODULE_2__["diffenrenceTableRowDataConst"].map(_ => ({
-    id: _.id,
-    name: _.name,
-    data: measurementDifferenceData.map(__ => __[_.propertyName])
-  }));
-  return {
-    title: 'differences between periods',
-    header,
-    data: rows,
-    renderRow: renderDiffenrenceTableRow
-  };
-};
-const getDistributionChartData = (distributionData, topDistributions) => {
-  const labels = distributionData.map(_ => _.name + '  ' + _lib_numberFormat__WEBPACK_IMPORTED_MODULE_3__["default"].nFormatter(_.total));
-  const stackedChartData = topDistributions.map(_ => {
-    return {
-      name: _.displayName,
-      dataSet: getDistributionDataSet(distributionData, _.displayId)
-    };
-  });
-  return {
-    labels,
-    stackedChartData
-  };
-};
-const getOverallChartData = overallData => {
-  const labels = overallData.map(_ => _.name);
-  const barChartData = [{
-    dataSet: overallData.map(_ => _.total)
-  }];
-  return {
-    labels,
-    barChartData
-  };
-};
-const getFilterDataMonthGrowth = ({
-  analyticData,
-  selectedPeriod,
-  selectedCurrency
-}) => {
-  const filter = _lib_service__WEBPACK_IMPORTED_MODULE_1__["generalService"].getFilterDataMonthGrowth({
-    analyticData,
-    selectedPeriod
-  });
-  return { ...filter,
-    ...{
-      currencies: selectedCurrency.distributions.map(_ => _.name)
-    }
-  };
-};
-
-const getDistributionDataSet = (data, distributionId) => {
-  const dataSet = data.map(__ => {
-    const distribution = __.distributions.find(distribution => distribution.id === distributionId);
-
-    return distribution.percent;
-  });
-  return dataSet;
-};
-
-const renderDiffenrenceTableRow = (rowData, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-  key: `table_comparison_row_${index}_${rowData}`
-}, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, rowData.name)), rowData.data.map(_ => {
-  const differenceDistribution = rowData.id === _lib_constants__WEBPACK_IMPORTED_MODULE_5__["MEASUREMENT_ID"].MARGIN ? _.differenceTotal : _.differenceDistribution;
-  const differenceTotal = rowData.id === _lib_constants__WEBPACK_IMPORTED_MODULE_5__["MEASUREMENT_ID"].MARGIN ? null : _.differenceTotal;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "m-b-5"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    value: differenceDistribution
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, differenceDistribution + '%')), differenceTotal);
-}));
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "titleDistributionChart", function() { return titleDistributionChart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "titleOverallMarginChart", function() { return titleOverallMarginChart; });
+const titleDistributionChart = 'Distribution - Top 5 Currencies';
+const titleOverallMarginChart = 'Overall Margin Growth';
 
 /***/ }),
 
@@ -3532,16 +3435,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/analyticDataAction */ "./src/js/pages/performance/actions/analyticDataAction.js");
-/* harmony import */ var _currency_actions_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../currency/actions/index */ "./src/js/pages/performance/tabs/currency/actions/index.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _components_charts_DistributionChart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/charts/DistributionChart */ "./src/js/pages/performance/components/charts/DistributionChart.jsx");
-/* harmony import */ var _components_charts_OverallChart__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/charts/OverallChart */ "./src/js/pages/performance/components/charts/OverallChart.jsx");
-/* harmony import */ var _components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../components/charts/GrowthChart */ "./src/js/pages/performance/components/charts/GrowthChart.jsx");
-/* harmony import */ var _components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../components/normal/ComparisonTable */ "./src/js/pages/performance/components/normal/ComparisonTable.jsx");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./lib/constants */ "./src/js/pages/performance/tabs/product/lib/constants.js");
-/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./lib/service */ "./src/js/pages/performance/tabs/product/lib/service.js");
-/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../lib/service */ "./src/js/pages/performance/lib/service.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../lib/service */ "./src/js/pages/performance/lib/service.js");
+/* harmony import */ var _PerformanceChildTab__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../PerformanceChildTab */ "./src/js/pages/performance/tabs/PerformanceChildTab.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lib/constants */ "./src/js/pages/performance/tabs/product/lib/constants.js");
 
 
 
@@ -3551,222 +3449,45 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-class ProductTab extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
+class ProductTab extends _PerformanceChildTab__WEBPACK_IMPORTED_MODULE_6__["default"] {
   constructor(props) {
     super(props);
-    this.state = {
-      isPeriodGrowthDataType: true,
-      selectedDrillDownColumn: 0,
-      selectedDrillDownColumnName: ''
+    this.state = { ...this.state,
+      ...{}
     };
+    this.titleDistributionChart = _lib_constants__WEBPACK_IMPORTED_MODULE_7__["titleDistributionChart"];
   }
 
-  componentDidMount() {
-    this.props.setAnalyticData({});
-  }
-
-  componentDidUpdate(prevProps) {
-    const {
-      isPeriodGrowthDataType
-    } = this.state;
-
-    if (this.props.analyticData !== prevProps.analyticData && !isPeriodGrowthDataType) {
-      this.setState({
-        isPeriodGrowthDataType: true
-      });
-    }
-  }
-
-  _renderDifferenceTable() {
-    const {
-      measurementDifferenceData
-    } = this.props.analyticData;
-
-    if (!measurementDifferenceData) {
-      return null;
-    }
-
-    const tableData = Object(_lib_service__WEBPACK_IMPORTED_MODULE_11__["getDiffenrenceTableData"])(measurementDifferenceData);
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_8__["default"], tableData);
-  }
-
-  _renderDistributionChart() {
+  _getDistributionChartData() {
     const {
       distributionData,
       topDistributions,
       measurementId
     } = this.props.analyticData;
-
-    if (!distributionData) {
-      return null;
-    }
-
-    const measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_9__["defaultData"].measurements.find(_ => _.id === measurementId) || {};
-    const title = measurement.name + ' Distribution - Top 5 Products';
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_DistributionChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      distributionData: distributionData,
-      topDistributions: topDistributions,
-      title: title,
-      dataMapper: _lib_service__WEBPACK_IMPORTED_MODULE_11__["getDistributionChartData"]
-    });
+    return {
+      distributionData,
+      topDistributions,
+      measurementId
+    };
   }
 
-  _renderOverallChart() {
+  _getOverallChartData() {
     const {
       overallMarginData
     } = this.props.analyticData;
-
-    if (!overallMarginData) {
-      return null;
-    }
-
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_OverallChart__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      title: 'Overall margin growth',
-      overallData: overallMarginData,
-      dataMapper: _lib_service__WEBPACK_IMPORTED_MODULE_11__["getOverallChartData"]
-    });
-  }
-
-  _renderGrowthChart() {
-    const {
-      measurementId
-    } = this.props.analyticData;
-    const measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_9__["defaultData"].measurements.find(_ => _.id === measurementId) || {};
-    const {
-      isPeriodGrowthDataType,
-      selectedDrillDownCurrency,
-      selectedDrillDownDataset
-    } = this.state;
-    const growthChartData = this._getGrowthChartData() || [];
-    const lineChartData = {
-      name: 'Growth',
-      dataSet: growthChartData.map(_ => _.growthPercent)
+    return {
+      overallMarginData,
+      title: _lib_constants__WEBPACK_IMPORTED_MODULE_7__["titleOverallMarginChart"]
     };
-
-    const barChartData = this._getBarChartData(growthChartData, measurement);
-
-    const labels = growthChartData.map(_ => _.name);
-    const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ` - ${selectedDrillDownCurrency.name} - ${_lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset].periodName}`}`;
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      title: title,
-      barChartData: barChartData,
-      lineChartData: lineChartData,
-      labels: labels,
-      leftAxisName: measurement.name,
-      showBackIcon: !isPeriodGrowthDataType,
-      backToDefaultChart: () => this.setState({
-        isPeriodGrowthDataType: true
-      })
-    });
   }
 
-  _getGrowthChartData() {
+  _getDifferenceTableData() {
     const {
-      isPeriodGrowthDataType
-    } = this.state;
-    const {
-      analyticData
-    } = this.props;
-    const {
-      growthData
-    } = analyticData;
-
-    if (isPeriodGrowthDataType) {
-      return growthData['periodGrowth'];
-    } else {
-      const field = this._getDrillDownField();
-
-      const drillDownData = growthData['monthGrowth'][field];
-      return drillDownData;
-    }
-  }
-
-  _getDrillDownField() {
-    const {
-      selectedDrillDownCurrency,
-      selectedDrillDownDataset
-    } = this.state;
-    const {
-      analyticData
-    } = this.props;
-    const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
-    const field = _lib_service__WEBPACK_IMPORTED_MODULE_12__["generalService"].getFieldMonthGrowth(selectedDrillDownCurrency.name, selectedPeriod);
-    return field;
-  }
-
-  _getBarChartData(growthChartData, measurement) {
-    const {
-      isPeriodGrowthDataType,
-      selectedDrillDownCurrency,
-      selectedDrillDownDataset
-    } = this.state;
-
-    if (isPeriodGrowthDataType) {
-      return _lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"].map((_, datasetIndex) => {
-        return {
-          name: _.periodName,
-          dataSet: growthChartData.map(__ => __[_.periodFieldName]),
-          events: {
-            click: growthChartData.map((periodData, colIndex) => {
-              const drillDownCurrency = {
-                id: periodData.id,
-                name: periodData.name,
-                distributions: periodData[_.distributionFieldName]
-              };
-              return {
-                columnIndex: colIndex,
-                callBack: () => {
-                  this.setState({
-                    isPeriodGrowthDataType: false,
-                    selectedDrillDownDataset: datasetIndex,
-                    selectedDrillDownCurrency: drillDownCurrency
-                  }, this._handleDrillDownGrowthChart);
-                }
-              };
-            })
-          }
-        };
-      });
-    } else {
-      return [{
-        name: selectedDrillDownCurrency.name + ' ' + measurement.name,
-        dataSet: growthChartData.map(_ => _.total),
-        color: _lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset].columnColor
-      }, {
-        hidden: true,
-        dataSet: []
-      }];
-    }
-  }
-
-  _handleDrillDownGrowthChart() {
-    const {
-      selectedDrillDownCurrency,
-      selectedDrillDownDataset
-    } = this.state;
-    const {
-      analyticData
-    } = this.props;
-    const {
-      growthData
-    } = analyticData;
-    const selectedPeriod = analyticData[_lib_constants__WEBPACK_IMPORTED_MODULE_10__["growthChartConsts"][selectedDrillDownDataset]['periodField']];
-    const field = _lib_service__WEBPACK_IMPORTED_MODULE_12__["generalService"].getFieldMonthGrowth(selectedDrillDownCurrency.name, selectedPeriod);
-    const drillDownData = growthData['monthGrowth'][field];
-
-    if (!drillDownData) {
-      const filterData = Object(_lib_service__WEBPACK_IMPORTED_MODULE_11__["getFilterDataMonthGrowth"])({
-        analyticData,
-        selectedPeriod,
-        selectedCurrency: selectedDrillDownCurrency
-      });
-      this.props.getDrillDownData(filterData, field);
-    }
+      measurementDifferenceData
+    } = this.props.analyticData;
+    return {
+      measurementDifferenceData
+    };
   }
 
   render() {
@@ -3775,23 +3496,19 @@ class ProductTab extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
     } = this.props.analyticData;
     return measurementId ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "child-tab product-tab",
-      style: _lib_service__WEBPACK_IMPORTED_MODULE_12__["generalService"].getScrollTabStyle()
+      style: _lib_service__WEBPACK_IMPORTED_MODULE_5__["generalService"].getScrollTabStyle()
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "side-tab-left"
-    }, measurementId === _lib_constants__WEBPACK_IMPORTED_MODULE_9__["MEASUREMENT_ID"].MARGIN ? this._renderOverallChart() : this._renderDistributionChart(), this._renderDifferenceTable()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, measurementId === _lib_constants__WEBPACK_IMPORTED_MODULE_4__["MEASUREMENT_ID"].MARGIN ? this.renderOverallChart() : this.renderDistributionChart(), this.renderDifferenceTable()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "side-tab-right"
-    }, this._renderGrowthChart())) : null;
+    }, this.renderGrowthChart())) : null;
   }
 
 }
 
 function mapDispatchToProps(dispatch) {
-  const {
-    getDrillDownData
-  } = _currency_actions_index__WEBPACK_IMPORTED_MODULE_3__["default"];
   return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
-    setAnalyticData: _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_2__["setAnalyticData"],
-    getDrillDownData
+    setAnalyticData: _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_2__["setAnalyticData"]
   }, dispatch);
 }
 
@@ -3804,7 +3521,7 @@ function mapStateToProps(state) {
   });
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(mapStateToProps, mapDispatchToProps)(ProductTab));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(ProductTab));
 
 /***/ }),
 
@@ -3868,47 +3585,22 @@ const getAllMonthGrowthData = async filterData => {
 /*!****************************************************************!*\
   !*** ./src/js/pages/performance/tabs/product/lib/constants.js ***!
   \****************************************************************/
-/*! exports provided: growthChartConsts, diffenrenceTableRowDataConst */
+/*! exports provided: titleDistributionChart, titleOverallMarginChart */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "growthChartConsts", function() { return growthChartConsts; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "diffenrenceTableRowDataConst", function() { return diffenrenceTableRowDataConst; });
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
-
-const growthChartConsts = [{
-  periodName: 'Previous Period',
-  periodFieldName: 'previousPeriodTotal',
-  periodField: 'previousPeriod',
-  distributionFieldName: 'previousPeriodDistributions'
-}, {
-  periodName: 'Current Period',
-  periodFieldName: 'currentPeriodTotal',
-  periodField: 'currentPeriod',
-  distributionFieldName: 'currentPeriodDistributions',
-  columnColor: '#36A2EB'
-}];
-const diffenrenceTableRowDataConst = [{
-  id: _lib_constants__WEBPACK_IMPORTED_MODULE_0__["MEASUREMENT_ID"].TURNOVER,
-  name: 'Turnover',
-  propertyName: 'differenceTurnover'
-}, {
-  id: _lib_constants__WEBPACK_IMPORTED_MODULE_0__["MEASUREMENT_ID"].GROSS_PROFIT,
-  name: 'Gross Profit',
-  propertyName: 'differenceGrossProfit'
-}, {
-  id: _lib_constants__WEBPACK_IMPORTED_MODULE_0__["MEASUREMENT_ID"].MARGIN,
-  name: 'Margin',
-  propertyName: 'differenceMargin'
-}];
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "titleDistributionChart", function() { return titleDistributionChart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "titleOverallMarginChart", function() { return titleOverallMarginChart; });
+const titleDistributionChart = 'Distribution - Top 5 Products';
+const titleOverallMarginChart = 'Overall Margin Growth';
 
 /***/ }),
 
-/***/ "./src/js/pages/performance/tabs/product/lib/service.js":
-/*!**************************************************************!*\
-  !*** ./src/js/pages/performance/tabs/product/lib/service.js ***!
-  \**************************************************************/
+/***/ "./src/js/pages/performance/tabs/service.js":
+/*!**************************************************!*\
+  !*** ./src/js/pages/performance/tabs/service.js ***!
+  \**************************************************/
 /*! exports provided: getDiffenrenceTableData, getDistributionChartData, getOverallChartData, getFilterDataMonthGrowth */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3920,11 +3612,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFilterDataMonthGrowth", function() { return getFilterDataMonthGrowth; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../lib/service */ "./src/js/pages/performance/lib/service.js");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./src/js/pages/performance/tabs/product/lib/constants.js");
-/* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
-/* harmony import */ var _components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../components/normal/ValueChangeIcon */ "./src/js/pages/performance/components/normal/ValueChangeIcon.jsx");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/service */ "./src/js/pages/performance/lib/service.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./src/js/pages/performance/tabs/constants.js");
+/* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
+/* harmony import */ var _components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/normal/ValueChangeIcon */ "./src/js/pages/performance/components/normal/ValueChangeIcon.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
 
 
 

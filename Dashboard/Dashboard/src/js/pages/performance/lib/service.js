@@ -1,5 +1,5 @@
 import { defaultFormatFunc } from '../../../lib/dateTimeHelper';
-
+import {defaultData } from '../lib/constants';
 export const generalService = {
   getFilterData: ({ selectedMeasurement, selectedBaseCurrency, selectedComparePeriods }) => {
     return {
@@ -17,8 +17,11 @@ export const generalService = {
       measurement: { id: analyticData.measurementId }
     }
   },
-  getFieldMonthGrowth (selectedCategory, selectedPeriod) {
+  getFieldMonthGrowth: (selectedCategory, selectedPeriod) => {
     return selectedCategory + '_' + selectedPeriod.fromMonth + '_' + selectedPeriod.toMonth;
+  },
+  getMeasurementNameById: measurementId => {
+    return defaultData.measurements.find(_ => _.id === measurementId)
   },
   getScrollTabStyle: () => {
     const { innerHeight } = window;
