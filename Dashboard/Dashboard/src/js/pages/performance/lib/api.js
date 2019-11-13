@@ -2,6 +2,7 @@ import { tabMenuKey } from '../lib/constants';
 import * as overviewApi from '../tabs/overview/lib/api';
 import * as currencyApi from '../tabs/currency/lib/api';
 import * as productApi from '../tabs/product/lib/api';
+import * as platformApi from '../tabs/platform/lib/api';
 
 const overviewApiFactory = {
   mainApi: filterData => {
@@ -56,6 +57,30 @@ const productApiFactory = {
   }
 }
 
+const platformApiFactory = {
+  mainApi: filterData => {
+    return platformApi.getCombineData(filterData);
+  },
+  lazyApi: async (mainData, filterData) => {
+    const topDistributions = mapToTopDistributions(mainData['growthData']['periodGrowth']);
+    const lazyFilterData = {
+      ...filterData,
+      ...{
+        topDistributions
+      }
+    }
+    const responseData = await platformApi.getAllMonthGrowthData(lazyFilterData);
+    const data = {
+      handlerData: state => {
+        state['growthData']['monthGrowth'] = responseData
+        return state;
+      }
+    }
+    return data;
+  }
+}
+
+
 const mapToTopDistributions = data => {
   return data.map(_ => ({
     displayId: _.id,
@@ -68,5 +93,6 @@ const mapToTopDistributions = data => {
 export const factoryApi = {
   [tabMenuKey.overview]: overviewApiFactory,
   [tabMenuKey.currency]: currencyApiFactory,
-  [tabMenuKey.product]: productApiFactory
+  [tabMenuKey.product]: productApiFactory,
+  [tabMenuKey.platform]: platformApiFactory
 }

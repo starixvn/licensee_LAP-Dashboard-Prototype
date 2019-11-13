@@ -2257,6 +2257,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tabs_overview_lib_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../tabs/overview/lib/api */ "./src/js/pages/performance/tabs/overview/lib/api.js");
 /* harmony import */ var _tabs_currency_lib_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../tabs/currency/lib/api */ "./src/js/pages/performance/tabs/currency/lib/api.js");
 /* harmony import */ var _tabs_product_lib_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../tabs/product/lib/api */ "./src/js/pages/performance/tabs/product/lib/api.js");
+/* harmony import */ var _tabs_platform_lib_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../tabs/platform/lib/api */ "./src/js/pages/performance/tabs/platform/lib/api.js");
+
 
 
 
@@ -2309,6 +2311,27 @@ const productApiFactory = {
     return data;
   }
 };
+const platformApiFactory = {
+  mainApi: filterData => {
+    return _tabs_platform_lib_api__WEBPACK_IMPORTED_MODULE_4__["getCombineData"](filterData);
+  },
+  lazyApi: async (mainData, filterData) => {
+    const topDistributions = mapToTopDistributions(mainData['growthData']['periodGrowth']);
+    const lazyFilterData = { ...filterData,
+      ...{
+        topDistributions
+      }
+    };
+    const responseData = await _tabs_platform_lib_api__WEBPACK_IMPORTED_MODULE_4__["getAllMonthGrowthData"](lazyFilterData);
+    const data = {
+      handlerData: state => {
+        state['growthData']['monthGrowth'] = responseData;
+        return state;
+      }
+    };
+    return data;
+  }
+};
 
 const mapToTopDistributions = data => {
   return data.map(_ => ({
@@ -2322,7 +2345,8 @@ const mapToTopDistributions = data => {
 const factoryApi = {
   [_lib_constants__WEBPACK_IMPORTED_MODULE_0__["tabMenuKey"].overview]: overviewApiFactory,
   [_lib_constants__WEBPACK_IMPORTED_MODULE_0__["tabMenuKey"].currency]: currencyApiFactory,
-  [_lib_constants__WEBPACK_IMPORTED_MODULE_0__["tabMenuKey"].product]: productApiFactory
+  [_lib_constants__WEBPACK_IMPORTED_MODULE_0__["tabMenuKey"].product]: productApiFactory,
+  [_lib_constants__WEBPACK_IMPORTED_MODULE_0__["tabMenuKey"].platform]: platformApiFactory
 };
 
 /***/ }),
@@ -3376,37 +3400,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/analyticDataAction */ "./src/js/pages/performance/actions/analyticDataAction.js");
+/* harmony import */ var _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/analyticDataAction */ "./src/js/pages/performance/actions/analyticDataAction.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../lib/service */ "./src/js/pages/performance/lib/service.js");
+/* harmony import */ var _PerformanceChildTab__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../PerformanceChildTab */ "./src/js/pages/performance/tabs/PerformanceChildTab.jsx");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lib/constants */ "./src/js/pages/performance/tabs/platform/lib/constants.js");
 
 
 
 
 
-class PlatformTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+
+
+
+
+class PlatformTab extends _PerformanceChildTab__WEBPACK_IMPORTED_MODULE_6__["default"] {
   constructor(props) {
     super(props);
-    this.state = {
-      isPeriodGrowthDataType: true,
-      selectedDrillDownColumn: 0,
-      selectedDrillDownColumnName: ''
+    this.state = { ...this.state,
+      ...{}
+    };
+    this.titleDistributionChart = _lib_constants__WEBPACK_IMPORTED_MODULE_7__["titleDistributionChart"];
+  }
+
+  _getDistributionChartData() {
+    const {
+      distributionData,
+      topDistributions,
+      measurementId
+    } = this.props.analyticData;
+    return {
+      distributionData,
+      topDistributions,
+      measurementId
     };
   }
 
-  componentDidMount() {
-    this.props.setAnalyticData({});
+  _getOverallChartData() {
+    const {
+      overallMarginData
+    } = this.props.analyticData;
+    return {
+      overallMarginData,
+      title: _lib_constants__WEBPACK_IMPORTED_MODULE_7__["titleOverallMarginChart"]
+    };
+  }
+
+  _getDifferenceTableData() {
+    const {
+      measurementDifferenceData
+    } = this.props.analyticData;
+    return {
+      measurementDifferenceData
+    };
   }
 
   render() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, 'Platform tab');
+    const {
+      measurementId
+    } = this.props.analyticData;
+    return measurementId ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "child-tab product-tab",
+      style: _lib_service__WEBPACK_IMPORTED_MODULE_5__["generalService"].getScrollTabStyle()
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "side-tab-left"
+    }, measurementId === _lib_constants__WEBPACK_IMPORTED_MODULE_4__["MEASUREMENT_ID"].MARGIN ? this.renderOverallChart() : this.renderDistributionChart(), this.renderDifferenceTable()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "side-tab-right"
+    }, this.renderGrowthChart())) : null;
   }
 
 }
 
 function mapDispatchToProps(dispatch) {
-  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(Object.assign({}, {
-    setAnalyticData: _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_3__["setAnalyticData"]
-  }), dispatch);
+  return Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])({
+    setAnalyticData: _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_2__["setAnalyticData"]
+  }, dispatch);
 }
 
 function mapStateToProps(state) {
@@ -3418,7 +3487,79 @@ function mapStateToProps(state) {
   });
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps)(PlatformTab));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(PlatformTab));
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/platform/lib/api.js":
+/*!***********************************************************!*\
+  !*** ./src/js/pages/performance/tabs/platform/lib/api.js ***!
+  \***********************************************************/
+/*! exports provided: getCombineData, getMonthGrowthData, getAllMonthGrowthData */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCombineData", function() { return getCombineData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMonthGrowthData", function() { return getMonthGrowthData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllMonthGrowthData", function() { return getAllMonthGrowthData; });
+/* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../lib/widgetApi */ "./src/js/lib/widgetApi.js");
+
+const getCombineData = async filterData => {
+  const param = Object.assign({}, _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].getCommonParam(4), {
+    Data: filterData,
+    Url: '/api/performance/platform'
+  });
+  const response = await _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].postData(param);
+
+  if (response && response.data && response.data.isSuccess) {
+    return response.data.data;
+  }
+
+  return {};
+};
+const getMonthGrowthData = async filterData => {
+  const param = Object.assign({}, _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].getCommonParam(4), {
+    Data: filterData,
+    Url: '/api/performance/platform/month-growth'
+  });
+  const response = await _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].postData(param);
+
+  if (response && response.data && response.data.isSuccess) {
+    return response.data.data;
+  }
+
+  return [];
+};
+const getAllMonthGrowthData = async filterData => {
+  const param = Object.assign({}, _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].getCommonParam(4), {
+    Data: filterData,
+    Url: '/api/performance/platform/month-growth-all'
+  });
+  const response = await _lib_widgetApi__WEBPACK_IMPORTED_MODULE_0__["default"].postData(param);
+
+  if (response && response.data && response.data.isSuccess) {
+    return response.data.data;
+  }
+
+  return {};
+};
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/platform/lib/constants.js":
+/*!*****************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/platform/lib/constants.js ***!
+  \*****************************************************************/
+/*! exports provided: titleDistributionChart, titleOverallMarginChart */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "titleDistributionChart", function() { return titleDistributionChart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "titleOverallMarginChart", function() { return titleOverallMarginChart; });
+const titleDistributionChart = 'Distribution - Top 5 Platforms';
+const titleOverallMarginChart = 'Overall Margin Growth';
 
 /***/ }),
 
