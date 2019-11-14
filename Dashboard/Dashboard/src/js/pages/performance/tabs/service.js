@@ -70,7 +70,7 @@ const renderDiffenrenceTableRow = (rowData, index) => <tr key={`table_comparison
   <td><span>{rowData.name}</span></td>
   {rowData.data.map(_ => {
     const differenceDistribution = rowData.id === MEASUREMENT_ID.MARGIN ? _.differenceTotal : _.differenceDistribution;
-    const differenceTotal = rowData.id === MEASUREMENT_ID.MARGIN ? null : _.differenceTotal;
+    const differenceTotal = rowData.id === MEASUREMENT_ID.MARGIN ? null : numberFormat.formatDecimal(_.differenceTotal);
     return <td>
       <div className="m-b-5"><ValueChangeIcon value={differenceDistribution} /><span>{differenceDistribution + '%'}</span></div>
       {differenceTotal}

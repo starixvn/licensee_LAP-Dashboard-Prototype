@@ -44,7 +44,7 @@ class PlatformTab extends PerformanceChildTab {
   render() {
     const { measurementId } = this.props.analyticData;
     return measurementId ? (
-      <div className="child-tab product-tab" style={generalService.getScrollTabStyle()}>
+      <div className="child-tab platform-tab" style={generalService.getScrollTabStyle()}>
         <div className="side-tab-left">
         {measurementId === MEASUREMENT_ID.MARGIN ? this.renderOverallChart() : this.renderDistributionChart()}
         {this.renderDifferenceTable()}

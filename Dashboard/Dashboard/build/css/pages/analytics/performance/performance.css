@@ -147,6 +147,46 @@
     float: none;
     width: 100%; } }
 
+.performance-container .platform-tab .info-zone-container {
+  width: 100%; }
+
+.performance-container .platform-tab .side-tab-left {
+  float: left;
+  width: 44%; }
+  .performance-container .platform-tab .side-tab-left .table-comparison {
+    margin-top: 15px; }
+    .performance-container .platform-tab .side-tab-left .table-comparison .table-comparison-body {
+      width: 100%; }
+      .performance-container .platform-tab .side-tab-left .table-comparison .table-comparison-body td .arrow-up, .performance-container .platform-tab .side-tab-left .table-comparison .table-comparison-body td .arrow-down, .performance-container .platform-tab .side-tab-left .table-comparison .table-comparison-body td .rec-equal {
+        float: left; }
+
+.performance-container .platform-tab .side-tab-right {
+  float: right;
+  width: 55%; }
+
+@media (max-width: 1300px) {
+  .performance-container .platform-tab .side-tab-left, .performance-container .platform-tab .side-tab-right {
+    float: none;
+    width: 100%; } }
+
+.performance-container .bettype-tab .info-zone-container {
+  width: 100%; }
+
+.performance-container .bettype-tab .side-tab-container {
+  width: 100%; }
+  .performance-container .bettype-tab .side-tab-container .side-tab-left {
+    float: left;
+    width: 49%; }
+  .performance-container .bettype-tab .side-tab-container .side-tab-right {
+    float: right;
+    width: 50%; }
+    .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison {
+      margin-top: 15px; }
+      .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison .table-comparison-body {
+        width: 100%; }
+        .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison .table-comparison-body td .arrow-up, .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison .table-comparison-body td .arrow-down, .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison .table-comparison-body td .rec-equal {
+          float: left; }
+
 .performance-container .loading-process {
   background: rgba(255, 255, 255, 0.7) no-repeat; }
   .performance-container .loading-process .icon-loading {

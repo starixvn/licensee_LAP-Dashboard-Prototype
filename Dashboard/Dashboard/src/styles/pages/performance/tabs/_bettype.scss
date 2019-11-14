@@ -1,0 +1,39 @@
+.performance-container {
+  .bettype-tab {
+
+    .info-zone-container {
+      width: 100%;
+    }
+
+    .side-tab-container {
+      width: 100%;
+
+      .side-tab-left {
+        float: left;
+        width: 49%;
+      }
+
+      .side-tab-right {
+        float: right;
+        width: 50%;
+        .table-comparison {
+          margin-top: 15px;
+          .table-comparison-body {
+            width: 100%;
+            td {
+              .arrow-up, .arrow-down, .rec-equal {
+                float: left;
+              }
+            }
+          }
+        }
+      }
+
+      @media (max-width: 1300px) {
+
+      }
+    }
+
+
+  }
+}

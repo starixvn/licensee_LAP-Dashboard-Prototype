@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Bar } from 'react-chartjs-2';
 
-const defaultColorBarChart = ['#2B465B', '#37C2CC', '#F15D21', '#F1A837', '#208E9B', '#4C6375'];
+const defaultColorBarChart = ['#2B465B', '#37C2CC', '#F15D21', '#4C6375', '#F1A837', '#208E9B', '#4C6568', '#524C68', '#39AF93', '#5F684C', '#4A863B'];
 const defaultTooltip = value => {
   return value + '%';
 }
