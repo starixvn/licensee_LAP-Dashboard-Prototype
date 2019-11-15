@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { growthChartConsts } from './constants';
-import { getDiffenrenceTableData, getDistributionChartData, getOverallChartData } from './service';
+import { diffenrenceTableDataMapper, distributionChartDataMapper, overallChartDataMapper } from './service';
 import DistributionChart from '../components/charts/DistributionChart';
 import OverallChart from '../components/charts/OverallChart';
 import ComparisonTable from '../components/normal/ComparisonTable';
@@ -15,6 +15,7 @@ export default class PerformanceChildTab extends PureComponent {
       selectedColumnDrillDown: null
     }
     this.titleDistributionChart = '';
+    this.isAutoScaleGrowthChart = true;
   }
 
   componentDidMount() {
@@ -41,7 +42,7 @@ export default class PerformanceChildTab extends PureComponent {
       distributionData={distributionData}
       topDistributions={topDistributions}
       title={title}
-      dataMapper={getDistributionChartData}
+      dataMapper={distributionChartDataMapper}
     />
   }
 
@@ -53,16 +54,16 @@ export default class PerformanceChildTab extends PureComponent {
     return <OverallChart
       title={title}
       overallData={overallMarginData}
-      dataMapper={getOverallChartData}
+      dataMapper={overallChartDataMapper}
     />
   }
 
   renderDifferenceTable() {
-    const { measurementDifferenceData } = this._getDifferenceTableData();
+    const { measurementDifferenceData, dataMapper } = this._getDifferenceTableData();
     if (!measurementDifferenceData) {
       return null;
     }
-    const tableData = getDiffenrenceTableData(measurementDifferenceData);
+    const tableData = dataMapper ? dataMapper(measurementDifferenceData) : diffenrenceTableDataMapper(measurementDifferenceData);
     return <ComparisonTable
       {...tableData}
     />;
@@ -85,8 +86,10 @@ export default class PerformanceChildTab extends PureComponent {
     const labels = growthChartData.map(_ => _.name);
     const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' :
       ` - ${selectedColumnDrillDown.name} - ${growthChartConsts[selectedColumnDrillDown.datasetIndex].periodName}`}`;
+    const autoScale = this.isAutoScaleGrowthChart;
 
     return <GrowthChart
+      autoScale={autoScale}
       title={title}
       barChartData={barChartData}
       lineChartData={lineChartData}

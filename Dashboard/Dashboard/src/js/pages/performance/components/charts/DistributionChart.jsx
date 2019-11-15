@@ -11,7 +11,7 @@ export default class DistributionChart extends PureComponent {
   }
 
   static limitAxisY = {
-     suggestedMax: 100,
+     max: 100
   }
 
   componentDidMount() {

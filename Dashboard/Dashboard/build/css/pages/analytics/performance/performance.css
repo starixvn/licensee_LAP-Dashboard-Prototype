@@ -174,18 +174,31 @@
 
 .performance-container .bettype-tab .side-tab-container {
   width: 100%; }
+  .performance-container .bettype-tab .side-tab-container:first-child {
+    overflow: hidden;
+    margin-bottom: 15px; }
+  .performance-container .bettype-tab .side-tab-container:last-child .info-zone-body {
+    height: 710px; }
+    .performance-container .bettype-tab .side-tab-container:last-child .info-zone-body .chart-container {
+      max-height: 650px; }
   .performance-container .bettype-tab .side-tab-container .side-tab-left {
     float: left;
-    width: 49%; }
+    width: 50%; }
   .performance-container .bettype-tab .side-tab-container .side-tab-right {
     float: right;
-    width: 50%; }
-    .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison {
-      margin-top: 15px; }
-      .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison .table-comparison-body {
-        width: 100%; }
-        .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison .table-comparison-body td .arrow-up, .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison .table-comparison-body td .arrow-down, .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison .table-comparison-body td .rec-equal {
-          float: left; }
+    width: 49%; }
+    .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison .table-comparison-body {
+      width: 100%; }
+      .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison .table-comparison-body td .arrow-up, .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison .table-comparison-body td .arrow-down, .performance-container .bettype-tab .side-tab-container .side-tab-right .table-comparison .table-comparison-body td .rec-equal {
+        float: left; }
+  @media (max-width: 1300px) {
+    .performance-container .bettype-tab .side-tab-container .side-tab-left {
+      float: none;
+      width: 100%;
+      margin-bottom: 15px; }
+    .performance-container .bettype-tab .side-tab-container .side-tab-right {
+      float: none;
+      width: 100%; } }
 
 .performance-container .loading-process {
   background: rgba(255, 255, 255, 0.7) no-repeat; }

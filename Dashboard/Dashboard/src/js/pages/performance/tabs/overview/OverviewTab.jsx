@@ -98,6 +98,7 @@ class OverviewTab extends Component {
     const title =  `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ' - ' + selectedDrillDownColumnName}`;
 
     return <GrowthChart
+      autoScale={true}
       getStyle={this._getStyleGrowthChart}
       title={title}
       barChartData={barChartData}

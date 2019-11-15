@@ -1213,7 +1213,7 @@ class DistributionChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponen
 }
 
 _defineProperty(DistributionChart, "limitAxisY", {
-  suggestedMax: 100
+  max: 100
 });
 
 /***/ }),
@@ -1275,7 +1275,8 @@ class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
       lineChartData,
       barChartData,
       labels,
-      leftAxisName
+      leftAxisName,
+      autoScale
     } = this.props;
     const {
       style
@@ -1294,7 +1295,8 @@ class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
       barChartData: barChartData,
       leftAxisName: leftAxisName,
       rightAxisName: 'Growth rate(%)',
-      labels: labels
+      labels: labels,
+      autoScale: autoScale
     })));
   }
 
@@ -1672,7 +1674,8 @@ const buildMixChartOption = ({
   labels,
   barChartData,
   leftAxisName,
-  rightAxisName
+  rightAxisName,
+  autoScale
 }) => {
   const barWidthObj = barChartData[0].dataSet.length >= 6 ? {
     barPercentage: 0.9,
@@ -1682,6 +1685,7 @@ const buildMixChartOption = ({
     categoryPercentage: 0.5
   };
   return {
+    maintainAspectRatio: autoScale,
     onClick: function (e, item) {
       const activeElement = this.getElementAtEvent(e);
 
@@ -1811,7 +1815,8 @@ class MixBarLineChart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       barChartData,
       labels,
       leftAxisName,
-      rightAxisName
+      rightAxisName,
+      autoScale
     } = this.props;
     const data = buildMixChartDataSet({
       lineChartData,
@@ -1821,7 +1826,8 @@ class MixBarLineChart extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       labels,
       barChartData,
       leftAxisName,
-      rightAxisName
+      rightAxisName,
+      autoScale
     });
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_chartjs_2__WEBPACK_IMPORTED_MODULE_1__["Bar"], {
       data: data,
@@ -2108,20 +2114,27 @@ const BoxInfoMeasureList = props => {
 /*!************************************************************************!*\
   !*** ./src/js/pages/performance/components/normal/ComparisonTable.jsx ***!
   \************************************************************************/
-/*! exports provided: ComparisonTable, default */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ComparisonTable", function() { return ComparisonTable; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
 const renderHeader = header => {
   return header.map((_, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    key: `table_comparison_header_${index}`
-  }, _ + ''));
+    key: `table_comparison_header_${index}`,
+    colSpan: _.colSpan || 1,
+    rowSpan: _.rowSpan || 1
+  }, _.name));
+};
+
+const renderHeaders = headers => {
+  return headers.map((_, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+    key: `table_comparison_row_header_${index}`
+  }, renderHeader(_)));
 };
 
 const renderRows = (data, renderRow) => {
@@ -2130,7 +2143,7 @@ const renderRows = (data, renderRow) => {
 
 const ComparisonTable = props => {
   const {
-    header,
+    headers,
     data,
     title,
     renderRow
@@ -2141,8 +2154,9 @@ const ComparisonTable = props => {
     className: "table-comparison-title"
   }, title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table-comparison-body"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, header && renderHeader(header))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, data && renderRow && renderRows(data, renderRow))));
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, headers && renderHeaders(headers)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, data && renderRow && renderRows(data, renderRow))));
 };
+
 /* harmony default export */ __webpack_exports__["default"] = (react__WEBPACK_IMPORTED_MODULE_0___default.a.memo(ComparisonTable));
 
 /***/ }),
@@ -2658,6 +2672,7 @@ class PerformanceChildTab extends react__WEBPACK_IMPORTED_MODULE_0__["PureCompon
       selectedColumnDrillDown: null
     };
     this.titleDistributionChart = '';
+    this.isAutoScaleGrowthChart = true;
   }
 
   componentDidMount() {
@@ -2693,7 +2708,7 @@ class PerformanceChildTab extends react__WEBPACK_IMPORTED_MODULE_0__["PureCompon
       distributionData: distributionData,
       topDistributions: topDistributions,
       title: title,
-      dataMapper: _service__WEBPACK_IMPORTED_MODULE_2__["getDistributionChartData"]
+      dataMapper: _service__WEBPACK_IMPORTED_MODULE_2__["distributionChartDataMapper"]
     });
   }
 
@@ -2710,20 +2725,21 @@ class PerformanceChildTab extends react__WEBPACK_IMPORTED_MODULE_0__["PureCompon
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_OverallChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
       title: title,
       overallData: overallMarginData,
-      dataMapper: _service__WEBPACK_IMPORTED_MODULE_2__["getOverallChartData"]
+      dataMapper: _service__WEBPACK_IMPORTED_MODULE_2__["overallChartDataMapper"]
     });
   }
 
   renderDifferenceTable() {
     const {
-      measurementDifferenceData
+      measurementDifferenceData,
+      dataMapper
     } = this._getDifferenceTableData();
 
     if (!measurementDifferenceData) {
       return null;
     }
 
-    const tableData = Object(_service__WEBPACK_IMPORTED_MODULE_2__["getDiffenrenceTableData"])(measurementDifferenceData);
+    const tableData = dataMapper ? dataMapper(measurementDifferenceData) : Object(_service__WEBPACK_IMPORTED_MODULE_2__["diffenrenceTableDataMapper"])(measurementDifferenceData);
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ComparisonTable__WEBPACK_IMPORTED_MODULE_5__["default"], tableData);
   }
 
@@ -2752,7 +2768,9 @@ class PerformanceChildTab extends react__WEBPACK_IMPORTED_MODULE_0__["PureCompon
 
     const labels = growthChartData.map(_ => _.name);
     const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ` - ${selectedColumnDrillDown.name} - ${_constants__WEBPACK_IMPORTED_MODULE_1__["growthChartConsts"][selectedColumnDrillDown.datasetIndex].periodName}`}`;
+    const autoScale = this.isAutoScaleGrowthChart;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      autoScale: autoScale,
       title: title,
       barChartData: barChartData,
       lineChartData: lineChartData,
@@ -2868,6 +2886,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../lib/service */ "./src/js/pages/performance/lib/service.js");
 /* harmony import */ var _PerformanceChildTab__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../PerformanceChildTab */ "./src/js/pages/performance/tabs/PerformanceChildTab.jsx");
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./lib/constants */ "./src/js/pages/performance/tabs/bettype/lib/constants.js");
+/* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./lib/service */ "./src/js/pages/performance/tabs/bettype/lib/service.js");
+
 
 
 
@@ -2884,6 +2904,7 @@ class BettypeTab extends _PerformanceChildTab__WEBPACK_IMPORTED_MODULE_6__["defa
       ...{}
     };
     this.titleDistributionChart = _lib_constants__WEBPACK_IMPORTED_MODULE_7__["titleDistributionChart"];
+    this.isAutoScaleGrowthChart = false;
   }
 
   _getDistributionChartData() {
@@ -2914,7 +2935,8 @@ class BettypeTab extends _PerformanceChildTab__WEBPACK_IMPORTED_MODULE_6__["defa
       measurementDifferenceData
     } = this.props.analyticData;
     return {
-      measurementDifferenceData
+      measurementDifferenceData,
+      dataMapper: _lib_service__WEBPACK_IMPORTED_MODULE_8__["diffenrenceTableDataMapper"]
     };
   }
 
@@ -2923,16 +2945,16 @@ class BettypeTab extends _PerformanceChildTab__WEBPACK_IMPORTED_MODULE_6__["defa
       measurementId
     } = this.props.analyticData;
     return measurementId ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "child-tab product-tab",
+      className: "child-tab bettype-tab",
       style: _lib_service__WEBPACK_IMPORTED_MODULE_5__["generalService"].getScrollTabStyle()
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "side-tab"
+      className: "side-tab-container"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "side-tab-left"
     }, measurementId === _lib_constants__WEBPACK_IMPORTED_MODULE_4__["MEASUREMENT_ID"].MARGIN ? this.renderOverallChart() : this.renderDistributionChart()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "side-tab-right"
     }, this.renderDifferenceTable())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "side-tab"
+      className: "side-tab-container"
     }, this.renderGrowthChart())) : null;
   }
 
@@ -3003,15 +3025,100 @@ const getAllMonthGrowthData = async filterData => {
 /*!****************************************************************!*\
   !*** ./src/js/pages/performance/tabs/bettype/lib/constants.js ***!
   \****************************************************************/
-/*! exports provided: titleDistributionChart, titleOverallMarginChart */
+/*! exports provided: titleDistributionChart, titleOverallMarginChart, diffenceTableHeader */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "titleDistributionChart", function() { return titleDistributionChart; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "titleOverallMarginChart", function() { return titleOverallMarginChart; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "diffenceTableHeader", function() { return diffenceTableHeader; });
 const titleDistributionChart = 'Distribution - Top 10 Bettypes';
 const titleOverallMarginChart = 'Overall Margin Growth';
+const diffenceTableHeader = [[{
+  name: 'Bettype',
+  rowSpan: 2
+}, ...[{
+  name: 'Turnover',
+  colSpan: 2
+}, {
+  name: 'Gross Profit',
+  colSpan: 2
+}, {
+  name: 'Margin %',
+  rowSpan: 2
+}]], [{
+  name: '%'
+}, {
+  name: 'Value'
+}, {
+  name: '%'
+}, {
+  name: 'Value'
+}]];
+
+/***/ }),
+
+/***/ "./src/js/pages/performance/tabs/bettype/lib/service.js":
+/*!**************************************************************!*\
+  !*** ./src/js/pages/performance/tabs/bettype/lib/service.js ***!
+  \**************************************************************/
+/*! exports provided: diffenrenceTableDataMapper */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "diffenrenceTableDataMapper", function() { return diffenrenceTableDataMapper; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants */ "./src/js/pages/performance/tabs/bettype/lib/constants.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../constants */ "./src/js/pages/performance/tabs/constants.js");
+/* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
+/* harmony import */ var _components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../components/normal/ValueChangeIcon */ "./src/js/pages/performance/components/normal/ValueChangeIcon.jsx");
+
+
+
+
+
+const rowDataMapper = [data => ({
+  value: data.differenceTurnover.differenceDistribution,
+  isPercentUnit: true
+}), data => ({
+  value: data.differenceTurnover.differenceTotal,
+  isPercentUnit: false
+}), data => ({
+  value: data.differenceGrossProfit.differenceDistribution,
+  isPercentUnit: true
+}), data => ({
+  value: data.differenceGrossProfit.differenceTotal,
+  isPercentUnit: false
+}), data => ({
+  value: data.differenceMargin.differenceTotal,
+  isPercentUnit: true
+})];
+
+const renderDiffenrenceTableRow = (rowData, index) => react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+  key: `table_comparison_row_${index}_${rowData}`
+}, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, rowData.name)), rowData.data.map(_ => {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, _.isPercentUnit ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "m-b-5"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_normal_ValueChangeIcon__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    value: _.value
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, _.value + '%')) : null, _.isPercentUnit ? null : _lib_numberFormat__WEBPACK_IMPORTED_MODULE_3__["default"].formatDecimal(_.value));
+}));
+
+const diffenrenceTableDataMapper = measurementDifferenceData => {
+  const rows = measurementDifferenceData.map(_ => ({
+    name: _.name,
+    data: rowDataMapper.map(__ => __(_))
+  }));
+  return {
+    title: _constants__WEBPACK_IMPORTED_MODULE_2__["differenceTableTitle"],
+    headers: _constants__WEBPACK_IMPORTED_MODULE_1__["diffenceTableHeader"],
+    data: rows,
+    renderRow: renderDiffenrenceTableRow
+  };
+};
 
 /***/ }),
 
@@ -3019,15 +3126,17 @@ const titleOverallMarginChart = 'Overall Margin Growth';
 /*!****************************************************!*\
   !*** ./src/js/pages/performance/tabs/constants.js ***!
   \****************************************************/
-/*! exports provided: growthChartConsts, diffenrenceTableRowDataConst */
+/*! exports provided: differenceTableTitle, growthChartConsts, diffenrenceTableRowDataConst */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "differenceTableTitle", function() { return differenceTableTitle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "growthChartConsts", function() { return growthChartConsts; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "diffenrenceTableRowDataConst", function() { return diffenrenceTableRowDataConst; });
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
 
+const differenceTableTitle = 'differences between periods';
 const growthChartConsts = [{
   periodName: 'Previous Period',
   periodFieldName: 'previousPeriodTotal',
@@ -3374,6 +3483,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     }];
     const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ' - ' + selectedDrillDownColumnName}`;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      autoScale: true,
       getStyle: this._getStyleGrowthChart,
       title: title,
       barChartData: barChartData,
@@ -3483,22 +3593,46 @@ const getMajorChangeList = measurementId => {
   return [{
     key: 'currencyTopChange',
     title: 'MAJOR CHANGES - By CURRENCY',
-    header: ['Currency', measurement.name, '%CHG'],
+    headers: [[{
+      name: 'Currency'
+    }, {
+      name: measurement.name
+    }, {
+      name: '%CHG'
+    }]],
     data: []
   }, {
     key: 'productTopChange',
     title: 'MAJOR CHANGES - By PRODUCT',
-    header: ['Product', measurement.name, '%CHG'],
+    headers: [[{
+      name: 'Product'
+    }, {
+      name: measurement.name
+    }, {
+      name: '%CHG'
+    }]],
     data: []
   }, {
     key: 'bettypeTopChange',
     title: 'MAJOR CHANGES - By BETTYPE',
-    header: ['Bettype', measurement.name, '%CHG'],
+    headers: [[{
+      name: 'Bettype'
+    }, {
+      name: measurement.name
+    }, {
+      name: '%CHG'
+    }]],
     data: []
   }, {
     key: 'platformTopChange',
     title: 'MAJOR CHANGES - By PLATFORM',
-    header: ['Platform', measurement.name, '%CHG'],
+    headers: [[{
+      name: 'Platform'
+    }, {
+      name: measurement.name
+    }, {
+      name: '%CHG'
+    }]],
     data: []
   }];
 };
@@ -3831,14 +3965,14 @@ const titleOverallMarginChart = 'Overall Margin Growth';
 /*!**************************************************!*\
   !*** ./src/js/pages/performance/tabs/service.js ***!
   \**************************************************/
-/*! exports provided: getDiffenrenceTableData, getDistributionChartData, getOverallChartData, getFilterDataMonthGrowth */
+/*! exports provided: diffenrenceTableDataMapper, distributionChartDataMapper, overallChartDataMapper, getFilterDataMonthGrowth */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDiffenrenceTableData", function() { return getDiffenrenceTableData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDistributionChartData", function() { return getDistributionChartData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOverallChartData", function() { return getOverallChartData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "diffenrenceTableDataMapper", function() { return diffenrenceTableDataMapper; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "distributionChartDataMapper", function() { return distributionChartDataMapper; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "overallChartDataMapper", function() { return overallChartDataMapper; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFilterDataMonthGrowth", function() { return getFilterDataMonthGrowth; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -3853,21 +3987,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const getDiffenrenceTableData = measurementDifferenceData => {
-  const header = ['Difference', ...measurementDifferenceData.map(_ => _.name)];
+const diffenrenceTableDataMapper = measurementDifferenceData => {
+  const headers = [[{
+    name: 'Difference'
+  }, ...measurementDifferenceData.map(_ => ({
+    name: _.name
+  }))]];
   const rows = _constants__WEBPACK_IMPORTED_MODULE_2__["diffenrenceTableRowDataConst"].map(_ => ({
     id: _.id,
     name: _.name,
     data: measurementDifferenceData.map(__ => __[_.propertyName])
   }));
   return {
-    title: 'differences between periods',
-    header,
+    title: _constants__WEBPACK_IMPORTED_MODULE_2__["differenceTableTitle"],
+    headers,
     data: rows,
     renderRow: renderDiffenrenceTableRow
   };
 };
-const getDistributionChartData = (distributionData, topDistributions) => {
+const distributionChartDataMapper = (distributionData, topDistributions) => {
   const labels = distributionData.map(_ => _.name + '  ' + _lib_numberFormat__WEBPACK_IMPORTED_MODULE_3__["default"].nFormatter(_.total));
   const stackedChartData = topDistributions.map(_ => {
     return {
@@ -3880,7 +4018,7 @@ const getDistributionChartData = (distributionData, topDistributions) => {
     stackedChartData
   };
 };
-const getOverallChartData = overallData => {
+const overallChartDataMapper = overallData => {
   const labels = overallData.map(_ => _.name);
   const barChartData = [{
     dataSet: overallData.map(_ => _.total)

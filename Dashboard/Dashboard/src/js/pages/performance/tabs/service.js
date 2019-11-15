@@ -1,16 +1,16 @@
 
 import React from 'react';
 import { generalService } from '../lib/service';
-import { diffenrenceTableRowDataConst } from './constants';
+import { diffenrenceTableRowDataConst, differenceTableTitle } from './constants';
 import numberFormat from '../../../lib/numberFormat';
 import ValueChangeIcon from '../components/normal/ValueChangeIcon';
 import { MEASUREMENT_ID } from '../lib/constants';
 
-export const getDiffenrenceTableData = measurementDifferenceData => {
-  const header = [
-    'Difference',
-    ...measurementDifferenceData.map(_ => _.name)
-  ];
+export const diffenrenceTableDataMapper = measurementDifferenceData => {
+  const headers = [[
+    { name: 'Difference' },
+    ...measurementDifferenceData.map(_ => ({ name: _.name }))
+  ]];
   const rows = diffenrenceTableRowDataConst.map(_ => ({
     id: _.id,
     name: _.name,
@@ -18,14 +18,14 @@ export const getDiffenrenceTableData = measurementDifferenceData => {
   }));
 
   return {
-    title: 'differences between periods',
-    header,
+    title: differenceTableTitle,
+    headers,
     data: rows,
     renderRow: renderDiffenrenceTableRow
   }
 }
 
-export const getDistributionChartData = (distributionData, topDistributions) => {
+export const distributionChartDataMapper = (distributionData, topDistributions) => {
   const labels = distributionData.map(_ => _.name + '  ' + numberFormat.nFormatter(_.total));
   const stackedChartData = topDistributions.map(_ => {
     return {
@@ -39,7 +39,7 @@ export const getDistributionChartData = (distributionData, topDistributions) => 
   }
 }
 
-export const getOverallChartData = overallData => {
+export const overallChartDataMapper = overallData => {
   const labels = overallData.map(_ => _.name);
   const barChartData = [{
     dataSet: overallData.map(_ => _.total)

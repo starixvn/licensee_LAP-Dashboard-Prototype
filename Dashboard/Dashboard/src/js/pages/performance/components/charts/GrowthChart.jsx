@@ -28,7 +28,7 @@ export default class GrowthChart extends PureComponent {
   }
 
   render() {
-    const { title, lineChartData, barChartData, labels, leftAxisName } = this.props;
+    const { title, lineChartData, barChartData, labels, leftAxisName, autoScale } = this.props;
     const { style } = this.state;
 
     return (
@@ -44,6 +44,7 @@ export default class GrowthChart extends PureComponent {
             leftAxisName={leftAxisName}
             rightAxisName={'Growth rate(%)'}
             labels={labels}
+            autoScale={autoScale}
           />
         </div>
       </div>

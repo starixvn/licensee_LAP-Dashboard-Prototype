@@ -1,5 +1,7 @@
 import { MEASUREMENT_ID } from '../lib/constants';
 
+export const differenceTableTitle = 'differences between periods';
+
 export const growthChartConsts = [
   {
     periodName: 'Previous Period',

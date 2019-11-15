@@ -6,6 +6,7 @@ import { MEASUREMENT_ID } from '../../lib/constants';
 import { generalService } from '../../lib/service';
 import PerformanceChildTab from '../PerformanceChildTab';
 import { titleDistributionChart, titleOverallMarginChart } from './lib/constants';
+import { diffenrenceTableDataMapper } from './lib/service';
 
 class BettypeTab extends PerformanceChildTab {
   constructor(props) {
@@ -15,6 +16,7 @@ class BettypeTab extends PerformanceChildTab {
       ...{}
     }
     this.titleDistributionChart = titleDistributionChart;
+    this.isAutoScaleGrowthChart = false;
   }
 
   _getDistributionChartData() {
@@ -37,19 +39,20 @@ class BettypeTab extends PerformanceChildTab {
   _getDifferenceTableData() {
     const { measurementDifferenceData } = this.props.analyticData;
     return {
-      measurementDifferenceData
+      measurementDifferenceData,
+      dataMapper: diffenrenceTableDataMapper
     }
   }
 
   render() {
     const { measurementId } = this.props.analyticData;
     return measurementId ? (
-      <div className="child-tab product-tab" style={generalService.getScrollTabStyle()}>
-        <div className="side-tab">
+      <div className="child-tab bettype-tab" style={generalService.getScrollTabStyle()}>
+        <div className="side-tab-container">
           <div className='side-tab-left'>{measurementId === MEASUREMENT_ID.MARGIN ? this.renderOverallChart() : this.renderDistributionChart()}</div>
           <div className='side-tab-right'>{this.renderDifferenceTable()}</div>
         </div>
-        <div className="side-tab">
+        <div className="side-tab-container">
           {this.renderGrowthChart()}
         </div>
       </div>
