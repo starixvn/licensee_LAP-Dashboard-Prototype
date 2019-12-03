@@ -27,10 +27,15 @@
     }
 
     @media (max-width: 1300px) {
-        .side-tab-left, .side-tab-right  {
-          float: none;
-          width: 100%;
-        }
+      .side-tab-left{
+        float: none;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .side-tab-right {
+        float: none;
+        width: 100%;
+      }
     }
   }
 }

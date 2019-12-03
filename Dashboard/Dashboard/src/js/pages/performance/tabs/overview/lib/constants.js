@@ -1,5 +1,6 @@
 
 import { defaultData } from '../../../lib/constants';
+import languageApi from '../../../../../lib/languageApi';
 
 export const getMajorChangeList = measurementId => {
   let measurement = defaultData.measurements.find(_ => _.id === measurementId);
@@ -7,26 +8,26 @@ export const getMajorChangeList = measurementId => {
   return [
     {
       key: 'currencyTopChange',
-      title: 'MAJOR CHANGES - By CURRENCY',
-      headers: [[{ name: 'Currency' }, { name: measurement.name }, { name: '%CHG' }]],
+      title: languageApi.getDefaultRes('marjor_table_title_currency'),
+      headers: [[{ name: languageApi.getDefaultRes('currency') }, { name: measurement.name }, { name: '%CHG' }]],
       data: []
     },
     {
       key: 'productTopChange',
-      title: 'MAJOR CHANGES - By PRODUCT',
-      headers: [[{ name: 'Product' }, { name: measurement.name }, { name: '%CHG' }]],
+      title: languageApi.getDefaultRes('marjor_table_title_product'),
+      headers: [[{ name: languageApi.getDefaultRes('product') }, { name: measurement.name }, { name: '%CHG' }]],
       data: []
     },
     {
       key: 'bettypeTopChange',
-      title: 'MAJOR CHANGES - By BETTYPE',
-      headers: [[{ name: 'Bettype' }, { name: measurement.name }, { name: '%CHG' }]],
+      title: languageApi.getDefaultRes('marjor_table_title_bettype'),
+      headers: [[{ name: languageApi.getDefaultRes('bettype')  }, { name: measurement.name }, { name: '%CHG' }]],
       data: []
     },
     {
       key: 'platformTopChange',
-      title: 'MAJOR CHANGES - By PLATFORM',
-      headers: [[{ name: 'Platform' }, { name: measurement.name }, { name: '%CHG' }]],
+      title: languageApi.getDefaultRes('marjor_table_title_platform'),
+      headers: [[{ name: languageApi.getDefaultRes('platform') }, { name: measurement.name }, { name: '%CHG' }]],
       data: []
     }
   ]

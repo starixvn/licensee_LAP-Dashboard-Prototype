@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 
 import DefaultLayout from '../../layouts/DefaultLayout';
+import languageApi from '../../lib/languageApi';
 import { summary, performance } from './lib/constants';
 import TabMenu from './components/TabMenu';
 
@@ -11,8 +12,8 @@ const SummaryDashboard = import(/* webpackChunkName: "summary/summaryDashboard" 
 const PerformanceDashboard = import(/* webpackChunkName: "performance/performanceDashboard" */ '../performance/index');
 
 const tabMenuList = [
-    { key: summary, name: 'Summary', component: React.lazy(() => SummaryDashboard) },
-    { key: performance, name: 'Performance', component: React.lazy(() => PerformanceDashboard) },
+    { key: summary, name: languageApi.getDefaultRes('summary'), component: React.lazy(() => SummaryDashboard) },
+    { key: performance, name: languageApi.getDefaultRes('performance'), component: React.lazy(() => PerformanceDashboard) },
 ]
 
 export default class DashboardApp extends Component {

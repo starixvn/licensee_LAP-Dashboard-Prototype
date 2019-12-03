@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import MixBarLineChart from './base/MixBarLineChart';
+import languageApi from '../../../../lib/languageApi';
 
 export default class GrowthChart extends PureComponent {
   constructor(props) {
@@ -22,7 +23,7 @@ export default class GrowthChart extends PureComponent {
     return <div className="chart-title">
       {showBackIcon ? <div className="back-icon" onClick={backToDefaultChart}>
         <i className="arrow-left"></i>
-        {'Go back'}
+        {languageApi.getDefaultRes('go_back')}
       </div> : null}
     </div>;
   }

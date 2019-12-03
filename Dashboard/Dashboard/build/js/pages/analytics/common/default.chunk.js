@@ -148,6 +148,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const defaultLangCode = window.dashboardLangCode || 'en';
 class languageApi {
   static getRes(langcode, resKey) {
     switch (langcode) {
@@ -166,6 +167,10 @@ class languageApi {
       default:
         return _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__["en"][resKey];
     }
+  }
+
+  static getDefaultRes(resKey) {
+    return languageApi.getRes(defaultLangCode, resKey);
   }
 
 }
@@ -392,7 +397,36 @@ const ch = {
   MobileLiteVersion: "Mobile Lite Version",
   DeepLink: "Deep Link",
   date: "",
-  measurement: ""
+  //
+  measurement: "",
+  submit: "",
+  value: '',
+  currernt_period: "",
+  previous_period: "",
+  summaryb: '',
+  performance: '',
+  overview: '',
+  currency: '',
+  product: '',
+  bettype: '',
+  platform: '',
+  turnover: '',
+  gross_profit: '',
+  margin: '',
+  marjor_table_title_currency: '',
+  marjor_table_title_product: '',
+  marjor_table_title_bettype: '',
+  marjor_table_title_platform: '',
+  comparison: '',
+  growth: '',
+  growth_rate: '',
+  difference: '',
+  distribution_chart_title_currency: '',
+  distribution_chart_title_product: '',
+  distribution_chart_title_bettype: '',
+  distribution_chart_title_platform: '',
+  overall_margin_growth: '',
+  difference_table_title: ''
 };
 
 /***/ }),
@@ -449,7 +483,36 @@ const cs = {
   MobileLiteVersion: "手机轻量版",
   DeepLink: "Deep Link",
   date: "",
-  measurement: ""
+  //
+  measurement: "",
+  submit: "",
+  value: '',
+  currernt_period: "",
+  previous_period: "",
+  summaryb: '',
+  performance: '',
+  overview: '',
+  currency: '',
+  product: '',
+  bettype: '',
+  platform: '',
+  turnover: '',
+  gross_profit: '',
+  margin: '',
+  marjor_table_title_currency: '',
+  marjor_table_title_product: '',
+  marjor_table_title_bettype: '',
+  marjor_table_title_platform: '',
+  comparison: '',
+  growth: '',
+  growth_rate: '',
+  difference: '',
+  distribution_chart_title_currency: '',
+  distribution_chart_title_product: '',
+  distribution_chart_title_bettype: '',
+  distribution_chart_title_platform: '',
+  overall_margin_growth: '',
+  difference_table_title: ''
 };
 
 /***/ }),
@@ -506,13 +569,36 @@ const en = {
   MobileLiteVersion: "Mobile Lite Version",
   DeepLink: "Deep Link",
   date: "Date",
+  //
   measurement: "Measurement",
   submit: "Submit",
-  comparedWith: "Compared With",
-  currerntPeriodPicker: "Current Period",
-  previousPeriodPicker: "Previous Period",
-  previousPeriodQuickSelection: "Previous Period",
-  previousYearQuickSelection: "Previous Year"
+  value: 'Value',
+  current_period: "Current Period",
+  previous_period: "Previous Period",
+  summaryb: 'Summary',
+  performance: 'Performance',
+  overview: 'Overview',
+  currency: 'Currency',
+  product: 'Product',
+  bettype: 'Bettype',
+  platform: 'Platform',
+  turnover: 'Turnover',
+  gross_profit: 'Gross Profit',
+  margin: 'Margin',
+  marjor_table_title_currency: 'Major changes - by currency',
+  marjor_table_title_product: 'Major changes - by product',
+  marjor_table_title_bettype: 'Major changes - by bettype',
+  marjor_table_title_platform: 'Major changes - by platform',
+  comparison: 'Comparison',
+  growth: 'Growth',
+  growth_rate: 'Growth rate',
+  difference: 'Difference',
+  distribution_chart_title_currency: 'Turnover distribution - top 5 currencies',
+  distribution_chart_title_product: 'Turnover distribution - top 5 products',
+  distribution_chart_title_bettype: 'Turnover distribution - top 5 bettypes',
+  distribution_chart_title_platform: 'Turnover distribution - top 5 platforms',
+  overall_margin_growth: 'overall margin growth',
+  difference_table_title: 'Differences between period'
 };
 
 /***/ }),
@@ -568,7 +654,36 @@ const zhcn = {
   MobileLiteVersion: "Mobile Lite Version",
   DeepLink: "Deep Link",
   date: "",
-  measurement: ""
+  //
+  measurement: "",
+  submit: "",
+  value: '',
+  currernt_period: "",
+  previous_period: "",
+  summaryb: '',
+  performance: '',
+  overview: '',
+  currency: '',
+  product: '',
+  bettype: '',
+  platform: '',
+  turnover: '',
+  gross_profit: '',
+  margin: '',
+  marjor_table_title_currency: '',
+  marjor_table_title_product: '',
+  marjor_table_title_bettype: '',
+  marjor_table_title_platform: '',
+  comparison: '',
+  growth: '',
+  growth_rate: '',
+  difference: '',
+  distribution_chart_title_currency: '',
+  distribution_chart_title_product: '',
+  distribution_chart_title_bettype: '',
+  distribution_chart_title_platform: '',
+  overall_margin_growth: '',
+  difference_table_title: ''
 };
 
 /***/ })

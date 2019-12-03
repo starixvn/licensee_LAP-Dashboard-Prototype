@@ -4,7 +4,6 @@ import { ActionCreators } from '../actions';
 import languageApi from '../../../lib/languageApi';
 import { connect } from 'react-redux';
 import { defaultData } from '../lib/constants'
-import { langCode } from '../../../lib/constants'
 import CoupleMonthRangePicker from '../../../components/CoupleMonthRangePicker';
 
 class FilterTopPanel extends React.PureComponent {
@@ -45,7 +44,7 @@ class FilterTopPanel extends React.PureComponent {
           />
         </div>
         <div className="filter-item">
-          <div className="label">{languageApi.getRes(langCode, "Based")}</div>
+          <div className="label">{languageApi.getDefaultRes("Based")}</div>
           <select
             className="select-filter"
             onChange={(e) => this._onChangeBaseCurrency(e)}
@@ -56,7 +55,7 @@ class FilterTopPanel extends React.PureComponent {
           </select>
         </div>
         <div className="filter-item">
-          <div className="label">{languageApi.getRes(langCode, "measurement")}</div>
+          <div className="label">{languageApi.getDefaultRes("measurement")}</div>
           <select
             className="select-filter"
             onChange={(e) => this._onChangeMeasurement(e)}
@@ -66,7 +65,7 @@ class FilterTopPanel extends React.PureComponent {
             })}
           </select>
         </div>
-        <button className="btn btn-confirm" onClick={this._onSubmit}>{languageApi.getRes(langCode, "submit")}</button>
+        <button className="btn btn-confirm" onClick={this._onSubmit}>{languageApi.getDefaultRes("submit")}</button>
       </div>
     );
   }
@@ -83,7 +82,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  const { selectedBaseCurrency, selectedMeasurement, currencyInfo, selectedComparePeriods, currentChildTabKey } = state;
+  const { selectedBaseCurrency, selectedMeasurement, currencyInfo, selectedComparePeriods } = state;
   return Object.assign({}, {
     selectedBaseCurrency,
     selectedMeasurement,

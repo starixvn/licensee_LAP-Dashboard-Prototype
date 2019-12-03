@@ -12,6 +12,7 @@ import { generalService } from '../../lib/service';
 import { setAnalyticData } from '../../actions/analyticDataAction';
 import { defaultData } from '../../lib/constants';
 import numberFormat from '../../../../lib/numberFormat';
+import languageApi from '../../../../lib/languageApi';
 
 class OverviewTab extends Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class OverviewTab extends Component {
 
   _renderTopChangeTableList() {
     let { topChangeData, measurementId } = this.props.analyticData;
-    const majorChangeList = getMajorChangeList(measurementId)
+    const majorChangeList = getMajorChangeList(measurementId);
 
     return topChangeData && majorChangeList.map(_ => <ComparisonTable
       key={'major_change_table_' + _.key}
@@ -72,7 +73,7 @@ class OverviewTab extends Component {
     const labels = growthChartData.map(_ => _.name);
 
     const lineChartData = {
-      name: 'Growth',
+      name: languageApi.getDefaultRes('growth'),
       dataSet: growthChartData.map(_ => _.growthPercent)
     };
 
@@ -95,7 +96,7 @@ class OverviewTab extends Component {
       }
     }];
 
-    const title =  `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ' - ' + selectedDrillDownColumnName}`;
+    const title =  `${measurement.name} ${languageApi.getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' : ' - ' + selectedDrillDownColumnName}`;
 
     return <GrowthChart
       autoScale={true}

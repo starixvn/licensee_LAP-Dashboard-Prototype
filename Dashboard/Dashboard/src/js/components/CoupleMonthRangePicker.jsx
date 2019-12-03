@@ -3,7 +3,6 @@ import MonthRangePicker, { isPeriodEqual } from './MonthRangePicker';
 import { getDistanceBetweenPeriod, getPreviousPeriod, getPreviousYear, getPeriodByNumberOfLastMonths, getPeriodByLastQuarter } from '../lib/dateTimeHelper';
 import { getCurrentTime } from '../lib/constants';
 import languageApi from '../lib/languageApi';
-import { langCode } from '../lib/constants';
 
 const previousPeriodQuickSelections = [
   {
@@ -35,6 +34,13 @@ const currentPeriodQuickSelections = [
   }
 ]
 
+const getLimitPeriod = period => ({
+    maxFrom: {
+      month: period.from.month + 1,
+      year: period.from.year
+    }
+})
+
 export default class CoupleMonthRangePicker extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -43,6 +49,7 @@ export default class CoupleMonthRangePicker extends React.PureComponent {
       currentPeriod: currentPeriod,
       previousPeriod: previousPeriod
     }
+    this._previousPeriodLimitFrom = getLimitPeriod(previousPeriod);
   }
 
   _onChangeRangeCurrentPeriod = selectedRange => {
@@ -52,6 +59,8 @@ export default class CoupleMonthRangePicker extends React.PureComponent {
       currentPeriod: selectedRange,
       previousPeriod
     }
+
+    this._previousPeriodLimitFrom = getLimitPeriod(previousPeriod);
 
     this.setState(periods, () => onChangeRangeOfTwoPeriod && onChangeRangeOfTwoPeriod(periods));
   }
@@ -95,10 +104,11 @@ export default class CoupleMonthRangePicker extends React.PureComponent {
   render() {
     const { currentPeriod, previousPeriod } = this.state;
     const rangeTo = getDistanceBetweenPeriod(currentPeriod) + 1;
+    const { maxFrom } = this._previousPeriodLimitFrom;
 
     return (<div className="couple-month-range">
       <div className="month-range-item">
-        <div className="label">{languageApi.getRes(langCode, "currerntPeriodPicker")}</div>
+        <div className="label">{languageApi.getDefaultRes("current_period")}</div>
         <MonthRangePicker
           from={currentPeriod.from}
           to={currentPeriod.to}
@@ -106,12 +116,12 @@ export default class CoupleMonthRangePicker extends React.PureComponent {
           quickSelections={this._renderCurrentPeriodQuickSelection} />
       </div>
       <div className="month-range-item">
-        <div className="label">{languageApi.getRes(langCode, "previousPeriodPicker")}</div>
+        <div className="label">{languageApi.getDefaultRes("previous_period")}</div>
         {<MonthRangePicker
           isDisableTo={true}
           range={rangeTo}
-          maxMonthFrom={previousPeriod.from.month + 1}
-          maxYearFrom={previousPeriod.from.year}
+          maxMonthFrom={maxFrom.month}
+          maxYearFrom={maxFrom.year}
           from={previousPeriod.from}
           to={previousPeriod.to}
           onChangeRange={this._onChangeRangePreviousPeriod}

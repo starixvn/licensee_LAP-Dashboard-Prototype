@@ -1,5 +1,59 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["summary/summaryDashboard"],{
 
+/***/ "./src/js/actions/currencyAction.js":
+/*!******************************************!*\
+  !*** ./src/js/actions/currencyAction.js ***!
+  \******************************************/
+/*! exports provided: getCurrencyInfo, setBaseCurrency */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrencyInfo", function() { return getCurrencyInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setBaseCurrency", function() { return setBaseCurrency; });
+/* harmony import */ var _types_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types.js */ "./src/js/actions/types.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
+/* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/widgetApi */ "./src/js/lib/widgetApi.js");
+
+
+
+const getCurrencyInfo = () => {
+  return dispatch => {
+    var param = {
+      Url: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["CurrenyListApiUrl"],
+      IsCrossSite: false
+    };
+    _lib_widgetApi__WEBPACK_IMPORTED_MODULE_2__["default"].fetchData(param).then(response => {
+      response.data.Currency.unshift({
+        Currency: "All",
+        CurrencyId: "0"
+      });
+      dispatch(setCurrencyInfo({
+        Currency: response.data.Currency,
+        BaseCurrency: response.data.BaseCurrency
+      }));
+    }).catch(function (error) {
+      console.log("error:", error);
+    });
+  };
+};
+
+const setCurrencyInfo = newData => {
+  return {
+    type: _types_js__WEBPACK_IMPORTED_MODULE_0__["SET_CURRENCY_INFO"],
+    data: newData
+  };
+};
+
+const setBaseCurrency = newData => {
+  return {
+    type: _types_js__WEBPACK_IMPORTED_MODULE_0__["SET_BASE_CURRENCY"],
+    data: newData
+  };
+};
+
+/***/ }),
+
 /***/ "./src/js/actions/index.js":
 /*!*********************************!*\
   !*** ./src/js/actions/index.js ***!
@@ -13,6 +67,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _currencyAction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./currencyAction */ "./src/js/actions/currencyAction.js");
 
 const ActionCreators = Object.assign({}, _currencyAction__WEBPACK_IMPORTED_MODULE_0__);
+
+/***/ }),
+
+/***/ "./src/js/actions/types.js":
+/*!*********************************!*\
+  !*** ./src/js/actions/types.js ***!
+  \*********************************/
+/*! exports provided: SET_CURRENCY_INFO, SET_BASE_CURRENCY */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CURRENCY_INFO", function() { return SET_CURRENCY_INFO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_BASE_CURRENCY", function() { return SET_BASE_CURRENCY; });
+const SET_CURRENCY_INFO = "SET_CURRENCY_INFO";
+const SET_BASE_CURRENCY = "SET_BASE_CURRENCY";
 
 /***/ }),
 
@@ -149,6 +219,44 @@ class AutoReload extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component 
     }, this.state.currentCountdown + 's'), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "icon-menu-down"
     }), selection);
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/components/Loader.jsx":
+/*!**************************************!*\
+  !*** ./src/js/components/Loader.jsx ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Loader; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
+
+
+const baseNormalWidgets = [_lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalCustomerBalance, _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalPendingFund, _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalDeposit, _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalWithdrawal];
+class Loader extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "loading-process",
+      style: {
+        display: `${this.props.isLoading ? 'block' : 'none'}`
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "icon-loading"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: `loader-inner ball-beat ${baseNormalWidgets.filter(x => x === this.props.widgetKey).length > 0 ? 'loader-white' : ''}`
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null))));
   }
 
 }
@@ -354,6 +462,28 @@ class widgetLayout {
 
 /***/ }),
 
+/***/ "./src/js/lib/createReducer.js":
+/*!*************************************!*\
+  !*** ./src/js/lib/createReducer.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createReducer; });
+function createReducer(initialState, handlers) {
+  return function reducer(state = initialState, action) {
+    if (handlers.hasOwnProperty(action.type)) {
+      return handlers[action.type](state, action);
+    } else {
+      return state;
+    }
+  };
+}
+
+/***/ }),
+
 /***/ "./src/js/lib/localStorageHelper.js":
 /*!******************************************!*\
   !*** ./src/js/lib/localStorageHelper.js ***!
@@ -448,6 +578,144 @@ class localStorageHelper {
     } catch (error) {
       window.alert("To continue use dashboard. Please turn private browsing off!!");
     }
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/lib/numberFormat.js":
+/*!************************************!*\
+  !*** ./src/js/lib/numberFormat.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return numberFormat; });
+class numberFormat {
+  static formatCurrency(value = 0, currency) {
+    const currencies = {
+      "EUR": "€",
+      "GBP": "£",
+      "USD": "$",
+      "CNY": "¥",
+      "MYR": "RM",
+      "THB": "฿",
+      "IDR": "Rp"
+    };
+    currency = currencies[currency] ? currencies[currency] : '';
+    return `${currency}${this.format(value, 2)}`;
+  }
+
+  static formatDecimal(value) {
+    return this.format(value, 2);
+  }
+
+  static format(value, digits = 0) {
+    return value.toFixed(digits).replace(/(\d)(?=(\d{3})+(\.|$))/g, "$1,");
+  }
+
+  static nFormatter(num, digits = 2) {
+    const si = [{
+      value: 1,
+      symbol: ""
+    }, {
+      value: 1E3,
+      symbol: "K"
+    }, {
+      value: 1E6,
+      symbol: "M"
+    }, {
+      value: 1E9,
+      symbol: "B"
+    }, {
+      value: 1E12,
+      symbol: "T"
+    }];
+    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    let i;
+    const absNum = Math.abs(num);
+
+    for (i = si.length - 1; i > 0; i--) {
+      if (absNum >= si[i].value) {
+        break;
+      }
+    }
+
+    return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/lib/widgetApi.js":
+/*!*********************************!*\
+  !*** ./src/js/lib/widgetApi.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return widgetApi; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+class widgetApi {
+  static getCommonParam(type, isCrossSite = true) {
+    return {
+      IsCrossSite: isCrossSite,
+      Data: {},
+      Url: '',
+      Type: type
+    };
+  }
+
+  static _getAuthToken(action, type = 1) {
+    var tokenUrl = window.TokenUrl + "&_=" + new Date().getTime();
+    tokenUrl = tokenUrl.replace("{0}", encodeURIComponent(action));
+    tokenUrl = tokenUrl.replace("{1}", type);
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(tokenUrl, {});
+  }
+
+  static fetchData(param) {
+    var data = param.Data || {};
+    var type = param.Type || 1;
+
+    if (param.IsCrossSite) {
+      return widgetApi._getAuthToken(param.Url, type).then(response => {
+        data['X-Auth-Token'] = response.data.Token;
+        const dataUrl = response.data.ApiUrl + param.Url;
+        return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(dataUrl, {
+          params: data
+        });
+      });
+    } else {
+      var lapRootUrl = window.HostUrl;
+      const lapApi = lapRootUrl.replace("SessionIsAlive", param.Url);
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(lapApi, {
+        params: data
+      });
+    }
+  }
+
+  static async postData(param) {
+    if (!param.IsCrossSite) return new Promise((resolve, reject) => {
+      resolve({});
+    });
+    var postContent = param.Data || {};
+    var type = param.Type || 1;
+    let response = await widgetApi._getAuthToken(param.Url, type);
+    const dataUrl = response.data.ApiUrl + param.Url;
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(dataUrl, postContent, {
+      headers: {
+        'X-Auth-Token': response.data.Token,
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    });
   }
 
 }
@@ -2199,6 +2467,36 @@ const wgLayouts = {
     isResizable: false
   }]
 };
+
+/***/ }),
+
+/***/ "./src/js/reducers/currencyReducer.js":
+/*!********************************************!*\
+  !*** ./src/js/reducers/currencyReducer.js ***!
+  \********************************************/
+/*! exports provided: currencyInfo, selectedBaseCurrency */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currencyInfo", function() { return currencyInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectedBaseCurrency", function() { return selectedBaseCurrency; });
+/* harmony import */ var _lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/createReducer.js */ "./src/js/lib/createReducer.js");
+/* harmony import */ var _actions_types_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/types.js */ "./src/js/actions/types.js");
+
+
+const currencyInfo = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
+  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_CURRENCY_INFO"]](state, action) {
+    return action.data;
+  }
+
+});
+const selectedBaseCurrency = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
+  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_BASE_CURRENCY"]](state, action) {
+    return action.data;
+  }
+
+});
 
 /***/ }),
 

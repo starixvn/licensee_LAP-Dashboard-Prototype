@@ -1,5 +1,75 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["performance/performanceDashboard"],{
 
+/***/ "./src/js/actions/currencyAction.js":
+/*!******************************************!*\
+  !*** ./src/js/actions/currencyAction.js ***!
+  \******************************************/
+/*! exports provided: getCurrencyInfo, setBaseCurrency */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrencyInfo", function() { return getCurrencyInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setBaseCurrency", function() { return setBaseCurrency; });
+/* harmony import */ var _types_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types.js */ "./src/js/actions/types.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
+/* harmony import */ var _lib_widgetApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/widgetApi */ "./src/js/lib/widgetApi.js");
+
+
+
+const getCurrencyInfo = () => {
+  return dispatch => {
+    var param = {
+      Url: _lib_constants__WEBPACK_IMPORTED_MODULE_1__["CurrenyListApiUrl"],
+      IsCrossSite: false
+    };
+    _lib_widgetApi__WEBPACK_IMPORTED_MODULE_2__["default"].fetchData(param).then(response => {
+      response.data.Currency.unshift({
+        Currency: "All",
+        CurrencyId: "0"
+      });
+      dispatch(setCurrencyInfo({
+        Currency: response.data.Currency,
+        BaseCurrency: response.data.BaseCurrency
+      }));
+    }).catch(function (error) {
+      console.log("error:", error);
+    });
+  };
+};
+
+const setCurrencyInfo = newData => {
+  return {
+    type: _types_js__WEBPACK_IMPORTED_MODULE_0__["SET_CURRENCY_INFO"],
+    data: newData
+  };
+};
+
+const setBaseCurrency = newData => {
+  return {
+    type: _types_js__WEBPACK_IMPORTED_MODULE_0__["SET_BASE_CURRENCY"],
+    data: newData
+  };
+};
+
+/***/ }),
+
+/***/ "./src/js/actions/types.js":
+/*!*********************************!*\
+  !*** ./src/js/actions/types.js ***!
+  \*********************************/
+/*! exports provided: SET_CURRENCY_INFO, SET_BASE_CURRENCY */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CURRENCY_INFO", function() { return SET_CURRENCY_INFO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_BASE_CURRENCY", function() { return SET_BASE_CURRENCY; });
+const SET_CURRENCY_INFO = "SET_CURRENCY_INFO";
+const SET_BASE_CURRENCY = "SET_BASE_CURRENCY";
+
+/***/ }),
+
 /***/ "./src/js/components/CoupleMonthRangePicker.jsx":
 /*!******************************************************!*\
   !*** ./src/js/components/CoupleMonthRangePicker.jsx ***!
@@ -17,7 +87,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
 /* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/languageApi */ "./src/js/lib/languageApi.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -44,6 +113,14 @@ const currentPeriodQuickSelections = [{
   label: "Last 6 months",
   onSelect: currentTime => Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getPeriodByNumberOfLastMonths"])(currentTime, 6)
 }];
+
+const getLimitPeriod = period => ({
+  maxFrom: {
+    month: period.from.month + 1,
+    year: period.from.year
+  }
+});
+
 class CoupleMonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
   constructor(props) {
     super(props);
@@ -57,6 +134,7 @@ class CoupleMonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.
         currentPeriod: selectedRange,
         previousPeriod
       };
+      this._previousPeriodLimitFrom = getLimitPeriod(previousPeriod);
       this.setState(periods, () => onChangeRangeOfTwoPeriod && onChangeRangeOfTwoPeriod(periods));
     });
 
@@ -112,6 +190,7 @@ class CoupleMonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.
       currentPeriod: _currentPeriod,
       previousPeriod: _previousPeriod
     };
+    this._previousPeriodLimitFrom = getLimitPeriod(_previousPeriod);
   }
 
   render() {
@@ -120,13 +199,16 @@ class CoupleMonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.
       previousPeriod
     } = this.state;
     const rangeTo = Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_2__["getDistanceBetweenPeriod"])(currentPeriod) + 1;
+    const {
+      maxFrom
+    } = this._previousPeriodLimitFrom;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "couple-month-range"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "month-range-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_3__["langCode"], "currerntPeriodPicker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MonthRangePicker__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__["default"].getDefaultRes("current_period")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MonthRangePicker__WEBPACK_IMPORTED_MODULE_1__["default"], {
       from: currentPeriod.from,
       to: currentPeriod.to,
       onChangeRange: this._onChangeRangeCurrentPeriod,
@@ -135,16 +217,54 @@ class CoupleMonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.
       className: "month-range-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_3__["langCode"], "previousPeriodPicker")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MonthRangePicker__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__["default"].getDefaultRes("previous_period")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MonthRangePicker__WEBPACK_IMPORTED_MODULE_1__["default"], {
       isDisableTo: true,
       range: rangeTo,
-      maxMonthFrom: previousPeriod.from.month + 1,
-      maxYearFrom: previousPeriod.from.year,
+      maxMonthFrom: maxFrom.month,
+      maxYearFrom: maxFrom.year,
       from: previousPeriod.from,
       to: previousPeriod.to,
       onChangeRange: this._onChangeRangePreviousPeriod,
       quickSelections: this._renderPreviousPeriodQuickSelection
     })));
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/components/Loader.jsx":
+/*!**************************************!*\
+  !*** ./src/js/components/Loader.jsx ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Loader; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
+
+
+const baseNormalWidgets = [_lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalCustomerBalance, _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalPendingFund, _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalDeposit, _lib_constants__WEBPACK_IMPORTED_MODULE_1__["widgetKey"].NormalWithdrawal];
+class Loader extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "loading-process",
+      style: {
+        display: `${this.props.isLoading ? 'block' : 'none'}`
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "icon-loading"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: `loader-inner ball-beat ${baseNormalWidgets.filter(x => x === this.props.widgetKey).length > 0 ? 'loader-white' : ''}`
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null))));
   }
 
 }
@@ -520,6 +640,28 @@ _defineProperty(MonthRangePicker, "defaultProps", {
 
 /***/ }),
 
+/***/ "./src/js/lib/createReducer.js":
+/*!*************************************!*\
+  !*** ./src/js/lib/createReducer.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return createReducer; });
+function createReducer(initialState, handlers) {
+  return function reducer(state = initialState, action) {
+    if (handlers.hasOwnProperty(action.type)) {
+      return handlers[action.type](state, action);
+    } else {
+      return state;
+    }
+  };
+}
+
+/***/ }),
+
 /***/ "./src/js/lib/dateTimeHelper.js":
 /*!**************************************!*\
   !*** ./src/js/lib/dateTimeHelper.js ***!
@@ -641,6 +783,144 @@ const getPeriodByLastQuarter = currentTime => {
     to
   };
 };
+
+/***/ }),
+
+/***/ "./src/js/lib/numberFormat.js":
+/*!************************************!*\
+  !*** ./src/js/lib/numberFormat.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return numberFormat; });
+class numberFormat {
+  static formatCurrency(value = 0, currency) {
+    const currencies = {
+      "EUR": "€",
+      "GBP": "£",
+      "USD": "$",
+      "CNY": "¥",
+      "MYR": "RM",
+      "THB": "฿",
+      "IDR": "Rp"
+    };
+    currency = currencies[currency] ? currencies[currency] : '';
+    return `${currency}${this.format(value, 2)}`;
+  }
+
+  static formatDecimal(value) {
+    return this.format(value, 2);
+  }
+
+  static format(value, digits = 0) {
+    return value.toFixed(digits).replace(/(\d)(?=(\d{3})+(\.|$))/g, "$1,");
+  }
+
+  static nFormatter(num, digits = 2) {
+    const si = [{
+      value: 1,
+      symbol: ""
+    }, {
+      value: 1E3,
+      symbol: "K"
+    }, {
+      value: 1E6,
+      symbol: "M"
+    }, {
+      value: 1E9,
+      symbol: "B"
+    }, {
+      value: 1E12,
+      symbol: "T"
+    }];
+    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    let i;
+    const absNum = Math.abs(num);
+
+    for (i = si.length - 1; i > 0; i--) {
+      if (absNum >= si[i].value) {
+        break;
+      }
+    }
+
+    return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/lib/widgetApi.js":
+/*!*********************************!*\
+  !*** ./src/js/lib/widgetApi.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return widgetApi; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+class widgetApi {
+  static getCommonParam(type, isCrossSite = true) {
+    return {
+      IsCrossSite: isCrossSite,
+      Data: {},
+      Url: '',
+      Type: type
+    };
+  }
+
+  static _getAuthToken(action, type = 1) {
+    var tokenUrl = window.TokenUrl + "&_=" + new Date().getTime();
+    tokenUrl = tokenUrl.replace("{0}", encodeURIComponent(action));
+    tokenUrl = tokenUrl.replace("{1}", type);
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(tokenUrl, {});
+  }
+
+  static fetchData(param) {
+    var data = param.Data || {};
+    var type = param.Type || 1;
+
+    if (param.IsCrossSite) {
+      return widgetApi._getAuthToken(param.Url, type).then(response => {
+        data['X-Auth-Token'] = response.data.Token;
+        const dataUrl = response.data.ApiUrl + param.Url;
+        return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(dataUrl, {
+          params: data
+        });
+      });
+    } else {
+      var lapRootUrl = window.HostUrl;
+      const lapApi = lapRootUrl.replace("SessionIsAlive", param.Url);
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(lapApi, {
+        params: data
+      });
+    }
+  }
+
+  static async postData(param) {
+    if (!param.IsCrossSite) return new Promise((resolve, reject) => {
+      resolve({});
+    });
+    var postContent = param.Data || {};
+    var type = param.Type || 1;
+    let response = await widgetApi._getAuthToken(param.Url, type);
+    const dataUrl = response.data.ApiUrl + param.Url;
+    return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(dataUrl, postContent, {
+      headers: {
+        'X-Auth-Token': response.data.Token,
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    });
+  }
+
+}
 
 /***/ }),
 
@@ -932,10 +1212,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../lib/languageApi */ "./src/js/lib/languageApi.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/constants */ "./src/js/pages/performance/lib/constants.js");
-/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../lib/constants */ "./src/js/lib/constants.js");
-/* harmony import */ var _components_CoupleMonthRangePicker__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../components/CoupleMonthRangePicker */ "./src/js/components/CoupleMonthRangePicker.jsx");
+/* harmony import */ var _components_CoupleMonthRangePicker__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../components/CoupleMonthRangePicker */ "./src/js/components/CoupleMonthRangePicker.jsx");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -985,7 +1263,7 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureCo
       className: "filter-top-panel"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "filter-item"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CoupleMonthRangePicker__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_CoupleMonthRangePicker__WEBPACK_IMPORTED_MODULE_6__["default"], {
       onChangeRangeOfTwoPeriod: this._onChangeRangeOfTwoPeriod,
       currentPeriod: selectedComparePeriods.currentPeriod,
       previousPeriod: selectedComparePeriods.previousPeriod
@@ -993,7 +1271,7 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureCo
       className: "filter-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_6__["langCode"], "Based")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getDefaultRes("Based")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       className: "select-filter",
       onChange: e => this._onChangeBaseCurrency(e),
       value: this.props.selectedBaseCurrency
@@ -1006,7 +1284,7 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureCo
       className: "filter-item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "label"
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_6__["langCode"], "measurement")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getDefaultRes("measurement")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
       className: "select-filter",
       onChange: e => this._onChangeMeasurement(e),
       value: this.props.selectedMeasurement.id
@@ -1018,7 +1296,7 @@ class FilterTopPanel extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureCo
     }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-confirm",
       onClick: this._onSubmit
-    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getRes(_lib_constants__WEBPACK_IMPORTED_MODULE_6__["langCode"], "submit")));
+    }, _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getDefaultRes("submit")));
   }
 
 }
@@ -1043,8 +1321,7 @@ function mapStateToProps(state) {
     selectedBaseCurrency,
     selectedMeasurement,
     currencyInfo,
-    selectedComparePeriods,
-    currentChildTabKey
+    selectedComparePeriods
   } = state;
   return Object.assign({}, {
     selectedBaseCurrency,
@@ -1076,7 +1353,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _tabs_product_ProductTab__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../tabs/product/ProductTab */ "./src/js/pages/performance/tabs/product/ProductTab.jsx");
 /* harmony import */ var _tabs_bettype_BettypeTab__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../tabs/bettype/BettypeTab */ "./src/js/pages/performance/tabs/bettype/BettypeTab.jsx");
 /* harmony import */ var _tabs_platform_PlatformTab__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../tabs/platform/PlatformTab */ "./src/js/pages/performance/tabs/platform/PlatformTab.jsx");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../lib/languageApi */ "./src/js/lib/languageApi.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -1088,23 +1367,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 const tabMenuList = [{
   key: _lib_constants__WEBPACK_IMPORTED_MODULE_2__["tabMenuKey"].overview,
-  name: 'Overview',
+  name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_8__["default"].getDefaultRes('overview'),
   component: _tabs_overview_OverviewTab__WEBPACK_IMPORTED_MODULE_3__["default"]
 }, {
   key: _lib_constants__WEBPACK_IMPORTED_MODULE_2__["tabMenuKey"].currency,
-  name: 'Currency',
+  name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_8__["default"].getDefaultRes('currency'),
   component: _tabs_currency_CurrencyTab__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, {
   key: _lib_constants__WEBPACK_IMPORTED_MODULE_2__["tabMenuKey"].product,
-  name: 'Product',
+  name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_8__["default"].getDefaultRes('product'),
   component: _tabs_product_ProductTab__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
   key: _lib_constants__WEBPACK_IMPORTED_MODULE_2__["tabMenuKey"].bettype,
-  name: 'Bettype',
+  name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_8__["default"].getDefaultRes('bettype'),
   component: _tabs_bettype_BettypeTab__WEBPACK_IMPORTED_MODULE_6__["default"]
 }, {
   key: _lib_constants__WEBPACK_IMPORTED_MODULE_2__["tabMenuKey"].platform,
-  name: 'Platform',
+  name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_8__["default"].getDefaultRes('platform'),
   component: _tabs_platform_PlatformTab__WEBPACK_IMPORTED_MODULE_7__["default"]
 }];
 
@@ -1231,7 +1510,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _base_MixBarLineChart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./base/MixBarLineChart */ "./src/js/pages/performance/components/charts/base/MixBarLineChart.jsx");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../lib/languageApi */ "./src/js/lib/languageApi.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -1251,7 +1532,7 @@ class GrowthChart extends react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"] {
         onClick: backToDefaultChart
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "arrow-left"
-      }), 'Go back') : null);
+      }), _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getDefaultRes('go_back')) : null);
     });
 
     this.state = {
@@ -2403,6 +2684,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tabMenuKey", function() { return tabMenuKey; });
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/constants */ "./src/js/lib/constants.js");
 /* harmony import */ var _lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../lib/dateTimeHelper */ "./src/js/lib/dateTimeHelper.js");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+
 
 
 const MEASUREMENT_ID = {
@@ -2413,13 +2696,13 @@ const MEASUREMENT_ID = {
 const defaultData = {
   measurements: [{
     id: MEASUREMENT_ID.TURNOVER,
-    name: 'Turnover'
+    name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getDefaultRes('turnover')
   }, {
     id: MEASUREMENT_ID.GROSS_PROFIT,
-    name: 'Gross Profit'
+    name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getDefaultRes('gross_profit')
   }, {
     id: MEASUREMENT_ID.MARGIN,
-    name: 'Margin'
+    name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_2__["default"].getDefaultRes('margin')
   }],
   getComparePeriods: () => {
     const currentPeriod = Object(_lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_1__["getPeriodByNumberOfLastMonths"])(Object(_lib_constants__WEBPACK_IMPORTED_MODULE_0__["getCurrentTime"])(), 3);
@@ -3348,9 +3631,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_analyticDataAction__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../actions/analyticDataAction */ "./src/js/pages/performance/actions/analyticDataAction.js");
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
 /* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../../lib/languageApi */ "./src/js/lib/languageApi.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -3460,7 +3745,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     const measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_10__["defaultData"].measurements.find(_ => _.id === measurementId) || {};
     const labels = growthChartData.map(_ => _.name);
     const lineChartData = {
-      name: 'Growth',
+      name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_12__["default"].getDefaultRes('growth'),
       dataSet: growthChartData.map(_ => _.growthPercent)
     };
     const barChartData = [{
@@ -3481,7 +3766,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
         }) : []
       }
     }];
-    const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' : ' - ' + selectedDrillDownColumnName}`;
+    const title = `${measurement.name} ${_lib_languageApi__WEBPACK_IMPORTED_MODULE_12__["default"].getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' : ' - ' + selectedDrillDownColumnName}`;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
       autoScale: true,
       getStyle: this._getStyleGrowthChart,
@@ -3586,15 +3871,17 @@ const getCombineData = async filterData => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMajorChangeList", function() { return getMajorChangeList; });
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
+/* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+
 
 const getMajorChangeList = measurementId => {
   let measurement = _lib_constants__WEBPACK_IMPORTED_MODULE_0__["defaultData"].measurements.find(_ => _.id === measurementId);
   measurement = measurement || {};
   return [{
     key: 'currencyTopChange',
-    title: 'MAJOR CHANGES - By CURRENCY',
+    title: _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getDefaultRes('marjor_table_title_currency'),
     headers: [[{
-      name: 'Currency'
+      name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getDefaultRes('currency')
     }, {
       name: measurement.name
     }, {
@@ -3603,9 +3890,9 @@ const getMajorChangeList = measurementId => {
     data: []
   }, {
     key: 'productTopChange',
-    title: 'MAJOR CHANGES - By PRODUCT',
+    title: _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getDefaultRes('marjor_table_title_product'),
     headers: [[{
-      name: 'Product'
+      name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getDefaultRes('product')
     }, {
       name: measurement.name
     }, {
@@ -3614,9 +3901,9 @@ const getMajorChangeList = measurementId => {
     data: []
   }, {
     key: 'bettypeTopChange',
-    title: 'MAJOR CHANGES - By BETTYPE',
+    title: _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getDefaultRes('marjor_table_title_bettype'),
     headers: [[{
-      name: 'Bettype'
+      name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getDefaultRes('bettype')
     }, {
       name: measurement.name
     }, {
@@ -3625,9 +3912,9 @@ const getMajorChangeList = measurementId => {
     data: []
   }, {
     key: 'platformTopChange',
-    title: 'MAJOR CHANGES - By PLATFORM',
+    title: _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getDefaultRes('marjor_table_title_platform'),
     headers: [[{
-      name: 'Platform'
+      name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_1__["default"].getDefaultRes('platform')
     }, {
       name: measurement.name
     }, {
@@ -4064,6 +4351,36 @@ const renderDiffenrenceTableRow = (rowData, index) => react__WEBPACK_IMPORTED_MO
     value: differenceDistribution
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, differenceDistribution + '%')), differenceTotal);
 }));
+
+/***/ }),
+
+/***/ "./src/js/reducers/currencyReducer.js":
+/*!********************************************!*\
+  !*** ./src/js/reducers/currencyReducer.js ***!
+  \********************************************/
+/*! exports provided: currencyInfo, selectedBaseCurrency */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "currencyInfo", function() { return currencyInfo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectedBaseCurrency", function() { return selectedBaseCurrency; });
+/* harmony import */ var _lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../lib/createReducer.js */ "./src/js/lib/createReducer.js");
+/* harmony import */ var _actions_types_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/types.js */ "./src/js/actions/types.js");
+
+
+const currencyInfo = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
+  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_CURRENCY_INFO"]](state, action) {
+    return action.data;
+  }
+
+});
+const selectedBaseCurrency = Object(_lib_createReducer_js__WEBPACK_IMPORTED_MODULE_0__["default"])({}, {
+  [_actions_types_js__WEBPACK_IMPORTED_MODULE_1__["SET_BASE_CURRENCY"]](state, action) {
+    return action.data;
+  }
+
+});
 
 /***/ })
 
