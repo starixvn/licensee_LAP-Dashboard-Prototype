@@ -43,7 +43,7 @@ export default class GrowthChart extends PureComponent {
             lineChartData={lineChartData}
             barChartData={barChartData}
             leftAxisName={leftAxisName}
-            rightAxisName={'Growth rate(%)'}
+            rightAxisName={`${languageApi.getDefaultRes('growth_rate')} (%)`}
             labels={labels}
             autoScale={autoScale}
           />

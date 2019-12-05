@@ -1,16 +1,17 @@
 import { MEASUREMENT_ID } from '../lib/constants';
+import languageApi from '../../../lib/languageApi';
 
-export const differenceTableTitle = 'differences between periods';
+export const differenceTableTitle = languageApi.getDefaultRes('difference_table_title');
 
 export const growthChartConsts = [
   {
-    periodName: 'Previous Period',
+    periodName: languageApi.getDefaultRes('previous_period'),
     periodFieldName: 'previousPeriodTotal',
     periodField: 'previousPeriod',
     distributionFieldName: 'previousPeriodDistributions'
   },
   {
-    periodName: 'Current Period',
+    periodName: languageApi.getDefaultRes('current_period'),
     periodFieldName: 'currentPeriodTotal',
     periodField: 'currentPeriod',
     distributionFieldName: 'currentPeriodDistributions',
@@ -21,17 +22,17 @@ export const growthChartConsts = [
 export const diffenrenceTableRowDataConst = [
   {
     id: MEASUREMENT_ID.TURNOVER,
-    name: 'Turnover',
+    name: languageApi.getDefaultRes('turnover'),
     propertyName: 'differenceTurnover'
   },
   {
     id: MEASUREMENT_ID.GROSS_PROFIT,
-    name: 'Gross Profit',
+    name: languageApi.getDefaultRes('gross_profit'),
     propertyName: 'differenceGrossProfit'
   },
   {
     id: MEASUREMENT_ID.MARGIN,
-    name: 'Margin',
+    name: languageApi.getDefaultRes('margin'),
     propertyName: 'differenceMargin'
   }
 ];

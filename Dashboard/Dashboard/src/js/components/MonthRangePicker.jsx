@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { YearSelector, MonthList } from '@9softstudio/react-monthpicker';
 import { defaultFormatFunc, addMonths } from '../lib/dateTimeHelper';
+import languageApi from '../lib/languageApi';
 
 const isTimeEqual = (time1, time2) => {
   return time1.year === time2.year && time1.month === time2.month;
@@ -234,7 +235,7 @@ export default class MonthRangePicker extends React.PureComponent {
             {quickSelections && quickSelections(this)}
             <div className="">
               <button className="btn btn-confirm" onClick={this._onConfirmChangeRange}>OK</button>
-              <button className="btn btn-cancel m-l-5" onClick={this._cancel}>Cancel</button>
+              <button className="btn btn-cancel m-l-5" onClick={this._cancel}>{languageApi.getDefaultRes('cancel')}</button>
             </div>
           </div>
           <div className="mp-container mp-from" >

@@ -6,30 +6,30 @@ import languageApi from '../lib/languageApi';
 
 const previousPeriodQuickSelections = [
   {
-    label: "Previous Period",
+    label: languageApi.getDefaultRes('previous_period'),
     onSelect: selectedCurrentPeriod => getPreviousPeriod(selectedCurrentPeriod)
   },
   {
-    label: "Previous Year",
+    label: languageApi.getDefaultRes('previous_year'),
     onSelect: selectedCurrentPeriod => getPreviousYear(selectedCurrentPeriod)
   }
 ]
 
 const currentPeriodQuickSelections = [
   {
-    label: "Last Month",
+    label: languageApi.getDefaultRes('last_month'),
     onSelect: currentTime => getPeriodByNumberOfLastMonths(currentTime, 1)
   },
   {
-    label: "Last Quarter",
+    label: languageApi.getDefaultRes('last_quarter'),
     onSelect: currentTime => getPeriodByLastQuarter(currentTime)
   },
   {
-    label: "Last 3 months",
+    label: languageApi.getDefaultRes('last_3_months'),
     onSelect: currentTime => getPeriodByNumberOfLastMonths(currentTime, 3)
   },
   {
-    label: "Last 6 months",
+    label: languageApi.getDefaultRes('last_6_months'),
     onSelect: currentTime => getPeriodByNumberOfLastMonths(currentTime, 6)
   }
 ]

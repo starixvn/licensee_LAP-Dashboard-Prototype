@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
 import { growthChartConsts } from './constants';
+import { MEASUREMENT_ID } from '../lib/constants';
 import { diffenrenceTableDataMapper, distributionChartDataMapper, overallChartDataMapper } from './service';
 import DistributionChart from '../components/charts/DistributionChart';
 import OverallChart from '../components/charts/OverallChart';
 import ComparisonTable from '../components/normal/ComparisonTable';
 import GrowthChart from '../components/charts/GrowthChart';
 import { generalService } from '../lib/service';
+import languageApi from '../../../lib/languageApi';
 
 export default class PerformanceChildTab extends PureComponent {
   constructor(props) {
@@ -79,13 +81,14 @@ export default class PerformanceChildTab extends PureComponent {
 
     const growthChartData = this._getGrowthChartData() || [];
     const lineChartData = {
-      name: 'Growth',
+      name: languageApi.getDefaultRes('growth'),
       dataSet: growthChartData.map(_ => _.growthPercent)
     };
     const barChartData = this._getBarChartData(growthChartData, measurement);
     const labels = growthChartData.map(_ => _.name);
-    const title = `${measurement.name} Comparison${isPeriodGrowthDataType ? '' :
+    const title = `${measurement.name} ${languageApi.getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' :
       ` - ${selectedColumnDrillDown.name} - ${growthChartConsts[selectedColumnDrillDown.datasetIndex].periodName}`}`;
+    const leftAxisName = `${measurement.name} ${measurementId === MEASUREMENT_ID.MARGIN ? '(%)' : ''}`;
     const autoScale = this.isAutoScaleGrowthChart;
 
     return <GrowthChart
@@ -94,7 +97,7 @@ export default class PerformanceChildTab extends PureComponent {
       barChartData={barChartData}
       lineChartData={lineChartData}
       labels={labels}
-      leftAxisName={measurement.name}
+      leftAxisName={leftAxisName}
       showBackIcon={!isPeriodGrowthDataType}
       backToDefaultChart={() => this.setState({ isPeriodGrowthDataType: true })}
     />;

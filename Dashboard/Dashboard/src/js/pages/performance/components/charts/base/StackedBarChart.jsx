@@ -66,6 +66,9 @@ const buildChartOption = ({ labels, limitAxisY }) => {
   return {
     tooltips: {
       callbacks: {
+        title: function() {
+          return '';
+        },
         label: function (tooltipItem, data) {
           const dataSet = data.datasets[tooltipItem.datasetIndex];
           const label = dataSet.label;

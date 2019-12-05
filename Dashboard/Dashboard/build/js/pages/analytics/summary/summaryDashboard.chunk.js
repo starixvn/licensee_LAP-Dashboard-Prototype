@@ -663,6 +663,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return widgetApi; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _languageApi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./languageApi */ "./src/js/lib/languageApi.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./src/js/lib/constants.js");
+
+
 
 class widgetApi {
   static getCommonParam(type, isCrossSite = true) {
@@ -713,7 +717,8 @@ class widgetApi {
     return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(dataUrl, postContent, {
       headers: {
         'X-Auth-Token': response.data.Token,
-        'X-Requested-With': 'XMLHttpRequest'
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept-Language': _languageApi__WEBPACK_IMPORTED_MODULE_1__["langCodeMapper"][_constants__WEBPACK_IMPORTED_MODULE_2__["langCode"]]
       }
     });
   }

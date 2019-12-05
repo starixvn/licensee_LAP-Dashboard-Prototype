@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { langCodeMapper } from './languageApi';
+import { langCode } from './constants';
 
 export default class widgetApi {
   static getCommonParam(type, isCrossSite = true) {
@@ -50,7 +52,8 @@ export default class widgetApi {
     return axios.post(dataUrl, postContent, {
       headers: {
         'X-Auth-Token': response.data.Token,
-        'X-Requested-With': 'XMLHttpRequest'
+        'X-Requested-With': 'XMLHttpRequest',
+        'Accept-Language': langCodeMapper[langCode]
       }
     });
   }

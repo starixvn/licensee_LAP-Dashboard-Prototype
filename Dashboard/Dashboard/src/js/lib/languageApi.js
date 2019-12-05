@@ -3,19 +3,23 @@ import { ch } from '../resources/resource.ch';
 import { cs } from '../resources/resource.cs';
 import { en } from '../resources/resource.en';
 import { zhcn } from '../resources/resource.zhcn';
+import { langCode } from './constants';
 
-const defaultLangCode = window.dashboardLangCode || 'en';
+export const langCodeMapper = {
+  'en': 'en-US',
+  'cs': 'zh-CN'
+}
 
 export default class languageApi {
   static getRes(langcode, resKey) {
     switch (langcode) {
-      case "ch":
+      case 'ch':
         return ch[resKey];
-      case "cs":
+      case 'cs':
         return cs[resKey];
-      case "en":
+      case 'en':
         return en[resKey];
-      case "zhcn":
+      case 'zhcn':
         return zhcn[resKey];
       default:
         return en[resKey];
@@ -23,6 +27,6 @@ export default class languageApi {
     }
   }
   static getDefaultRes(resKey) {
-    return languageApi.getRes(defaultLangCode, resKey);
+    return languageApi.getRes(langCode, resKey);
   }
 }

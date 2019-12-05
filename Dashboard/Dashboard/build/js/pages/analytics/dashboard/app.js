@@ -292,34 +292,40 @@ const widgetKey = {
 /*!***********************************!*\
   !*** ./src/js/lib/languageApi.js ***!
   \***********************************/
-/*! exports provided: default */
+/*! exports provided: langCodeMapper, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "langCodeMapper", function() { return langCodeMapper; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return languageApi; });
 /* harmony import */ var _resources_resource_ch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../resources/resource.ch */ "./src/js/resources/resource.ch.js");
 /* harmony import */ var _resources_resource_cs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../resources/resource.cs */ "./src/js/resources/resource.cs.js");
 /* harmony import */ var _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../resources/resource.en */ "./src/js/resources/resource.en.js");
 /* harmony import */ var _resources_resource_zhcn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../resources/resource.zhcn */ "./src/js/resources/resource.zhcn.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./constants */ "./src/js/lib/constants.js");
 
 
 
 
-const defaultLangCode = window.dashboardLangCode || 'en';
+
+const langCodeMapper = {
+  'en': 'en-US',
+  'cs': 'zh-CN'
+};
 class languageApi {
   static getRes(langcode, resKey) {
     switch (langcode) {
-      case "ch":
+      case 'ch':
         return _resources_resource_ch__WEBPACK_IMPORTED_MODULE_0__["ch"][resKey];
 
-      case "cs":
+      case 'cs':
         return _resources_resource_cs__WEBPACK_IMPORTED_MODULE_1__["cs"][resKey];
 
-      case "en":
+      case 'en':
         return _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__["en"][resKey];
 
-      case "zhcn":
+      case 'zhcn':
         return _resources_resource_zhcn__WEBPACK_IMPORTED_MODULE_3__["zhcn"][resKey];
 
       default:
@@ -328,7 +334,7 @@ class languageApi {
   }
 
   static getDefaultRes(resKey) {
-    return languageApi.getRes(defaultLangCode, resKey);
+    return languageApi.getRes(_constants__WEBPACK_IMPORTED_MODULE_4__["langCode"], resKey);
   }
 
 }
@@ -653,35 +659,42 @@ const cs = {
   DeepLink: "Deep Link",
   date: "",
   //
-  measurement: "",
-  submit: "",
-  value: '',
-  current_period: "",
-  previous_period: "",
-  summary: '',
-  performance: '',
-  overview: '',
-  currency: '',
-  product: '',
-  bettype: '',
-  platform: '',
-  turnover: '',
-  gross_profit: '',
-  margin: '',
-  marjor_table_title_currency: '',
-  marjor_table_title_product: '',
-  marjor_table_title_bettype: '',
-  marjor_table_title_platform: '',
-  comparison: '',
-  growth: '',
-  growth_rate: '',
-  difference: '',
-  distribution_chart_title_currency: '',
-  distribution_chart_title_product: '',
-  distribution_chart_title_bettype: '',
-  distribution_chart_title_platform: '',
-  overall_margin_growth: '',
-  difference_table_title: ''
+  measurement: '衡量单位',
+  submit: '送出',
+  cancel: '取消',
+  value: '值',
+  current_period: '币别期间',
+  previous_period: '前一个区间',
+  previous_year: '去年',
+  last_month: '上个月',
+  last_quarter: '上一季',
+  last_3_months: '前三个月',
+  last_6_months: '前六个月',
+  summary: '总结',
+  performance: '效益',
+  overview: '概观',
+  currency: '币别',
+  product: '产品',
+  bettype: '下注类型',
+  platform: '平台',
+  turnover: '营业额',
+  gross_profit: '毛利',
+  margin: '利润',
+  marjor_table_title_currency: '主要变更 - 依币别',
+  marjor_table_title_product: '主要变更 - 产品',
+  marjor_table_title_bettype: '主要变更 - 下注类型',
+  marjor_table_title_platform: '主要变更 - 平台',
+  comparison: '比较',
+  growth: '成长',
+  growth_rate: '成长率',
+  go_back: '返回',
+  difference: '差异',
+  distribution_chart_title_currency: '分配 - 前五币别',
+  distribution_chart_title_product: '分配 - 前五产品',
+  distribution_chart_title_bettype: '分配 - 前十下注类型',
+  distribution_chart_title_platform: '分配 - 前五平台',
+  overall_margin_growth: '整体利润成长',
+  difference_table_title: '区间差异'
 };
 
 /***/ }),
@@ -741,9 +754,15 @@ const en = {
   //
   measurement: "Measurement",
   submit: "Submit",
+  cancel: 'Cancel',
   value: 'Value',
   current_period: "Current Period",
   previous_period: "Previous Period",
+  previous_year: 'Previous Year',
+  last_month: 'Last month',
+  last_quarter: 'Last quarter',
+  last_3_months: 'Last 3 months',
+  last_6_months: 'Last 6 months',
   summary: 'Summary',
   performance: 'Performance',
   overview: 'Overview',
@@ -763,10 +782,10 @@ const en = {
   growth_rate: 'Growth rate',
   go_back: 'Go back',
   difference: 'Difference',
-  distribution_chart_title_currency: 'Turnover distribution - top 5 currencies',
-  distribution_chart_title_product: 'Turnover distribution - top 5 products',
-  distribution_chart_title_bettype: 'Turnover distribution - top 5 bettypes',
-  distribution_chart_title_platform: 'Turnover distribution - top 5 platforms',
+  distribution_chart_title_currency: 'distribution - top 5 currencies',
+  distribution_chart_title_product: 'distribution - top 5 products',
+  distribution_chart_title_bettype: 'distribution - top 10 bettypes',
+  distribution_chart_title_platform: 'distribution - top 5 platforms',
   overall_margin_growth: 'overall margin growth',
   difference_table_title: 'Differences between period'
 };

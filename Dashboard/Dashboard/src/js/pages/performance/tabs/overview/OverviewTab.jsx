@@ -10,7 +10,7 @@ import ValueChangeIcon from '../../components/normal/ValueChangeIcon';
 import { getMajorChangeList } from './lib/constants';
 import { generalService } from '../../lib/service';
 import { setAnalyticData } from '../../actions/analyticDataAction';
-import { defaultData } from '../../lib/constants';
+import { defaultData, MEASUREMENT_ID} from '../../lib/constants';
 import numberFormat from '../../../../lib/numberFormat';
 import languageApi from '../../../../lib/languageApi';
 
@@ -97,6 +97,7 @@ class OverviewTab extends Component {
     }];
 
     const title =  `${measurement.name} ${languageApi.getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' : ' - ' + selectedDrillDownColumnName}`;
+    const leftAxisName = `${measurement.name} ${measurementId === MEASUREMENT_ID.MARGIN ? '(%)' : ''}`;
 
     return <GrowthChart
       autoScale={true}
@@ -105,7 +106,7 @@ class OverviewTab extends Component {
       barChartData={barChartData}
       lineChartData={lineChartData}
       labels={labels}
-      leftAxisName={measurement.name}
+      leftAxisName={leftAxisName}
       showBackIcon={!isPeriodGrowthDataType}
       backToDefaultChart={() => this.setState({ isPeriodGrowthDataType: true })}
     />;

@@ -5,10 +5,11 @@ import { diffenrenceTableRowDataConst, differenceTableTitle } from './constants'
 import numberFormat from '../../../lib/numberFormat';
 import ValueChangeIcon from '../components/normal/ValueChangeIcon';
 import { MEASUREMENT_ID } from '../lib/constants';
+import languageApi from '../../../lib/languageApi';
 
 export const diffenrenceTableDataMapper = measurementDifferenceData => {
   const headers = [[
-    { name: 'Difference' },
+    { name: languageApi.getDefaultRes('difference') },
     ...measurementDifferenceData.map(_ => ({ name: _.name }))
   ]];
   const rows = diffenrenceTableRowDataConst.map(_ => ({
