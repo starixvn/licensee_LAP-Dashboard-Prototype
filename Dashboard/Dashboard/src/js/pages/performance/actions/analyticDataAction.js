@@ -8,6 +8,7 @@ export const getAnalyticData = (filterData, tabKey) => {
     try {
       const mainData = await factoryApi[tabKey].mainApi(filterData);
       dispatch(setAnalyticData({ mainData }));
+
       dispatch(getLazyData(mainData, filterData, tabKey));
     } catch (error) {
       console.log('error', error.message)
@@ -19,7 +20,7 @@ export const getAnalyticData = (filterData, tabKey) => {
 const getLazyData = (mainData, filterData, tabKey) => {
   const lazyApi = factoryApi[tabKey].lazyApi;
   if(!lazyApi) {
-    return {};
+    return { type: null };
   }
 
   return async (dispatch) => {

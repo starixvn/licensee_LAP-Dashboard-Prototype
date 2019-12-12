@@ -17,7 +17,7 @@ const currencyApiFactory = {
     return currencyApi.getCombineData(filterData);
   },
   lazyApi: async (mainData, filterData) => {
-    const topDistributions = mapToTopDistributions(mainData['growthData']['periodGrowth']);
+    const topDistributions = mainData.topDistributions;
     const lazyFilterData = {
       ...filterData,
       ...{
@@ -40,7 +40,7 @@ const productApiFactory = {
     return productApi.getCombineData(filterData);
   },
   lazyApi: async (mainData, filterData) => {
-    const topDistributions = mapToTopDistributions(mainData['growthData']['periodGrowth']);
+    const topDistributions = mainData.topDistributions;
     const lazyFilterData = {
       ...filterData,
       ...{
@@ -63,7 +63,7 @@ const platformApiFactory = {
     return platformApi.getCombineData(filterData);
   },
   lazyApi: async (mainData, filterData) => {
-    const topDistributions = mapToTopDistributions(mainData['growthData']['periodGrowth']);
+    const topDistributions = mainData.topDistributions;
     const lazyFilterData = {
       ...filterData,
       ...{
@@ -86,7 +86,7 @@ const bettypeApiFactory = {
     return bettypeApi.getCombineData(filterData);
   },
   lazyApi: async (mainData, filterData) => {
-    const topDistributions = mapToTopDistributions(mainData['growthData']['periodGrowth']);
+    const topDistributions = mainData.topDistributions;
     const lazyFilterData = {
       ...filterData,
       ...{
@@ -102,16 +102,6 @@ const bettypeApiFactory = {
     }
     return data;
   }
-}
-
-
-const mapToTopDistributions = data => {
-  return data.map(_ => ({
-    displayId: _.id,
-    displayName: _.name,
-    previousPeriodDistributions: _.previousPeriodDistributions,
-    currentPeriodDistributions: _.currentPeriodDistributions
-  }));
 }
 
 export const factoryApi = {

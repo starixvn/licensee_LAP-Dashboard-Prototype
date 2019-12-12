@@ -1082,7 +1082,9 @@ const getLazyData = (mainData, filterData, tabKey) => {
   const lazyApi = _lib_api__WEBPACK_IMPORTED_MODULE_2__["factoryApi"][tabKey].lazyApi;
 
   if (!lazyApi) {
-    return {};
+    return {
+      type: null
+    };
   }
 
   return async dispatch => {
@@ -2581,7 +2583,7 @@ const currencyApiFactory = {
     return _tabs_currency_lib_api__WEBPACK_IMPORTED_MODULE_2__["getCombineData"](filterData);
   },
   lazyApi: async (mainData, filterData) => {
-    const topDistributions = mapToTopDistributions(mainData['growthData']['periodGrowth']);
+    const topDistributions = mainData.topDistributions;
     const lazyFilterData = { ...filterData,
       ...{
         topDistributions
@@ -2602,7 +2604,7 @@ const productApiFactory = {
     return _tabs_product_lib_api__WEBPACK_IMPORTED_MODULE_3__["getCombineData"](filterData);
   },
   lazyApi: async (mainData, filterData) => {
-    const topDistributions = mapToTopDistributions(mainData['growthData']['periodGrowth']);
+    const topDistributions = mainData.topDistributions;
     const lazyFilterData = { ...filterData,
       ...{
         topDistributions
@@ -2623,7 +2625,7 @@ const platformApiFactory = {
     return _tabs_platform_lib_api__WEBPACK_IMPORTED_MODULE_4__["getCombineData"](filterData);
   },
   lazyApi: async (mainData, filterData) => {
-    const topDistributions = mapToTopDistributions(mainData['growthData']['periodGrowth']);
+    const topDistributions = mainData.topDistributions;
     const lazyFilterData = { ...filterData,
       ...{
         topDistributions
@@ -2644,7 +2646,7 @@ const bettypeApiFactory = {
     return _tabs_bettype_lib_api__WEBPACK_IMPORTED_MODULE_5__["getCombineData"](filterData);
   },
   lazyApi: async (mainData, filterData) => {
-    const topDistributions = mapToTopDistributions(mainData['growthData']['periodGrowth']);
+    const topDistributions = mainData.topDistributions;
     const lazyFilterData = { ...filterData,
       ...{
         topDistributions
@@ -2660,16 +2662,6 @@ const bettypeApiFactory = {
     return data;
   }
 };
-
-const mapToTopDistributions = data => {
-  return data.map(_ => ({
-    displayId: _.id,
-    displayName: _.name,
-    previousPeriodDistributions: _.previousPeriodDistributions,
-    currentPeriodDistributions: _.currentPeriodDistributions
-  }));
-};
-
 const factoryApi = {
   [_lib_constants__WEBPACK_IMPORTED_MODULE_0__["tabMenuKey"].overview]: overviewApiFactory,
   [_lib_constants__WEBPACK_IMPORTED_MODULE_0__["tabMenuKey"].currency]: currencyApiFactory,
