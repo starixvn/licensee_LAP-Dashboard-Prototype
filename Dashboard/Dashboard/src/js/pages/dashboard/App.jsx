@@ -8,20 +8,31 @@ import TabMenu from './components/TabMenu';
 
 __webpack_public_path__ = document.getElementById("public-path").value;
 
-const SummaryDashboard = import(/* webpackChunkName: "summary/summaryDashboard" */ '../summary/index');
-const PerformanceDashboard = import(/* webpackChunkName: "performance/performanceDashboard" */ '../performance/index');
-
-const tabMenuList = [
-    { key: summary, name: languageApi.getDefaultRes('summary'), component: React.lazy(() => SummaryDashboard) },
-    { key: performance, name: languageApi.getDefaultRes('performance'), component: React.lazy(() => PerformanceDashboard) },
-]
+const dynamicImports = {
+  [summary]: () => import(/* webpackChunkName: "summary/summaryDashboard" */ '../summary/index'),
+  [performance]: () => import(/* webpackChunkName: "performance/performanceDashboard" */ '../performance/index')
+}
+const tabPermissions = window.TabKeys;
+const tabMenuList = tabPermissions.map(_ => ({
+  key: _,
+  name: languageApi.getDefaultRes(_),
+  component: React.lazy(dynamicImports[_]),
+  preLoad: dynamicImports[_]
+}))
+const preLoadComponents = () => {
+  setTimeout(() => tabMenuList.forEach(_ => _.preLoad && _.preLoad()), 0)
+}
 
 export default class DashboardApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTabMenu: performance
+            selectedTabMenu: tabMenuList[0].key
         };
+    }
+
+    componentDidMount() {
+      preLoadComponents();
     }
 
     onClickTabMenu = (name) => {

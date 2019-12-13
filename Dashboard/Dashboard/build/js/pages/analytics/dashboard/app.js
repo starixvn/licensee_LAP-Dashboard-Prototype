@@ -368,17 +368,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 __webpack_require__.p = document.getElementById("public-path").value;
-const SummaryDashboard = Promise.all(/*! import() | summary/summaryDashboard */[__webpack_require__.e("common/vendor"), __webpack_require__.e("summary/summaryDashboard")]).then(__webpack_require__.bind(null, /*! ../summary/index */ "./src/js/pages/summary/index.js"));
-const PerformanceDashboard = Promise.all(/*! import() | performance/performanceDashboard */[__webpack_require__.e("common/vendor"), __webpack_require__.e("performance/performanceDashboard")]).then(__webpack_require__.bind(null, /*! ../performance/index */ "./src/js/pages/performance/index.js"));
-const tabMenuList = [{
-  key: _lib_constants__WEBPACK_IMPORTED_MODULE_4__["summary"],
-  name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getDefaultRes('summary'),
-  component: react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(() => SummaryDashboard)
-}, {
-  key: _lib_constants__WEBPACK_IMPORTED_MODULE_4__["performance"],
-  name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getDefaultRes('performance'),
-  component: react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(() => PerformanceDashboard)
-}];
+const dynamicImports = {
+  [_lib_constants__WEBPACK_IMPORTED_MODULE_4__["summary"]]: () => Promise.all(/*! import() | summary/summaryDashboard */[__webpack_require__.e("common/vendor"), __webpack_require__.e("summary/summaryDashboard")]).then(__webpack_require__.bind(null, /*! ../summary/index */ "./src/js/pages/summary/index.js")),
+  [_lib_constants__WEBPACK_IMPORTED_MODULE_4__["performance"]]: () => Promise.all(/*! import() | performance/performanceDashboard */[__webpack_require__.e("common/vendor"), __webpack_require__.e("performance/performanceDashboard")]).then(__webpack_require__.bind(null, /*! ../performance/index */ "./src/js/pages/performance/index.js"))
+};
+const tabPermissions = window.TabKeys;
+const tabMenuList = tabPermissions.map(_ => ({
+  key: _,
+  name: _lib_languageApi__WEBPACK_IMPORTED_MODULE_3__["default"].getDefaultRes(_),
+  component: react__WEBPACK_IMPORTED_MODULE_0___default.a.lazy(dynamicImports[_]),
+  preLoad: dynamicImports[_]
+}));
+
+const preLoadComponents = () => {
+  setTimeout(() => tabMenuList.forEach(_ => _.preLoad && _.preLoad()), 0);
+};
+
 class DashboardApp extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor(props) {
     super(props);
@@ -390,8 +395,12 @@ class DashboardApp extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     });
 
     this.state = {
-      selectedTabMenu: _lib_constants__WEBPACK_IMPORTED_MODULE_4__["performance"]
+      selectedTabMenu: tabMenuList[0].key
     };
+  }
+
+  componentDidMount() {
+    preLoadComponents();
   }
 
   render() {
