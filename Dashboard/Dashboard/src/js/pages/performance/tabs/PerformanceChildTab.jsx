@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { growthChartConsts } from './constants';
 import { MEASUREMENT_ID } from '../lib/constants';
-import { diffenrenceTableDataMapper, distributionChartDataMapper, overallChartDataMapper } from './service';
+import { differenceTableDataMapper, distributionChartDataMapper, overallChartDataMapper } from './service';
 import DistributionChart from '../components/charts/DistributionChart';
 import OverallChart from '../components/charts/OverallChart';
 import ComparisonTable from '../components/normal/ComparisonTable';
@@ -34,7 +34,7 @@ export default class PerformanceChildTab extends PureComponent {
   }
 
   renderDistributionChart() {
-    const { distributionData, topDistributions, measurementId } = this._getDistributionChartData();
+    const { distributionData, topDistributions, measurementId, dataMapper } = this._getDistributionChartData();
     if (!distributionData) {
       return null;
     }
@@ -44,7 +44,7 @@ export default class PerformanceChildTab extends PureComponent {
       distributionData={distributionData}
       topDistributions={topDistributions}
       title={title}
-      dataMapper={distributionChartDataMapper}
+      dataMapper={dataMapper || distributionChartDataMapper}
     />
   }
 
@@ -65,27 +65,28 @@ export default class PerformanceChildTab extends PureComponent {
     if (!measurementDifferenceData) {
       return null;
     }
-    const tableData = dataMapper ? dataMapper(measurementDifferenceData) : diffenrenceTableDataMapper(measurementDifferenceData);
+    const tableData = dataMapper ? dataMapper(measurementDifferenceData) : differenceTableDataMapper(measurementDifferenceData);
     return <ComparisonTable
       {...tableData}
     />;
   }
 
   renderGrowthChart() {
-    const { growthData, measurementId } = this.props.analyticData;
+    const { growthData, measurementId, displayNameMapper } = this._getGrowthChartData();
     if (!growthData) {
       return null;
     }
     const measurement = generalService.getMeasurementNameById(measurementId) || {};
     const { isPeriodGrowthDataType, selectedColumnDrillDown } = this.state;
 
-    const growthChartData = this._getGrowthChartData() || [];
+    const growthChartData = this._getGrowthData() || [];
     const lineChartData = {
       name: languageApi.getDefaultRes('growth'),
       dataSet: growthChartData.map(_ => _.growthPercent)
     };
-    const barChartData = this._getBarChartData(growthChartData, measurement);
-    const labels = growthChartData.map(_ => _.name);
+    const barChartData = this._getBarChartData(growthChartData, measurement, displayNameMapper);
+    const labels = isPeriodGrowthDataType ? growthChartData.map(_ => displayNameMapper ? displayNameMapper(_) : _.name)
+                 :  growthChartData.map(_ => _.name);
     const title = `${measurement.name} ${languageApi.getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' :
       ` - ${selectedColumnDrillDown.name} - ${growthChartConsts[selectedColumnDrillDown.datasetIndex].periodName}`}`;
     const leftAxisName = `${measurement.name} ${measurementId === MEASUREMENT_ID.MARGIN ? '(%)' : ''}`;
@@ -113,7 +114,7 @@ export default class PerformanceChildTab extends PureComponent {
     return field;
   }
 
-  _getGrowthChartData() {
+  _getGrowthData() {
     const { isPeriodGrowthDataType } = this.state;
     const { analyticData } = this.props;
     const { growthData } = analyticData;
@@ -127,7 +128,7 @@ export default class PerformanceChildTab extends PureComponent {
     }
   }
 
-  _getBarChartData(growthChartData, measurement) {
+  _getBarChartData(growthChartData, measurement, displayNameMapper) {
     const { isPeriodGrowthDataType, selectedColumnDrillDown } = this.state;
     if (isPeriodGrowthDataType) {
       return growthChartConsts.map((_, datasetIndex) => {
@@ -138,7 +139,7 @@ export default class PerformanceChildTab extends PureComponent {
             click: growthChartData.map((periodData, colIndex) => {
               const drillDownData = {
                 id: periodData.id,
-                name: periodData.name,
+                name: displayNameMapper ? displayNameMapper(periodData) : periodData.name,
                 distributions: periodData[_.distributionFieldName],
                 datasetIndex
               }

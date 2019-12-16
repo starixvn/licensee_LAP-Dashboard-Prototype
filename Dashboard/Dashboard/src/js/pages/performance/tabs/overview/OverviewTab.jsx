@@ -32,7 +32,7 @@ class OverviewTab extends Component {
     const { isPeriodGrowthDataType } = this.state;
     if(this.props.analyticData !== prevProps.analyticData && !isPeriodGrowthDataType) {
       this.setState({
-        isPeriodGrowthDataType: true,
+        isPeriodGrowthDataType: true
       })
     }
   }
@@ -46,7 +46,7 @@ class OverviewTab extends Component {
       {...{
         ..._,
         ...{
-          data: topChangeData[_.key]
+          data: _.handlerData ? _.handlerData(topChangeData[_.key]) : topChangeData[_.key]
         }
       }}
       renderRow={(item, index) => <tr key={`major_change_row_${index}_${item.perspectiveName}`}>

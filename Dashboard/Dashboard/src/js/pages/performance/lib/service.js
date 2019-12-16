@@ -23,6 +23,10 @@ export const generalService = {
   getMeasurementNameById: measurementId => {
     return defaultData.measurements.find(_ => _.id === measurementId)
   },
+  getCurrencyDisplayName: (currency, fieldId, fieldName) => {
+    const displayName = _currenyDisplayNameMapper[currency[fieldId]] || currency[fieldName];
+    return displayName;
+  },
   getScrollTabStyle: () => {
     const { innerHeight } = window;
     return {
@@ -55,4 +59,13 @@ const _convertPeriodToMetaModel = ({ from, to }) => {
     fromMonth,
     toMonth
   }
+}
+
+const _currenyDisplayNameMapper = {
+  '20': 'UUS',
+  '51': 'INH',
+  '70': 'MKK',
+  '75': 'PTU',
+  '76': 'PS',
+  '77': 'PTH'
 }

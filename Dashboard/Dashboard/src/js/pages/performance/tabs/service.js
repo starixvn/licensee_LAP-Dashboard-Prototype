@@ -7,10 +7,10 @@ import ValueChangeIcon from '../components/normal/ValueChangeIcon';
 import { MEASUREMENT_ID } from '../lib/constants';
 import languageApi from '../../../lib/languageApi';
 
-export const diffenrenceTableDataMapper = measurementDifferenceData => {
+export const differenceTableDataMapper = (measurementDifferenceData, displayNameMapper = null) => {
   const headers = [[
     { name: languageApi.getDefaultRes('difference') },
-    ...measurementDifferenceData.map(_ => ({ name: _.name }))
+    ...measurementDifferenceData.map(_ => ({ name: displayNameMapper ? displayNameMapper(_) : _.name }))
   ]];
   const rows = diffenrenceTableRowDataConst.map(_ => ({
     id: _.id,
@@ -26,11 +26,11 @@ export const diffenrenceTableDataMapper = measurementDifferenceData => {
   }
 }
 
-export const distributionChartDataMapper = (distributionData, topDistributions) => {
+export const distributionChartDataMapper = (distributionData, topDistributions, displayNameMapper = null) => {
   const labels = distributionData.map(_ => _.name + '  ' + numberFormat.nFormatter(_.total));
   const stackedChartData = topDistributions.map(_ => {
     return {
-      name: _.displayName,
+      name: displayNameMapper ? displayNameMapper(_) : _.displayName,
       dataSet: getDistributionDataSet(distributionData, _.displayId)
     }
   })

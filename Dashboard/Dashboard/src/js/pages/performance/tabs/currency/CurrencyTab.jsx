@@ -4,6 +4,7 @@ import { setAnalyticData } from '../../actions/analyticDataAction';
 import { connect } from 'react-redux';
 import { MEASUREMENT_ID } from '../../lib/constants';
 import { generalService } from '../../lib/service';
+import { currencyDifferenceTableDataMapper, currencyDistributionChartDataMapper, growthChartDisplayNameMapper } from './lib/service';
 import { titleDistributionChart, titleOverallMarginChart } from "./lib/constants";
 import PerformanceChildTab from '../PerformanceChildTab';
 
@@ -22,7 +23,8 @@ export class CurrencyTab extends PerformanceChildTab {
     return {
       distributionData,
       topDistributions,
-      measurementId
+      measurementId,
+      dataMapper: currencyDistributionChartDataMapper
     }
   }
 
@@ -37,7 +39,17 @@ export class CurrencyTab extends PerformanceChildTab {
   _getDifferenceTableData() {
     const { measurementDifferenceData } = this.props.analyticData;
     return {
-      measurementDifferenceData
+      measurementDifferenceData,
+      dataMapper: currencyDifferenceTableDataMapper
+    }
+  }
+
+  _getGrowthChartData() {
+    const { growthData, measurementId } = this.props.analyticData;
+    return {
+      growthData,
+      measurementId,
+      displayNameMapper: growthChartDisplayNameMapper
     }
   }
 

@@ -41,6 +41,14 @@ class PlatformTab extends PerformanceChildTab {
     }
   }
 
+  _getGrowthChartData() {
+    const { growthData, measurementId } = this.props.analyticData;
+    return {
+      growthData,
+      measurementId
+    }
+  }
+
   render() {
     const { measurementId } = this.props.analyticData;
     return measurementId ? (

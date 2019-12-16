@@ -395,7 +395,7 @@ class DashboardApp extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     });
 
     this.state = {
-      selectedTabMenu: tabMenuList[0].key
+      selectedTabMenu: tabMenuList[1].key
     };
   }
 

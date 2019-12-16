@@ -1,18 +1,13 @@
-﻿const path = require("path");
-const webpack = require("webpack");
+﻿const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const merge = require("webpack-merge");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 
 const { environment, projectPath } = require("./utils/constant");
 const entry = require("./utils/entry");
-
-const relativeOutputPath = projectPath.relativeOutputPath;
 
 module.exports = env => {
   env = environment[env] || environment.development;
