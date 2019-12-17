@@ -15,7 +15,7 @@ export const defaultData = {
     { id: MEASUREMENT_ID.MARGIN, name: languageApi.getDefaultRes('margin') },
   ],
   getComparePeriods: () => {
-    const currentPeriod = getPeriodByNumberOfLastMonths(getCurrentTime(), 3);
+    const currentPeriod = getPeriodByNumberOfLastMonths(getCurrentTime(), 1);
     const previousPeriod = getPreviousPeriod(currentPeriod);
     return {
       currentPeriod,

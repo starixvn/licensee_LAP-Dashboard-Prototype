@@ -27,7 +27,7 @@ export default class DashboardApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTabMenu: tabMenuList[1].key
+            selectedTabMenu: tabMenuList[0].key
         };
     }
 
