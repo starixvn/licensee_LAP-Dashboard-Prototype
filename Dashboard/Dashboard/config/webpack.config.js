@@ -88,17 +88,16 @@ module.exports = env => {
       }]
     },
     plugins: [
+      new webpack.DefinePlugin({
+        'process.env':{
+          'NODE_ENV': JSON.stringify(env)
+      }}),
       new FixStyleOnlyEntriesPlugin(),
       new MiniCssExtractPlugin({
         filename: "[name].css",
         chunkFilename: 'css/pages/analytics/[name].css',
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      //new CopyPlugin([
-      //    { from: 'src/styles/fonts', to: 'build/css/build/fonts' },
-      //    { from: 'src/styles/images', to: 'build/css/build/images' },
-      //    { from: 'src/styles/assets', to: 'build/css/build/assets' },
-      //]),
       new BundleAnalyzerPlugin()
     ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ["js/**/*.*", "css/**/*.*"] }),]),
     devtool: isDevBuild ? "source-map" : undefined

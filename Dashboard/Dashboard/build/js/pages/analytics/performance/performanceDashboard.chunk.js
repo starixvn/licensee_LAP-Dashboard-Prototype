@@ -2512,14 +2512,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // middleware that logs actions
 
-/* global __DEV__ */
 
-const __DEV__ = '__DEV__';
-const loggerMiddleware = Object(redux_logger__WEBPACK_IMPORTED_MODULE_6__["createLogger"])({
-  predicate: (getState, action) => __DEV__
-});
+const getMiddleware = function () {
+  let middleware = [redux_thunk__WEBPACK_IMPORTED_MODULE_5__["default"]];
+
+  if (true) {
+    const __DEV__ = '__DEV__';
+    const loggerMiddleware = Object(redux_logger__WEBPACK_IMPORTED_MODULE_6__["createLogger"])({
+      predicate: (getState, action) => __DEV__
+    });
+    middleware = [...middleware, loggerMiddleware];
+  }
+
+  return middleware;
+};
+
 const defaultState = {
   isLoading: false,
   currencyInfo: {
@@ -2533,8 +2541,8 @@ const defaultState = {
 };
 
 function configureStore(initialState) {
-  const enhancer = Object(redux__WEBPACK_IMPORTED_MODULE_4__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_4__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_5__["default"], // lets us dispatch() functions
-  loggerMiddleware));
+  const middleware = getMiddleware();
+  const enhancer = Object(redux__WEBPACK_IMPORTED_MODULE_4__["compose"])(Object(redux__WEBPACK_IMPORTED_MODULE_4__["applyMiddleware"])(...middleware));
   return Object(redux__WEBPACK_IMPORTED_MODULE_4__["createStore"])(_reducers_index__WEBPACK_IMPORTED_MODULE_7__["default"], initialState, enhancer);
 }
 

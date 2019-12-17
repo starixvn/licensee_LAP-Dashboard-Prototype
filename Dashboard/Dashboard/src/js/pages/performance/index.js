@@ -7,10 +7,15 @@ import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import reducer from './reducers/index';
 
-// middleware that logs actions
-/* global __DEV__ */
-const __DEV__ = '__DEV__';
-const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
+const getMiddleware = function() {
+  let middleware = [thunkMiddleware];
+  if(process.env.NODE_ENV === 'development') {
+    const __DEV__ = '__DEV__';
+    const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
+    middleware = [...middleware, loggerMiddleware];
+  }
+  return middleware;
+}
 
 const defaultState = {
   isLoading: false,
@@ -25,10 +30,10 @@ const defaultState = {
 };
 
 function configureStore(initialState) {
+  const middleware = getMiddleware();
   const enhancer = compose(
     applyMiddleware(
-      thunkMiddleware, // lets us dispatch() functions
-      loggerMiddleware,
+      ...middleware
     ),
   );
   return createStore(reducer, initialState, enhancer);
