@@ -3,19 +3,8 @@ import PerformanceDashboard from './App';
 import { defaultData } from './lib/constants';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import { createLogger } from 'redux-logger';
+import { getMiddleware  } from '../../lib/middleware';
 import reducer from './reducers/index';
-
-const getMiddleware = function() {
-  let middleware = [thunkMiddleware];
-  if(process.env.NODE_ENV === 'development') {
-    const __DEV__ = '__DEV__';
-    const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
-    middleware = [...middleware, loggerMiddleware];
-  }
-  return middleware;
-}
 
 const defaultState = {
   isLoading: false,

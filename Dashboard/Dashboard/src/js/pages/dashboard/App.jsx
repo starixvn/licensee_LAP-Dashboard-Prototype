@@ -12,7 +12,7 @@ const dynamicImports = {
   [summary]: () => import(/* webpackChunkName: "summary/summaryDashboard" */ '../summary/index'),
   [performance]: () => import(/* webpackChunkName: "performance/performanceDashboard" */ '../performance/index')
 }
-const tabPermissions = window.TabKeys;
+const tabPermissions = window.TabKeys || [];
 const tabMenuList = tabPermissions.map(_ => ({
   key: _,
   name: languageApi.getDefaultRes(_),
@@ -27,8 +27,13 @@ export default class DashboardApp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTabMenu: tabMenuList[0].key
-        };
+            selectedTabMenu: this._getDefaultTabKey()
+        }
+    }
+
+    _getDefaultTabKey() {
+      const tabKey = tabMenuList[0] ? tabMenuList[0].key : null;
+      return tabKey;
     }
 
     componentDidMount() {

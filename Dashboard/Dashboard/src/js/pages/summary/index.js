@@ -2,13 +2,8 @@ import React, { Component } from 'react';
 import SummaryDashboard from './App'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
-import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
+import { getMiddleware  } from '../../lib/middleware'
 import reducer from '../../reducers/index'
-
-// middleware that logs actions
-const __DEV__ = '__DEV__';
-const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ });
 
 const defaultState ={
   currencyInfo: {
@@ -17,11 +12,10 @@ const defaultState ={
   }
 };
 function configureStore(initialState) {
+  const middleware = getMiddleware();
   const enhancer = compose(
     applyMiddleware(
-      thunkMiddleware, // lets us dispatch() functions
-      loggerMiddleware,
-
+      ...middleware
     ),
   );
   return createStore(reducer, initialState, enhancer);
