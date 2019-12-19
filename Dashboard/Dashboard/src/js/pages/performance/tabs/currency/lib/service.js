@@ -9,11 +9,11 @@ export const currencyDistributionChartDataMapper =  (distributionData, topDistri
   return result;
 }
 
-export const currencyDifferenceTableDataMapper =  measurementDifferenceData => {
+export const currencyDifferenceTableDataMapper =  (measurementDifferenceData, tabKey) => {
   const displayNameMapper = currency => {
     return generalService.getCurrencyDisplayName(currency, 'id', 'name');
   };
-  const result = differenceTableDataMapper(measurementDifferenceData, displayNameMapper);
+  const result = differenceTableDataMapper(measurementDifferenceData, tabKey, displayNameMapper);
   return result;
 }
 

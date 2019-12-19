@@ -1,4 +1,3 @@
-import { MEASUREMENT_ID } from '../lib/constants';
 import languageApi from '../../../lib/languageApi';
 
 export const differenceTableTitle = languageApi.getDefaultRes('difference_table_title');
@@ -19,20 +18,25 @@ export const growthChartConsts = [
   }
 ]
 
-export const diffenrenceTableRowDataConst = [
-  {
-    id: MEASUREMENT_ID.TURNOVER,
-    name: languageApi.getDefaultRes('turnover'),
-    propertyName: 'differenceTurnover'
-  },
-  {
-    id: MEASUREMENT_ID.GROSS_PROFIT,
-    name: languageApi.getDefaultRes('gross_profit'),
-    propertyName: 'differenceGrossProfit'
-  },
-  {
-    id: MEASUREMENT_ID.MARGIN,
-    name: languageApi.getDefaultRes('margin'),
-    propertyName: 'differenceMargin'
-  }
-];
+export const rowDataMapper = [
+  data => ({
+    value: data.differenceTurnover.differenceDistribution,
+    isPercentUnit: true
+  }),
+  data => ({
+    value: data.differenceTurnover.differenceTotal,
+    isPercentUnit: false
+  }),
+  data => ({
+    value: data.differenceGrossProfit.differenceDistribution,
+    isPercentUnit: true
+  }),
+  data => ({
+    value: data.differenceGrossProfit.differenceTotal,
+    isPercentUnit: false
+  }),
+  data => ({
+    value: data.differenceMargin.differenceTotal,
+    isPercentUnit: true
+  })
+]

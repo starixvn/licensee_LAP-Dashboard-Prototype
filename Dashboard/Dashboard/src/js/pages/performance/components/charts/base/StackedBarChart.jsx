@@ -107,7 +107,7 @@ const buildChartOption = ({ labels, limitAxisY }) => {
     scales: {
       xAxes: [
         {
-          ...{ barPercentage: 0.3 },
+          ...{ barPercentage: 0.4 },
           ...{
             display: true,
             gridLines: {

@@ -1,30 +1,11 @@
 
 import React from 'react';
 import { generalService } from '../lib/service';
-import { diffenrenceTableRowDataConst, differenceTableTitle } from './constants';
+import { differenceTableTitle } from './constants';
 import numberFormat from '../../../lib/numberFormat';
 import ValueChangeIcon from '../components/normal/ValueChangeIcon';
-import { MEASUREMENT_ID } from '../lib/constants';
 import languageApi from '../../../lib/languageApi';
-
-export const differenceTableDataMapper = (measurementDifferenceData, displayNameMapper = null) => {
-  const headers = [[
-    { name: languageApi.getDefaultRes('difference') },
-    ...measurementDifferenceData.map(_ => ({ name: displayNameMapper ? displayNameMapper(_) : _.name }))
-  ]];
-  const rows = diffenrenceTableRowDataConst.map(_ => ({
-    id: _.id,
-    name: _.name,
-    data: measurementDifferenceData.map(__ => __[_.propertyName])
-  }));
-
-  return {
-    title: differenceTableTitle,
-    headers,
-    data: rows,
-    renderRow: renderDiffenrenceTableRow
-  }
-}
+import { rowDataMapper } from './constants';
 
 export const distributionChartDataMapper = (distributionData, topDistributions, displayNameMapper = null) => {
   const labels = distributionData.map(_ => _.name + '  ' + numberFormat.nFormatter(_.total));
@@ -67,14 +48,54 @@ const getDistributionDataSet = (data, distributionId) => {
   return dataSet;
 }
 
+ const getDifferenceTableHeader = tabKey => [
+  [
+    { name: languageApi.getDefaultRes(tabKey), rowSpan: 2 },
+    ...[
+     { name:  languageApi.getDefaultRes('turnover'), colSpan: 2 },
+     { name:  languageApi.getDefaultRes('gross_profit'), colSpan: 2 },
+     { name: `${languageApi.getDefaultRes('margin')} %`, rowSpan: 2 },
+   ]
+ ],
+ [
+   { name: '%' },
+   { name: languageApi.getDefaultRes('value') },
+   { name: '%' },
+   { name: languageApi.getDefaultRes('value') },
+ ]
+];
+
 const renderDiffenrenceTableRow = (rowData, index) => <tr key={`table_comparison_row_${index}_${rowData}`}>
   <td><span>{rowData.name}</span></td>
   {rowData.data.map(_ => {
-    const differenceDistribution = rowData.id === MEASUREMENT_ID.MARGIN ? _.differenceTotal : _.differenceDistribution;
-    const differenceTotal = rowData.id === MEASUREMENT_ID.MARGIN ? null : numberFormat.formatDecimal(_.differenceTotal);
     return <td>
-      <div className="m-b-5"><ValueChangeIcon value={differenceDistribution} /><span>{differenceDistribution + '%'}</span></div>
-      {differenceTotal}
+      {_.isPercentUnit ? <div className="m-b-5"><ValueChangeIcon value={_.value} /><span>{_.value + '%'}</span></div> : null}
+      {_.isPercentUnit ? null : numberFormat.formatDecimal(_.value)}
     </td>
   })}
 </tr>
+
+export const differenceTableDataMapper = (measurementDifferenceData, tabKey, displayNameMapper = null) => {
+  const rows = measurementDifferenceData.map(_ => ({
+    name: displayNameMapper ? displayNameMapper(_) : _.name,
+    data: rowDataMapper.map(__ => __(_))
+  }));
+  const headers = getDifferenceTableHeader(tabKey);
+
+  return {
+    title: differenceTableTitle,
+    headers,
+    data: rows,
+    renderRow: renderDiffenrenceTableRow
+  }
+}
+
+export const calculateBarWidthOfGrowthChart = numberOfColumn => {
+  if(numberOfColumn < 6) {
+    return { barPercentage: 0.6, categoryPercentage: 0.5 }
+  }
+  if(numberOfColumn < 12) {
+    return  { barPercentage: 0.7, categoryPercentage: 0.6 }
+  }
+  return  { barPercentage: 0.9, categoryPercentage: 0.8 }
+}

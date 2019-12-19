@@ -230,7 +230,7 @@ i.arrow-left {
               padding: 8px 10px;
               border: 1px solid #D3D3D3;
               border-top: none;
-              word-break: break-all;
+              word-break: normal;
 
               &:not(:last-child) {
                 border-right: none;

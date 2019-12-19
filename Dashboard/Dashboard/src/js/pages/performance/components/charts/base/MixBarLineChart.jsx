@@ -4,6 +4,13 @@ import numberFormat from '../../../../../lib/numberFormat';
 
 const defaultColorBarChart = ['#F1A837', '#36A2EB'];
 const defaultColorLineChart = '#690499';
+const defaultCalculateBarWidth = numberOfColumn => {
+  if(numberOfColumn >= 6) {
+    return  { barPercentage: 0.9, categoryPercentage: 0.8 }
+  } else {
+    return { barPercentage: 0.6, categoryPercentage: 0.5 }
+  }
+}
 
 const buildLineChartDataSet = lineChartData => {
   return {
@@ -57,22 +64,35 @@ const drawTextToTopChart = function () {
   ctx.fillStyle = "#555";
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
+  const datasets = self.data.datasets;
+  const barCharts = datasets.filter(_ => _.type === 'bar' && !_.hidden);
+  const numberOfBarChart = barCharts ? barCharts.length : 0;
 
-  self.data.datasets.forEach(function (dataset, datasetIndex) {
-    const isLineChart = dataset.type === "line" ? true : false;
+  datasets.forEach(function (dataset, datasetIndex) {
+    const isLineChart = dataset.type === "line";
+    const isBarChart = dataset.type === 'bar';
     const meta = self.getDatasetMeta(datasetIndex);
     meta.data.forEach(function (element, elementIndex) {
       const value = dataset.data[elementIndex];
-      const text = isLineChart ? value + '%' : numberFormat.nFormatter(value);
+      const text = isLineChart ? value : numberFormat.nFormatter(value);
       const yOffset = value > 0 ? 6 : -7;
-      const xLabel = element._model.x - (isLineChart ? 0 : element._model.width / 2);
-      ctx.fillText(text, xLabel, element._model.y - yOffset);
+      let xLabel = 0;
+      if(isBarChart) {
+        xLabel = element._model.x + (datasetIndex > 1 ?
+          element._model.width / 2 - ctx.measureText(text).width
+          : -element._model.width / 2);
+      } else {
+        xLabel = element._model.x - (numberOfBarChart > 1 ? ctx.measureText(text).width/2 : 0);
+      }
+      const yLabel = element._model.y - yOffset;
+      ctx.fillText(text, xLabel, yLabel);
     });
   });
 }
 
-const buildMixChartOption = ({ labels, barChartData, leftAxisName, rightAxisName, autoScale }) => {
-  const barWidthObj = barChartData[0].dataSet.length >= 6 ? { barPercentage: 0.9, categoryPercentage: 0.5 } : { barPercentage: 0.4, categoryPercentage: 0.5 };
+const buildMixChartOption = ({ labels, barChartData, leftAxisName, rightAxisName, autoScale, calculateBarWidth }) => {
+  const numberOfBarColumn = barChartData.reduce((count, chartData) => count += chartData.dataSet.length, 0);
+  let barWidthObj = (calculateBarWidth || defaultCalculateBarWidth)(numberOfBarColumn);
   return {
     maintainAspectRatio: autoScale,
     onClick: function (e, item) {
@@ -201,9 +221,9 @@ export default class MixBarLineChart extends Component {
   }
 
   _renderChart() {
-    const { lineChartData, barChartData, labels, leftAxisName, rightAxisName, autoScale } = this.props;
+    const { lineChartData, barChartData, labels, leftAxisName, rightAxisName, autoScale, calculateBarWidth } = this.props;
     const data = buildMixChartDataSet({ lineChartData, barChartData });
-    const options = buildMixChartOption({ labels, barChartData, leftAxisName, rightAxisName, autoScale});
+    const options = buildMixChartOption({ labels, barChartData, leftAxisName, rightAxisName, autoScale, calculateBarWidth});
 
     return <Bar
       data={data}

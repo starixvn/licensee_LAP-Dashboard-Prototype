@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { growthChartConsts } from './constants';
 import { MEASUREMENT_ID } from '../lib/constants';
-import { differenceTableDataMapper, distributionChartDataMapper, overallChartDataMapper } from './service';
+import { differenceTableDataMapper, distributionChartDataMapper, overallChartDataMapper, calculateBarWidthOfGrowthChart } from './service';
 import DistributionChart from '../components/charts/DistributionChart';
 import OverallChart from '../components/charts/OverallChart';
 import ComparisonTable from '../components/normal/ComparisonTable';
@@ -65,7 +65,7 @@ export default class PerformanceChildTab extends PureComponent {
     if (!measurementDifferenceData) {
       return null;
     }
-    const tableData = dataMapper ? dataMapper(measurementDifferenceData) : differenceTableDataMapper(measurementDifferenceData);
+    const tableData = dataMapper ? dataMapper(measurementDifferenceData, this.tabKey) : differenceTableDataMapper(measurementDifferenceData, this.tabKey);
     return <ComparisonTable
       {...tableData}
     />;
@@ -81,7 +81,7 @@ export default class PerformanceChildTab extends PureComponent {
 
     const growthChartData = this._getGrowthData() || [];
     const lineChartData = {
-      name: languageApi.getDefaultRes('growth'),
+      name: languageApi.getDefaultRes('growth_rate'),
       dataSet: growthChartData.map(_ => _.growthPercent)
     };
     const barChartData = this._getBarChartData(growthChartData, measurement, displayNameMapper);
@@ -100,6 +100,7 @@ export default class PerformanceChildTab extends PureComponent {
       labels={labels}
       leftAxisName={leftAxisName}
       showBackIcon={!isPeriodGrowthDataType}
+      calculateBarWidth={calculateBarWidthOfGrowthChart}
       backToDefaultChart={() => this.setState({ isPeriodGrowthDataType: true })}
     />;
   }

@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { MEASUREMENT_ID } from '../../lib/constants';
 import { generalService } from '../../lib/service';
 import PerformanceChildTab from '../PerformanceChildTab';
+import { tabMenuKey } from '../../lib/constants';
 import { titleDistributionChart, titleOverallMarginChart } from './lib/constants';
-import { diffenrenceTableDataMapper } from './lib/service';
 
 class BettypeTab extends PerformanceChildTab {
   constructor(props) {
@@ -17,6 +17,7 @@ class BettypeTab extends PerformanceChildTab {
     }
     this.titleDistributionChart = titleDistributionChart;
     this.isAutoScaleGrowthChart = false;
+    this.tabKey = tabMenuKey.bettype;
   }
 
   _getDistributionChartData() {
@@ -39,8 +40,7 @@ class BettypeTab extends PerformanceChildTab {
   _getDifferenceTableData() {
     const { measurementDifferenceData } = this.props.analyticData;
     return {
-      measurementDifferenceData,
-      dataMapper: diffenrenceTableDataMapper
+      measurementDifferenceData
     }
   }
 

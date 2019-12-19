@@ -73,7 +73,7 @@ class OverviewTab extends Component {
     const labels = growthChartData.map(_ => _.name);
 
     const lineChartData = {
-      name: languageApi.getDefaultRes('growth'),
+      name: languageApi.getDefaultRes('growth_rate'),
       dataSet: growthChartData.map(_ => _.growthPercent)
     };
 
