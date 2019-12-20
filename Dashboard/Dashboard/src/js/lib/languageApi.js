@@ -23,7 +23,6 @@ export default class languageApi {
         return zhcn[resKey];
       default:
         return en[resKey];
-
     }
   }
   static getDefaultRes(resKey) {

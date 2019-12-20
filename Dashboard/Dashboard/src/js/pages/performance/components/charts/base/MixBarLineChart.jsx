@@ -12,6 +12,66 @@ const defaultCalculateBarWidth = numberOfColumn => {
   }
 }
 
+const drawTextToTopChart = function () {
+  const self = this,
+    chart = this.chart,
+    ctx = chart.ctx;
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#555";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  const datasets = self.data.datasets;
+  const barCharts = datasets.filter(_ => _.type === 'bar' && !_.hidden);
+  const numberOfBarChart = barCharts ? barCharts.length : 0;
+
+  datasets.forEach(function (dataset, datasetIndex) {
+    const isLineChart = dataset.type === "line";
+    const isBarChart = dataset.type === 'bar';
+    const meta = self.getDatasetMeta(datasetIndex);
+    !meta.hidden && meta.data.forEach(function (element, elementIndex) {
+      const value = dataset.data[elementIndex];
+      const text = isLineChart ? value : numberFormat.nFormatter(value);
+      const yOffset = value > 0 ? 6 : -7;
+      let xLabel = 0;
+      if(isBarChart) {
+        xLabel = element._model.x + (datasetIndex > 1 ?
+          element._model.width / 2 - ctx.measureText(text).width
+          : -element._model.width / 2);
+      } else {
+        xLabel = element._model.x - (numberOfBarChart > 1 ? ctx.measureText(text).width/2 : 0);
+      }
+      const yLabel = element._model.y - yOffset;
+      ctx.fillText(text, xLabel, yLabel);
+    });
+  });
+}
+
+const getBarWidthOption = (barChartData, calculateBarWidth) => {
+  const numberOfBarColumn = barChartData.reduce((count, chartData) => count += chartData.dataSet.length, 0);
+  const barWidthObj = (calculateBarWidth || defaultCalculateBarWidth)(numberOfBarColumn);
+  return barWidthObj;
+}
+
+const onClickLegend = function(calculateBarWidth, defaultCalculateBarWidth) {
+  return function(e, legendItem) {
+    const chart = this.chart;
+    Chart.defaults.global.legend.onClick.call(chart, e, legendItem);
+    const datasets = chart.data.datasets;
+    let numberOfBarColumn = 0;
+    datasets.forEach((dataset, index) => {
+      if(dataset.type === 'bar') {
+        const metaDataset = chart.getDatasetMeta(index);
+        numberOfBarColumn += metaDataset.hidden ? 0 : dataset.data.length;
+      }
+    })
+    chart.config.options.scales.xAxes[0] = {
+      ...chart.config.options.scales.xAxes[0],
+      ...(calculateBarWidth || defaultCalculateBarWidth)(numberOfBarColumn)
+    };
+    chart.update()
+  }
+}
+
 const buildLineChartDataSet = lineChartData => {
   return {
     label: lineChartData.name,
@@ -56,43 +116,8 @@ const buildMixChartDataSet = ({ lineChartData, barChartData }) => {
   }
 }
 
-const drawTextToTopChart = function () {
-  const self = this,
-    chart = this.chart,
-    ctx = chart.ctx;
-  ctx.textAlign = "center";
-  ctx.fillStyle = "#555";
-  ctx.textAlign = "left";
-  ctx.textBaseline = "middle";
-  const datasets = self.data.datasets;
-  const barCharts = datasets.filter(_ => _.type === 'bar' && !_.hidden);
-  const numberOfBarChart = barCharts ? barCharts.length : 0;
-
-  datasets.forEach(function (dataset, datasetIndex) {
-    const isLineChart = dataset.type === "line";
-    const isBarChart = dataset.type === 'bar';
-    const meta = self.getDatasetMeta(datasetIndex);
-    meta.data.forEach(function (element, elementIndex) {
-      const value = dataset.data[elementIndex];
-      const text = isLineChart ? value : numberFormat.nFormatter(value);
-      const yOffset = value > 0 ? 6 : -7;
-      let xLabel = 0;
-      if(isBarChart) {
-        xLabel = element._model.x + (datasetIndex > 1 ?
-          element._model.width / 2 - ctx.measureText(text).width
-          : -element._model.width / 2);
-      } else {
-        xLabel = element._model.x - (numberOfBarChart > 1 ? ctx.measureText(text).width/2 : 0);
-      }
-      const yLabel = element._model.y - yOffset;
-      ctx.fillText(text, xLabel, yLabel);
-    });
-  });
-}
-
 const buildMixChartOption = ({ labels, barChartData, leftAxisName, rightAxisName, autoScale, calculateBarWidth }) => {
-  const numberOfBarColumn = barChartData.reduce((count, chartData) => count += chartData.dataSet.length, 0);
-  let barWidthObj = (calculateBarWidth || defaultCalculateBarWidth)(numberOfBarColumn);
+  const barWidthObj = getBarWidthOption(barChartData, calculateBarWidth);
   return {
     maintainAspectRatio: autoScale,
     onClick: function (e, item) {
@@ -134,15 +159,18 @@ const buildMixChartOption = ({ labels, barChartData, leftAxisName, rightAxisName
     legend: {
       display: true,
       position: 'bottom',
+      onHover: function(e) {
+        e.target.style.cursor = 'pointer';
+      },
+      onClick: onClickLegend(calculateBarWidth, defaultCalculateBarWidth),
       labels: {
         filter: function (item) {
-          return !item.hidden;
+          return  item.text !== undefined;
         },
         usePointStyle: true,
         boxWidth: 8,
         padding: 20
-      },
-      onClick: e => e.stopPropagation()
+      }
     },
     animation: {
       onComplete: drawTextToTopChart

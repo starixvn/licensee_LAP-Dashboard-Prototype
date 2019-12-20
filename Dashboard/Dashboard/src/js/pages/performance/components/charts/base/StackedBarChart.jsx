@@ -42,7 +42,7 @@ const drawTextToTopChart = function () {
 
   self.data.datasets.forEach(function (dataset, datasetIndex) {
     const meta = self.getDatasetMeta(datasetIndex);
-    meta.data.forEach(function (element, elementIndex) {
+    !meta.hidden && meta.data.forEach(function (element, elementIndex) {
       const value = dataset.data[elementIndex];
       if (value !== 0) {
         const text = defaultTooltip(value);
@@ -88,12 +88,14 @@ const buildChartOption = ({ labels, limitAxisY }) => {
     legend: {
       display: true,
       position: 'bottom',
+      onHover: function(e) {
+        e.target.style.cursor = 'pointer';
+      },
       labels: {
         usePointStyle: true,
         boxWidth: 8,
         padding: 20
-      },
-      onClick: e => e.stopPropagation()
+      }
     },
     animation: {
       onComplete: drawTextToTopChart

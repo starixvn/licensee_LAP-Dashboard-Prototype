@@ -28,7 +28,6 @@ export default class AutoReload extends React.Component {
                 this._startTimer();
             }
         });
-
     }
 
     componentWillUnmount() {

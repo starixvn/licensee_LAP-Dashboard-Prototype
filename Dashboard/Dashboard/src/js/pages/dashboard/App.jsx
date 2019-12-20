@@ -32,7 +32,7 @@ export default class DashboardApp extends Component {
     }
 
     _getDefaultTabKey() {
-      const tabKey = tabMenuList[0] ? tabMenuList[0].key : null;
+      const tabKey = tabMenuList[1] ? tabMenuList[1].key : null;
       return tabKey;
     }
 

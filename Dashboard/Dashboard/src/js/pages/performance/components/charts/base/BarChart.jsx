@@ -3,6 +3,13 @@ import { Bar } from 'react-chartjs-2';
 import numberFormat from '../../../../../lib/numberFormat';
 
 const defaultColorBarChart = ['#208E9B'];
+const defaultCalculateBarWidth = numberOfColumn => {
+  if(numberOfColumn >= 6) {
+    return  { barPercentage: 0.9, categoryPercentage: 0.5 }
+  } else {
+    return { barPercentage: 0.5, categoryPercentage: 0.6  }
+  }
+}
 
 const buildBarChartDataSet = barChartData => {
   return barChartData.map((_, index) => {
@@ -50,7 +57,7 @@ const drawTextToTopChart = function () {
 }
 
 const buildChartOption = ({ labels, barChartData, hideLegend }) => {
-  const barWidthObj = barChartData[0].dataSet.length >= 6 ? { barPercentage: 0.9, categoryPercentage: 0.5 } : { barPercentage: 0.5, categoryPercentage: 0.6  };
+  const barWidthObj = defaultCalculateBarWidth(barChartData[0].dataSet.length);
   const leftAxisName = barChartData[0].name || '';
 
   return {

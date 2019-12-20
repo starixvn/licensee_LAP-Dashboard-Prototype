@@ -39,7 +39,8 @@ export default class PerformanceChildTab extends PureComponent {
       return null;
     }
     const measurement = generalService.getMeasurementNameById(measurementId) || {};
-    const title = measurement.name + ' ' + this.titleDistributionChart;
+    const title = `${measurement.name}${' '}${this.titleDistributionChart}`;
+
     return <DistributionChart
       distributionData={distributionData}
       topDistributions={topDistributions}

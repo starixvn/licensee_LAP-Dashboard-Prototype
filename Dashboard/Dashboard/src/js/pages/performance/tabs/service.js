@@ -94,7 +94,7 @@ export const calculateBarWidthOfGrowthChart = numberOfColumn => {
   if(numberOfColumn < 6) {
     return { barPercentage: 0.6, categoryPercentage: 0.5 }
   }
-  if(numberOfColumn < 12) {
+  if(numberOfColumn < 11) {
     return  { barPercentage: 0.7, categoryPercentage: 0.6 }
   }
   return  { barPercentage: 0.9, categoryPercentage: 0.8 }
