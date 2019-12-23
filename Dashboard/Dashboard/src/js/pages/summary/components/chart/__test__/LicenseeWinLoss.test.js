@@ -5,10 +5,10 @@ import * as ChartJs from 'react-chartjs-2';
 import LicenseeWinLoss from '../LicenseeWinLoss';
 import WidgetBox from '../../../../../components/WidgetBox';
 
-import widgetApi from '../../../../../modules/widgetApi';
-import numberFormat from '../../../../../modules/numberFormat';
+import widgetApi from '../../../../../lib/widgetApi';
+import numberFormat from '../../../../../lib/numberFormat';
 
-jest.mock('../../../../../modules/widgetApi');
+jest.mock('../../../../../lib/widgetApi');
 jest.mock('../../../../../components/WidgetBox');
 jest.mock('react-chartjs-2');
 

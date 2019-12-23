@@ -1,12 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import Deposit from '../Deposit';
-import widgetApi from '../../../../../modules/widgetApi';
+import widgetApi from '../../../../../lib/widgetApi';
 import { widgetApiUrl, widgetKey } from '../../../modules/constants';
 import WidgetBox from '../../../../../components/WidgetBox';
 
 jest.mock('../../../../../components/WidgetBox');
-jest.mock('../../../../../modules/widgetApi');
+jest.mock('../../../../../lib/widgetApi');
 
 const fakeProps = {
     filter: {

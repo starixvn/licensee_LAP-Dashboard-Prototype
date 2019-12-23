@@ -3,11 +3,11 @@ import renderer from 'react-test-renderer';
 import CustomerBalance from '../CustomerBalance';
 import WidgetBox from '../../../../../components/WidgetBox';
 
-import widgetApi from '../../../../../modules/widgetApi';
-import { widgetApiUrl, widgetKey } from '../../../modules/constants';
+import widgetApi from '../../../../../lib/widgetApi';
+import { widgetApiUrl, widgetKey } from '../../../lib/constants';
 
 jest.mock('../../../../../components/WidgetBox');
-jest.mock('../../../../../modules/widgetApi');
+jest.mock('../../../../../lib/widgetApi');
 
 const fakeProps = {
     filter: {

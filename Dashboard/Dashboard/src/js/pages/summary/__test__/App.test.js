@@ -6,7 +6,7 @@ import DefaultLayout from '../../../layouts/DefaultLayout';
 
 import { widgetKey, wgLayouts } from '../modules/constants';
 import widgetLayout from '../../../modules/widgetLayout';
-import localStorageHelper from '../../../modules/localStorageHelper';
+import localStorageHelper from '../../../lib/localStorageHelper';
 
 import Turnover from '../components/chart/Turnover';
 import OnlineCustomer from '../components/chart/OnlineCustomer';
@@ -21,7 +21,7 @@ import RegisteredCustomer from '../components/normal/RegisteredCustomer';
 jest.mock('react-dom');
 jest.mock('react-grid-layout');
 jest.mock('../../../layouts/DefaultLayout');
-jest.mock('../../../modules/localStorageHelper');
+jest.mock('../../../lib/localStorageHelper');
 
 jest.mock('../components/normal/Deposit');
 jest.mock('../components/normal/Withdrawal');

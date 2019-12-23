@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
 import * as ChartJs from 'react-chartjs-2';
 import Turnover from '../Turnover';
-import widgetApi from '../../../../../modules/widgetApi';
+import widgetApi from '../../../../../lib/widgetApi';
 import WidgetBox from '../../../../../components/WidgetBox';
 
-jest.mock('../../../../../modules/widgetApi');
+jest.mock('../../../../../lib/widgetApi');
 jest.mock('../../../../../components/WidgetBox');
 jest.mock('react-chartjs-2');
 jest.mock('react-dom');
@@ -74,20 +74,16 @@ function fakeDoughnutInstance() {
 beforeAll(() => {
     WidgetBox.mockImplementation(() => ({
         render: function() {
-            return ( <
-                div {...this.props }
-                name = "WidgetBox" > { this.props.children } <
-                /div>
+            return (<div {...this.props }
+                name = "WidgetBox" > { this.props.children } </div>
             )
         }
     }));
     Doughnut.mockImplementation(() => ({
         render: function() {
-            return ( <
-                div {...this.props }
+            return ( <div {...this.props }
                 name = "Doughnut" >
-                hello bar <
-                /div>
+                hello bar </div>
             )
         }
     }));
@@ -418,7 +414,7 @@ test('render correctly', () => {
 
                             ReactDOM.render.mockReset();
                             afterUpdate(chartInstance);
-                            var result = renderer.create( < div > { ReactDOM.render.mock.calls[0][0] } < /div>);
+                            var result = renderer.create(<div> { ReactDOM.render.mock.calls[0][0] } </div>);
                                 expect(result.toJSON()).toMatchSnapshot();
                             });
 

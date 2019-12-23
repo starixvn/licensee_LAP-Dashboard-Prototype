@@ -1,4 +1,4 @@
-import widgetLayout from '../widgetLayout';
+import widgetLayout from '../../layouts/widgetLayout';
 import localStorageHelper from '../localStorageHelper';
 import { wgLayouts } from '../constants';
 
@@ -96,7 +96,7 @@ describe('getWidgetLayoutSettings()', () => {
     test('don\'t have local settings: store default settings but remove disabled items', () => {
         localStorageHelper.getWidgetLayout.mockImplementation(() => null);
         localStorageHelper.saveWidgetLayout.mockReset();
-        const actual = widgetLayout.getWidgetLayoutSettings();
+        const actual = widgetLayout.getWidgetLayoutSettings({});
         const expected = {
             lg: wgLayouts.lg.filter(widgetIsEnabledFilter),
             md: wgLayouts.md.filter(widgetIsEnabledFilter),
@@ -112,7 +112,7 @@ describe('getWidgetLayoutSettings()', () => {
         const emptyLayouts = {lg:[], md:[], sm:[], xs:[], xxs:[]};
         let userLayouts = widgetLayout._addWidgetToLayout(emptyLayouts, widgetLayout._getWidgetLayoutByKey(wgLayouts, 'c_turnover'));
         userLayouts = widgetLayout._addWidgetToLayout(userLayouts, widgetLayout._getWidgetLayoutByKey(wgLayouts, 'n_reg_customer'));
-        
+
         localStorageHelper.getWidgetLayout.mockImplementation(() => userLayouts);
         localStorageHelper.saveWidgetLayout.mockReset();
         const actual = widgetLayout.getWidgetLayoutSettings();
@@ -120,7 +120,7 @@ describe('getWidgetLayoutSettings()', () => {
         expected = widgetLayout._addWidgetToLayout(expected, widgetLayout._getWidgetLayoutByKey(wgLayouts, 'c_online_customer'));
         expected = widgetLayout._addWidgetToLayout(expected, widgetLayout._getWidgetLayoutByKey(wgLayouts, 'n_deposit'));
         expected = widgetLayout._addWidgetToLayout(expected, widgetLayout._getWidgetLayoutByKey(wgLayouts, 'n_withdrawal'));
-        
+
         expect(actual).toEqual(expected);
     });
 });

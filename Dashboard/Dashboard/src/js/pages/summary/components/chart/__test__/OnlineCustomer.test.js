@@ -2,10 +2,10 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import * as ChartJs from 'react-chartjs-2';
 import OnlineCustomer from '../OnlineCustomer';
-import widgetApi from '../../../../../modules/widgetApi';
+import widgetApi from '../../../../../lib/widgetApi';
 import WidgetBox from '../../../../../components/WidgetBox';
 
-jest.mock('../../../../../modules/widgetApi');
+jest.mock('../../../../../lib/widgetApi');
 jest.mock('../../../../../components/WidgetBox');
 jest.mock('react-chartjs-2');
 

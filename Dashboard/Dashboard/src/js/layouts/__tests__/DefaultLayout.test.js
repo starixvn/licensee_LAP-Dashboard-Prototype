@@ -1,9 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import DefaultLayout from '../DefaultLayout';
-import widgetApi from '../../modules/widgetApi';
+import widgetApi from '../../lib/widgetApi';
 
-jest.mock('../../modules/widgetApi');
+jest.mock('../../lib/widgetApi');
 const fakeResponse = {
   data: {
     Currency: [{

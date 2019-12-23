@@ -749,7 +749,7 @@ class widgetApi {
       headers: {
         'X-Auth-Token': response.data.Token,
         'X-Requested-With': 'XMLHttpRequest',
-        'Accept-Language': _languageApi__WEBPACK_IMPORTED_MODULE_1__["langCodeMapper"][_constants__WEBPACK_IMPORTED_MODULE_2__["langCode"]]
+        'Accept-Language': _languageApi__WEBPACK_IMPORTED_MODULE_1__["langCodeMapper"][_constants__WEBPACK_IMPORTED_MODULE_2__["dashboardLangCode"]]
       }
     });
   }

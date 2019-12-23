@@ -3,39 +3,6 @@ import widgetApi from '../widgetApi';
 
 jest.mock('axios');
 
-describe('_getAuthToken(action)', () => {
-    [undefined, '', null].forEach(tokenUrl => {
-        test(`use default token url when window.TokenUrl is "${tokenUrl}"`, () => {
-            // assign
-            axios
-                .get
-                .mockReset();
-            window.TokenUrl = tokenUrl;
-
-            // action
-            widgetApi._getAuthToken('fake action');
-
-            // assert
-            expect(axios.get.mock.calls[0][0]).toMatch(/^http:\/\/ha\.nexdev\.net:7611\/LAP\/12bet\/Verify\/ApplyApiToken\?type=1&actionLink=fake%20action&_=\d+$/);
-
-        });
-    });
-
-    test('get data via pre-registed token url', () => {
-        // assign
-        axios
-            .get
-            .mockReset();
-        window.TokenUrl = 'http://some-url/?action={0}';
-
-        // action
-        widgetApi._getAuthToken('fake action');
-
-        // assert
-        expect(axios.get.mock.calls[0][0]).toMatch(/^http:\/\/some\-url\/\?action=fake%20action$/);
-    });
-});
-
 describe('fetchData(param)', () => {
     describe('Data of param is null', () => {
         afterEach(() => {
@@ -46,14 +13,14 @@ describe('fetchData(param)', () => {
 
         test('axios.get function should be called with correct parameter', () => {
             // assign
-            window.HostUrl = undefined;
-            const param = { Data: null };
+            window.HostUrl = '/lap/SessionIsAlive';
+            const param = { Data: null, Url: 'test' };
 
             // action
             widgetApi.fetchData(param);
 
             // assert
-            expect(axios.get).toBeCalledWith('http://ha.nexdev.net:7611/LAP/12bet', { params: {} });
+            expect(axios.get).toBeCalledWith('/lap/test', { params: {} });
         });
     });
 
@@ -70,30 +37,6 @@ describe('fetchData(param)', () => {
             axios
                 .get
                 .mockReset();
-        });
-
-        [undefined, '', null].forEach(hostUrl => {
-            test(`use default host url when window.HostUrl is "${hostUrl}"`, () => {
-                // assign
-                window.HostUrl = hostUrl;
-
-                // action
-                widgetApi.fetchData(fakeParams);
-
-                // assert
-                expect(axios.get).toBeCalledWith('http://ha.nexdev.net:7611/LAP/12bet', { params: fakeParams.Data });
-            });
-        });
-
-        test('has window.HostUrl then replace SessionIsAlive by given url', () => {
-            // assign
-            window.HostUrl = 'http://fake-url/SessionIsAlive';
-
-            // action
-            widgetApi.fetchData(fakeParams);
-
-            // assert
-            expect(axios.get).toBeCalledWith(`http://fake-url/${fakeParams.Url}`, { params: fakeParams.Data });
         });
     });
 
@@ -127,7 +70,7 @@ describe('fetchData(param)', () => {
             widgetApi.fetchData(fakeParams);
 
             // assert
-            expect(widgetApi._getAuthToken).toBeCalledWith(fakeParams.Url);
+            expect(widgetApi._getAuthToken).toBeCalledWith(fakeParams.Url, 1);
         });
         test('after get auth token get data by given url', () => {
             // assign

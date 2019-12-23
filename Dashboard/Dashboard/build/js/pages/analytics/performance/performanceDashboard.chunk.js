@@ -953,7 +953,7 @@ class widgetApi {
       headers: {
         'X-Auth-Token': response.data.Token,
         'X-Requested-With': 'XMLHttpRequest',
-        'Accept-Language': _languageApi__WEBPACK_IMPORTED_MODULE_1__["langCodeMapper"][_constants__WEBPACK_IMPORTED_MODULE_2__["langCode"]]
+        'Accept-Language': _languageApi__WEBPACK_IMPORTED_MODULE_1__["langCodeMapper"][_constants__WEBPACK_IMPORTED_MODULE_2__["dashboardLangCode"]]
       }
     });
   }
@@ -3040,6 +3040,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/charts/GrowthChart */ "./src/js/pages/performance/components/charts/GrowthChart.jsx");
 /* harmony import */ var _lib_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../lib/service */ "./src/js/pages/performance/lib/service.js");
 /* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../lib/constants */ "./src/js/lib/constants.js");
+
 
 
 
@@ -3090,7 +3092,7 @@ class PerformanceChildTab extends react__WEBPACK_IMPORTED_MODULE_0__["PureCompon
     }
 
     const measurement = _lib_service__WEBPACK_IMPORTED_MODULE_8__["generalService"].getMeasurementNameById(measurementId) || {};
-    const title = `${measurement.name}${' '}${this.titleDistributionChart}`;
+    const title = `${measurement.name}${_lib_constants__WEBPACK_IMPORTED_MODULE_10__["dashboardLangCode"] !== _lib_constants__WEBPACK_IMPORTED_MODULE_10__["langCodes"].english ? '' : ' '}${this.titleDistributionChart}`;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_DistributionChart__WEBPACK_IMPORTED_MODULE_4__["default"], {
       distributionData: distributionData,
       topDistributions: topDistributions,
@@ -3155,7 +3157,7 @@ class PerformanceChildTab extends react__WEBPACK_IMPORTED_MODULE_0__["PureCompon
     const barChartData = this._getBarChartData(growthChartData, measurement, displayNameMapper);
 
     const labels = isPeriodGrowthDataType ? growthChartData.map(_ => displayNameMapper ? displayNameMapper(_) : _.name) : growthChartData.map(_ => _.name);
-    const title = `${measurement.name} ${_lib_languageApi__WEBPACK_IMPORTED_MODULE_9__["default"].getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' : ` - ${selectedColumnDrillDown.name} - ${_constants__WEBPACK_IMPORTED_MODULE_1__["growthChartConsts"][selectedColumnDrillDown.datasetIndex].periodName}`}`;
+    const title = `${measurement.name}${_lib_constants__WEBPACK_IMPORTED_MODULE_10__["dashboardLangCode"] !== _lib_constants__WEBPACK_IMPORTED_MODULE_10__["langCodes"].english ? '' : ' '}${_lib_languageApi__WEBPACK_IMPORTED_MODULE_9__["default"].getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' : ` - ${selectedColumnDrillDown.name} - ${_constants__WEBPACK_IMPORTED_MODULE_1__["growthChartConsts"][selectedColumnDrillDown.datasetIndex].periodName}`}`;
     const leftAxisName = `${measurement.name} ${measurementId === _lib_constants__WEBPACK_IMPORTED_MODULE_2__["MEASUREMENT_ID"].MARGIN ? '(%)' : ''}`;
     const autoScale = this.isAutoScaleGrowthChart;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_7__["default"], {
@@ -3732,9 +3734,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../lib/constants */ "./src/js/pages/performance/lib/constants.js");
 /* harmony import */ var _lib_numberFormat__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../../../lib/numberFormat */ "./src/js/lib/numberFormat.js");
 /* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../../../lib/languageApi */ "./src/js/lib/languageApi.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../../lib/constants */ "./src/js/lib/constants.js");
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -3866,7 +3870,7 @@ class OverviewTab extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
         }) : []
       }
     }];
-    const title = `${measurement.name} ${_lib_languageApi__WEBPACK_IMPORTED_MODULE_12__["default"].getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' : ' - ' + selectedDrillDownColumnName}`;
+    const title = `${measurement.name}${_lib_constants__WEBPACK_IMPORTED_MODULE_13__["dashboardLangCode"] !== _lib_constants__WEBPACK_IMPORTED_MODULE_13__["langCodes"].english ? '' : ' '}${_lib_languageApi__WEBPACK_IMPORTED_MODULE_12__["default"].getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' : ' - ' + selectedDrillDownColumnName}`;
     const leftAxisName = `${measurement.name} ${measurementId === _lib_constants__WEBPACK_IMPORTED_MODULE_10__["MEASUREMENT_ID"].MARGIN ? '(%)' : ''}`;
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_charts_GrowthChart__WEBPACK_IMPORTED_MODULE_5__["default"], {
       autoScale: true,

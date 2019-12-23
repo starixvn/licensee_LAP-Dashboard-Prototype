@@ -1,9 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import AutoReload from '../AutoReload';
-import localStorageHelper from '../../modules/localStorageHelper';
+import localStorageHelper from '../../lib/localStorageHelper';
 
-jest.mock('../../modules/localStorageHelper');
+jest.mock('../../lib/localStorageHelper');
 
 const fakeProps = {
     dataKey: 'test',
@@ -105,7 +105,7 @@ describe('_onCounterClick()', () => {
             countdownValues: [1, 2, 3, 4]
         }, fakeProps);
         const component = renderer.create(<AutoReload {...props} />);
-        const element = findElement(component, '.btn-refresh');
+        const element = findElement(component, 'btn-refresh');
 
         component.getInstance().setState({ isShowSelection: false });
 
@@ -115,7 +115,7 @@ describe('_onCounterClick()', () => {
 
     test('dropdown is shown: hide dropdown', () => {
         const component = renderer.create(<AutoReload {...fakeProps} />);
-        const element = findElement(component, '.btn-refresh');
+        const element = findElement(component, 'btn-refresh');
 
         component.getInstance().setState({ isShowSelection: true });
 

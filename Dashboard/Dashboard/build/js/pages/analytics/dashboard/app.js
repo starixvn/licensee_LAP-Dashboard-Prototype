@@ -256,13 +256,14 @@ class DefaultLayout extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compone
 /*!*********************************!*\
   !*** ./src/js/lib/constants.js ***!
   \*********************************/
-/*! exports provided: getCurrentTime, langCode, tabMenuKey, CurrenyListApiUrl, widgetKey */
+/*! exports provided: getCurrentTime, dashboardLangCode, langCodes, tabMenuKey, CurrenyListApiUrl, widgetKey */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCurrentTime", function() { return getCurrentTime; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "langCode", function() { return langCode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dashboardLangCode", function() { return dashboardLangCode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "langCodes", function() { return langCodes; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "tabMenuKey", function() { return tabMenuKey; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CurrenyListApiUrl", function() { return CurrenyListApiUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "widgetKey", function() { return widgetKey; });
@@ -273,7 +274,11 @@ const getCurrentTime = () => {
     year: now.getFullYear()
   };
 };
-const langCode = window.dashboardLangCode || 'en';
+const dashboardLangCode = window.dashboardLangCode || 'en';
+const langCodes = {
+  english: 'en',
+  simplifiedChinese: 'cs'
+};
 const tabMenuKey = {
   summary: 'summary',
   performance: 'performance'
@@ -299,42 +304,32 @@ const widgetKey = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "langCodeMapper", function() { return langCodeMapper; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return languageApi; });
-/* harmony import */ var _resources_resource_ch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../resources/resource.ch */ "./src/js/resources/resource.ch.js");
-/* harmony import */ var _resources_resource_cs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../resources/resource.cs */ "./src/js/resources/resource.cs.js");
-/* harmony import */ var _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../resources/resource.en */ "./src/js/resources/resource.en.js");
-/* harmony import */ var _resources_resource_zhcn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../resources/resource.zhcn */ "./src/js/resources/resource.zhcn.js");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./constants */ "./src/js/lib/constants.js");
-
-
+/* harmony import */ var _resources_resource_cs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../resources/resource.cs */ "./src/js/resources/resource.cs.js");
+/* harmony import */ var _resources_resource_en__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../resources/resource.en */ "./src/js/resources/resource.en.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./src/js/lib/constants.js");
 
 
 
 const langCodeMapper = {
-  'en': 'en-US',
-  'cs': 'zh-CN'
+  [_constants__WEBPACK_IMPORTED_MODULE_2__["langCodes"].english]: 'en-US',
+  [_constants__WEBPACK_IMPORTED_MODULE_2__["langCodes"].simplifiedChinese]: 'zh-CN'
 };
 class languageApi {
   static getRes(langcode, resKey) {
     switch (langcode) {
-      case 'ch':
-        return _resources_resource_ch__WEBPACK_IMPORTED_MODULE_0__["ch"][resKey];
+      case _constants__WEBPACK_IMPORTED_MODULE_2__["langCodes"].english:
+        return _resources_resource_en__WEBPACK_IMPORTED_MODULE_1__["en"][resKey];
 
-      case 'cs':
-        return _resources_resource_cs__WEBPACK_IMPORTED_MODULE_1__["cs"][resKey];
-
-      case 'en':
-        return _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__["en"][resKey];
-
-      case 'zhcn':
-        return _resources_resource_zhcn__WEBPACK_IMPORTED_MODULE_3__["zhcn"][resKey];
+      case _constants__WEBPACK_IMPORTED_MODULE_2__["langCodes"].simplifiedChinese:
+        return _resources_resource_cs__WEBPACK_IMPORTED_MODULE_0__["cs"][resKey];
 
       default:
-        return _resources_resource_en__WEBPACK_IMPORTED_MODULE_2__["en"][resKey];
+        return _resources_resource_en__WEBPACK_IMPORTED_MODULE_1__["en"][resKey];
     }
   }
 
   static getDefaultRes(resKey) {
-    return languageApi.getRes(_constants__WEBPACK_IMPORTED_MODULE_4__["langCode"], resKey);
+    return languageApi.getRes(_constants__WEBPACK_IMPORTED_MODULE_2__["dashboardLangCode"], resKey);
   }
 
 }
@@ -534,92 +529,6 @@ const isActiveTabMenu = (selectedTabMenu, tabMenuItem) => {
 
 /***/ }),
 
-/***/ "./src/js/resources/resource.ch.js":
-/*!*****************************************!*\
-  !*** ./src/js/resources/resource.ch.js ***!
-  \*****************************************/
-/*! exports provided: ch */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ch", function() { return ch; });
-const ch = {
-  n_deposit: "存款(今日)",
-  c_turnover: "交易额",
-  c_licWL: "投注输赢",
-  n_reg_customer: "已注册会员",
-  c_online_customer: "在线会员",
-  n_customer_balance: "会员馀额",
-  n_pending_funds: "未结算金额",
-  n_withdrawal: "提款(今日)",
-  turnover_byplatform_month_todate: '交易額(當月累計)',
-  deposit_today: "存款(今日)",
-  licensee_winloss_month_todate: "投注輸贏(當月累計)",
-  registered_customer: "已注册会员",
-  online_customer: "在线会员",
-  customer_balance: "会员馀额",
-  pending_funds: "未结算金额",
-  withdrawal_today: "提款(今日)",
-  apply: "設定",
-  currency: "会员币别",
-  Based: "显示币别",
-  Widgets: "小工具",
-  total_registered_cus_today: "總註冊會員",
-  deposit: "註冊且存款",
-  none_deposit: "註冊未存款",
-  Asia: "亞洲版",
-  China: "大陸版",
-  Euro: "歐洲版",
-  Wap: "WAP手機",
-  All: "全部",
-  Web: "桌機版",
-  total_turnover: "總交易額",
-  total_winloss: "總投注輸贏",
-  no_widget_permission: "You do not have sufficient permissions to access this page",
-  reset_layout: "初始設定",
-  Tablet: "平板",
-  SmartSite: "行動裝置版",
-  NewAsia: "新亞洲版",
-  MobileApp: "Mobile App",
-  Mobile: "Mobile",
-  MobileLiteVersion: "Mobile Lite Version",
-  DeepLink: "Deep Link",
-  date: "",
-  //
-  measurement: "",
-  submit: "",
-  value: '',
-  current_period: "",
-  previous_period: "",
-  summary: '',
-  performance: '',
-  overview: '',
-  currency: '',
-  product: '',
-  bettype: '',
-  platform: '',
-  turnover: '',
-  gross_profit: '',
-  margin: '',
-  marjor_table_title_currency: '',
-  marjor_table_title_product: '',
-  marjor_table_title_bettype: '',
-  marjor_table_title_platform: '',
-  comparison: '',
-  growth: '',
-  growth_rate: '',
-  difference: '',
-  distribution_chart_title_currency: '',
-  distribution_chart_title_product: '',
-  distribution_chart_title_bettype: '',
-  distribution_chart_title_platform: '',
-  overall_margin_growth: '',
-  difference_table_title: ''
-};
-
-/***/ }),
-
 /***/ "./src/js/resources/resource.cs.js":
 /*!*****************************************!*\
   !*** ./src/js/resources/resource.cs.js ***!
@@ -804,91 +713,6 @@ const en = {
   distribution_chart_title_platform: 'distribution - top 5 platforms',
   overall_margin_growth: 'overall margin growth',
   difference_table_title: 'Differences between period'
-};
-
-/***/ }),
-
-/***/ "./src/js/resources/resource.zhcn.js":
-/*!*******************************************!*\
-  !*** ./src/js/resources/resource.zhcn.js ***!
-  \*******************************************/
-/*! exports provided: zhcn */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zhcn", function() { return zhcn; });
-const zhcn = {
-  n_deposit: "存款(今日)",
-  c_turnover: "交易額",
-  c_licWL: "投注輸贏",
-  n_reg_customer: "已註冊會員",
-  c_online_customer: "在線會員",
-  n_customer_balance: "會員餘額",
-  n_pending_funds: "未結算金額",
-  n_withdrawal: "提款(今日)",
-  turnover_byplatform_month_todate: '交易额(当月累计)',
-  deposit_today: "存款(今日)",
-  licensee_winloss_month_todate: "投注输赢(当月累计)",
-  registered_customer: "已註冊會員",
-  online_customer: "在線會員",
-  customer_balance: "會員餘額",
-  pending_funds: "未結算金額",
-  withdrawal_today: "提款(今日)",
-  apply: "设定",
-  currency: "會員幣別",
-  Based: "顯示幣別",
-  Widgets: "小工具",
-  total_registered_cus_today: "总注册会员",
-  deposit: "注册且存款",
-  none_deposit: "注册未存款",
-  Asia: "亚洲版",
-  China: "大陆版",
-  Euro: "欧洲版",
-  Wap: "WAP手机",
-  All: "全部",
-  Web: "桌机版",
-  total_turnover: "总交易额",
-  total_winloss: "总投注输赢",
-  no_widget_permission: "You do not have sufficient permissions to access this page",
-  reset_layout: "初始设定",
-  Tablet: "平板",
-  SmartSite: "新亚洲版",
-  MobileApp: "Mobile App",
-  Mobile: "Mobile",
-  MobileLiteVersion: "Mobile Lite Version",
-  DeepLink: "Deep Link",
-  date: "",
-  //
-  measurement: "",
-  submit: "",
-  value: '',
-  current_period: "",
-  previous_period: "",
-  summary: '',
-  performance: '',
-  overview: '',
-  currency: '',
-  product: '',
-  bettype: '',
-  platform: '',
-  turnover: '',
-  gross_profit: '',
-  margin: '',
-  marjor_table_title_currency: '',
-  marjor_table_title_product: '',
-  marjor_table_title_bettype: '',
-  marjor_table_title_platform: '',
-  comparison: '',
-  growth: '',
-  growth_rate: '',
-  difference: '',
-  distribution_chart_title_currency: '',
-  distribution_chart_title_product: '',
-  distribution_chart_title_bettype: '',
-  distribution_chart_title_platform: '',
-  overall_margin_growth: '',
-  difference_table_title: ''
 };
 
 /***/ })
