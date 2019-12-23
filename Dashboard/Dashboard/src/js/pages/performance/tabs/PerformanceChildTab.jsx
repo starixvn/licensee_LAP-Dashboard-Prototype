@@ -8,6 +8,7 @@ import ComparisonTable from '../components/normal/ComparisonTable';
 import GrowthChart from '../components/charts/GrowthChart';
 import { generalService } from '../lib/service';
 import languageApi from '../../../lib/languageApi';
+import { dashboardLangCode, langCodes } from '../../../lib/constants';
 
 export default class PerformanceChildTab extends PureComponent {
   constructor(props) {
@@ -39,7 +40,7 @@ export default class PerformanceChildTab extends PureComponent {
       return null;
     }
     const measurement = generalService.getMeasurementNameById(measurementId) || {};
-    const title = `${measurement.name}${' '}${this.titleDistributionChart}`;
+    const title = `${measurement.name}${dashboardLangCode !== langCodes.english ? '' : ' '}${this.titleDistributionChart}`;
 
     return <DistributionChart
       distributionData={distributionData}
@@ -88,7 +89,7 @@ export default class PerformanceChildTab extends PureComponent {
     const barChartData = this._getBarChartData(growthChartData, measurement, displayNameMapper);
     const labels = isPeriodGrowthDataType ? growthChartData.map(_ => displayNameMapper ? displayNameMapper(_) : _.name)
                  :  growthChartData.map(_ => _.name);
-    const title = `${measurement.name} ${languageApi.getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' :
+    const title = `${measurement.name}${dashboardLangCode !== langCodes.english ? '' : ' '}${languageApi.getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' :
       ` - ${selectedColumnDrillDown.name} - ${growthChartConsts[selectedColumnDrillDown.datasetIndex].periodName}`}`;
     const leftAxisName = `${measurement.name} ${measurementId === MEASUREMENT_ID.MARGIN ? '(%)' : ''}`;
     const autoScale = this.isAutoScaleGrowthChart;

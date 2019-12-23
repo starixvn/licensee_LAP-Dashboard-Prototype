@@ -13,6 +13,8 @@ import { setAnalyticData } from '../../actions/analyticDataAction';
 import { defaultData, MEASUREMENT_ID} from '../../lib/constants';
 import numberFormat from '../../../../lib/numberFormat';
 import languageApi from '../../../../lib/languageApi';
+import { dashboardLangCode, langCodes } from '../../../../lib/constants';
+
 
 class OverviewTab extends Component {
   constructor(props) {
@@ -96,7 +98,7 @@ class OverviewTab extends Component {
       }
     }];
 
-    const title =  `${measurement.name} ${languageApi.getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' : ' - ' + selectedDrillDownColumnName}`;
+    const title =  `${measurement.name}${dashboardLangCode !== langCodes.english ? '' : ' '}${languageApi.getDefaultRes('comparison')}${isPeriodGrowthDataType ? '' : ' - ' + selectedDrillDownColumnName}`;
     const leftAxisName = `${measurement.name} ${measurementId === MEASUREMENT_ID.MARGIN ? '(%)' : ''}`;
 
     return <GrowthChart
