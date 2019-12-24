@@ -40,5 +40,6 @@ export const cs = {
     MobileApp: "手机 APP",
     Mobile: "手机版",
     MobileLiteVersion: "手机轻量版",
-    DeepLink: "Deep Link"
+    DeepLink: "数据API",
+    BetfromOthers: "其他"
 };

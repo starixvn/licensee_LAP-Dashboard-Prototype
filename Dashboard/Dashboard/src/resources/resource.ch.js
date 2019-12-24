@@ -40,5 +40,6 @@ export const ch = {
     MobileApp: "Mobile App",
     Mobile: "Mobile",
     MobileLiteVersion: "Mobile Lite Version",
-    DeepLink: "Deep Link"
+    DeepLink: "Deep Link",
+    BetfromOthers: "Others"
 };
