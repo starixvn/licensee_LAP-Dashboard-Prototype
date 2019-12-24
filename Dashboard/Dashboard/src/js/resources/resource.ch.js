@@ -41,6 +41,7 @@ export const ch = {
     Mobile: "Mobile",
     MobileLiteVersion: "Mobile Lite Version",
     DeepLink: "Deep Link",
+    BetfromOthers: "Others",
     date: "",
     //
     measurement: "",

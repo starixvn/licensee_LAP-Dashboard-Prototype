@@ -40,6 +40,7 @@ export const zhcn = {
     Mobile: "Mobile",
     MobileLiteVersion: "Mobile Lite Version",
 	  DeepLink: "Deep Link",
+    BetfromOthers: "Others",
     date: "",
     //
     measurement: "",
