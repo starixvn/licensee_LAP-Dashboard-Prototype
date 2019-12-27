@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { YearSelector, MonthList } from '@9softstudio/react-monthpicker';
 import { defaultFormatFunc, addMonths } from '../lib/dateTimeHelper';
 import languageApi from '../lib/languageApi';
+import { getCurrentTime } from '../lib/constants';
 
 const isTimeEqual = (time1, time2) => {
   return time1.year === time2.year && time1.month === time2.month;
@@ -12,16 +13,24 @@ export const isPeriodEqual = (period1, period2) => {
   return isTimeEqual(period1.from, period2.from) && isTimeEqual(period1.to, period2.to);
 }
 
-const getMaxYearTo = ({ year, month }, range, maxYear = new Date().getFullYear()) => {
+const getMaxYearTo = ({ year, month }, range) => {
   let maxDate = new Date(year, month);
   maxDate = new Date(maxDate.setMonth(maxDate.getMonth() + range));
-  let maxYearTo = maxDate.getFullYear();
+  const maxYearTo = maxDate.getFullYear();
   return maxYearTo;
 }
 
-const getMaxMonthTo = (month, range) => {
-  const result = (month + range - 1) % 12 || -1;
-  return result;
+const getMaxMonthTo = (month, range, maxYearTo) => {
+  const currentYear = getCurrentTime().year;
+  let maxMonthTo = (month + range - 1) % 12 || -1;
+  maxMonthTo = maxYearTo > currentYear ? (getCurrentTime().month || 12) : maxMonthTo;
+  return maxMonthTo;
+}
+
+const getMaxYearSelectorTo = maxYearTo => {
+  const currentYear = getCurrentTime().year;
+  const maxYearSelectorTo = maxYearTo > currentYear ? currentYear :  maxYearTo;
+  return maxYearSelectorTo;
 }
 
 export default class MonthRangePicker extends React.PureComponent {
@@ -66,7 +75,7 @@ export default class MonthRangePicker extends React.PureComponent {
     minYearFrom: new Date().getFullYear() - 5,
     maxYearFrom: new Date().getFullYear(),
     minMonthFrom: 1,
-    maxMonthFrom: 12,
+    maxMonthFrom: getCurrentTime().month || 12,
 
     hasRange: true,
     range: 12,
@@ -220,7 +229,8 @@ export default class MonthRangePicker extends React.PureComponent {
     const { minMonthFrom, maxMonthFrom, maxYearFrom, minYearFrom } = this.props;
 
     const maxYearTo = getMaxYearTo(from, range);
-    const maxMonthTo = getMaxMonthTo(from.month + 1, range);
+    const maxYearSelectorTo = getMaxYearSelectorTo(maxYearTo);
+    const maxMonthTo = getMaxMonthTo(from.month + 1, range, maxYearTo);
 
     const displayText = this._getDisplayText();
 
@@ -233,7 +243,7 @@ export default class MonthRangePicker extends React.PureComponent {
         <div className="range-mp-container" style={{ display: open ? 'block' : 'none' }} ref={this.container}>
           <div className="quick-selection-container">
             {quickSelections && quickSelections(this)}
-            <div className="">
+            <div>
               <button className="btn btn-confirm" onClick={this._onConfirmChangeRange}>OK</button>
               <button className="btn btn-cancel m-l-5" onClick={this._cancel}>{languageApi.getDefaultRes('cancel')}</button>
             </div>
@@ -250,14 +260,15 @@ export default class MonthRangePicker extends React.PureComponent {
               onSelect={this._onChangeMonthFrom} />
           </div>
           <div className={`mp-container mp-to ${isDisableTo ? 'disabled' : ''}`}>
-            <YearSelector minYear={from.year} maxYear={maxYearTo}
+            <YearSelector minYear={from.year} maxYear={maxYearSelectorTo}
               selectedDropdownYear={to.dropdownYear || to.year}
               onSelect={this._onChangeYearTo} />
             <MonthList
               monthNames={monthNames} hasRange={hasRange}
               selectedDropdownYear={to.dropdownYear || to.year}
               selectedMonth={to.month} selectedYear={to.year}
-              minYear={from.year} maxYear={isDisableTo ? 1 : maxYearTo}
+              minYear={from.year} maxYear={isDisableTo ? 1 :
+                (maxYearTo > getCurrentTime().year ? getCurrentTime().year : maxYearTo)}
               minMonth={from.month + 1} maxMonth={maxMonthTo}
               onSelect={this._onChangeMonthTo} />
           </div>

@@ -290,7 +290,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../lib/dateTimeHelper */ "./src/js/lib/dateTimeHelper.js");
 /* harmony import */ var _lib_languageApi__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/languageApi */ "./src/js/lib/languageApi.js");
+/* harmony import */ var _lib_constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../lib/constants */ "./src/js/lib/constants.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -309,16 +311,24 @@ const isPeriodEqual = (period1, period2) => {
 const getMaxYearTo = ({
   year,
   month
-}, range, maxYear = new Date().getFullYear()) => {
+}, range) => {
   let maxDate = new Date(year, month);
   maxDate = new Date(maxDate.setMonth(maxDate.getMonth() + range));
-  let maxYearTo = maxDate.getFullYear();
+  const maxYearTo = maxDate.getFullYear();
   return maxYearTo;
 };
 
-const getMaxMonthTo = (month, range) => {
-  const result = (month + range - 1) % 12 || -1;
-  return result;
+const getMaxMonthTo = (month, range, maxYearTo) => {
+  const currentYear = Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().year;
+  let maxMonthTo = (month + range - 1) % 12 || -1;
+  maxMonthTo = maxYearTo > currentYear ? Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().month || 12 : maxMonthTo;
+  return maxMonthTo;
+};
+
+const getMaxYearSelectorTo = maxYearTo => {
+  const currentYear = Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().year;
+  const maxYearSelectorTo = maxYearTo > currentYear ? currentYear : maxYearTo;
+  return maxYearSelectorTo;
 };
 
 class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
@@ -536,7 +546,8 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
       minYearFrom
     } = this.props;
     const maxYearTo = getMaxYearTo(from, range);
-    const maxMonthTo = getMaxMonthTo(from.month + 1, range);
+    const maxYearSelectorTo = getMaxYearSelectorTo(maxYearTo);
+    const maxMonthTo = getMaxMonthTo(from.month + 1, range, maxYearTo);
 
     const displayText = this._getDisplayText();
 
@@ -558,9 +569,7 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
       ref: this.container
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "quick-selection-container"
-    }, quickSelections && quickSelections(this), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: ""
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, quickSelections && quickSelections(this), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-confirm",
       onClick: this._onConfirmChangeRange
     }, "OK"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -588,7 +597,7 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
       className: `mp-container mp-to ${isDisableTo ? 'disabled' : ''}`
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["YearSelector"], {
       minYear: from.year,
-      maxYear: maxYearTo,
+      maxYear: maxYearSelectorTo,
       selectedDropdownYear: to.dropdownYear || to.year,
       onSelect: this._onChangeYearTo
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["MonthList"], {
@@ -598,7 +607,7 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
       selectedMonth: to.month,
       selectedYear: to.year,
       minYear: from.year,
-      maxYear: isDisableTo ? 1 : maxYearTo,
+      maxYear: isDisableTo ? 1 : maxYearTo > Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().year ? Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().year : maxYearTo,
       minMonth: from.month + 1,
       maxMonth: maxMonthTo,
       onSelect: this._onChangeMonthTo
@@ -634,7 +643,7 @@ _defineProperty(MonthRangePicker, "defaultProps", {
   minYearFrom: new Date().getFullYear() - 5,
   maxYearFrom: new Date().getFullYear(),
   minMonthFrom: 1,
-  maxMonthFrom: 12,
+  maxMonthFrom: Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().month || 12,
   hasRange: true,
   range: 12,
   isDisableTo: false
