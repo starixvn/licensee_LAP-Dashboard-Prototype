@@ -308,27 +308,33 @@ const isPeriodEqual = (period1, period2) => {
   return isTimeEqual(period1.from, period2.from) && isTimeEqual(period1.to, period2.to);
 };
 
-const getMaxYearTo = ({
+const getMaxDateValid = (range = -1) => {
+  const currentDate = Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])();
+  let maxDate = new Date(currentDate.year, currentDate.month);
+  maxDate = new Date(maxDate.setMonth(maxDate.getMonth() + range));
+  return {
+    month: maxDate.getMonth(),
+    year: maxDate.getFullYear()
+  };
+};
+
+const getMaxDateTo = ({
   year,
   month
 }, range) => {
   let maxDate = new Date(year, month);
-  maxDate = new Date(maxDate.setMonth(maxDate.getMonth() + range));
-  const maxYearTo = maxDate.getFullYear();
-  return maxYearTo;
-};
+  maxDate = new Date(maxDate.setMonth(maxDate.getMonth() + range - 1));
+  const maxDateValid = getMaxDateValid();
+  const currentDate = new Date(maxDateValid.year, maxDateValid.month);
 
-const getMaxMonthTo = (month, range, maxYearTo) => {
-  const currentYear = Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().year;
-  let maxMonthTo = (month + range - 1) % 12 || -1;
-  maxMonthTo = maxYearTo > currentYear ? Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().month || 12 : maxMonthTo;
-  return maxMonthTo;
-};
+  if (maxDate > currentDate) {
+    maxDate = currentDate;
+  }
 
-const getMaxYearSelectorTo = maxYearTo => {
-  const currentYear = Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().year;
-  const maxYearSelectorTo = maxYearTo > currentYear ? currentYear : maxYearTo;
-  return maxYearSelectorTo;
+  return {
+    maxMonthTo: maxDate.getMonth() + 1,
+    maxYearTo: maxDate.getFullYear()
+  };
 };
 
 class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.PureComponent {
@@ -545,9 +551,11 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
       maxYearFrom,
       minYearFrom
     } = this.props;
-    const maxYearTo = getMaxYearTo(from, range);
-    const maxYearSelectorTo = getMaxYearSelectorTo(maxYearTo);
-    const maxMonthTo = getMaxMonthTo(from.month + 1, range, maxYearTo);
+    const maxDateTo = getMaxDateTo(from, range);
+    const {
+      maxYearTo,
+      maxMonthTo
+    } = maxDateTo;
 
     const displayText = this._getDisplayText();
 
@@ -597,7 +605,7 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
       className: `mp-container mp-to ${isDisableTo ? 'disabled' : ''}`
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["YearSelector"], {
       minYear: from.year,
-      maxYear: maxYearSelectorTo,
+      maxYear: maxYearTo,
       selectedDropdownYear: to.dropdownYear || to.year,
       onSelect: this._onChangeYearTo
     }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_9softstudio_react_monthpicker__WEBPACK_IMPORTED_MODULE_2__["MonthList"], {
@@ -607,7 +615,7 @@ class MonthRangePicker extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Pure
       selectedMonth: to.month,
       selectedYear: to.year,
       minYear: from.year,
-      maxYear: isDisableTo ? 1 : maxYearTo > Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().year ? Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().year : maxYearTo,
+      maxYear: isDisableTo ? 1 : maxYearTo,
       minMonth: from.month + 1,
       maxMonth: maxMonthTo,
       onSelect: this._onChangeMonthTo
@@ -640,8 +648,8 @@ _defineProperty(MonthRangePicker, "defaultProps", {
   onFormat: _lib_dateTimeHelper__WEBPACK_IMPORTED_MODULE_3__["defaultFormatFunc"],
   isReadonly: true,
   enable: true,
-  minYearFrom: new Date().getFullYear() - 5,
-  maxYearFrom: new Date().getFullYear(),
+  minYearFrom: Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().year - 4,
+  maxYearFrom: getMaxDateValid().year,
   minMonthFrom: 1,
   maxMonthFrom: Object(_lib_constants__WEBPACK_IMPORTED_MODULE_5__["getCurrentTime"])().month || 12,
   hasRange: true,
