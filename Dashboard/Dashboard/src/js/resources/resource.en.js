@@ -42,6 +42,7 @@ export const en = {
     MobileLiteVersion: "Mobile Lite Version",
 	  DeepLink: "Deep Link",
     BetfromOthers: "Others",
+    NativeApp: "Native App",
     date: "Date",
     //
     measurement: "Measurement",
