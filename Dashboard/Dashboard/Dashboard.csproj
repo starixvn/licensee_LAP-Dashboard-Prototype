@@ -30,45 +30,53 @@
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="build\apple-touch-icon-precomposed.png" />
-    <Content Include="build\browserconfig.xml" />
-    <Content Include="build\crossdomain.xml" />
-    <Content Include="build\css\dashboard.css" />
-    <Content Include="build\favicon.ico" />
-    <Content Include="build\fonts\icomoon.svg" />
-    <Content Include="build\fonts\style.css" />
-    <Content Include="build\humans.txt" />
-    <Content Include="build\images\logo-small.png" />
-    <Content Include="build\images\logo-small%402x.png" />
-    <Content Include="build\index.html" />
-    <Content Include="build\js\app.js" />
-    <Content Include="build\robots.txt" />
-    <Content Include="build\tile-wide.png" />
-    <Content Include="build\tile.png" />
-    <Content Include="config\**\*.*" />
+    <Content Include="build\css\pages\analytics\dashboard\dashboard.css" />
+    <Content Include="build\css\pages\analytics\fonts\icomoon.svg" />
+    <Content Include="build\css\pages\analytics\performance\performance.css" />
+    <Content Include="build\css\pages\analytics\summary\summary.css" />
+    <Content Include="build\js\pages\analytics\dashboard\app.js" />
+    <Content Include="build\js\pages\analytics\performance\performanceDashboard.chunk.js" />
+    <Content Include="build\js\pages\analytics\performance\performanceRightPanel.chunk.js" />
+    <Content Include="build\js\pages\analytics\summary\summaryDashboard.chunk.js" />
+    <Content Include="build\js\pages\analytics\summary\summaryRightPanel.chunk.js" />
+    <Content Include="build\js\pages\analytics\vendors\react.chunk.js" />
+    <Content Include="config\utils\constant.js" />
+    <Content Include="config\utils\entry.js" />
+    <Content Include="config\webpack.config.js" />
     <Content Include="docs\**\*.*" />
-    <Content Include="src\App.jsx" />
-    <Content Include="src\assets\apple-touch-icon-precomposed.png" />
-    <Content Include="src\assets\browserconfig.xml" />
-    <Content Include="src\assets\crossdomain.xml" />
-    <Content Include="src\assets\favicon.ico" />
-    <Content Include="src\assets\humans.txt" />
-    <Content Include="src\assets\robots.txt" />
-    <Content Include="src\assets\tile-wide.png" />
-    <Content Include="src\assets\tile.png" />
-    <Content Include="src\components\RightPanel.jsx" />
-    <Content Include="src\components\widgets\chart\licenseewl.jsx" />
-    <Content Include="src\components\widgets\chart\turnover.jsx" />
-    <Content Include="src\components\widgets\normal\deposit.jsx" />
-    <Content Include="src\components\widgets\normal\onlinecustomer.jsx" />
-    <Content Include="src\components\widgets\normal\pendingfunds.jsx" />
-    <Content Include="src\components\widgets\normal\customerbalance.jsx" />
-    <Content Include="src\components\widgets\normal\widthdrawal.jsx" />
-    <Content Include="src\components\widgets\widgetbox.jsx" />
-    <Content Include="src\images\logo-small.png" />
-    <Content Include="src\images\logo-small%402x.png" />
-    <Content Include="src\layouts\Default.jsx" />
-    <Content Include="src\pages\index.html" />
+    <Content Include="src\index.html" />
+    <Content Include="src\js\modules\constants.js" />
+    <Content Include="src\js\pages\dashboard\modules\constants.js" />
+    <Content Include="src\js\pages\dashboard\modules\service.js" />
+    <Content Include="src\js\pages\summary\App.jsx" />
+    <Content Include="src\js\pages\summary\modules\constants.js" />
+    <Content Include="src\js\modules\languageApi.js" />
+    <Content Include="src\js\modules\localStorageHelper.js" />
+    <Content Include="src\js\modules\numberFormat.js" />
+    <Content Include="src\js\modules\widgetApi.js" />
+    <Content Include="src\js\modules\widgetLayout.js" />
+    <Content Include="src\js\resources\resource.ch.js" />
+    <Content Include="src\js\resources\resource.cs.js" />
+    <Content Include="src\js\resources\resource.en.js" />
+    <Content Include="src\js\resources\resource.zhcn.js" />
+    <Content Include="src\styles\assets\apple-touch-icon-precomposed.png" />
+    <Content Include="src\styles\assets\browserconfig.xml" />
+    <Content Include="src\styles\assets\crossdomain.xml" />
+    <Content Include="src\styles\assets\favicon.ico" />
+    <Content Include="src\styles\assets\humans.txt" />
+    <Content Include="src\styles\assets\robots.txt" />
+    <Content Include="src\styles\assets\tile-wide.png" />
+    <Content Include="src\styles\assets\tile.png" />
+    <Content Include="src\js\components\RightPanel.jsx" />
+    <Content Include="src\js\pages\summary\components\chart\LicenseeWinLoss.jsx" />
+    <Content Include="src\js\pages\summary\components\chart\Turnover.jsx" />
+    <Content Include="src\js\pages\summary\components\normal\Deposit.jsx" />
+    <Content Include="src\js\pages\summary\components\normal\PendingFunds.jsx" />
+    <Content Include="src\js\pages\summary\components\normal\CustomerBalance.jsx" />
+    <Content Include="src\js\components\WidgetBox.jsx" />
+    <Content Include="src\styles\images\logo-small.png" />
+    <Content Include="src\styles\images\logo-small%402x.png" />
+    <Content Include="src\js\layouts\DefaultLayout.jsx" />
     <Content Include="src\styles\.csscomb.json" />
     <Content Include="src\styles\.csslintrc" />
     <Content Include=".editorconfig" />
@@ -77,13 +85,9 @@
     <Content Include="package.json" />
     <Content Include="README.txt" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="src\styles\components\widgets\chart\" />
-    <Folder Include="src\styles\components\widgets\normal\" />
-    <Folder Include="test\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="src\styles\dashboard.scss" />
+    <Content Include="src\styles\pages\summary\summary.scss" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\styles\components\_rightpanel.scss" />
@@ -92,26 +96,36 @@
     <Content Include="src\styles\base\_common.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\components\widgets\normal\registercustomer.jsx" />
+    <Content Include="src\js\pages\summary\components\normal\RegisteredCustomer.jsx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\styles\font\icomoon.svg" />
-    <Content Include="src\styles\font\style.css" />
+    <Content Include="src\styles\fonts\icomoon.svg" />
+    <Content Include="src\styles\fonts\style.css" />
     <Content Include="src\styles\layout\_default.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="src\styles\components\widgets\_widgetbox.scss" />
+    <Content Include="src\styles\components\_widgetbox.scss" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".babelrc" />
-    <Content Include="src\styles\font\icomoon.eot" />
-    <Content Include="src\styles\font\icomoon.ttf" />
-    <Content Include="src\styles\font\icomoon.woff" />
+    <Content Include="src\styles\fonts\icomoon.eot" />
+    <Content Include="src\styles\fonts\icomoon.ttf" />
+    <Content Include="src\styles\fonts\icomoon.woff" />
     <Content Include="src\styles\base\_variables.scss" />
-    <Content Include="build\fonts\icomoon.eot" />
-    <Content Include="build\fonts\icomoon.ttf" />
-    <Content Include="build\fonts\icomoon.woff" />
     <Content Include="src\styles\components\_checkboxes.scss" />
+    <Content Include="src\js\components\AutoReload.jsx" />
+    <Content Include="src\js\components\Loader.jsx" />
+    <Content Include="src\js\pages\summary\components\chart\OnlineCustomer.jsx" />
+    <Content Include="src\js\pages\summary\components\normal\BaseNormalWidget.jsx" />
+    <Content Include="src\js\pages\summary\components\normal\Withdrawal.jsx" />
+    <Content Include="src\styles\pages\dashboard\dashboard.scss" />
+    <Content Include="src\styles\pages\performance\performance.scss" />
+    <Content Include="src\js\pages\dashboard\App.jsx" />
+    <Content Include="src\js\pages\performance\App.jsx" />
+    <Content Include="src\js\pages\summary\components\SummaryRightPanel.jsx" />
+    <Content Include="src\js\pages\performance\components\PerformanceRightPanel.jsx" />
+    <Content Include="src\js\pages\dashboard\components\TabMenu.jsx" />
+    <Content Include="src\js\pages\dashboard\components\TabMenuItem.jsx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
