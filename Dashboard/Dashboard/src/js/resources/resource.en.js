@@ -43,11 +43,11 @@ export const en = {
 	  DeepLink: "Deep Link",
     BetfromOthers: "Others",
     NativeApp: "Native App",
-    ESportsDesktop: 'E-Sports Web Desktop',
-    ESportsMobile: 'E-Sports Web Mobile',
+    ESportsDesktop: 'E-Sports Desktop',
+    ESportsMobile: 'E-Sports Mobile',
     ESportsApp: 'E-Sports App',
     date: "Date",
-    
+
     measurement: "Measurement",
     submit: "Submit",
     cancel: 'Cancel',
