@@ -40,11 +40,14 @@ export const cs = {
   MobileApp: "手机 APP",
   Mobile: "手机版",
   MobileLiteVersion: "手机轻量版",
-  DeepLink: "数据API",
+  DeepLink: "深度链结",
   BetfromOthers: "其他",
   NativeApp: "原生App",
+  ESportsDesktop: '电子竞技 桌机',
+  ESportsMobile: '电子竞技 手机',
+  ESportsApp: '电子竞技App',
   date: "",
-  //
+  
   measurement: '项目',
   submit: '送出',
   cancel: '取消',
