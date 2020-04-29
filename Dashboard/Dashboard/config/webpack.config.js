@@ -61,10 +61,15 @@ module.exports = env => {
       fs: 'empty'
     }
   });
-
   // Configuration for client-side bundle suitable for running in browsers
   const clientBundleConfig = merge(sharedConfig(), {
     entry: entry,
+    devServer: isDevBuild ?  {
+      contentBase: projectPath.rootPath + '/build',
+      compress: true,
+      hot: true,
+      port: 8080
+    } : undefined,
     module: {
       rules: [{
         test: /\.s?[ac]ss$/,

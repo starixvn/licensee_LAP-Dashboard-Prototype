@@ -12,7 +12,7 @@ export default class widgetApi {
     }
   }
 
-  static _getAuthToken(action, type = 1) {
+  static _getAuthToken(action, type = 4) {
     var tokenUrl = window.TokenUrl + "&_=" + (new Date()).getTime();
     tokenUrl = tokenUrl.replace("{0}", encodeURIComponent(action));
     tokenUrl = tokenUrl.replace("{1}", type)
@@ -23,7 +23,7 @@ export default class widgetApi {
 
   static fetchData(param) {
     var data = param.Data || {};
-    var type = param.Type || 1;
+    var type = param.Type || 4;
     if (param.IsCrossSite) {
       return widgetApi._getAuthToken(param.Url, type).then((response) => {
         data['X-Auth-Token'] = response.data.Token
