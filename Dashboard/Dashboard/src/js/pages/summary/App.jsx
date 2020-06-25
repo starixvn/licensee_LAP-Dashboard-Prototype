@@ -142,8 +142,8 @@ class SummaryDashboard extends React.Component {
     return (
       <React.Fragment>
         <RightPanel langCode={this.state.langCode} wgs={this.state.wgStatus} callbackParent={(x) => this.onChildChanged(x)} />
-        <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={25} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
-          breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }} cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }} isDraggable={!this.isTouchScreen}>
+        <ResponsiveReactGridLayout className="layout" layouts={this.state.layouts} rowHeight={32} onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
+          breakpoints={{ md: 1280, sm: 768, xs: 480, xxs: 0 }} cols={{ md: 12, sm: 6, xs: 4, xxs: 2 }} isDraggable={!this.isTouchScreen}>
           {
             this.state.wgStatus.filter(i => i.enable).map((item) => this._renderWgItem(item.key))
           }
