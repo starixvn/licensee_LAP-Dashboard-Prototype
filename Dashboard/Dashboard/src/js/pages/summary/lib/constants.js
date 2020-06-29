@@ -20,7 +20,7 @@ export const widgetApiUrl = {
 };
 
 export const wgLayouts = {
-    lg: [{ i: widgetKey.ChartTurnover, x: 0, y: 0, w: 6, h: 11, minW: 3, minH: 9 },
+    md: [{ i: widgetKey.ChartTurnover, x: 0, y: 0, w: 6, h: 11, minW: 3, minH: 9 },
         { i: widgetKey.ChartLicenseeWL, x: 6, y: 0, w: 6, h: 11, minW: 3, minH: 9 },
         { i: widgetKey.NormalRegisterCustomer, x: 0, y: 11, w: 6, h: 6, minW: 4, minH: 6 },
         { i: widgetKey.ChartlOnlineCustomer, x: 6, y: 11, w: 6, h: 6, minW: 4, minH: 5 },
@@ -28,15 +28,6 @@ export const wgLayouts = {
         { i: widgetKey.NormalPendingFund, x: 3, y: 17, w: 3, h: 6, minW: 3, minH: 3 },
         { i: widgetKey.NormalDeposit, x: 6, y: 17, w: 3, h: 6, minW: 3, minH: 3 },
         { i: widgetKey.NormalWithdrawal, x: 9, y: 17, w: 3, h: 6, minW: 3, minH: 3 }
-    ],
-    md: [{ i: widgetKey.ChartTurnover, x: 0, y: 0, w: 5, h: 8, minW: 3, minH: 8 },
-        { i: widgetKey.ChartLicenseeWL, x: 5, y: 0, w: 5, h: 8, minW: 3, minH: 8 },
-        { i: widgetKey.NormalRegisterCustomer, x: 0, y: 8, w: 5, h: 6, minW: 4, minH: 6 },
-        { i: widgetKey.ChartlOnlineCustomer, x: 5, y: 8, w: 5, h: 6, minW: 4, minH: 4 },
-        { i: widgetKey.NormalCustomerBalance, x: 0, y: 14, w: 5, h: 4, minW: 3, minH: 3 },
-        { i: widgetKey.NormalPendingFund, x: 5, y: 14, w: 5, h: 4, minW: 3, minH: 3 },
-        { i: widgetKey.NormalDeposit, x: 0, y: 18, w: 5, h: 4, minW: 3, minH: 3 },
-        { i: widgetKey.NormalWithdrawal, x: 5, y: 18, w: 5, h: 4, minW: 3, minH: 3 }
     ],
     sm: [{ i: widgetKey.ChartTurnover, x: 0, y: 0, w: 6, h: 9, isResizable: false },
         { i: widgetKey.ChartLicenseeWL, x: 0, y: 9, w: 6, h: 9, isResizable: false },
