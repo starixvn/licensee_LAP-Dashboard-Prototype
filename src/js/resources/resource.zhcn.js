@@ -43,6 +43,7 @@ export const zhcn = {
     BetfromOthers: "Others",
     NativeApp: "Native App",
     MobileEuro: "手机欧洲版",
+    Others: '其他',
     date: "",
     //
     measurement: "",
@@ -73,5 +74,8 @@ export const zhcn = {
     distribution_chart_title_bettype: '',
     distribution_chart_title_platform: '',
     overall_margin_growth: '',
-    difference_table_title: ''
+    difference_table_title: '',
+    pie_chart: '圆形图',
+    column_chart: '直条图',
+    report_in_text: '数据'
 };

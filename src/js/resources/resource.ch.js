@@ -46,6 +46,7 @@ export const ch = {
     MobileEuro: "手機歐洲版",
     date: "",
     //
+    Others: '其他',
     measurement: "",
     submit: "",
     value: '',
@@ -74,5 +75,8 @@ export const ch = {
     distribution_chart_title_bettype: '',
     distribution_chart_title_platform: '',
     overall_margin_growth: '',
-    difference_table_title: ''
+    difference_table_title: '',
+    pie_chart: '圓形圖',
+    column_chart: '直條圖',
+    report_in_text: '數據'
 };

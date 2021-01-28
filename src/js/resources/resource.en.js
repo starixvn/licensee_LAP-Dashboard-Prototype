@@ -47,6 +47,7 @@ export const en = {
     ESportsDesktop: 'E-Sports Desktop',
     ESportsMobile: 'E-Sports Mobile',
     ESportsApp: 'E-Sports App',
+    Others: 'Others',
     date: "Date",
 
     measurement: "Measurement",
@@ -83,7 +84,11 @@ export const en = {
     distribution_chart_title_currency: 'distribution - top 5 currencies',
     distribution_chart_title_product: 'distribution - top 5 products',
     distribution_chart_title_bettype: 'distribution - top 10 bettypes',
+    distribution_chart_title_bettype_top5: 'distribution - top 5 bettypes',
     distribution_chart_title_platform: 'distribution - top 5 platforms',
     overall_margin_growth: 'overall margin growth',
-    difference_table_title: 'Differences between period'
+    difference_table_title: 'Differences between period',
+    pie_chart: 'Pie Chart',
+    column_chart: 'Column Chart',
+    report_in_text: 'Report in Text'
 };

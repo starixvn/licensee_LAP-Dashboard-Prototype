@@ -4,6 +4,7 @@ import { setAnalyticData } from '../../actions/analyticDataAction';
 import { connect } from 'react-redux';
 import { MEASUREMENT_ID } from '../../lib/constants';
 import { generalService } from '../../lib/service';
+import { bettypeDistributionChartDataMapper } from './lib/service';
 import PerformanceChildTab from '../PerformanceChildTab';
 import { tabMenuKey } from '../../lib/constants';
 import { titleDistributionChart, titleOverallMarginChart } from './lib/constants';
@@ -25,7 +26,8 @@ class BettypeTab extends PerformanceChildTab {
     return {
       distributionData,
       topDistributions,
-      measurementId
+      measurementId,
+      dataMapper: bettypeDistributionChartDataMapper
     }
   }
 

@@ -7,7 +7,7 @@ import ValueChangeIcon from '../components/normal/ValueChangeIcon';
 import languageApi from '../../../lib/languageApi';
 import { rowDataMapper } from './constants';
 
-export const distributionChartDataMapper = (distributionData, topDistributions, displayNameMapper = null) => {
+export const distributionChartDataMapper = (distributionData, topDistributions, displayNameMapper = null, top = null) => {
   const labels = distributionData.map(_ => _.name + '  ' + numberFormat.nFormatter(_.total));
   const stackedChartData = topDistributions.map(_ => {
     return {
@@ -15,9 +15,26 @@ export const distributionChartDataMapper = (distributionData, topDistributions, 
       dataSet: getDistributionDataSet(distributionData, _.displayId)
     }
   })
+
+  const pieChartData = distributionData.map(_ => {
+    return {
+      name: _.name + '  ' + numberFormat.nFormatter(_.total),
+      dataSet: getPieChartDistributionDataSet(_.distributions, top)
+    }
+  })
+
+  const reportInTextData = topDistributions.map(_ => {
+    return {
+      name: displayNameMapper ? displayNameMapper(_) : _.displayName,
+      dataSet: getDistributionDataSet(distributionData, _.displayId)
+    }
+  })
+
   return {
     labels,
-    stackedChartData
+    stackedChartData,
+    pieChartData,
+    reportInTextData
   }
 }
 
@@ -38,6 +55,31 @@ export const getFilterDataMonthGrowth = ({ analyticData, selectedPeriod, selecte
     ...filter,
     ...{ currencies: selectedCurrency.distributions.map(_ => _.name) }
   }
+}
+
+const getPieChartDistributionDataSet = (data, top = null) => {
+  let topData = [...data];
+  if (top && data.length > top) {
+    topData = data.slice(0, top);
+    const sumOthers = data.slice(-(data.length - top)).reduce((value, current) => value + current.percent, 0);
+    topData.push({
+      id: "0",
+      name: languageApi.getDefaultRes('Others'),
+      percent: sumOthers
+    })
+  }
+
+  const distributions = topData.map(__ => {
+    return __.percent
+  })
+  const labels = topData.map(__ => {
+    return __.id == 0 ? languageApi.getDefaultRes('Others') : generalService.getCurrencyDisplayName(__, 'id', 'name');
+  })
+
+  return {
+    labels,
+    distributions
+  };
 }
 
 const getDistributionDataSet = (data, distributionId) => {

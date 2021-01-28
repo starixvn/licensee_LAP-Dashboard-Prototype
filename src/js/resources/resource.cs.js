@@ -47,6 +47,7 @@ export const cs = {
   ESportsDesktop: '电子竞技 桌机',
   ESportsMobile: '电子竞技 手机',
   ESportsApp: '电子竞技App',
+  Others: '其他',
   date: "",
   
   measurement: '项目',
@@ -83,7 +84,11 @@ export const cs = {
   distribution_chart_title_currency: '分布 - 前五货币',
   distribution_chart_title_product: '分布 - 前五产品',
   distribution_chart_title_bettype: '分布 - 前十投注类别',
+  distribution_chart_title_bettype_top5: '分布 - 前五投注类别',
   distribution_chart_title_platform: '分布 - 前五平台',
   overall_margin_growth: '总杀数增长率',
-  difference_table_title: '不同期间差异'
+  difference_table_title: '不同期间差异',
+  pie_chart: '圆形图',
+  column_chart: '直条图',
+  report_in_text: '数据'
 };

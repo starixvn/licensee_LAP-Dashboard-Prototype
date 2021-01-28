@@ -28,4 +28,15 @@
         color: $active-color;
         border-bottom: 2px solid $active-color;
     }
+
+    .pieLegend {
+        ul {
+            border-bottom: none !important;
+            text-align: center;
+            li {
+                display: inline-block;
+                float: none;
+            }
+        }
+    }
 }

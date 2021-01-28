@@ -9,6 +9,8 @@ import GrowthChart from '../components/charts/GrowthChart';
 import { generalService } from '../lib/service';
 import languageApi from '../../../lib/languageApi';
 import { dashboardLangCode, langCodes } from '../../../lib/constants';
+import { tabMenuKey } from '../../performance/lib/constants';
+import { ChartMode } from '../enums/enum';
 
 export default class PerformanceChildTab extends PureComponent {
   constructor(props) {
@@ -34,18 +36,24 @@ export default class PerformanceChildTab extends PureComponent {
     }
   }
 
+  getTitle = (chartMode, measurementId) => {
+      const measurement = generalService.getMeasurementNameById(measurementId) || {};
+      if (this.tabKey === tabMenuKey.bettype && chartMode === ChartMode.PIE_CHART) {
+        return `${measurement.name}${dashboardLangCode !== langCodes.english ? '' : ' '}${languageApi.getDefaultRes('distribution_chart_title_bettype_top5')}`
+      }
+      return `${measurement.name}${dashboardLangCode !== langCodes.english ? '' : ' '}${this.titleDistributionChart}`;
+  }
+
   renderDistributionChart() {
     const { distributionData, topDistributions, measurementId, dataMapper } = this._getDistributionChartData();
     if (!distributionData) {
       return null;
     }
-    const measurement = generalService.getMeasurementNameById(measurementId) || {};
-    const title = `${measurement.name}${dashboardLangCode !== langCodes.english ? '' : ' '}${this.titleDistributionChart}`;
-
     return <DistributionChart
       distributionData={distributionData}
       topDistributions={topDistributions}
-      title={title}
+      measurementId={measurementId}
+      getTitle={this.getTitle}
       dataMapper={dataMapper || distributionChartDataMapper}
     />
   }
