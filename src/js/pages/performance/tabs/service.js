@@ -19,7 +19,7 @@ export const distributionChartDataMapper = (distributionData, topDistributions, 
   const pieChartData = distributionData.map(_ => {
     return {
       name: _.name + '  ' + numberFormat.nFormatter(_.total),
-      dataSet: getPieChartDistributionDataSet(_.distributions, top)
+      dataSet: getPieChartDistributionDataSet(_.distributions, topDistributions, displayNameMapper, top)
     }
   })
 
@@ -57,23 +57,29 @@ export const getFilterDataMonthGrowth = ({ analyticData, selectedPeriod, selecte
   }
 }
 
-const getPieChartDistributionDataSet = (data, top = null) => {
+const getPieChartDistributionDataSet = (data, topDistributions, displayNameMapper = null, top = null) => {
   let topData = [...data];
+  let newTopDistributions = [...topDistributions];
   if (top && data.length > top) {
     topData = data.slice(0, top);
+    newTopDistributions = topDistributions.slice(0, top);
     const sumOthers = data.slice(-(data.length - top)).reduce((value, current) => value + current.percent, 0);
     topData.push({
       id: "0",
       name: languageApi.getDefaultRes('Others'),
       percent: sumOthers
     })
+    newTopDistributions.push({
+      displayId: "0",
+      displayName: languageApi.getDefaultRes('Others')
+    })
   }
 
   const distributions = topData.map(__ => {
     return __.percent
   })
-  const labels = topData.map(__ => {
-    return __.id == 0 ? languageApi.getDefaultRes('Others') : generalService.getCurrencyDisplayName(__, 'id', 'name');
+  const labels = newTopDistributions.map(__ => {
+    return displayNameMapper ? displayNameMapper(__) : __.displayName
   })
 
   return {
