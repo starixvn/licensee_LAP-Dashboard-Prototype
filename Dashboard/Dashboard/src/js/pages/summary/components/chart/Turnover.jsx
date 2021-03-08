@@ -89,7 +89,6 @@ export default class Turnover extends React.Component {
                     labelList.push(languageApi.getRes(this.props.langCode, item.key) || item.key);
                     dataList.push(item.value);
                 }
-
                 this.setState({
                     total: response.data.total,
                     data: {
@@ -113,6 +112,7 @@ export default class Turnover extends React.Component {
                                     '#39AF93',
                                     '#5F684C',
                                     '#F1A837',
+                                    '#25BE25',
                                     '#208E9B'
                                 ]
                             }]
