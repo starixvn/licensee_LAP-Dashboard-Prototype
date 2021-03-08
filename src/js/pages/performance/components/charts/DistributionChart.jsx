@@ -30,7 +30,7 @@ export default class DistributionChart extends PureComponent {
     this.setState({ chartMode });
   }
 
-  renderChart = (mode, labels, stackedChartData, pieChartData, reportInTextData) => {
+  renderChart = (mode, labels, tabKey, stackedChartData, pieChartData, reportInTextData) => {
     if (mode == ChartMode.PIE_CHART ) {
         return (
           <MixPieChart pieChartData={pieChartData} labels={labels}/>
@@ -41,14 +41,14 @@ export default class DistributionChart extends PureComponent {
         );
     } else {
       return (
-        <ReportTable reportTableData={reportInTextData} />
+        <ReportTable reportTableData={reportInTextData} tabKey = {tabKey} />
       );
     }
   }
 
   render() {
     const { style, chartMode } = this.state;
-    const { getTitle, measurementId, distributionData, topDistributions, dataMapper } = this.props;
+    const { getTitle, tabKey, measurementId, distributionData, topDistributions, dataMapper } = this.props;
     const { labels, stackedChartData, pieChartData, reportInTextData } = dataMapper(distributionData, topDistributions);
     const titleDistribution = getTitle(chartMode, measurementId);
     return (
@@ -64,7 +64,7 @@ export default class DistributionChart extends PureComponent {
           </div>
         </div>
         <div className="info-zone-body">
-          {this.renderChart(chartMode, labels, stackedChartData, pieChartData, reportInTextData)}
+          {this.renderChart(chartMode, labels, tabKey, stackedChartData, pieChartData, reportInTextData)}
         </div>
       </div>
     );

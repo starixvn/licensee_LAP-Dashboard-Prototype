@@ -16,8 +16,8 @@ const renderRows = (data) => {
 }
 
 const ReportTable = props => {
-    const {reportTableData} = props;
-    const headers = [languageApi.getDefaultRes('product'), languageApi.getDefaultRes('previous_period'), languageApi.getDefaultRes('current_period')];
+    const {reportTableData, tabKey} = props;
+    const headers = [languageApi.getDefaultRes(tabKey), languageApi.getDefaultRes('previous_period'), languageApi.getDefaultRes('current_period')];
     return (
       <div className='table-report'>
       <div className='table-comparison'>

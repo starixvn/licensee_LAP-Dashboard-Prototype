@@ -54,6 +54,7 @@ export default class PerformanceChildTab extends PureComponent {
       topDistributions={topDistributions}
       measurementId={measurementId}
       getTitle={this.getTitle}
+      tabKey={this.tabKey}
       dataMapper={dataMapper || distributionChartDataMapper}
     />
   }
