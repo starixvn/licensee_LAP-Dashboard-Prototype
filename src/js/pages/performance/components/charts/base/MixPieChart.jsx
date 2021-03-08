@@ -87,15 +87,17 @@ const buildPieChartOption = (title) => {
         }
         ctx.textAlign = "center";
         ctx.fillStyle = "#fff";
-        ctx.font = "1rem sans-serif";
+        ctx.font = "13 Roboto";
         ctx.save();
+        var chartCircumference = chart.config.options.circumference;
         self.data.datasets.forEach((dataset, datasetIndex) => {
           const meta = self.getDatasetMeta(datasetIndex);
           meta.data.forEach((element, index) => {
-            const segmentPercent = dataset.data[index];
+            const value = dataset.data[index];
             const position = element.tooltipPosition();
             if (element._model.circumference > 0) {
-              const label = (segmentPercent < 2 && segmentPercent > -2) ? '' : segmentPercent.toFixed(2) + '%';
+              const segmentPercent = element._model.circumference / chartCircumference * 100;
+              const label = (segmentPercent < 5 && segmentPercent > -5) ? '' : value.toFixed(2) + '%';
               ctx.fillText(label, position.x, position.y);
             }
           });
