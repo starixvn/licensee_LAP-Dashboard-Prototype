@@ -43,6 +43,7 @@ export const ch = {
     DeepLink: "Deep Link",
     BetfromOthers: "Others",
     NativeApp: "Native App",
+    MobileEuro: "手機歐洲版",
     date: "",
     //
     measurement: "",

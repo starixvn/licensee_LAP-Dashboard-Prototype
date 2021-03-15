@@ -42,6 +42,7 @@ export const zhcn = {
 	  DeepLink: "Deep Link",
     BetfromOthers: "Others",
     NativeApp: "Native App",
+    MobileEuro: "手机欧洲版",
     date: "",
     //
     measurement: "",
