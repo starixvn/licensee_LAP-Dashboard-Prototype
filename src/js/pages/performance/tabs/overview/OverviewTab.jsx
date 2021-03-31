@@ -14,7 +14,7 @@ import { defaultData, MEASUREMENT_ID} from '../../lib/constants';
 import numberFormat from '../../../../lib/numberFormat';
 import languageApi from '../../../../lib/languageApi';
 import { dashboardLangCode, langCodes } from '../../../../lib/constants';
-
+import withGA from '../../../../components/HOC/WithGA';
 
 class OverviewTab extends Component {
   constructor(props) {
@@ -167,4 +167,4 @@ function mapStateToProps(state) {
   });
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OverviewTab);
+export default connect(mapStateToProps, mapDispatchToProps)(withGA(OverviewTab, 'performance/overview'));

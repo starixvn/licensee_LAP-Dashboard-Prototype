@@ -8,6 +8,7 @@ import { currencyDifferenceTableDataMapper, currencyDistributionChartDataMapper,
 import { titleDistributionChart, titleOverallMarginChart } from "./lib/constants";
 import { tabMenuKey } from '../../lib/constants';
 import PerformanceChildTab from '../PerformanceChildTab';
+import withGA from '../../../../components/HOC/WithGA';
 
 export class CurrencyTab extends PerformanceChildTab {
   constructor(props) {
@@ -85,4 +86,4 @@ function mapStateToProps(state) {
   });
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CurrencyTab);
+export default connect(mapStateToProps, mapDispatchToProps)(withGA(CurrencyTab, 'performance/currency'));
