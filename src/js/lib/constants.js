@@ -16,6 +16,7 @@ export const langCodes = {
 export const tabMenuKey = {
     summary: 'summary',
     performance: 'performance',
+    sportsbook: 'sportsbook'
 }
 
 export const CurrenyListApiUrl = "GetCurrencyInfo";

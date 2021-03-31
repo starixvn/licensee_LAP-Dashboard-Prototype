@@ -98,3 +98,8 @@ export const getPeriodByLastQuarter = currentTime => {
     to
   }
 }
+
+export const convertDateToString = date => {
+  return typeof date === "string" ? date : date.format("MM/DD/YYYY");
+}
+

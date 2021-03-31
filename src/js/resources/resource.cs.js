@@ -49,7 +49,8 @@ export const cs = {
   ESportsApp: '电子竞技App',
   Others: '其他',
   date: "",
-  
+  DateRangeExceedMsg:"Date range exceeds {0} months. Please try again!",
+
   measurement: '项目',
   submit: '送出',
   cancel: '取消',
@@ -90,5 +91,28 @@ export const cs = {
   difference_table_title: '不同期间差异',
   pie_chart: '圆形图',
   column_chart: '直条图',
-  report_in_text: '数据'
+  report_in_text: '数据',
+
+  sportsbook: 'Sportsbook',
+  by_sport: 'by sport',
+  by_league: 'by league',
+  by_bettype: 'by bettype',
+  by_currency: 'by currency',
+  by_platform: 'by platform',
+  sport: 'Sport',
+  league: 'League',
+  soccer: 'Soccer',
+  saba_soccer: 'Saba Soccer',
+  basketball: 'Basketball',
+  saba_basketball: 'Saba Basketball',
+  winloss: 'Win Loss',
+  report_by_turnover: 'Report By Turnover',
+  report_by_winloss: 'Report By Win Loss',
+  distribution_of_turnover: 'Distribution of Turnover',
+  distribution_of_winloss: 'Distribution of Win Loss',
+  distribution_by_turnover: 'Distribution by Turnover',
+  distribution_by_winloss: 'Distribution by Win Loss',
+  top_5_bettypes: 'Top 5 Bettypes',
+  top_5_currencies: 'Top 5 Currencies',
+  top_5_platforms: 'Top 5 Platforms'
 };

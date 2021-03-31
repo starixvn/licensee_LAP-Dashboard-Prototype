@@ -11,4 +11,5 @@ module.exports = {
     [`${cssDist}/pages/analytics/dashboard/dashboard`]: clientRoot + "/styles/pages/dashboard/dashboard.scss",
     [`${cssDist}/pages/analytics/summary/summary`]: clientRoot + "/styles/pages/summary/summary.scss",
     [`${cssDist}/pages/analytics/performance/performance`]: clientRoot + "/styles/pages/performance/performance.scss",
+    [`${cssDist}/pages/analytics/sportsbook/sportsbook`]: clientRoot + "/styles/pages/sportsbook/sportsbook.scss"
 };

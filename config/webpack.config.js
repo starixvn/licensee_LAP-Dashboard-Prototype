@@ -8,6 +8,7 @@ const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 
 const { environment, projectPath } = require("./utils/constant");
 const entry = require("./utils/entry");
+const path = require('path');
 
 module.exports = env => {
   env = environment[env] || environment.development;
@@ -17,7 +18,8 @@ module.exports = env => {
     stats: { modules: false },
     resolve: { extensions: [".js", ".jsx"] },
     output: {
-      path: projectPath.rootPath + '/build/',
+      // path: projectPath.rootPath + '/build/',
+            path: path.resolve(__dirname,'../../../LAP-SVN/trunk/New Admin Portal/New Admin Portal/'),
       filename: "[name].js",
       chunkFilename: 'js/pages/analytics/[name].chunk.js',
       publicPath: ""
