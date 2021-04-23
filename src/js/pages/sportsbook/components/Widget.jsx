@@ -18,15 +18,15 @@ const Widget = React.memo(({ title, isLoading, children }) => {
   )
 })
 
-const WidgetContent = React.memo(({ data, distributionData, chartTitle, dimension, measurement }) => {
-  const reportInTextProps = React.useMemo(() => data ? reportInTextTableDataMapper(data, dimension, measurement) : null, [data])
+const WidgetContent = React.memo(({ data, distributionData, chartTitle, dimension, measurement, displayNameMapper }) => {
+  const reportInTextProps = React.useMemo(() => data ? reportInTextTableDataMapper(data, dimension, measurement, displayNameMapper) : null, [data])
   return (
     <div className="widget-content-container">
       <div className='widget-content-left'>
         <ReportInTextTable {...reportInTextProps} />
       </div>
       <div className='widget-content-right chart-container'>
-        <DistributionPieChart data={distributionData || data} title={chartTitle || ''} />
+        <DistributionPieChart data={distributionData || data} displayNameMapper={displayNameMapper} title={chartTitle || ''} />
       </div>
     </div>
   )

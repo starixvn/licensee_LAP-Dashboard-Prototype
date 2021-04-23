@@ -5,7 +5,7 @@ import languageApi from '../../../../lib/languageApi';
 import QueryService from '../../lib/queryService';
 import { Widget, WidgetContent } from '../../components/Widget';
 import { defaultResponseData, dimension, measurement } from '../../lib/constants';
-import { getScrollTabStyle } from '../../lib/commonService';
+import { getScrollTabStyle, currencyDisplayNameMapper } from '../../lib/commonService';
 import withGA from '../../../../components/HOC/WithGA';
 
 const CurrencyTab = ({ globalFilter }) => {
@@ -17,7 +17,7 @@ const CurrencyTab = ({ globalFilter }) => {
       setLoading(true)
       QueryService.getDataByCurrency(globalFilter, response => {
         setLoading(false);
-        setData(response)
+        setData(response);
       })
     }
   }, [globalFilter])
@@ -27,12 +27,14 @@ const CurrencyTab = ({ globalFilter }) => {
       {<div className="child-tab by-currency-tab" style={getScrollTabStyle()}>
         <Widget title={languageApi.getDefaultRes('report_by_turnover')} isLoading={isLoading}>
           <WidgetContent data={data.byTurnover}
+            displayNameMapper={currencyDisplayNameMapper}
             chartTitle={`${languageApi.getDefaultRes('top_5_currencies')} - ${languageApi.getDefaultRes('distribution_by_turnover')}`}
             dimension={dimension.currency}
             measurement={measurement.turnover} />
         </Widget>
         <Widget title={languageApi.getDefaultRes('report_by_winloss')} isLoading={isLoading}>
           <WidgetContent data={data.byWinloss}
+            displayNameMapper={currencyDisplayNameMapper}
             chartTitle={`${languageApi.getDefaultRes('top_5_currencies')} - ${languageApi.getDefaultRes('distribution_by_winloss')}`}
             dimension={dimension.currency}
             measurement={measurement.winloss} />

@@ -10,8 +10,8 @@ const defaultState = {
     BaseCurrency: []
   },
   dateRange: {
-    fromDate: window.yesterday,
-    toDate: window.yesterday
+    fromDate: window.twoDaysBefore,
+    toDate: window.twoDaysBefore
   },
   selectedBaseCurrency: window.defaultBaseCurrency,
   globalFilter: null

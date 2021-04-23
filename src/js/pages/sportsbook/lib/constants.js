@@ -36,7 +36,7 @@ export const defaultResponseData = { byTurnover: [], byWinloss:[] };
 export const dateConstraint = {
   limitedMonthRange: 3,
   minDate: '01/01/2021',
-  maxDate: window.yesterday
+  maxDate: window.twoDaysBefore
 }
 
 export const rowDataMapper = [

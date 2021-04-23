@@ -2,6 +2,7 @@ import React from 'react';
 import languageApi from '../../../lib/languageApi';
 import numberFormat from '../../../lib/numberFormat';
 import { rowDataMapper } from './constants';
+import { getCurrencyDisplayName } from '../../../lib/currencyHelper';
 
 const getReportInTextTableHeader = (dimension, measurement) => [
   [
@@ -28,8 +29,8 @@ export const reportInTextTableDataMapper = (data, dimension, measurement, displa
     name: displayNameMapper ? displayNameMapper(_) : _.name,
     data: rowDataMapper.map(__ => __(_))
   }));
-  const headers = getReportInTextTableHeader(dimension, measurement);
 
+  const headers = getReportInTextTableHeader(dimension, measurement);
   return {
     headers,
     data: rows,
@@ -37,6 +38,7 @@ export const reportInTextTableDataMapper = (data, dimension, measurement, displa
   }
 }
 
+export const currencyDisplayNameMapper = currencyObj => getCurrencyDisplayName(currencyObj, 'id', 'name');
 export const getScrollTabStyle = () => {
   const { innerHeight } = window;
   return {

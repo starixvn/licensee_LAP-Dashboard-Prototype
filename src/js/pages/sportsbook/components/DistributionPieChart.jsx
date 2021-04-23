@@ -24,7 +24,7 @@ const drawTextToChart = function () {
   ctx.save();
   ctx.shadowColor = "black";
   ctx.shadowBlur = 3;
-  ctx.font = '12px "Helvetica Neue", Helvetica, Arial, sans-serif';
+  ctx.font = '11px "Helvetica Neue", Helvetica, Arial, sans-serif';
   var chartCircumference = chart.config.options.circumference;
   self.data.datasets.forEach((dataSet, datasetIndex) => {
     var meta = self.getDatasetMeta(datasetIndex);
@@ -96,18 +96,18 @@ const buildOptions = ({ title }) => {
   };
 }
 
-const buildData = data => ({
+const buildData = (data, displayNameMapper)=> ({
   datasets: [
     {
       data: data.map(_ => _.distribution),
       backgroundColor: defaultColorBarChart
     }
   ],
-  labels: data.map(_ => _.name)
+  labels: data.map(_ => displayNameMapper ? displayNameMapper(_) : _.name)
 })
 
-const DistributionPieChart = ({ data, title, height }) => {
-  const distributionData = useMemo(() => buildData(data), [data])
+const DistributionPieChart = ({ data, title, displayNameMapper, height }) => {
+  const distributionData = useMemo(() => buildData(data, displayNameMapper), [data])
   const options = useMemo(() => buildOptions({ title }), [title])
   return (<Pie
     data={distributionData}
