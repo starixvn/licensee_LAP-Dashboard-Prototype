@@ -24,7 +24,6 @@ const tabMenuList = tabPermissions.map(_ => ({
 const preLoadComponents = () => {
   setTimeout(() => tabMenuList.forEach(_ => _.preLoad && _.preLoad()), 0)
 }
-
 export default class DashboardApp extends Component {
     constructor(props) {
         super(props);

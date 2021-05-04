@@ -33,9 +33,12 @@ export const apiUrl = {
 
 export const defaultResponseData = { byTurnover: [], byWinloss:[] };
 
+const dataAvailableFrom = '01/01/2021';
+const minDate = window.minDate || dataAvailableFrom;
+
 export const dateConstraint = {
   limitedMonthRange: 3,
-  minDate: '01/01/2021',
+  minDate: new Date(dataAvailableFrom) > new Date(minDate) ? dataAvailableFrom : minDate,
   maxDate: window.twoDaysBefore
 }
 
