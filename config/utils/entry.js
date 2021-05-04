@@ -8,8 +8,10 @@ const clientRoot = projectPath.clientInputPath;
 module.exports = {
     [`${jsDist}/pages/analytics/dashboard/app`]: clientRoot + "/js/pages/dashboard/App.jsx",
 
-    [`${cssDist}/pages/analytics/dashboard/dashboard`]: clientRoot + "/styles/pages/dashboard/dashboard.scss",
-    [`${cssDist}/pages/analytics/summary/summary`]: clientRoot + "/styles/pages/summary/summary.scss",
-    [`${cssDist}/pages/analytics/performance/performance`]: clientRoot + "/styles/pages/performance/performance.scss",
-    [`${cssDist}/pages/analytics/sportsbook/sportsbook`]: clientRoot + "/styles/pages/sportsbook/sportsbook.scss"
+    [`${cssDist}/pages/analytics/index`] : [
+      clientRoot + "/styles/pages/dashboard/dashboard.scss",
+      clientRoot + "/styles/pages/summary/summary.scss",
+      clientRoot + "/styles/pages/performance/performance.scss",
+      clientRoot + "/styles/pages/sportsbook/sportsbook.scss"
+  ]
 };
