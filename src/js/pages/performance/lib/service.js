@@ -1,5 +1,6 @@
 import { defaultFormatFunc } from '../../../lib/dateTimeHelper';
-import {defaultData } from '../lib/constants';
+import { defaultData } from '../lib/constants';
+import { getCurrencyDisplayName  } from '../../../lib/currencyHelper';
 export const generalService = {
   getFilterData: ({ selectedMeasurement, selectedBaseCurrency, selectedComparePeriods }) => {
     return {
@@ -23,10 +24,7 @@ export const generalService = {
   getMeasurementNameById: measurementId => {
     return defaultData.measurements.find(_ => _.id === measurementId)
   },
-  getCurrencyDisplayName: (currency, fieldId, fieldName) => {
-    const displayName = _currenyDisplayNameMapper[currency[fieldId]] || currency[fieldName];
-    return displayName;
-  },
+  getCurrencyDisplayName: getCurrencyDisplayName,
   getScrollTabStyle: () => {
     const { innerHeight } = window;
     return {
@@ -59,14 +57,4 @@ const _convertPeriodToMetaModel = ({ from, to }) => {
     fromMonth,
     toMonth
   }
-}
-
-const _currenyDisplayNameMapper = {
-  '20': 'UUS',
-  '51': 'INH',
-  '70': 'MKK',
-  '75': 'PTU',
-  '76': 'PS',
-  '77': 'PTH',
-  '92': 'HID'
 }

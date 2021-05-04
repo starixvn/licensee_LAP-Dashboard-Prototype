@@ -8,6 +8,7 @@ const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 
 const { environment, projectPath } = require("./utils/constant");
 const entry = require("./utils/entry");
+const path = require('path');
 
 module.exports = env => {
   env = environment[env] || environment.development;
@@ -19,22 +20,17 @@ module.exports = env => {
     output: {
       path: projectPath.rootPath + '/build/',
       filename: "[name].js",
-      chunkFilename: 'js/pages/analytics/[name].chunk.js',
+      chunkFilename: 'js/pages/analytics/[name].[contenthash].chunk.js',
       publicPath: ""
     },
     optimization: {
       splitChunks: {
         cacheGroups: {
-          vendors: {
+          vendor: {
             name: 'common/vendor',
-            test: /node_modules/,
-            chunks: 'all',
-           },
-          default: {
-            name: 'common/default',
-            minChunks: 2,
-            reuseExistingChunk: true
-          }
+            test: /[\\/]node_modules[\\/]/,
+            chunks: 'all'
+           }
         }
       }
     },
@@ -61,6 +57,7 @@ module.exports = env => {
       fs: 'empty'
     }
   });
+
   // Configuration for client-side bundle suitable for running in browsers
   const clientBundleConfig = merge(sharedConfig(), {
     entry: entry,
@@ -94,7 +91,7 @@ module.exports = env => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        'process.env':{
+        'process.env': {
           'NODE_ENV': JSON.stringify(env)
       }}),
       new FixStyleOnlyEntriesPlugin(),
@@ -103,8 +100,9 @@ module.exports = env => {
         chunkFilename: 'css/pages/analytics/[name].css',
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      new BundleAnalyzerPlugin()
-    ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin(), new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ["js/**/*.*", "css/**/*.*"] }),]),
+      new BundleAnalyzerPlugin(),
+      new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ["js/pages/analytics/**/*.*", "css/pages/analytics/**/*.*"] })
+    ].concat(isDevBuild ? [] : [new OptimizeCSSAssetsPlugin()]),
     devtool: isDevBuild ? "source-map" : undefined
   });
 

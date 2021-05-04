@@ -49,6 +49,7 @@ export const en = {
     ESportsApp: 'E-Sports App',
     Others: 'Others',
     date: "Date",
+    DateRangeExceedMsg:"Date range exceeds {0} months. Please try again!",
 
     measurement: "Measurement",
     submit: "Submit",
@@ -90,5 +91,28 @@ export const en = {
     difference_table_title: 'Differences between period',
     pie_chart: 'Pie Chart',
     column_chart: 'Column Chart',
-    report_in_text: 'Report in Text'
+    report_in_text: 'Report in Text',
+
+    sportsbook: 'Sportsbook',
+    by_sport: 'by sport',
+    by_league: 'by league',
+    by_bettype: 'by bettype',
+    by_currency: 'by currency',
+    by_platform: 'by platform',
+    sport: 'Sport',
+    league: 'League',
+    soccer: 'Soccer',
+    saba_soccer: 'Saba Soccer',
+    basketball: 'Basketball',
+    saba_basketball: 'Saba Basketball',
+    winloss: 'Win Loss',
+    report_by_turnover: 'Report By Turnover',
+    report_by_winloss: 'Report By Win Loss',
+    distribution_of_turnover: 'Distribution of Turnover',
+    distribution_of_winloss: 'Distribution of Win Loss',
+    distribution_by_turnover: 'Distribution by Turnover',
+    distribution_by_winloss: 'Distribution by Win Loss',
+    top_5_bettypes: 'Top 5 Bettypes',
+    top_5_currencies: 'Top 5 Currencies',
+    top_5_platforms: 'Top 5 Platforms'
 };

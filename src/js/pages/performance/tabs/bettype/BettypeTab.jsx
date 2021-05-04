@@ -8,6 +8,7 @@ import { bettypeDistributionChartDataMapper } from './lib/service';
 import PerformanceChildTab from '../PerformanceChildTab';
 import { tabMenuKey } from '../../lib/constants';
 import { titleDistributionChart, titleOverallMarginChart } from './lib/constants';
+import withGA from '../../../../components/HOC/WithGA';
 
 class BettypeTab extends PerformanceChildTab {
   constructor(props) {
@@ -83,4 +84,4 @@ function mapStateToProps(state) {
   });
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BettypeTab);
+export default connect(mapStateToProps, mapDispatchToProps)(withGA(BettypeTab, 'performance/bettype'));

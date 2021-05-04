@@ -7,6 +7,7 @@ import { generalService } from '../../lib/service';
 import PerformanceChildTab from '../PerformanceChildTab';
 import { titleDistributionChart, titleOverallMarginChart } from './lib/constants';
 import { tabMenuKey } from '../../lib/constants';
+import withGA from '../../../../components/HOC/WithGA';
 
 class PlatformTab extends PerformanceChildTab {
   constructor(props) {
@@ -81,4 +82,4 @@ function mapStateToProps(state) {
   });
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlatformTab);
+export default connect(mapStateToProps, mapDispatchToProps)(withGA(PlatformTab, 'performance/platform'));

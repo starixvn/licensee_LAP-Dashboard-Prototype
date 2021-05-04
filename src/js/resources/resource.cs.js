@@ -48,8 +48,9 @@ export const cs = {
   ESportsMobile: '电子竞技 手机',
   ESportsApp: '电子竞技App',
   Others: '其他',
-  date: "",
-  
+  date: "日期",
+  DateRangeExceedMsg:"Date range exceeds {0} months. Please try again!",
+
   measurement: '项目',
   submit: '送出',
   cancel: '取消',
@@ -90,5 +91,28 @@ export const cs = {
   difference_table_title: '不同期间差异',
   pie_chart: '圆形图',
   column_chart: '直条图',
-  report_in_text: '数据'
+  report_in_text: '数据',
+
+  sportsbook: '体育',
+  by_sport: '依体育类别',
+  by_league: '依联赛',
+  by_bettype: '依投注类型',
+  by_currency: '依货币',
+  by_platform: '依平台',
+  sport: '运动类别',
+  league: '联赛',
+  soccer: '足球',
+  saba_soccer: '沙巴足球',
+  basketball: '篮球',
+  saba_basketball: '沙巴篮球',
+  winloss: '输赢',
+  report_by_turnover: '依照投注额',
+  report_by_winloss: '依照输赢',
+  distribution_of_turnover: '投注额分布',
+  distribution_of_winloss: '输赢分布',
+  distribution_by_turnover: '投注额分布',
+  distribution_by_winloss: '输赢分布',
+  top_5_bettypes: '前五投注类别',
+  top_5_currencies: '前五货币',
+  top_5_platforms: '前五平台'
 };

@@ -3,15 +3,17 @@ import ReactDOM from 'react-dom';
 
 import DefaultLayout from '../../layouts/DefaultLayout';
 import languageApi from '../../lib/languageApi';
-import { summary, performance } from './lib/constants';
+import { summary, performance, sportsbook } from './lib/constants';
 import TabMenu from './components/TabMenu';
 
 __webpack_public_path__ = document.getElementById("public-path").value;
 
 const dynamicImports = {
   [summary]: () => import(/* webpackChunkName: "summary/summaryDashboard" */ '../summary/index'),
-  [performance]: () => import(/* webpackChunkName: "performance/performanceDashboard" */ '../performance/index')
+  [performance]: () => import(/* webpackChunkName: "performance/performanceDashboard" */ '../performance/index'),
+  [sportsbook]: () => import(/* webpackChunkName: "sportsbook/sportsbookDashboard" */ '../sportsbook/index')
 }
+
 const tabPermissions = window.TabKeys || [];
 const tabMenuList = tabPermissions.map(_ => ({
   key: _,
@@ -22,7 +24,6 @@ const tabMenuList = tabPermissions.map(_ => ({
 const preLoadComponents = () => {
   setTimeout(() => tabMenuList.forEach(_ => _.preLoad && _.preLoad()), 0)
 }
-
 export default class DashboardApp extends Component {
     constructor(props) {
         super(props);
